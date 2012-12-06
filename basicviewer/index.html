@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=7,IE=9" />
+    <title></title>
+    <link rel="stylesheet" href="libraries/jquery/css/ui-lightness/jquery-ui-1.9.2.custom.css" />
+    <link rel="stylesheet" type="text/css" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.2/js/dojo/dijit/themes/claro/claro.css">
+    <link rel="stylesheet" type="text/css" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.2/js/dojo/dijit/themes/claro/document.css">
+
+    <link rel="stylesheet" type="text/css" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.2/js/dojo/dojox/layout/resources/floatingpane.css">
+    <link rel="stylesheet" type="text/css" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.2/js/esri/css/esri.css" />
+    <link rel="stylesheet" type="text/css" href="css/layout.css">
+    <link rel="stylesheet" type="text/css" href="widgets/core/toc/css/tocBig.css" />
+    <!--State Branding-->
+    <script type="text/javascript" src="http://www.maryland.gov/branding/statewideNavigation.js"></script>
+
+    <!--[if IE]>
+      <link rel="stylesheet" type="text/css" href="css/ie.css" />
+    <![endif]-->
+    <script type="text/javascript">
+    var dojoConfig = {
+      async: false,
+      parseOnLoad: false,
+      packages: [/*{
+          name: 'jquery',
+          location: 'http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/',
+          main: 'jquery'
+      }, {
+          name: 'jqueryui',
+          location: 'http://code.jquery.com/ui/1.9.1/',
+          main: 'jquery-ui'
+      }*/{
+          name: 'jquery',
+          location: location.pathname.replace(/\/[^/]+$/, '') + '/libraries/jquery/js',
+          main: 'jquery-1.8.3'
+      }, {
+          name: 'jqueryui',
+          location: location.pathname.replace(/\/[^/]+$/, '') + '/libraries/jquery/js',
+          main: 'jquery-ui-1.9.2.custom'
+      }, {
+        name: "esriTemplate",
+        //location: location.pathname.replace(/\/^[/]+$/, '')
+        location: location.pathname.replace(/\/[^/]+$/, '')
+      }, {
+        name: "localize",
+        location: location.pathname.replace(/\/[^/]+$/, '') + '/nls'
+      },{
+        name: "myModules",
+        location: location.pathname.replace(/\/[^/]+$/, '') + '/javascript'
+      }, {
+        name: "apl",
+        location: location.pathname.replace(/\/[^/]+$/, '') + '/apl'
+      }, {
+        name: "widgets",
+        location: location.pathname.replace(/\/[^/]+$/, '') + '/widgets'
+      }, {
+          name: "agsjs",
+          location: location.pathname.replace(/\/[^/]+$/, '') + '/agsjs'
+      }]
+    };
+    </script>
+    <script type="text/javascript" src="http://serverapi.arcgisonline.com/jsapi/arcgis/?v=3.2">
+    
+    </script>
+    <script type="text/javascript">
+    //dojo.require("dijit.layout.BorderContainer");
+    //dojo.require("dijit.layout.ContentPane");
+    //dojo.require("dijit.layout.StackContainer");
+    //dojo.requireLocalization("esriTemplate", "template");
+    </script>
+    <script type="text/javascript" src="javascript/layout.js">
+    
+    </script>
+    <script type="text/javascript">
+    var configOptions;
+    var i18n;
+	define.amd.jQuery = true;
+
+
+
+
+	  // dojo parser, esri modules, a custom module
+      // and dijit layout widgets 
+      require(["jquery", "dojo/dom", "dojo/ready",/* "esri/Map", "esri/layers/FeatureLayer",*/ "dojo/parser",
+               "dijit/layout/BorderContainer", "dijit/layout/ContentPane", "dijit/layout/StackContainer", "widgets/core/toc/toc",
+               /*"dojo/i18n!localize/template"*/ "dijit/Toolbar", "esri/arcgis/utils", "dijit/MenuItem"/*, "dojo/domReady!" , "jqueryui"*/],
+        function($, dom, dojoReady,/* Map, FeatureLayer,*/ parser, container, contentpane, stackcont,/* jq,*/ tocWidget, toolbar, utils) {
+            //i18n = loc;
+        	dojo.requireLocalization("esriTemplate", "template");
+        	$(document).ready(function(){
+
+
+                dojo.require("esri.map");
+                dojo.require("esri.dijit.Scalebar");
+                dojo.require("esri.tasks.locator");
+                dojo.require("esri.tasks.geometry");
+                dojo.require("esri.dijit.BasemapGallery");
+                dojo.require("esri.dijit.OverviewMap");
+                dojo.require("esri.dijit.Measurement");
+                //dojo.require("esri.dijit.Legend");
+                dojo.require("esri.dijit.TimeSlider");
+                dojo.require("esri.dijit.editing.Editor-all");
+                //dojo.require("esri.arcgis.utils");
+                dojo.require("esri.IdentityManager");
+                dojo.require("dojox.layout.FloatingPane");
+                dojo.require("esri.dijit.Bookmarks");
+                dojo.require('esri.dijit.Attribution');
+                dojo.require("myModules.custommenu");
+                dojo.require("esri.dijit.Print");
+                dojo.require("apl.ElevationsChart.Pane");
+                dojo.require("agsjs.dijit.TOC");
+                //console.log('before parse');
+
+                //Create all the widgets
+                parser.parse();
+                //console.log('after parse');
+                //var domNodeHeight = $('#rightPane').height();
+
+                /*var rightPaneDiv = dom.byId("rightPane");
+                var tocNodeHeight = $(rightPaneDiv).height() - 80;
+                if (tocNodeHeight <= 0) {
+                    var rightPaneParent = rightPaneDiv.parentNode;
+                    tocNodeHeight = rightPaneParent.clientHeight - parseInt(rightPaneParent.offsetParent.bottomMargin)
+                            - parseInt(rightPaneParent.offsetParent.topMargin) - 131;
+                }
+                tocNodeHeight = String(tocNodeHeight) + 'px';
+                $('.tocdiv').css('height', tocNodeHeight);*/
+                //parser.parse();
+
+        		// create the dijit layout widgets
+				//var rightPaneDiv = dom.byId("rightPane");
+				// Create our widget and place it
+				//var tocWidg = new tocWidget(arguments, "400px"/*rightPaneDiv.style.height*/);
+                /*var tocWidg = new tocWidget();
+                tocWidg.placeAt(rightPaneDiv);*/
+
+
+                /*console.log("before accordion");
+                var theAcc = $(dojo.byId('rightPane').children[0].children[0]).accordion({ heightStyle: "fill",
+                    create: function(e) {
+                        dijit.byId('tocWidg').tocHasBeenAccordioned = true;
+                        console.log('accordion created');
+                    }});
+                console.log('after accordion');*/
+
+
+                //$(dojo.byId('rightPane').children[0].children[0]).accordion("refresh");
+                //tocWidg.startup();
+                //var widgetNode = $(tocWidg.domNode.childNodes[1]);
+                //widgetNode.accordion({ heightStyle: "fill" });
+                dojo.addOnLoad(function() {
+				    init();
+                });
+                //init();
+		     });
+        	
+        	
+        	
+        	
+          
+
+          /*var ext = new esri.geometry.Extent({"xmin":-17106023,"ymin":2425274,"xmax":-5081561,"ymax":7503138,"spatialReference":{"wkid":102100}});
+          window.map = new esri.Map("map", { "extent": ext, "slider": false, "wrapAround180": true });
+
+          var basemap = new esri.layers.ArcGISTiledMapServiceLayer("http://services.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer");
+          map.addLayer(basemap);
+        
+          dojo.connect(map, "onLoad", function() { 
+            dojo.connect(dijit.byId("map"), "resize", map, map.resize);
+          });*/
+
+          // instantiate the Seat Geek Search class
+          /*var sg = new SeatGeekSearch({
+            "distance": "20mi",
+            "perPage": 10
+          });
+          // search Seat Geek for events when the map is clicked
+          dojo.connect(map, "onClick", function(e) {
+            // Seat Geek expects latitude, longitude
+            var geographic = esri.geometry.webMercatorToGeographic(e.mapPoint);
+            // searchByLoc returns a deferred
+            // once the deferred is resolved, 
+            // pass the results to a callback function
+            var sgResults = sg.searchByLoc(geographic);
+            sgResults.then(searchSucceeded, searchFailed);
+          });*/
+        }
+      );
+
+
+
+
+
+
+
+    function init() {
+		
+        /*  // Bring in our custom widget
+		require(["dojo/dom", "widgets/core/toc/toc", "dojo/domReady!"],
+			function(dom, tocWidget){
+				var rightPaneDiv = dom.byId("rightPane");
+				// Create our widget and place it
+				var widget = new tocWidget();
+				widget.placeAt(rightPaneDiv);
+		});*/
+		
+		
+		
+      //get the localization strings
+      i18n = dojo.i18n.getLocalization("esriTemplate", "template");
+      configOptions = {
+        //The ID for the map from ArcGIS.com     
+        webmap: "407170546ac14125911c5cee18e8ffb4",
+        //The id for the web mapping applciation item that contains configuration info - in most
+        //cases this will be null. 
+        appid: "",
+        //set to true to display the title
+        displaytitle: true,
+        //Enter a title, if no title is specified, the webmap's title is used.
+        title: "Maryland iMap",
+        //URL to title logo, if none specified, then defaults to images/MDLogo.gif
+        //titleLogoUrl: "images/MDlogo-small.gif",
+        titleLogoUrl: "images/MDlogo.gif",
+          //URL to banner image, if non specified then defaults to iMap banner image.
+          headerbanner: "images/imap/imapBanner2.jpg",
+        //Enter a description for the application. This description will appear in the left pane
+        //if no description is entered the webmap description will be used.
+        description: "",
+        //specify an owner for the app - used by the print option. The default value will be the web map's owner
+        owner: '',
+        //Specify a color theme for the app. Valid options are gray,blue,purple,green and orange
+        theme: 'imap',
+        //Optional tools - set to false to hide the tool
+        //set to false to hide the zoom slider on the map 
+        displayslider: true,
+        displaymeasure: true,
+        displaybasemaps: true,
+        displayoverviewmap: true,
+        displayeditor: true,
+        ////When editing you need to specify a proxyurl (see below) if the service is on a different domain
+        //Specify a proxy url if you will be editing, using the elevation profile or have secure services or web maps that are not shared with everyone.
+        proxyurl: "",
+        displaylegend: false,
+        displaysearch: true,
+        displaylayerlist: true,
+        displaybookmarks: true,
+        displaydetails: true,
+        displaytimeslider: true,
+        displayprint: true,
+        //Print options 
+        printtask: "http://utility.arcgisonline.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task",
+        //Set the label in the nls file for your browsers language
+        printlayouts: [{
+          layout: 'Letter ANSI A Landscape',
+          label: i18n.tools.print.layouts.label1,
+          format: 'PDF'
+        }, {
+          layout: 'Letter ANSI A Portrait',
+          label: i18n.tools.print.layouts.label2,
+          format: 'PDF'
+        }, {
+          layout: 'Letter ANSI A Landscape',
+          label: i18n.tools.print.layouts.label3,
+          format: 'PNG32'
+        }, {
+          layout: 'Letter ANSI A Portrait',
+          label: i18n.tools.print.layouts.label4,
+          format: 'PNG32'
+        }],
+        //i18n.viewer.main.scaleBarUnits,
+        //The elevation tool uses the  measurement tool to draw the lines. So if this is set
+        //to true then displaymeasure needs to be true too. 
+        displayelevation: false,
+        //This option is used when the elevation chart is displayed to control what is displayed when users mouse over or touch the chart. When true, elevation gain/loss will be shown from the first location to the location under the cursor/finger. 
+        showelevationdifference: false,
+        displayscalebar: true,
+        displayshare: true,
+        //if enabled enter bitly key and login below.
+        //The application allows users to share the map with social networking sites like twitter
+        //and facebook. The url for the application can be quite long so shorten it using bit.ly. 
+        //You will need to provide your own bitly key and login.
+        bitly: {
+          key: '',
+          login: ''
+        },
+        //Set to true to display the left panel on startup. The left panel can contain the legend, details and editor. Set to true to 
+        //hide left panel on initial startup. 2
+        leftPanelVisibility: false,
+        //If the webmap uses Bing Maps data, you will need to provide your Bing Maps Key
+        bingmapskey: "",
+        //Modify this to point to your sharing service URL if you are using the portal
+        sharingurl: "http://www.arcgis.com/sharing/content/items",
+        //specify a group in ArcGIS.com that contains the basemaps to display in the basemap gallery
+        //example: title:'ArcGIS Online Basemaps' , owner:esri
+        basemapgroup: {
+          title: '',
+          owner: ''
+        },
+        //Enter the URL to a Geometry Service 
+        geometryserviceurl: "http://utility.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer",
+        //Specify the url and options for the locator service. If using the world geocoding service you can specify the country code and whether or not the 
+        //search should be  restricted to the current extent. View the geocode.arcgis.com documentation for details http://geocode.arcgis.com/arcgis/geocoding.html#multifield
+        placefinder: {
+          "url": "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer",
+          "singlelinefieldname": "SingleLine",
+          "countryCode":"",
+          "currentExtent":false
+        },
+        //Set link text and url parameters if you want to display clickable links in the upper right-corner
+        //of the application. 
+        //ArcGIS.com. Enter link values for the link1 and link2 and text to add links. For example
+        //url:'http://www.esri.com',text:'Esri'
+        link1: {
+          url: '',
+          text: ''
+        },
+        link2: {
+          url: '',
+          text: ''
+        },
+        //specify the width of the panel that holds the editor, legend, details
+        leftpanewidth: 228,
+          //specify the width of the panel that holds the TOC
+          rightpanewidth: 280,
+        //Restrict the map's extent to the initial extent of the web map. When true users
+        //will not be able to pan/zoom outside the initial extent.
+        constrainmapextent: false,
+        //Provide an image and url for a logo that will be displayed as a clickable image 
+        //in the lower right corner of the map. If nothing is specified then the esri logo will appear.
+        //Example customLogoImage: "http://serverapi.arcgisonline.com/jsapi/arcgis/2.4compact/images/map/logo-med.png"
+        customlogo: {
+          image: '',
+          link: ''
+        },
+        //embed = true means the margins will be collapsed to just include the map no title or links
+        embed: false
+      };
+      
+      initMap();
+    }
+    </script>
+  </head>
+
+  <body class="claro">
+  <div id="bc" data-dojo-type="dijit.layout.BorderContainer" data-dojo-props="design:'headline', gutters:false"
+       style="width:100%; height:100%;padding:0;">
+      <!-- Header Section-->
+      <div id="header" data-dojo-type="dijit.layout.ContentPane" data-dojo-props="region:'top'">
+          <!--Title dyanmically generated -->
+          <div id="nav" style=''>
+              <div align="right">
+                  <script type="text/javascript">showStatewideNavigation("white");</script>
+              </div>
+              <!-- links are dynamically generated-->
+              <!--<ul>-->
+              <!--<li id="link1List"></li>-->
+              <!--<li>|</li>-->
+              <!--<li id="link2List"></li>-->
+              <!--</ul>-->
+          </div>
+      </div>
+      <!--End Header-->
+      <!-- Main Content Section (map, toolbars, left panel)-->
+      <div id="mainWindow" data-dojo-type="dijit.layout.ContentPane" data-dojo-props="region:'center', gutters:'false'"
+           style="width:100%;height:100%;">
+          <div data-dojo-type="dijit.layout.BorderContainer" data-dojo-props="design:'headline',gutters:'false'"
+               style="width:100%;height:100%;padding:0;">
+              <!-- Toolbar (Search Basemap Measure)-->
+              <div id="toolbarContainer" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"top", gutters:"false"'>
+                  <div data-dojo-type="dijit.Toolbar">
+                      <div id="webmap-toolbar-left" >
+                          <!--Toolbar buttons (Legend, Details, Edit) created dynamically-->
+                      </div>
+                      <div id="webmap-toolbar-right">
+                          <input name="btnShowHide" type="image" src="images/expand.png" height="20px" width="20px" style="display: inline-block; margin-left:5px" onclick="changeMapSize()"></input>
+                          <!--create the search tool-->
+                      </div>
+                      <div id="webmap-toolbar-center">
+                          <!--Basemap,measure,share,time and layer list tools added if enabled-->
+                      </div>
+                  </div>
+              </div>
+              <!--End Toolbar-->
+              <!--Left Panel-->
+              <div data-dojo-type="dijit.layout.BorderContainer" id="leftPane" data-dojo-props="design:'headline', gutters:'false' ,region:'left'"
+                   style="height:100%;padding:0;display:none;"></div>
+              <!--End Left Panel-->
+              <!-- Map Section -->
+              <div id="map" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"center", gutters:"false"'>
+                  <div id="logo" class="logo" style="display:none;">
+                      <!--If a logo is specified in config section then the logo will be added
+                      to the map-->
+                  </div>
+                  <!--Floating window that contains the measure dijit-->
+                  <div id="floater">
+                      <div id="measureDiv"></div>
+                  </div>
+                  <!--Floating window contains the time slider-->
+                  <div id="timeFloater" style='display:none;'></div>
+              </div>
+              <!--end Map section-->
+              <!--Right Panel-->
+              <div data-dojo-type="dijit.layout.ContentPane" id="rightPane" data-dojo-props="design:'headline', gutters:false,region:'right'"
+                   style="height:100%;padding:0;display:none;">
+                  <div id="tocWidg" data-dojo-type="widgets/core/toc/toc"></div>
+              </div>
+              <!--End Right Panel-->
+          </div>
+
+      </div>
+      <div id="bottomPane" dojotype="dijit.layout.ContentPane" region="bottom"
+           gutters="false" style="height: 60px; background: black;">
+          <div id="footer" style="padding-bottom: 5px">
+              <p  style="margin-top: -5px;">
+                  <a href="http://www.dbm.state.md.us/phonebook/Level2Offices.asp?AID=mdp">Contact the Office</a>
+                  &nbsp;&nbsp;|&nbsp;&nbsp;
+                  <a href="/AccessibilityStatement.shtml">Accessibility</a>
+                  &nbsp;&nbsp;|&nbsp;&nbsp;
+                  <a href="/privacy.shtml">Privacy Notice</a>
+                  &nbsp;&nbsp;|&nbsp;&nbsp;
+                  <a href="/logo.shtml">MDP Logos</a>
+                  &nbsp;&nbsp;|&nbsp;&nbsp;
+                  <a href="/Survey.shtml">Web Site Feedback</a>
+                  &nbsp;&nbsp;|&nbsp;&nbsp;
+                  <a href="/termsofuse.shtml">Terms of Use</a>
+                  <br>
+                  <br>
+                  WEBMASTER@MDP.STATE.MD.US&nbsp;-&nbsp;
+                  <a href="http://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=301+West+Preston+Street,+Suite+1101,+Baltimore,+MD+21201&amp;sll=39.326061,-76.635495&amp;sspn=0.094811,0.154324&amp;ie=UTF8&amp;z=16&amp;iwloc=A" target="_blank">301 West Preston Street, Suite 1101, Baltimore, MD 21201</a>
+                  &nbsp;-&nbsp;(410) 767-4500
+              </p>
+          </div>
+      </div>
+
+      <!-- End Main Content section-->
+
+  </div>
+
+  </body>
+</html>
