@@ -12,6 +12,7 @@
     <link rel="stylesheet" type="text/css" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.2/js/esri/css/esri.css" />
     <link rel="stylesheet" type="text/css" href="css/layout.css">
     <link rel="stylesheet" type="text/css" href="widgets/core/toc/css/tocBig.css" />
+    <link rel="stylesheet" type="text/css" href="widgets/core/interop/css/interop.css" />
     <!--State Branding-->
     <script type="text/javascript" src="http://www.maryland.gov/branding/statewideNavigation.js"></script>
 
@@ -76,6 +77,8 @@
     var configOptions;
     var i18n;
 	define.amd.jQuery = true;
+	
+	var dataInteropDijit;
 
 
 
@@ -83,9 +86,9 @@
 	  // dojo parser, esri modules, a custom module
       // and dijit layout widgets 
       require(["jquery", "dojo/dom", "dojo/ready",/* "esri/Map", "esri/layers/FeatureLayer",*/ "dojo/parser",
-               "dijit/layout/BorderContainer", "dijit/layout/ContentPane", "dijit/layout/StackContainer", "widgets/core/toc/toc",
+               "dijit/layout/BorderContainer", "dijit/layout/ContentPane", "dijit/layout/StackContainer", "widgets/core/toc/toc", "widgets/core/interop/interop",
                /*"dojo/i18n!localize/template"*/ "dijit/Toolbar", "esri/arcgis/utils", "dijit/MenuItem"/*, "dojo/domReady!" , "jqueryui"*/],
-        function($, dom, dojoReady,/* Map, FeatureLayer,*/ parser, container, contentpane, stackcont,/* jq,*/ tocWidget, toolbar, utils) {
+        function($, dom, dojoReady,/* Map, FeatureLayer,*/ parser, container, contentpane, stackcont,/* jq,*/ tocWidget, dataInterop, toolbar, utils) {
             //i18n = loc;
         	dojo.requireLocalization("esriTemplate", "template");
         	$(document).ready(function(){
@@ -114,6 +117,8 @@
 
                 //Create all the widgets
                 parser.parse();
+                
+                dataInteropDijit = dataInterop;
                 //console.log('after parse');
                 //var domNodeHeight = $('#rightPane').height();
 
@@ -395,6 +400,9 @@
                   <!--Floating window that contains the measure dijit-->
                   <div id="floater">
                       <div id="measureDiv"></div>
+                  </div>
+                  <div id="floaterIO">
+                  	<div id="interopDiv"></div>
                   </div>
                   <!--Floating window contains the time slider-->
                   <div id="timeFloater" style='display:none;'></div>

@@ -602,6 +602,7 @@ function initUI(response) {
   if (configOptions.displaylegend === 'true' || configOptions.displaylegend === true) {
     configOptions.displaylegend = true;
   }
+	addInterop();
 
   if (displayLeftPanel()) {
 
@@ -1266,6 +1267,67 @@ function addPrint() {
     dojo.byId('webmap-toolbar-center').appendChild(printer.printDomNode);
 
     printer.startup();
+}
+
+function addInterop() {
+   /*var fpI = new dojox.layout.FloatingPane({
+		title: 'Data Interoperability',
+		resizable: false,
+		dockable: false,
+		closable: false,
+		style: "position:absolute;top:0;left:50px;width:245px;height:175px;z-index:100;visibility:hidden;",
+		id: 'interop'
+	}, dojo.byID('interop'));
+    //fpI.startup();*/
+
+
+  /*var titlePane = dojo.query('#interop .dojoxFloatingPaneTitle')[0];
+  //add close button to title pane
+  var closeDiv = dojo.create('div', {
+    id: "closeBtn",
+    innerHTML: esri.substitute({
+      close_title: i18n.panel.close.title,
+      close_alt: i18n.panel.close.label
+    }, '<a alt=${close_alt} title=${close_title} href="JavaScript:toggleInterop();"><img  src="images/close.png"/></a>')
+  }, titlePane);*/
+
+  //create interop programatically
+  //var objInterop = new dataInterop('interop');
+  /*var objInterop = new dataInteropDijit({
+  	id: interopTool'
+  }, 'interopDiv');*/
+    //var floater = 'floaterIO';
+    //var innerDiv = 'interopDiv';
+    var objInterop = new dataInteropDijit({ 
+    	floaterDiv: 'floaterIO', 
+    	innerDiv: 'interopDiv', 
+    	//map: map
+    	});
+  objInterop.startup();
+
+  var tglbtnInterop = new dijit.form.ToggleButton({
+    label: "Data",
+    title: "Data",
+    id: "tglbtnInterop",
+  });
+
+  dojo.connect(tglbtnInterop, "onClick", function () {
+    toggleInterop();
+   
+  });
+
+  dojo.byId('webmap-toolbar-center').appendChild(tglbtnInterop.domNode);
+}
+
+//Show/hide the interop widget when the data button is clicked.
+function toggleInterop() {
+  if (dojo.byId('floaterIO').style.visibility === 'hidden') {
+    dijit.byId('floaterIO').show();
+  } else {
+    dijit.byId('floaterIO').hide();
+    dijit.byId('tglbtnInterop').set('checked', false); //uncheck the measure toggle button
+  }
+
 }
 
 //create a floating pane to hold the measure widget and add a button to the toolbar
