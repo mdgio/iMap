@@ -27,7 +27,10 @@ dojo.require("esri.dijit.Print");
 dojo.require("apl.ElevationsChart.Pane");*/
 	
 //dojo.addOnLoad(function() {
-  //setup defaults
+
+
+ //SETUP DEFAULTS
+
   if (configOptions.geometryserviceurl && location.protocol === "https:") {
     configOptions.geometryserviceurl = configOptions.geometryserviceurl.replace('http:', 'https:');
   }
@@ -176,6 +179,7 @@ dojo.require("apl.ElevationsChart.Pane");*/
 //});
 }
 
+//CREATE APPLICATION FROM CONFIG SETTINGS
 function createApp() {
   //override configuration settings if any url parameters are set 
   if (urlObject.query) {
@@ -365,6 +369,7 @@ function getItem(item, extArray) {
   });
 }
 
+   //CREATE MAP
 function createMap(webmapitem) {
   var mapDeferred = esri.arcgis.utils.createMap(webmapitem, "map", {
     mapOptions: {
@@ -395,7 +400,7 @@ function createMap(webmapitem) {
           configOptions.title = configOptions.title || response.itemInfo.item.title;
 
           //add small image and application title to the toolbar SJS
-          createToolbarTitle();
+          //createToolbarTitle();
 
           //Add a logo to the header if set SJS
           var logoImgHtml = '<img id="titleLogo" src="' +  configOptions.titleLogoUrl + '" alt="MD Logo" />';
@@ -405,7 +410,7 @@ function createMap(webmapitem) {
           }, "header");
           dojo.style(dojo.byId("header"), "height", "80px");
           var logoImgHtml = '<img id="tbLogoImage" src="' +  configOptions.titleLogoUrl + '" alt="MD Logo" style="height:100%" />';
-          dojo.byId('ToolbarLogo').innerHTML = logoImgHtml
+         // dojo.byId('ToolbarLogo').innerHTML = logoImgHtml
           //dojo.style(dojo.byId("header"), "height", "70px");
       } else if (!configOptions.link1.url && !configOptions.link2.url) {
           //no title or links - hide header
@@ -435,9 +440,11 @@ function createMap(webmapitem) {
     }
 
     if (map.loaded) {
+        addToolbarToMap();
       initUI(response);
     } else {
       dojo.connect(map, "onLoad", function () {
+          addToolbarToMap();
         initUI(response);
       });
     }
@@ -452,20 +459,6 @@ function createMap(webmapitem) {
     if (configOptions.embed === "true" || configOptions.embed === true) {
         changeMapSize()
     }
-}
-
-function createToolbarTitle(){
-    //Add a title to the toolbar Left SJS
-    dojo.create("div", {
-        id: 'ToolbarLogo',
-        style: 'display:none;height:27px;margin-right:8px; '
-    }, "webmap-toolbar-left", "first");
-    dojo.create("div", {
-        id: 'ProperTitle',
-        innerHTML: configOptions.title,
-        style: 'font: 14pt/16pt times, cursive, Serif; padding-left:5px; padding-top:5px; display:inline-block;'
-    }, "webmap-toolbar-left");
-    return
 }
 
 function initUI(response) {
@@ -732,6 +725,34 @@ function initUI(response) {
     resizeMap(); //resize the map in case any of the border elements have changed
 }
 
+function addToolbarToMap(){
+    var placeholder = dojo.byId('toolbarContainer');
+    //placeholder.load('widgets/toolbar/templates/toolbar.html');
+    // points to $dojoroot/dijit/form/tests/TestFile.html
+//   var url = require.toURL("widgets/core/toolbar/templates/toolbar.htm");
+//    xhr.get({
+//        url: url,
+//        load: function(html){
+//            dom.byId("map_root").innerHTML = html;
+//        }
+//    })
+   dojo.byId('map_root').appendChild(placeholder);
+}
+
+function createToolbarTitle(){
+    //Add a title to the toolbar Left SJS
+    dojo.create("div", {
+        id: 'ToolbarLogo',
+        style: 'display:none;height:27px;margin-right:8px; '
+    }, "webmap-toolbar-left", "first");
+    dojo.create("div", {
+        id: 'ProperTitle',
+        innerHTML: configOptions.title,
+        style: 'font: 14pt/16pt times, cursive, Serif; padding-left:5px; padding-top:5px; display:inline-block;'
+    }, "webmap-toolbar-left");
+    return
+}
+
 function displayLeftPanel() {
   //display the left panel if any of these options are enabled. 
   var display = false;
@@ -880,7 +901,7 @@ function showResults(candidates) {
   }
 }
 
-  function checkMapSpatialReference() {
+function checkMapSpatialReference() {
 
     var mapIsWebMercator = false;
     var mapIsGCS = false;
@@ -951,6 +972,9 @@ function hideLeftOrRightPanel(direction) {
     }
 }
 
+
+//LEFT TOOLBAR BUTTONS
+
 function toggleToolbarButtons(label) {
   var buttons = ['detailButton', 'editButton', 'legendButton'];
   dojo.forEach(buttons, function (button) {
@@ -965,6 +989,8 @@ function toggleToolbarButtons(label) {
 
 }
 
+
+//SOCIAL MEDIA TOOLS
 //Create links for sharing the app via social networking use bitly to shorten the url
 function updateLinkUrls() {
   //get the current map extent
@@ -1012,6 +1038,8 @@ function createLink(mapTitle, url) {
   dojo.byId('twitterLink').href = "http://www.twitter.com/home?status=" + mapTitle + "+" + url;
 }
 
+
+//BASEMAP GALLERY
 function addBasemapGalleryMenu() {
   //This option is used for embedded maps so the gallery fits well with apps of smaller sizes. 
   var basemapGroup = null;
@@ -1055,7 +1083,7 @@ function addBasemapGalleryMenu() {
   });
 
   var button = new dijit.form.DropDownButton({
-    label: i18n.tools.basemap.label,
+    //label: i18n.tools.basemap.label,
     id: "basemapBtn",
     iconClass: "esriBasemapIcon",
     title: i18n.tools.basemap.title,
@@ -1073,7 +1101,6 @@ function addBasemapGalleryMenu() {
 
   basemapGallery.startup();
 }
-
 
 //Add the basemap gallery widget to the application. 
 function addBasemapGallery() {
@@ -1103,7 +1130,7 @@ function addBasemapGallery() {
 
 
   var button = new dijit.form.DropDownButton({
-    label: i18n.tools.basemap.label,
+    //label: i18n.tools.basemap.label,
     id: "basemapBtn",
     iconClass: "esriBasemapIcon",
     title: i18n.tools.basemap.title,
@@ -1122,6 +1149,8 @@ function addBasemapGallery() {
   basemapGallery.startup();
 }
 
+
+//BOOKMARKS
 //add any bookmarks to the application
 function addBookmarks(info) {
   //does the web map have any bookmarks
@@ -1155,7 +1184,9 @@ function addBookmarks(info) {
 
 }
 //Create a menu with a list of operational layers. Each menu item contains a check box
-//that allows users to toggle layer visibility. 
+//that allows users to toggle layer visibility.
+
+//LAYERS
 function addLayerList(layers) {
   /*var layerList = buildLayerVisibleList(layers);
   if (layerList.length > 0) {
@@ -1196,14 +1227,14 @@ function addLayerList(layers) {
   }*/
 
     var toggleButton = new dijit.form.ToggleButton({
-        label: i18n.tools.layers.label,
+        //label: i18n.tools.layers.label,
         title: i18n.tools.layers.title,
         id: "layerBtn",
         iconClass: "esriLayerIcon"
     });
 
     dojo.connect(toggleButton, "onClick", function () {
-        var targetPaneWidth = dojo.style(dojo.byId('rightPane'), "width");
+        var targetPaneWidth = dojo.style(dojo.byId('leftPane'), "width");
         if (targetPaneWidth === 0) {
             showLeftOrRightPanel('right');
             dijit.byId('tocWidg').initializeDijitToc(map);
@@ -1243,6 +1274,8 @@ function addLayerList(layers) {
   return layerInfos;
 }*/
 
+
+//PRINT WIDGET
 function addPrint() {
     var layoutOptions ={
     'authorText':configOptions.owner,
@@ -1269,6 +1302,7 @@ function addPrint() {
     printer.startup();
 }
 
+//DATA WIDGET
 function addInterop() {
    /*var fpI = new dojox.layout.FloatingPane({
 		title: 'Data Interoperability',
@@ -1300,15 +1334,16 @@ function addInterop() {
     //var innerDiv = 'interopDiv';
     var objInterop = new dataInteropDijit({ 
     	floaterDiv: 'floaterIO', 
-    	innerDiv: 'interopDiv', 
+    	innerDiv: 'interopDiv'
     	//map: map
     	});
   objInterop.startup();
 
   var tglbtnInterop = new dijit.form.ToggleButton({
-    label: "Data",
+    //label: "Data",
     title: "Data",
-    id: "tglbtnInterop",
+    iconClass: "esriDataIcon",
+    id: "tglbtnInterop"
   });
 
   dojo.connect(tglbtnInterop, "onClick", function () {
@@ -1330,6 +1365,8 @@ function toggleInterop() {
 
 }
 
+
+//MEASUREMENT/DRAW
 //create a floating pane to hold the measure widget and add a button to the toolbar
 //that allows users to hide/show the measurement widget.
 function addMeasurementWidget() {
@@ -1362,7 +1399,7 @@ function addMeasurementWidget() {
 
 
   var toggleButton = new dijit.form.ToggleButton({
-    label: i18n.tools.measure.label,
+    //label: i18n.tools.measure.label,
     title: i18n.tools.measure.title,
     id: "toggleButton",
     iconClass: "esriMeasureIcon"
@@ -1394,6 +1431,8 @@ function toggleMeasure() {
 
 }
 
+
+//OVERVIEW MAP
 function addOverview(isVisible) {
   //attachTo:bottom-right,bottom-left,top-right,top-left
   //opacity: opacity of the extent rectangle - values between 0 and 1. 
@@ -1423,6 +1462,8 @@ function destroyOverview() {
   }
 }
 
+
+//LEGEND
 //Add the legend to the application - the legend will be 
 //added to the left panel of the application. 
 function addLegend(layerInfo) {
@@ -1464,7 +1505,7 @@ function addLegend(layerInfo) {
 }
 
 //build a list of layers to dispaly in the legend
-  function buildLayersList(layers){
+function buildLayersList(layers){
 
  //layers  arg is  response.itemInfo.itemData.operationalLayers;
   var layerInfos = [];
@@ -1513,8 +1554,7 @@ function addLegend(layerInfo) {
   return layerInfos;
   }
 
-
-
+//EDITOR
 //Determine if the webmap has any editable layers  
 function hasEditableLayers(layers) {
   var layerInfos = [];
@@ -1531,8 +1571,6 @@ function hasEditableLayers(layers) {
   });
   return layerInfos;
 }
-
-
 
 //if the webmap contains editable layers add an editor button to the map
 //that adds basic editing capability to the app.
@@ -1625,6 +1663,9 @@ function destroyEditor() {
   }
 
 }
+
+
+//POPUPS
 //Utility methods used to enable/disable popups. For example when users are measuring locations
 //on the map we want to turn popups off so they don't appear when users click to specify a measure area. 
 function enablePopups() {
@@ -1639,6 +1680,7 @@ function disablePopups() {
   }
 }
 
+//SOCIAL NETWORKING
 //Create menu of social network sharing options (Email, Twitter, Facebook)
 function createSocialLinks() {
   //extend the menu item so the </a> links are clickable 
@@ -1676,7 +1718,7 @@ function createSocialLinks() {
   }));
   //create dropdown button to display menu
   var menuButton = new dijit.form.DropDownButton({
-    label: i18n.tools.share.label,
+    //label: i18n.tools.share.label,
     id: 'shareButton',
     title: i18n.tools.share.title,
     dropDown: menu,
@@ -1689,67 +1731,74 @@ function createSocialLinks() {
 
 }
 
-
+//SEARCH TOOL
 //Tool that allows users to search for an address or place. 
 //This tool uses a single line address locator.
-function createSearchTool() {
-  //add the toolbar section that holds the search tool
-  var wrapperDiv = dojo.create('div', {
-    id: 'searchWrapper'
-  }, dojo.byId('webmap-toolbar-right'));
-  dojo.addClass('searchWrapper', 'searchwrapper');
-  var searchInput = dojo.create('input', {
-    id: 'searchField',
-    type: 'text',
-    placeholder: i18n.tools.search.title,
-    onkeydown: function (e) {
-      if (e.keyCode === 13) {
-        findLocation();
-      }
-    }
-  }, wrapperDiv);
-  dojo.addClass(dojo.byId('searchField'), 'searchbox');
-
-  dojo.create('input', {
-    type: 'image',
-    id: 'blankImage',
-    src: 'images/blank.gif'
-  }, wrapperDiv);
-  dojo.connect(dojo.byId('blankImage'), 'onclick', function () {
-    findLocation();
-  });
-  dojo.addClass(dojo.byId('blankImage'), 'searchbutton');
-
-  //add placeholder for browsers that don't support (IE)
-  if (!supportsPlaceholder()) {
-    var search = dojo.byId("searchField");
-    var text_content = i18n.tools.search.title;
-
-    search.style.color = "gray";
-    search.value = text_content;
-
-    search.onfocus = function () {
-      if (this.style.color === "gray") {
-        this.value = "";
-        this.style.color = "black";
-      }
-    };
-
-    search.onblur = function () {
-      if (this.value === "") {
-        this.style.color = "gray";
-        this.value = text_content;
-      }
-    };
-  }
+function createSearchTool(){
+    // create the geocoder
+    geocoder = new esri.dijit.Geocoder({
+        map: map
+    }, "search");
+    geocoder.startup();
 }
+//function createSearchTool() {
+//  //add the toolbar section that holds the search tool
+//  var wrapperDiv = dojo.create('div', {
+//    id: 'searchWrapper'
+//  }, dojo.byId('webmap-toolbar-right'));
+//  dojo.addClass('searchWrapper', 'searchwrapper');
+//  var searchInput = dojo.create('input', {
+//    id: 'searchField',
+//    type: 'text',
+//    placeholder: i18n.tools.search.title,
+//    onkeydown: function (e) {
+//      if (e.keyCode === 13) {
+//        findLocation();
+//      }
+//    }
+//  }, wrapperDiv);
+//  dojo.addClass(dojo.byId('searchField'), 'searchbox');
+//
+//  dojo.create('input', {
+//    type: 'image',
+//    id: 'blankImage',
+//    src: 'images/blank.gif'
+//  }, wrapperDiv);
+//  dojo.connect(dojo.byId('blankImage'), 'onclick', function () {
+//    findLocation();
+//  });
+//  dojo.addClass(dojo.byId('blankImage'), 'searchbutton');
+//
+//  //add placeholder for browsers that don't support (IE)
+//  if (!supportsPlaceholder()) {
+//    var search = dojo.byId("searchField");
+//    var text_content = i18n.tools.search.title;
+//
+//    search.style.color = "gray";
+//    search.value = text_content;
+//
+//    search.onfocus = function () {
+//      if (this.style.color === "gray") {
+//        this.value = "";
+//        this.style.color = "black";
+//      }
+//    };
+//
+//    search.onblur = function () {
+//      if (this.value === "") {
+//        this.style.color = "gray";
+//        this.value = text_content;
+//      }
+//    };
+//  }
+//}
 //determine if the browser supports HTML5 input placeholder
 function supportsPlaceholder() {
   var i = document.createElement('input');
   return 'placeholder' in i;
 }
 
-
+//TIME SLIDER
 //Add the time slider if the webmap has time-aware layers 
 function addTimeSlider(timeProperties) {
   esri.show(dojo.byId('timeFloater'));
@@ -2018,6 +2067,8 @@ function createTimeSlider(timeProperties) {
 
 }
 
+
+//ELEVATION PROFILE TOOL
 function createElevationProfileTools() {
 
   // DO WE HAVE THE MEASURE TOOL ENABLED //
@@ -2054,6 +2105,7 @@ function createElevationProfileTools() {
   });
 }
 
+//EXPAND TO FULL PAGE
 //SJS
 function changeMapSize() {
 

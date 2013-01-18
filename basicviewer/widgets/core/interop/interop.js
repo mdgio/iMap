@@ -47,7 +47,7 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dijit/
     				innerHTML: esri.substitute({
       				close_title: i18n.panel.close.title,
       				close_alt: i18n.panel.close.label
-    				}, '<a alt=${close_alt} title=${close_title} href="JavaScript:toggleInterop();"><img  src="images/close.png"/></a>')
+    				}, '<a alt=${close_alt} title=${close_title} href="JavaScript:toggleInterop();"><img  src="../toc/images/close.png"/></a>')
   				}, titlePane);
   				//Set the content of the Floating Pane to the template HTML.
  				 dojo.byId(this.innerDiv).innerHTML = template;
