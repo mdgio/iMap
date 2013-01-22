@@ -40,14 +40,14 @@
     }
     // The modules which need to be loaded immediately during app load - most of the widgets are lazy-loaded (e.g. on button click)
     , ["jquery", "dojo/dom", "dojo/ready"/*, "dojo/parser"*/, "require", "modules/core/utilities/environment", "dijit/layout/BorderContainer", "dijit/layout/ContentPane", "dijit/Toolbar"
-        , "esri/arcgis/utils"
+        , "esri/arcgis/utils", "modules/core/interop/interop"
         /*, "dijit/layout/StackContainer", "modules/core/toc/toc",*/
         /*"dojo/i18n!localize/template"*/ /* , "esri/dijit/Scalebar", "esri/tasks/locator", "esri/tasks/geometry", "esri/dijit/BasemapGallery", "esri/dijit/OverviewMap"
         , "esri/dijit/Measurement", "esri/dijit/TimeSlider", "esri/dijit/editing/Editor-all", "esri/IdentityManager", "dojox/layout/FloatingPane"
         , "esri/dijit/Bookmarks", "esri/dijit/Attribution"*//*, "myModules/custommenu"*//*, "esri/dijit/Print"*//*, "apl/ElevationsChart/Pane"*//*, "dijit/MenuItem"*/]
     //The callback to run once Dojo and the required modules are ready.  References to the instantiated objects in the array can be exposed
     // as parameters in the callback function, but a parameter does not have to be inserted for each array item
-    , function($, dom, ready /*, parser*/, require, environment) {
+    , function($, dom, ready /*, parser*/, require, environment, dataInterop) {
         ready(function() {
             $(document).ready(function(){ //jQuery is now loaded and ready
 
