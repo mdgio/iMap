@@ -1,0 +1,3 @@
+[submodule "basicviewer/src/libs/xstyle"]
+	path = basicviewer/src/libs/xstyle
+	url = https://github.com/mdgio/xstyle.git
