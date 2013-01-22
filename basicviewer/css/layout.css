@@ -125,25 +125,30 @@ body {
   font-weight: 900;
   width:100% !important;
   padding:0px !important;
-  height:34px;
-  margin:0;
-  color:#fff;
+  height:48px;
+   background-color: rgba(255, 255, 255, 0);
+    z-index: 50;
+    position: relative;
 }
 /*override claro background and other props*/
 #toolbarContainer .dijitToolbar {
   height:100%;
+    background-color: rgba(255, 255, 255, 0);
 }
 /*Measure toggle button*/
 .claro .dijitToolbar .dijitButtonNode:hover {
-  color:#333;
+  color: rgba(255, 255, 255, 0);
 }
 .claro .dijitToolbar .dijitToggleButtonChecked .dijitButtonNode {
    color:#333;
    border-style: solid;
 }
-.claro .dijitToolbar .dijitButtonNode{
-	color:#fff;
+
+.claro .dijitToolbar  .dijitButtonNode{
+    padding: 5px;
+    background:url(../images/imap/toolbar_bg.png) repeat-x #282828; !important
 }
+
 
 /*The top toolbar is split into three sections. */
 #webmap-toolbar-left {
@@ -175,11 +180,11 @@ body {
 }
 /*Styles for the toolbar buttons*/
  .esriBasemapIcon {
-  /*background-image: url(../images/Basemap16.png);*/
+  background-image: url(../images/toolbar/Basemaps.PNG);
   background-repeat: no-repeat;
   display: inline-block;
-  height: 16px;
-  width: 16px;
+  height: 48px;
+  width: 48px;
   margin: 4px 0 4px 4px;
 }
 .esriLegendIcon{
@@ -199,7 +204,7 @@ body {
   margin:4px 0 4px 4px;
 }
 .esriBookmarkIcon{
-  /*background-image:url(../images/bookmarks.png);*/
+  background-image:url(../images/bookmarks.png);
   background-repeat:no-repeat;
   display:inline-block;
   height:16px;
@@ -207,43 +212,51 @@ body {
   margin: 4px 0 4px 4px;
 }
 .esriLayerIcon{
-  /*background-image:url(../images/contents.png);*/
+  background-image:url(../images/toolbar/TableOfContents.PNG);
   background-repeat:no-repeat;
   display:inline-block;
-  height:16px;
-  width:16px;
+  height:48px;
+  width:48px;
   margin:4px 0 4px 4px;
 }
 .esriMeasureIcon {
-  /*background-image: url(../images/Measure_Area16.png);*/
+  background-image: url(../images/toolbar/Measure.PNG);
   background-repeat: no-repeat;
   display: inline-block;
-  height: 16px;
-  width: 16px;
+  height: 48px;
+  width: 48px;
   margin: 4px 0 4px 4px;
 }
+.esriDataIcon{
+    background-image: url(../images/toolbar/Data.PNG);
+    background-repeat: no-repeat;
+    display: inline-block;
+    height: 48px;
+    width: 48px;
+    margin: 4px 0 4px 4px;
+}
 .esriLinkIcon{
-  /*background-image: url(../images/LinkTo16.png);*/
+  background-image: url(../images/toolbar/Share.PNG);
   background-repeat: no-repeat;
   display: inline-block;
-  height: 16px;
-  width: 16px;
+  height: 48px;
+  width: 48px;
   margin: 4px 0 4px 4px;
 }
 .esriPrint .dijitComboButton .dijitIcon{
-  /*background-image:url(../images/genericprint.png);*/
+  background-image:url(../images/toolbar/Print.PNG);
   background-repeat:no-repeat;
   display:inline-block;
-  height:16px;
-  width:16px;
+  height:48px;
+  width:48px;
   margin:4px 0 4px 4px;
 }
 .esriPrintIcon{
-  background-image:url(../images/genericprint.png);
+  background-image:url(../images/toolbar/Print.PNG);
   background-repeat:no-repeat;
   display:inline-block;
-  height:16px;
-  width:16px;
+  height:48px;
+  width:48px;
   margin:4px 0 4px 4px;
 }
 .esriPrint{
@@ -579,4 +592,10 @@ div#editDiv.templatePicker .grid  .selectedItem {
     text-align: right;
     margin: 0px;
     padding: 10px 2px 2px 0px;
+}
+
+#search {
+    display: block;
+    z-index: 2;
+    padding-bottom: 5px;
 }

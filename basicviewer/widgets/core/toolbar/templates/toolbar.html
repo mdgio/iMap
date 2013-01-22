@@ -1,0 +1,16 @@
+<!-- Toolbar (Search and Tool Buttons)-->
+<div id="toolbarContainer" data-dojo-type="dijit.layout.ContentPane" data-dojo-props='region:"top", gutters:"false"'>
+    <div data-dojo-type="dijit.Toolbar">
+        <div id="webmap-toolbar-left" >
+            <!--Toolbar buttons (Legend, Details, Edit) created dynamically-->
+        </div>
+        <div id="webmap-toolbar-right">
+            <input name="btnShowHide" type="image" src="images/expand.png" height="20px" width="20px" style="display: inline-block; margin-left:5px" onclick="changeMapSize()"></input>
+            <!--create the search tool-->
+        </div>
+        <div id="webmap-toolbar-center">
+            <!--Basemap,measure,share,time and layer list tools added if enabled-->
+        </div>
+    </div>
+</div>
+
