@@ -31,7 +31,7 @@ function initMap() {
   esri.config.defaults.io.alwaysUseProxy = false;
 
   
-
+/*
   urlObject = esri.urlToObject(document.location.href);
 
   //is an appid specified - if so read json from there
@@ -152,6 +152,8 @@ function initMap() {
   } else {
     createApp();
   }
+*/
+
 
 //});
 }

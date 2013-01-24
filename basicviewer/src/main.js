@@ -1,7 +1,5 @@
 //  The starting point for the application to load
 (function() {
-    //var configOptions;
-    //var i18n;
     //Needed to make jQuery compatible with Dojo AMD loader
     define.amd.jQuery = true;
     require({
@@ -39,21 +37,26 @@
         ]
     }
     // The modules which need to be loaded immediately during app load - most of the widgets are lazy-loaded (e.g. on button click)
-    , ["jquery", "dojo/dom", "dojo/ready"/*, "dojo/parser"*/, "require", "modules/core/utilities/environment", "dijit/layout/BorderContainer", "dijit/layout/ContentPane", "dijit/Toolbar"
-        , "esri/arcgis/utils", "modules/core/interop/interop"
+    , ["jquery", "dojo/dom", "dojo/ready", "dojo/_base/lang" /*, "dojo/parser"*/, "require"
+        , "modules/core/utilities/environment", "modules/core/configuration/app", "modules/core/configuration/map", "modules/core/interop/interop"
+        , "dijit/layout/BorderContainer", "dijit/layout/ContentPane", "dijit/Toolbar"
+        , "esri/arcgis/utils"
         /*, "dijit/layout/StackContainer", "modules/core/toc/toc",*/
         /*"dojo/i18n!localize/template"*/ /* , "esri/dijit/Scalebar", "esri/tasks/locator", "esri/tasks/geometry", "esri/dijit/BasemapGallery", "esri/dijit/OverviewMap"
         , "esri/dijit/Measurement", "esri/dijit/TimeSlider", "esri/dijit/editing/Editor-all", "esri/IdentityManager", "dojox/layout/FloatingPane"
         , "esri/dijit/Bookmarks", "esri/dijit/Attribution"*//*, "myModules/custommenu"*//*, "esri/dijit/Print"*//*, "apl/ElevationsChart/Pane"*//*, "dijit/MenuItem"*/]
     //The callback to run once Dojo and the required modules are ready.  References to the instantiated objects in the array can be exposed
-    // as parameters in the callback function, but a parameter does not have to be inserted for each array item
-    , function($, dom, ready /*, parser*/, require, environment, dataInterop) {
-        ready(function() {
-            $(document).ready(function(){ //jQuery is now loaded and ready
-
-
-                init();
-            });
-        });
+    // as parameters in the callback functhistion, but a parameter does not have to be inserted for each array item
+    , function($, dom, ready, lang /*, parser*/, require, environment, app, mapConfig, dataInterop) {
+       //ready(function() {
+            var appConfigurator = new app();
+            $(document).ready(
+                function(){ //jQuery is now loaded and ready
+                    var appConfig = appConfigurator.configure();
+                    mapConfig({ _AppConfig: appConfig });
+                    init();
+                }
+            );
+       //});
     });
 })();
