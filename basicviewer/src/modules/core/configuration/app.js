@@ -1,16 +1,22 @@
 // The class to handle configuring the application and what it loads
-// If a query string parameter containing an appid is found, then it will load the config from AGO.
-define(["dojo/_base/declare"],
-    function(declare){
+// If a query string parameter containing an appid is found, then it will override any of configOptions with those found in the AGO app JSON.
+// Finally, any other query string parameters found will override any options set previously
+define(["dojo/_base/declare", "dojox/html/entities"],
+    function(declare, entities){
         return declare([], {
             configure: function () {
                 // This is the default configuration for the application (if no appid is specified below and no appid querystring param is passed in)
                 var configOptions = {
-                    //The ID for the map from ArcGIS.com
-                    webmap: "d9236293e0ae42798c306485bf978d93",
-                    //The id for the web mapping applciation item that contains configuration info - in most
-                    //cases this will be null.
+                    //The ArcGIS Online id for a web mapping application item that was published and possibly configured on ArcGIS.com
+                    // In most cases this will be null.
                     appid: "",
+                    //The ID for the map from ArcGIS.com
+                    //If not going to specify a Web Map in AGO, then use empty quotes ("") here
+                    webmap: "d9236293e0ae42798c306485bf978d93",
+                    // The URL to an ArcGIS Web Map- if not using ArcGIS.com.
+                    // Can be relative. For example, if in basicviewer root- "./WebMap.js"
+                    // If both webmap and webmapurl are empty, then a map must be programmatically defined in map.js
+                    webmapurl: "",
                     //set to true to display the title
                     displaytitle: true,
                     //Enter a title, if no title is specified, the webmap's title is used.
@@ -133,7 +139,8 @@ define(["dojo/_base/declare"],
                     embed: false
                 };
 
-                urlObject = esri.urlToObject(document.location.href);
+                var urlObject = esri.urlToObject(document.location.href);
+
                 //is an appid specified (either in the config option above, or in query string) - if so, download json from AGO, otherwise accept configOptions defaults
                 if (configOptions.appid || (urlObject.query && urlObject.query.appid)) {
                     var appid = configOptions.appid || urlObject.query.appid;
@@ -241,7 +248,8 @@ define(["dojo/_base/declare"],
                                 configOptions.basemapgroup.title = response.values.basemapgrouptitle;
                                 configOptions.basemapgroup.owner = response.values.basemapgroupowner;
                             }
-                            //createApp();
+
+                            this._checkForOverrides(urlObject, configOptions);
                         },
                         error: function (response) {
                             var e = response.message;
@@ -249,12 +257,110 @@ define(["dojo/_base/declare"],
                             //alert(i18n.viewer.errors.createMap + " : " + e);
                         }
                     });
-
-                }
+                } else
+                    this._checkForOverrides(urlObject, configOptions);
 
                 return configOptions;
             }
-        }
-        )
+
+            //override configuration settings if any url parameters are set
+            , _checkForOverrides: function (urlObject, configOptions) {
+                    if (urlObject.query) {
+                        // If the map is being shared by another, then alterations to the default webmap will be in the JSON
+                        //   object located at the encoded URL passed in the webmapov parameter
+                        if (urlObject.query.webmapov) {
+                            configOptions.webmapoverride = entities.decode(urlObject.query.webmapov);
+                        }
+                        if (urlObject.query.webmap) {
+                            configOptions.webmap = urlObject.query.webmap;
+                        }
+                        if (urlObject.query.title) {
+                            configOptions.title = urlObject.query.title;
+                        }
+                        if (urlObject.query.customlogoimage) {
+                            configOptions.customlogo.image = urlObject.query.customlogoimage;
+                        }
+                        if (urlObject.query.displaytitle) {
+                            configOptions.displaytitle = (urlObject.query.displaytitle === 'true') ? true : false;
+                        }
+                        if (urlObject.query.theme) {
+                            configOptions.theme = urlObject.query.theme;
+                        }
+                        if (urlObject.query.bingmapskey) {
+                            configOptions.bingmapskey = urlObject.query.bingmapskey;
+                        }
+                        if (urlObject.query.displaymeasure) {
+                            configOptions.displaymeasure = (urlObject.query.displaymeasure === 'true') ? true : false;
+                        }
+                        if (urlObject.query.displayshare) {
+                            configOptions.displayshare = (urlObject.query.displayshare === 'true') ? true : false;
+                        }
+                        if (urlObject.query.displaybasemaps) {
+                            configOptions.displaybasemaps = (urlObject.query.displaybasemaps === 'true') ? true : false;
+                        }
+                        if (urlObject.query.displayoverviewmap) {
+                            configOptions.displayoverviewmap = (urlObject.query.displayoverviewmap === 'true') ? true : false;
+                        }
+                        if (urlObject.query.displayeditor) {
+                            configOptions.displayeditor = (urlObject.query.displayeditor === 'true') ? true : false;
+                        }
+                        if (urlObject.query.displaylegend) {
+                            configOptions.displaylegend = (urlObject.query.displaylegend === 'true') ? true : false;
+                        }
+                        if (urlObject.query.displaysearch) {
+                            configOptions.displaysearch = (urlObject.query.displaysearch === 'true') ? true : false;
+                        }
+                        if (urlObject.query.displaybookmarks) {
+                            configOptions.displaybookmarks = (urlObject.query.displaybookmarks === 'true') ? true : false;
+                        }
+                        if (urlObject.query.displaylayerlist) {
+                            configOptions.displaylayerlist = (urlObject.query.displaylayerlist === 'true') ? true : false;
+                        }
+                        if (urlObject.query.displaydetails) {
+                            configOptions.displaydetails = (urlObject.query.displaydetails === 'true') ? true : false;
+                        }
+                        if (urlObject.query.displaytimeslider) {
+                            configOptions.displaytimeslider = (urlObject.query.displaytimeslider === 'true') ? true : false;
+                        }
+                        if (urlObject.query.displayelevation) {
+                            configOptions.displayelevation = (urlObject.query.displayelevation === 'true') ? true : false;
+                        }
+                        if (urlObject.query.showelevationdifference) {
+                            configOptions.showelevationdifference = (urlObject.query.showelevationdifference === 'true') ? true : false;
+                        }
+                        if (urlObject.query.displayprint) {
+                            configOptions.displayprint = (urlObject.query.displayprint === 'true') ? true : false;
+                        }
+                        if (urlObject.query.displayscalebar) {
+                            configOptions.displayscalebar = (urlObject.query.displayscalebar === 'true') ? true : false;
+                        }
+                        if (urlObject.query.displayslider) {
+                            configOptions.displayslider = (urlObject.query.displayslider === 'true') ? true : false;
+                        }
+                        if (urlObject.query.constrainmapextent) {
+                            configOptions.constrainmapextent = (urlObject.query.constrainmapextent === 'true') ? true : false;
+                        }
+                        if (urlObject.query.basemapGroupOwner && urlObject.query.basemapGroupTitle) {
+                            configOptions.basemapgroup.title = urlObject.query.basemapGroupTitle;
+                            configOptions.basemapgroup.owner = urlObject.query.basemapGroupOwner;
+                        }
+                        if (urlObject.query.extent) {
+                            configOptions.extent = urlObject.query.extent;
+                        }
+                        if (urlObject.query.gcsextent) {
+                            configOptions.gcsextent = urlObject.query.gcsextent;
+                        }
+                        if (urlObject.query.customLogoImage) {
+                            configOptions.customlogo.image = urlObject.query.customLogoImage;
+                        }
+                        if (urlObject.query.embed) {
+                            configOptions.embed = (urlObject.query.embed === 'true') ? true : false;
+                        }
+                        if (urlObject.query.leftpanelvisible) {
+                            configOptions.leftPanelVisibility = (urlObject.query.leftpanelvisible === 'true') ? true : false;
+                        }
+                    }
+                }
+        })
     }
 );

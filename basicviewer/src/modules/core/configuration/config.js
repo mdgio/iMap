@@ -1,4 +1,7 @@
-﻿{
+﻿/*This file contains the configurable parameters object that can be copy/pasted in ArcGIS Online when registering application as a template.
+    See help for the process: http://resources.arcgis.com/en/help/main/10.1/01w1/01w10000008p000000.htm
+ */
+{
     "values": {
     "displaybasemaps": "true",
         "displaylegend": "true",

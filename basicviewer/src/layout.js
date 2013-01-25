@@ -7,6 +7,7 @@ var urlObject;
 var measure;
 
 function initMap() {
+  /*
   //setup defaults
   if (configOptions.geometryserviceurl && location.protocol === "https:") {
     configOptions.geometryserviceurl = configOptions.geometryserviceurl.replace('http:', 'https:');
@@ -29,7 +30,7 @@ function initMap() {
   esri.config.defaults.io.proxyUrl = configOptions.proxyurl;
 
   esri.config.defaults.io.alwaysUseProxy = false;
-
+*/
   
 /*
   urlObject = esri.urlToObject(document.location.href);

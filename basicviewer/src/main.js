@@ -50,10 +50,12 @@
     , function($, dom, ready, lang /*, parser*/, require, environment, app, mapConfig, dataInterop) {
        //ready(function() {
             var appConfigurator = new app();
+            var mapConfigurator = new mapConfig();
             $(document).ready(
                 function(){ //jQuery is now loaded and ready
                     var appConfig = appConfigurator.configure();
-                    mapConfig({ _AppConfig: appConfig });
+                    var mapConfig = mapConfigurator.configure(appConfig);
+                    //Create the application elements
                     init();
                 }
             );
