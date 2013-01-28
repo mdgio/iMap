@@ -161,6 +161,7 @@ function initMap() {
 
 //CREATE APPLICATION FROM CONFIG SETTINGS
 function createApp() {
+/*
   //override configuration settings if any url parameters are set 
   if (urlObject.query) {
     if (urlObject.query.title) {
@@ -253,7 +254,7 @@ function createApp() {
     }
 
   }
-
+*/
 
   //load the specified theme 
   var ss = document.createElement("link");

@@ -56,7 +56,7 @@
                     var appConfig = appConfigurator.configure();
                     var mapConfig = mapConfigurator.configure(appConfig);
                     //Create the application elements
-                    init();
+                    //init();
                 }
             );
        //});

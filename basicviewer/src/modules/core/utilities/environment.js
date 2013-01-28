@@ -9,7 +9,7 @@ define(["dojo/_base/declare", "dojo/has"],
             //, WindowWidth: $(window).width()
             , WindowWidth: has('device-width')
             , IframeEmbedded: !(top === self)
-            //, LocalStorage: has("native-localstorage")
+            , LocalStorage: (localStorage != null)
         });
         if (!_instance) {
             var _instance = new BrowserEnv();

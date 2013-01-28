@@ -1,8 +1,8 @@
 // The class to handle configuring the application and what it loads
 // If a query string parameter containing an appid is found, then it will override any of configOptions with those found in the AGO app JSON.
 // Finally, any other query string parameters found will override any options set previously
-define(["dojo/_base/declare", "dojox/html/entities"],
-    function(declare, entities){
+define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang"],
+    function(declare, entities, lang){
         return declare([], {
             configure: function () {
                 // This is the default configuration for the application (if no appid is specified below and no appid querystring param is passed in)
@@ -12,11 +12,11 @@ define(["dojo/_base/declare", "dojox/html/entities"],
                     appid: "",
                     //The ID for the map from ArcGIS.com
                     //If not going to specify a Web Map in AGO, then use empty quotes ("") here
-                    webmap: "d9236293e0ae42798c306485bf978d93",
+                    webmap: "", //d9236293e0ae42798c306485bf978d93
                     // The URL to an ArcGIS Web Map- if not using ArcGIS.com.
                     // Can be relative. For example, if in basicviewer root- "./WebMap.js"
                     // If both webmap and webmapurl are empty, then a map must be programmatically defined in map.js
-                    webmapurl: "",
+                    webmapurl: "webmap.js",
                     //set to true to display the title
                     displaytitle: true,
                     //Enter a title, if no title is specified, the webmap's title is used.
@@ -150,7 +150,7 @@ define(["dojo/_base/declare", "dojox/html/entities"],
                             f: "json"
                         },
                         callbackParamName: "callback",
-                        load: function (response) {
+                        load: lang.hitch(this, function (response) {
                             if (response.values.title !== undefined) {
                                 configOptions.title = response.values.title;
                             }
@@ -250,17 +250,15 @@ define(["dojo/_base/declare", "dojox/html/entities"],
                             }
 
                             this._checkForOverrides(urlObject, configOptions);
-                        },
-                        error: function (response) {
+                        }),
+                        error: lang.hitch(this, function (response) {
                             var e = response.message;
                             alert("Unable to create map" + " : " + e);
                             //alert(i18n.viewer.errors.createMap + " : " + e);
-                        }
+                        })
                     });
                 } else
                     this._checkForOverrides(urlObject, configOptions);
-
-                return configOptions;
             }
 
             //override configuration settings if any url parameters are set
@@ -360,6 +358,9 @@ define(["dojo/_base/declare", "dojox/html/entities"],
                             configOptions.leftPanelVisibility = (urlObject.query.leftpanelvisible === 'true') ? true : false;
                         }
                     }
+
+                    //Raise event letting calling module know configuration is complete
+                    return configOptions;
                 }
         })
     }
