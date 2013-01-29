@@ -53,8 +53,15 @@
             var mapConfigurator = new mapConfig();
             $(document).ready(
                 function(){ //jQuery is now loaded and ready
-                    var appConfig = appConfigurator.configure();
-                    var mapConfig = mapConfigurator.configure(appConfig);
+                    appConfigurator.on('configured', function (appConfig) {
+                        mapConfigurator.on('configured', function(webmap) {
+
+                        });
+                        mapConfigurator.configure(appConfig);
+                    });
+                    appConfigurator.configure();
+
+                    //var mapConfig = mapConfigurator.configure(appConfig);
                     //Create the application elements
                     //init();
                 }

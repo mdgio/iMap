@@ -1,9 +1,9 @@
 // The class to handle configuring the application and what it loads
 // If a query string parameter containing an appid is found, then it will override any of configOptions with those found in the AGO app JSON.
 // Finally, any other query string parameters found will override any options set previously
-define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang"],
-    function(declare, entities, lang){
-        return declare([], {
+define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Evented"],
+    function(declare, entities, lang, Evented){
+        return declare([Evented], {
             configure: function () {
                 // This is the default configuration for the application (if no appid is specified below and no appid querystring param is passed in)
                 var configOptions = {
@@ -360,7 +360,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang"],
                     }
 
                     //Raise event letting calling module know configuration is complete
-                    return configOptions;
+                    this.emit('configured', configOptions);
                 }
         })
     }

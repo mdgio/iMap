@@ -5,9 +5,9 @@
     3. If a web map is not found in step 1, then an ESRI map is programmatically created.  This is the place where a map can be defined if not
         using a web map.  Note: Users' ability to save and/or share their map customizations will not be possible with this option.
 */
-define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang"],
+define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "dojo/Evented"],
     function(declare, environment, lang){
-        return declare([],
+        return declare([Evented],
             {
                 _AppConfig: null
                 , _WebMapId: null
@@ -109,7 +109,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang"],
                 }
 
                 , _RaiseFinishEvent: function() {
-
+                    this.emit('configured', this._WebMap);
                 }
             }
         )
