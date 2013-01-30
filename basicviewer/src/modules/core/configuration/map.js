@@ -19,20 +19,20 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     this._AppConfig = appConfig;
                     this._setDefaults();
 
-                    if (this._AppConfig.webmap) { //Obtain webmap from AGO
+                    if (this._AppConfig.webmap) { //*** Obtain webmap from AGO
                         //http://www.arcgis.com/sharing/content/items/407170546ac14125911c5cee18e8ffb4/data?f=json
                         var agoDeferred = esri.arcgis.utils.getItem(this._AppConfig.webmap);
                         agoDeferred.then(
                             lang.hitch(this, function(response) { //The response object is the Web Map
                                 //response.item is the metadata about the webmap, response.itemData is the webmap
                                 this._WebMapId = this._AppConfig.webmap;
-                                this._WebMap = response.itemData;
+                                this._WebMap = response;
                                 this._CheckForWebMapOverrides();
                             }), lang.hitch(this, function(error) {
                                 alert("Unable to load web map" + " : " + error.message);
                             })
                         );
-                    } else if (this._AppConfig.webmapurl) {  //Obtain webmap from another source
+                    } else if (this._AppConfig.webmapurl) { //*** Obtain webmap from another source
                         var webMapRequest = esri.request({
                             url: this._AppConfig.webmapurl,
                             content: { f: "json" },
@@ -49,7 +49,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                                 alert("Unable to load web map" + " : " + error.message);
                             })
                         );
-                    } else { //Create a map using the standard API methods
+                    } else { //*** Create a map using the standard API methods
 
                     }
                 }
@@ -98,12 +98,12 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                             this._ReconcileWebMapOverrides();
                         }
                     } else { //No customizations, just load default web map
-
                         this._RaiseFinishEvent();
                     }
                 }
 
                 , _ReconcileWebMapOverrides: function () { // Apply the customizations to the webmap object
+
 
                     this._RaiseFinishEvent();
                 }

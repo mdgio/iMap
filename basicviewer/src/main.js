@@ -56,14 +56,12 @@
                     appConfigurator.on('configured', function (appConfig) {
                         mapConfigurator.on('configured', function(webmap) {
 
+                            //Create the application elements
+                            //init();
                         });
                         mapConfigurator.configure(appConfig);
                     });
                     appConfigurator.configure();
-
-                    //var mapConfig = mapConfigurator.configure(appConfig);
-                    //Create the application elements
-                    //init();
                 }
             );
        //});

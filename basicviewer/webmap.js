@@ -1,10 +1,77 @@
 /* This is the place to define your Web Map as a JSON object, if you do not want to do it in ArcGIS Online.
  See the following links for help and examples on defining a Web Map:
- http://resources.arcgis.com/en/help/arcgis-web-map-json/
  http://help.arcgis.com/en/webapi/javascript/arcgis/jshelp/#intro_webmap
+ http://resources.arcgis.com/en/help/arcgis-web-map-json/
 
-***
+ ***
  To enable the ability for users to save or share their map, generate a GUID for the webmap and specify as an "id" property in the main JSON object
-    Can use this website to generate a GUID- http://www.guidgenerator.com/online-guid-generator.aspx
+ Can use this website to generate a GUID- http://www.guidgenerator.com/online-guid-generator.aspx
+
+ Also, set an id property for each operational layer, to enable saving and sharing.  The id does not need to be a GUID, just unique.
+ ***
+
+ Two properties are required for the web map: "item" and "itemData".  See the first link for an example
+
+ {
+     "id": "5caf4ec5-4d38-42fd-bc94-c7a1a1cf3ddb",
+     "item": {
+         "title":"Soil Survey Map of USA",
+         "snippet": "Detailed description of data",
+         "extent": [[-139.4916, 10.7191],[-52.392, 59.5199]]
+     },
+     "itemData": {
+         "operationalLayers": [{
+             "url": "http://server.arcgisonline.com/ArcGIS/rest/services/Specialty/Soil_Survey_Map/MapServer",
+             "visibility": true,
+             "opacity": 0.75,
+             "title": "Soil Survey Map",
+             "id": "204d94c9b1374de9a21574c9efa31164"
+         }],
+         "baseMap": {
+             "baseMapLayers": [{
+                 "opacity": 1,
+                 "visibility": true,
+                 "url": "http://services.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer"
+             },{
+                 "isReference": true,
+                 "opacity": 1,
+                 "visibility": true,
+                 "url": "http://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Reference_Overlay/MapServer"
+             }],
+             "title": "World_Terrain_Base"
+         },
+         "version": "1.1"
+     }
+ }
  */
-{"id":"12345","operationalLayers":[{"url":"http://server.arcgisonline.com/ArcGIS/rest/services/Specialty/Soil_Survey_Map/MapServer","id":"Soil_Survey_Map_7757","visibility":true,"visibleLayers":[0,1,2],"opacity":0.75,"title":"Soil Survey Map","itemId":"204d94c9b1374de9a21574c9efa31164","layers":[{"id":2,"popupInfo":{"fieldInfos":[{"fieldName":"OBJECTID","stringFieldOption":"textbox","isEditable":false,"label":"OBJECTID","tooltip":"","visible":false},{"fieldName":"GRIDCODE","format":{"places":2,"digitSeparator":true},"stringFieldOption":"textbox","isEditable":false,"label":"GRIDCODE","tooltip":"","visible":false},{"fieldName":"SOIL_ORDER","stringFieldOption":"textbox","isEditable":false,"label":"Dominant Order","tooltip":"","visible":true},{"fieldName":"SUBORDER","stringFieldOption":"textbox","isEditable":false,"label":"Dominant Sub-Order","tooltip":"","visible":true}],"mediaInfos":[],"title":"Global Soil Regions: {SOIL_ORDER}"}},{"id":1,"popupInfo":{"fieldInfos":[{"fieldName":"OBJECTID","stringFieldOption":"textbox","isEditable":false,"label":"OBJECTID","tooltip":"","visible":false},{"fieldName":"MUSYM","stringFieldOption":"textbox","isEditable":false,"label":"Map Unit Symbol","tooltip":"","visible":false},{"fieldName":"MUKEY","stringFieldOption":"textbox","isEditable":false,"label":"Map Unit Key","tooltip":"","visible":false},{"fieldName":"muname","stringFieldOption":"textbox","isEditable":false,"label":"Map Unit Name","tooltip":"","visible":true},{"fieldName":"mukind","stringFieldOption":"textbox","isEditable":false,"label":"Map Unit Kind","tooltip":"","visible":false},{"fieldName":"muacres","format":{"places":0,"digitSeparator":true},"stringFieldOption":"textbox","isEditable":false,"label":"Map Unit Acres","tooltip":"","visible":true},{"fieldName":"DomOrd","stringFieldOption":"textbox","isEditable":false,"label":"Dominant Order","tooltip":"","visible":true},{"fieldName":"DomPct","format":{"places":0,"digitSeparator":true},"stringFieldOption":"textbox","isEditable":false,"label":"Dominant %","tooltip":"","visible":true},{"fieldName":"CompCount","format":{"places":0,"digitSeparator":true},"stringFieldOption":"textbox","isEditable":false,"label":"CompCount","tooltip":"","visible":false},{"fieldName":"DomSubOrd","stringFieldOption":"textbox","isEditable":false,"label":"Dominant Sub-Order","tooltip":"","visible":true},{"fieldName":"SubDomPct","format":{"places":0,"digitSeparator":true},"stringFieldOption":"textbox","isEditable":false,"label":"Dominant Sub-Order %","tooltip":"","visible":true},{"fieldName":"Shape_Area","format":{"places":2,"digitSeparator":true},"stringFieldOption":"textbox","isEditable":false,"label":"Shape_Area","tooltip":"","visible":false}],"mediaInfos":[],"title":"State Soil Geographic: {DomOrd}"}},{"id":0,"popupInfo":{"fieldInfos":[{"fieldName":"musym","stringFieldOption":"textbox","isEditable":false,"label":"Map Unit Symbol","tooltip":"","visible":false},{"fieldName":"mukey","stringFieldOption":"textbox","isEditable":false,"label":"Map Unit Key","tooltip":"","visible":false},{"fieldName":"ObjectID","stringFieldOption":"textbox","isEditable":false,"label":"ObjectID","tooltip":"","visible":false},{"fieldName":"muname","stringFieldOption":"textbox","isEditable":false,"label":"Map Unit Name","tooltip":"","visible":true},{"fieldName":"mukind","stringFieldOption":"textbox","isEditable":false,"label":"Map Unit Kind","tooltip":"","visible":false},{"fieldName":"muacres","format":{"places":0,"digitSeparator":true},"stringFieldOption":"textbox","isEditable":false,"label":"Map Unit Acres","tooltip":"","visible":true},{"fieldName":"farmlndcl","stringFieldOption":"textbox","isEditable":false,"label":"Farmland Class","tooltip":"","visible":false},{"fieldName":"muhelcl","stringFieldOption":"textbox","isEditable":false,"label":"Map Unit Highly Erodible Class","tooltip":"","visible":false},{"fieldName":"muwathelcl","stringFieldOption":"textbox","isEditable":false,"label":"Map Unit Water Erodible Class","tooltip":"","visible":false},{"fieldName":"muwndhelcl","stringFieldOption":"textbox","isEditable":false,"label":"Map Unit Wind Erodible Class","tooltip":"","visible":false},{"fieldName":"DomOrd","stringFieldOption":"textbox","isEditable":false,"label":"Dominant Order","tooltip":"","visible":true},{"fieldName":"DomOrdPct","format":{"places":0,"digitSeparator":true},"stringFieldOption":"textbox","isEditable":false,"label":"Dom. Cond. Order %","tooltip":"","visible":true},{"fieldName":"DomSubOrd","stringFieldOption":"textbox","isEditable":false,"label":"Dominant Sub-Order","tooltip":"","visible":true},{"fieldName":"DomSubOrdPct","format":{"places":0,"digitSeparator":true},"stringFieldOption":"textbox","isEditable":false,"label":"Dom. Cond. Suborder %","tooltip":"","visible":true},{"fieldName":"HydGrp","stringFieldOption":"textbox","isEditable":false,"label":"Dom. Cond.  Hydrologic Group","tooltip":"","visible":true},{"fieldName":"HydGrpPct","format":{"places":0,"digitSeparator":true},"stringFieldOption":"textbox","isEditable":false,"label":"Dom. Cond.  Hydrologic Group %","tooltip":"","visible":true},{"fieldName":"DrainageCl","stringFieldOption":"textbox","isEditable":false,"label":"Dom. Cond. Drainage Class","tooltip":"","visible":true},{"fieldName":"DrainClassPct","format":{"places":0,"digitSeparator":true},"stringFieldOption":"textbox","isEditable":false,"label":"Dom. Cond. Drainage Class %","tooltip":"","visible":true},{"fieldName":"Hydricrating","stringFieldOption":"textbox","isEditable":false,"label":"Dom. Cond. Hydric Rating","tooltip":"","visible":true},{"fieldName":"HydricPct","format":{"places":0,"digitSeparator":true},"stringFieldOption":"textbox","isEditable":false,"label":"Dom. Cond. Hydric %","tooltip":"","visible":true},{"fieldName":"Nirr_LLCS","stringFieldOption":"textbox","isEditable":false,"label":"Dom. Cond. Non-irrigated Capability Class","tooltip":"","visible":true}],"mediaInfos":[],"title":"Soil Survey Geographic: {DomOrd}"}}]},{"url":"http://184.72.212.114:6080/arcgis/rest/services/WorldHydroReferenceOverlay/MapServer","id":"WorldHydroReferenceOverlay_1186","visibility":true,"opacity":1,"title":"World Hydro Reference Overlay","itemId":"f7c73101a09c44058f8f029eefd37bd6","showLegend":false},{"url":"http://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer","id":"World_Transportation_3754","visibility":false,"opacity":1,"title":"World Transportation","itemId":"94f838a535334cf1aa061846514b77c7","showLegend":false},{"url":"http://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places_Alternate/MapServer","id":"World_Boundaries_and_Places_Alternate_4948","visibility":false,"opacity":1,"title":"World Boundaries and Places Alternate","itemId":"7270fa65d81a4076a2afea1fba18c18d","showLegend":false}],"baseMap":{"baseMapLayers":[{"id":"World_Terrain_Base_4414","opacity":1,"visibility":true,"url":"http://services.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer"}],"title":"World_Terrain_Base"},"version":"1.6","bookmarks":[{"extent":{"spatialReference":{"wkid":102100},"xmax":-5600889.550078746,"xmin":-15717483.117675703,"ymax":8115994.128887663,"ymin":288842.43248769594},"name":"Lower 48"},{"extent":{"spatialReference":{"wkid":102100},"xmax":-14509166.574543957,"xmin":-19567463.358342435,"ymax":11550156.935683148,"ymin":7636581.087483165},"name":"Alaska"},{"extent":{"spatialReference":{"wkid":102100},"xmax":-9822048.00009813,"xmin":-10454335.098073078,"ymax":3797607.7788895294,"ymin":3308410.797864425},"name":"Mississippi Delta"},{"extent":{"spatialReference":{"wkid":102100},"xmax":-13609349.877571153,"xmin":-13925493.426558489,"ymax":6195590.230251415,"ymin":5950991.739738969},"name":"Olympic Peninsula"},{"extent":{"spatialReference":{"wkid":102100},"xmax":-12710450.424937591,"xmin":-13026593.973924927,"ymax":4280995.545764459,"ymin":4036397.0552520137},"name":"Mojave Desert"},{"extent":{"spatialReference":{"wkid":102100},"xmax":-11228642.194601597,"xmin":-11544785.743588934,"ymax":5523861.625681083,"ymin":5279263.135168637},"name":"South Dakota Badlands"}],"presentation":{"displayTimeSlider":false,"slideAdvancementInterval":0,"slides":[],"useTimeExtentOfSlide":true}}
+{
+    "id": "5caf4ec5-4d38-42fd-bc94-c7a1a1cf3ddb",
+    "item": {
+    "title":"Soil Survey Map of USA",
+        "snippet": "Detailed description of data",
+        "extent": [[-139.4916, 10.7191],[-52.392, 59.5199]]
+},
+    "itemData": {
+    "operationalLayers": [{
+        "url": "http://server.arcgisonline.com/ArcGIS/rest/services/Specialty/Soil_Survey_Map/MapServer",
+        "visibility": true,
+        "opacity": 0.75,
+        "title": "Soil Survey Map",
+        "id": "204d94c9b1374de9a21574c9efa31164"
+    }],
+        "baseMap": {
+        "baseMapLayers": [{
+            "opacity": 1,
+            "visibility": true,
+            "url": "http://services.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer"
+        },{
+            "isReference": true,
+            "opacity": 1,
+            "visibility": true,
+            "url": "http://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Reference_Overlay/MapServer"
+        }],
+            "title": "World_Terrain_Base"
+    },
+    "version": "1.1"
+}
+}
