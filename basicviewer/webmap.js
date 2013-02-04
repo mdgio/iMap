@@ -72,6 +72,6 @@
         }],
             "title": "World_Terrain_Base"
     },
-    "version": "1.1"
+    "version": "2.3"
 }
 }

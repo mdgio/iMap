@@ -53,9 +53,14 @@
             var mapConfigurator = new mapConfig();
             $(document).ready(
                 function(){ //jQuery is now loaded and ready
+                    //The application configuration parameters have been determined
                     appConfigurator.on('configured', function (appConfig) {
-                        mapConfigurator.on('configured', function(webmap) {
 
+
+//                      //Configure the web map
+                        mapConfigurator.on('configured', function(webmap) {
+                            //Instantiate the map
+                            createMap(configOptions.webmap);
                             //Create the application elements
                             //init();
                         });

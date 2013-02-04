@@ -136,7 +136,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                         link: ''
                     },
                     //embed = true means the margins will be collapsed to just include the map no title or links
-                    embed: false
+                    //embed: false
                 };
 
                 var urlObject = esri.urlToObject(document.location.href);
@@ -232,9 +232,9 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                             if (response.values.placefinderurl !== undefined) {
                                 configOptions.placefinder.url = response.values.placefinderurl;
                             }
-                            if (response.values.embed !== undefined) {
+                            /*if (response.values.embed !== undefined) {
                                 configOptions.embed = response.values.embed;
-                            }
+                            }*/
                             if (response.values.placefinderfieldname !== undefined) {
                                 configOptions.placefinder.singlelinefieldname = response.values.placefinderfieldname;
                             }
@@ -345,15 +345,15 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                         if (urlObject.query.extent) {
                             configOptions.extent = urlObject.query.extent;
                         }
-                        if (urlObject.query.gcsextent) {
+                        /*if (urlObject.query.gcsextent) {
                             configOptions.gcsextent = urlObject.query.gcsextent;
-                        }
+                        }*/
                         if (urlObject.query.customLogoImage) {
                             configOptions.customlogo.image = urlObject.query.customLogoImage;
                         }
-                        if (urlObject.query.embed) {
+                        /*if (urlObject.query.embed) {
                             configOptions.embed = (urlObject.query.embed === 'true') ? true : false;
-                        }
+                        }*/
                         if (urlObject.query.leftpanelvisible) {
                             configOptions.leftPanelVisibility = (urlObject.query.leftpanelvisible === 'true') ? true : false;
                         }

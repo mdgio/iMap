@@ -256,6 +256,7 @@ function createApp() {
   }
 */
 
+/* Moved to layout module
   //load the specified theme 
   var ss = document.createElement("link");
   ss.type = "text/css";
@@ -267,7 +268,7 @@ function createApp() {
   if (configOptions.embed === "true" || configOptions.embed === true) {
 /*    configOptions.displaytitle = false;
     configOptions.link1.url = "";
-    configOptions.link2.url = "";*/
+    configOptions.link2.url = "";*//*
   }else{
     dojo.addClass(dojo.body(),'notembed');
     dojo.query("html").addClass("notembed");
@@ -304,7 +305,9 @@ function createApp() {
   } else {
     configOptions.constrainmapextent = false;
   }
+*/
 
+/*Not going to worry about this, only possible in querystring anyways
   if (configOptions.gcsextent) {
  
     //make sure the extent is valid minx,miny,maxx,maxy
@@ -327,10 +330,11 @@ function createApp() {
     createMap(configOptions.webmap);
   }
 
-
+*/
 
 }
 
+/* left out
 function getItem(item, extArray) {
   //get the item and update the extent then create the map 
   var deferred = esri.arcgis.utils.getItem(item);
@@ -349,6 +353,7 @@ function getItem(item, extArray) {
     alert(i18n.viewer.errors.createMap + " : " + dojo.toJson(error.message));
   });
 }
+*/
 
    //CREATE MAP
 function createMap(webmapitem) {
