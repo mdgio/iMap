@@ -12,8 +12,9 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                 _AppConfig: null
                 , _WebMap: null
 
-                , CreateLayout: function(appConfig) {
-                    this._AppConfig = appConfig;
+                //Layout the regions of the Dojo container based on app configs.
+                //This way the map can be sized properly when first created.
+                , InitialLayout: function (appConfig) {
                     //load the specified theme
                     var ss = document.createElement("link");
                     ss.type = "text/css";
@@ -21,47 +22,38 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     ss.href = "css/" + this._AppConfig.theme + ".css";
                     document.getElementsByTagName("head")[0].appendChild(ss);
 
-                    //Is this app embedded - if so turn off title and links
-                    //if (configOptions.embed === "true" || configOptions.embed === true) {
-                    if (environment.IframeEmbedded) {
-                    /*    configOptions.displaytitle = false;
-                     this._AppConfig.link1.url = "";
-                     this._AppConfig.link2.url = "";*/
-                        }else{
+                    this._AppConfig = appConfig;
+                    //If app is embedded, do not show the header, footer, title, title logo, and hyperlinks
+                    if (!this._AppConfig.embed) {
                         dojo.addClass(dojo.body(),'notembed');
                         dojo.query("html").addClass("notembed");
+                        esri.show(dojo.byId('header'));
+                        esri.show(dojo.byId('bottomPane'));
                     }
+                    if (this._AppConfig.leftPanelVisibility) { // Show the left pane on startup
+                        ShowLeftOrRightPanel('left');
+                    }
+                }
 
-                    //create the links for the top of the application if provided
-                    if (this._AppConfig.link1.url && this._AppConfig.link2.url) {
-                        if (this._AppConfig.displaytitle == "false" || this._AppConfig.displaytitle === false) {
-                            //size the header to fit the links
-                            dojo.style(dojo.byId("header"), "height", "25px");
+                , FinalizeLayout: function() {
+                    if (!this._AppConfig.embed) {
+                        //create the links for the top of the application if provided
+                        if (this._AppConfig.link1.url && this._AppConfig.link2.url) {
+                            esri.show(dojo.byId('nav'));
+                            dojo.create("a", {
+                                href: this._AppConfig.link1.url,
+                                target: '_blank',
+                                innerHTML: this._AppConfig.link1.text
+                            }, 'link1List');
+                            dojo.create("a", {
+                                href: this._AppConfig.link2.url,
+                                target: '_blank',
+                                innerHTML: this._AppConfig.link2.text
+                            }, 'link2List');
                         }
-                        esri.show(dojo.byId('nav'));
-                        dojo.create("a", {
-                            href: this._AppConfig.link1.url,
-                            target: '_blank',
-                            innerHTML: this._AppConfig.link1.text
-                        }, 'link1List');
-                        dojo.create("a", {
-                            href: this._AppConfig.link2.url,
-                            target: '_blank',
-                            innerHTML: this._AppConfig.link2.text
-                        }, 'link2List');
+
                     }
 
-                    //create the map and enable/disable map options like slider, wraparound, esri logo etc
-                    if (this._AppConfig.displayslider === 'true' || this._AppConfig.displayslider === true) {
-                        this._AppConfig.displaySlider = true;
-                    } else {
-                        this._AppConfig.displaySlider;
-                    }
-                    if (this._AppConfig.constrainmapextent === 'true' || this._AppConfig.constrainmapextent === true) {
-                        this._AppConfig.constrainmapextent = true;
-                    } else {
-                        this._AppConfig.constrainmapextent = false;
-                    }
 
                     //add webmap's description to details panel
                     if (this._AppConfig.description === "") {
@@ -331,8 +323,37 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     dijit.byId('bc').resize();
                 }
 
-                , ChangeMapSize: function () {
+                , ShowLeftOrRightPanel: function (direction) {
+                    var targetDivId = direction.toLowerCase() + "Pane";
+                    var targetDiv = dojo.byId(targetDivId);
+                    var targetPaneWidth = dojo.style(targetDiv, "width");
+                    if (targetPaneWidth === 0) {
+                        dojo.style(targetDiv, "width", configOptions[targetDivId.toLowerCase() + "width"] + "px");
+                        dijit.byId("mainWindow").resize();
+                    }
+                }
 
+                , HideLeftOrRightPanel: function (direction) {
+                    //close the left panel when x button is clicked
+                    direction = direction.toLowerCase();
+                    var targetDivId = direction + "Pane";
+                    var targetDiv = dojo.byId(targetDivId);
+                    var targetPaneWidth = dojo.style(targetDiv, "width");
+                    if (targetPaneWidth === 0) {
+                        targetPaneWidth = configOptions[targetDivId.toLowerCase() + "width"];
+                    }
+                    dojo.style(targetDiv, "width", "0px");
+                    dijit.byId('mainWindow').resize();
+                    resizeMap();
+                    //uncheck the edit, detail and legend buttons
+                    if (direction === 'left') {
+                        setTimeout(function () {
+                            toggleToolbarButtons('');
+                        }, 100);
+                    }
+                }
+
+               /* , _ToggleEmbed: function (isEmbedded) {
                     var visible = dojo.byId('header').getAttribute('display');
                     var btn = document.getElementsByName('btnShowHide');
                     if (visible != 'none') {
@@ -362,7 +383,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                         dojo.byId('header').setAttribute('display', 'block');
                         resizeMap();
                     }
-                }
+                }*/
             }
         )
     }

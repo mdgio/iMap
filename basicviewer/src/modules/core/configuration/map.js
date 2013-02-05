@@ -52,6 +52,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                         );
                     } else { //*** Create a map, load layers, etc. using the standard API methods
                         _Map = new esri.Map('map');
+
                     }
                 }
                 

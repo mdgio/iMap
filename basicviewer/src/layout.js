@@ -722,7 +722,7 @@ function addToolbarToMap(){
    dojo.byId('map_root').appendChild(placeholder);
 }
 
-function createToolbarTitle(){
+function (createToolbarTitle){
     //Add a title to the toolbar Left SJS
     dojo.create("div", {
         id: 'ToolbarLogo',

@@ -1,8 +1,8 @@
 // The class to handle configuring the application and what it loads
 // If a query string parameter containing an appid is found, then it will override any of configOptions with those found in the AGO app JSON.
 // Finally, any other query string parameters found will override any options set previously
-define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Evented"],
-    function(declare, entities, lang, Evented){
+define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Evented", "../utilities/environment"],
+    function(declare, entities, lang, Evented, environment){
         return declare([Evented], {
             configure: function () {
                 // This is the default configuration for the application (if no appid is specified below and no appid querystring param is passed in)
@@ -124,7 +124,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     //specify the width of the panel that holds the editor, legend, details
                     leftpanewidth: 228,
                     //specify the width of the panel that holds the TOC
-                    rightpanewidth: 280,
+                    //rightpanewidth: 280,
                     //Restrict the map's extent to the initial extent of the web map. When true users
                     //will not be able to pan/zoom outside the initial extent.
                     constrainmapextent: false,
@@ -134,9 +134,9 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     customlogo: {
                         image: '',
                         link: ''
-                    },
-                    //embed = true means the margins will be collapsed to just include the map no title or links
-                    //embed: false
+                    }
+                    //embed means the margins will be collapsed to just include the map no title or links, default is to embed if in iframe
+                    , embed: environment.IframeEmbedded
                 };
 
                 var urlObject = esri.urlToObject(document.location.href);
@@ -232,9 +232,9 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                             if (response.values.placefinderurl !== undefined) {
                                 configOptions.placefinder.url = response.values.placefinderurl;
                             }
-                            /*if (response.values.embed !== undefined) {
+                            if (response.values.embed !== undefined) {
                                 configOptions.embed = response.values.embed;
-                            }*/
+                            }
                             if (response.values.placefinderfieldname !== undefined) {
                                 configOptions.placefinder.singlelinefieldname = response.values.placefinderfieldname;
                             }
@@ -351,9 +351,9 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                         if (urlObject.query.customLogoImage) {
                             configOptions.customlogo.image = urlObject.query.customLogoImage;
                         }
-                        /*if (urlObject.query.embed) {
+                        if (urlObject.query.embed) {
                             configOptions.embed = (urlObject.query.embed === 'true') ? true : false;
-                        }*/
+                        }
                         if (urlObject.query.leftpanelvisible) {
                             configOptions.leftPanelVisibility = (urlObject.query.leftpanelvisible === 'true') ? true : false;
                         }

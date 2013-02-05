@@ -10,9 +10,9 @@
 
     <link rel="stylesheet" type="text/css" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.3/js/dojo/dojox/layout/resources/floatingpane.css">
     <link rel="stylesheet" type="text/css" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.3/js/esri/css/esri.css" />
-    <link rel="stylesheet" type="text/css" href="src/css/layout.css">
+    <link rel="stylesheet" type="text/css" href="src/css/main.css">
     <!--State Branding-->
-    <script type="text/javascript" src="http://www.maryland.gov/branding/statewideNavigation.js"></script>
+    <!--<script type="text/javascript" src="http://www.maryland.gov/branding/statewideNavigation.js"></script>-->
 
     <!--[if IE]>
       <link rel="stylesheet" type="text/css" href="src/css/ie.css" />
@@ -164,18 +164,18 @@
   <div id="bc" data-dojo-type="dijit.layout.BorderContainer" data-dojo-props="design:'headline', gutters:false"
        style="width:100%; height:100%;padding:0;">
       <!-- Header Section-->
-      <div id="header" data-dojo-type="dijit.layout.ContentPane" data-dojo-props="region:'top'">
+      <div id="header" data-dojo-type="dijit.layout.ContentPane" data-dojo-props="region:'top'" style="display: none">
           <!--Title dyanmically generated -->
-          <div id="nav" style=''>
-              <div align="right">
+          <div id="nav">
+              <!--<div align="right">
                   <script type="text/javascript">showStatewideNavigation("white");</script>
-              </div>
+              </div>-->
               <!-- links are dynamically generated-->
-              <!--<ul>-->
-              <!--<li id="link1List"></li>-->
-              <!--<li>|</li>-->
-              <!--<li id="link2List"></li>-->
-              <!--</ul>-->
+              <ul>
+              <li id="link1List"></li>
+              <li>|</li>
+              <li id="link2List"></li>
+              </ul>
           </div>
       </div>
       <!--End Header-->
@@ -236,9 +236,9 @@
 
       </div>
       <div id="bottomPane" dojotype="dijit.layout.ContentPane" region="bottom"
-           gutters="false" style="height: 60px; background: black;">
+           gutters="false" style="display: none">
           <div id="footer" style="padding-bottom: 5px">
-              <p  style="margin-top: -5px;">
+              <!--<p  style="margin-top: -5px;">
                   <a href="http://www.dbm.state.md.us/phonebook/Level2Offices.asp?AID=mdp">Contact the Office</a>
                   &nbsp;&nbsp;|&nbsp;&nbsp;
                   <a href="/AccessibilityStatement.shtml">Accessibility</a>
@@ -255,7 +255,7 @@
                   WEBMASTER@MDP.STATE.MD.US&nbsp;-&nbsp;
                   <a href="http://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=301+West+Preston+Street,+Suite+1101,+Baltimore,+MD+21201&amp;sll=39.326061,-76.635495&amp;sspn=0.094811,0.154324&amp;ie=UTF8&amp;z=16&amp;iwloc=A" target="_blank">301 West Preston Street, Suite 1101, Baltimore, MD 21201</a>
                   &nbsp;-&nbsp;(410) 767-4500
-              </p>
+              </p>-->
           </div>
       </div>
 
