@@ -355,7 +355,7 @@ function getItem(item, extArray) {
 }
 */
 
-   //CREATE MAP
+//CREATE MAP
 function createMap(webmapitem) {
   var mapDeferred = esri.arcgis.utils.createMap(webmapitem, "map", {
     mapOptions: {
@@ -448,10 +448,7 @@ function createMap(webmapitem) {
 }
 
 function initUI(response) {
-
-
   var layers = response.itemInfo.itemData.operationalLayers;
-
 
   //constrain the extent
   if (configOptions.constrainmapextent === 'true' || configOptions.constrainmapextent === true) {
@@ -754,13 +751,14 @@ function displayLeftPanel() {
   return display;
 }
 
+/* Should no longer be necessary with 3.3 API
 function resizeMap() {
   if (map) {
     map.resize();
     map.reposition();
   }
 }
-
+*/
 
 //select panels in the stack container. The stack container is used to organize content 
 //in the left panel (editor, legend, details)

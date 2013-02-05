@@ -13,6 +13,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                 , _WebMapId: null
                 , _WebMap: null
                 , _WebMapOverrides: null
+                , _Map: null
 
                 //Pass in the application configuration, which can contain a web map id
                 , configure: function (appConfig) {
@@ -49,8 +50,8 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                                 alert("Unable to load web map" + " : " + error.message);
                             })
                         );
-                    } else { //*** Create a map using the standard API methods
-
+                    } else { //*** Create a map, load layers, etc. using the standard API methods
+                        _Map = new esri.Map('map');
                     }
                 }
                 
@@ -98,20 +99,21 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                             this._ReconcileWebMapOverrides();
                         }
                     } else { //No customizations, just load default web map
-                        this._RaiseFinishEvent();
+                        this._RaiseConfiguredEvent();
                     }
                 }
 
                 , _ReconcileWebMapOverrides: function () { // Apply the customizations to the webmap object
 
 
-                    this._RaiseFinishEvent();
+                    this._RaiseConfiguredEvent();
                 }
 
-                , _RaiseFinishEvent: function() { // Let the calling module know the map configuration has finished
+                , _RaiseConfiguredEvent: function() { // Let the calling module know the map configuration has finished
                     this.emit('configured', this._WebMap);
                 }
 
+                //The function which finally creates the map object using the webmap object
                 , CreateMap: function () {
                     var mapDeferred = esri.arcgis.utils.createMap(this._WebMap, "map", {
                         mapOptions: {
@@ -127,71 +129,22 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                         bingMapsKey: this._AppConfig.bingmapskey
                     });
 
-                    mapDeferred.addCallback(function (response) {
-                        //add webmap's description to details panel
-                        if (this._AppConfig.description === "") {
-                            if (response.itemInfo.item.description !== null) {
-                                this._AppConfig.description = response.itemInfo.item.description;
-                            }
-                        }
-
-                        this._AppConfig.owner = response.itemInfo.item.owner;
-                        document.title = this._AppConfig.title || response.itemInfo.item.title;
-                        //add a title
-                        if (this._AppConfig.displaytitle === "true" || this._AppConfig.displaytitle === true) {
-                            this._AppConfig.title = this._AppConfig.title || response.itemInfo.item.title;
-
-                            //add small image and application title to the toolbar SJS
-                            //createToolbarTitle();
-
-                            //Add a logo to the header if set SJS
-                            var logoImgHtml = '<img id="titleLogo" src="' +  this._AppConfig.titleLogoUrl + '" alt="MD Logo" />';
-                            dojo.create("div", {
-                                id: 'webmapTitle',
-                                innerHTML: logoImgHtml
-                            }, "header");
-                            dojo.style(dojo.byId("header"), "height", "80px");
-                            var logoImgHtml = '<img id="tbLogoImage" src="' +  this._AppConfig.titleLogoUrl + '" alt="MD Logo" style="height:100%" />';
-                            // dojo.byId('ToolbarLogo').innerHTML = logoImgHtml
-                            //dojo.style(dojo.byId("header"), "height", "70px");
-                        } else if (!this._AppConfig.link1.url && !this._AppConfig.link2.url) {
-                            //no title or links - hide header
-                            esri.hide(dojo.byId('header'));
-                            esri.show(dojo.byId('ToolbarLogo'));
-                            dojo.addClass(dojo.body(), 'embed');
-                            dojo.query("html").addClass("embed");
-                        }
-                        //add banner image to header SJS
-                        if (this._AppConfig.headerbanner) {
-                            var hdImgHTML = "url(" + this._AppConfig.headerbanner + ")";
-                            dojo.style(dojo.byId("header"), "background-image", hdImgHTML)
-                        }
-
+                    mapDeferred.addCallback(lang.hitch(this, function (response) {
                         //get the popup click handler so we can disable it when measure tool is active
                         clickHandler = response.clickEventHandle;
                         clickListener = response.clickEventListener;
-                        var map = response.map;
-                        //Constrain the extent of the map to the webmap's initial extent
-                        if (this._AppConfig.constrainmapextent === 'true' || this._AppConfig.constrainmapextent === true) {
-                            webmapExtent = response.map.extent.expand(1.5);
-                        }
+                        this._Map = response.map;
 
                         //if an extent was specified using url params go to that extent now
                         if (this._AppConfig.extent) {
-                            map.setExtent(new esri.geometry.Extent(dojo.fromJson(this._AppConfig.extent)));
+                            this._Map.setExtent(new esri.geometry.Extent(dojo.fromJson(this._AppConfig.extent)));
                         }
 
-                        if (map.loaded) {
-                            addToolbarToMap();
-                            initUI(response);
-                        } else {
-                            dojo.connect(map, "onLoad", function () {
-                                addToolbarToMap();
-                                initUI(response);
-                            });
-                        }
-                        dojo.connect(dijit.byId('map'), 'resize', map, resizeMap);
-                    });
+                        if (this._Map.loaded)
+                            this._RaiseLoadedEvent();
+                        else
+                            dojo.connect(this._Map, "onLoad", this._RaiseLoadedEvent);
+                    }));
 
                     mapDeferred.addErrback(function (error) {
                         alert("Error creating map : " + dojo.toJson(error.message));
@@ -199,8 +152,40 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
 
                     //if embed set to true, change the map size.
                     if (this._AppConfig.embed === "true" || this._AppConfig.embed === true) {
-                        changeMapSize()
+                        changeMapSize();
                     }
+                }
+
+                , _RaiseLoadedEvent: function () {
+                    //constrain the extent
+                    if (this._AppConfig.constrainmapextent === 'true' || this._AppConfig.constrainmapextent === true) {
+                        var webmapExtent = response.map.extent.expand(1.5);
+                        var basemapExtent = this._Map.getLayer(map.layerIds[0]).fullExtent.expand(1.5);
+                        //create a graphic with a hole over the web map's extent. This hole will allow
+                        //the web map to appear and hides the rest of the map to limit the visible extent to the webmap.
+                        var clipPoly = new esri.geometry.Polygon(map.spatialReference);
+                        clipPoly.addRing([
+                            [basemapExtent.xmin, basemapExtent.ymin],
+                            [basemapExtent.xmin, basemapExtent.ymax],
+                            [basemapExtent.xmax, basemapExtent.ymax],
+                            [basemapExtent.xmax, basemapExtent.ymin],
+                            [basemapExtent.xmin, basemapExtent.ymin]
+                        ]);
+                        //counter-clockwise to add a hole
+                        clipPoly.addRing([
+                            [webmapExtent.xmin, webmapExtent.ymin],
+                            [webmapExtent.xmax, webmapExtent.ymin],
+                            [webmapExtent.xmax, webmapExtent.ymax],
+                            [webmapExtent.xmin, webmapExtent.ymax],
+                            [webmapExtent.xmin, webmapExtent.ymin]
+                        ]);
+
+                        var symbol = new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_SOLID, new esri.symbol.SimpleLineSymbol(), new dojo.Color("white"));
+                        var maxExtentGraphic = new esri.Graphic(clipPoly, symbol);
+                        this._Map.graphics.add(maxExtentGraphic);
+                    }
+
+
                 }
             }
         )
