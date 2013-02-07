@@ -30,13 +30,27 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                         esri.show(dojo.byId('header'));
                         esri.show(dojo.byId('bottomPane'));
                     }
-                    if (this._AppConfig.leftPanelVisibility) { // Show the left pane on startup
+                    if (this._AppConfig.leftPanelVisibility) // Show the left pane on startup
                         ShowLeftOrRightPanel('left');
-                    }
                 }
 
-                , FinalizeLayout: function() {
+                , FinalizeLayout: function(webMap) {
+                    this._WebMap = webMap;
+                    document.title = this._AppConfig.title || this._WebMap.item.title;
+                    this._AppConfig.owner = this._WebMap.item.owner;
+
                     if (!this._AppConfig.embed) {
+                        dojo.style(dojo.byId("header"), "height", this._AppConfig.headerHeight + "px");
+                        //add a title
+                        if (this._AppConfig.displaytitle === "true" || this._AppConfig.displaytitle === true) {
+                            this._AppConfig.title = this._AppConfig.title || this._WebMap.item.title;
+                            //Add a logo to the header if set
+                            var logoImgHtml = '<img id="titleLogo" src="' +  this._AppConfig.titleLogoUrl + '" alt="MD Logo" />';
+                            dojo.create("div", {
+                                id: 'webmapTitle',
+                                innerHTML: logoImgHtml + "<span>" + this._AppConfig.title + "</span>"
+                            }, "header");
+                        }
                         //create the links for the top of the application if provided
                         if (this._AppConfig.link1.url && this._AppConfig.link2.url) {
                             esri.show(dojo.byId('nav'));
@@ -54,44 +68,33 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
 
                     }
 
-
                     //add webmap's description to details panel
                     if (this._AppConfig.description === "") {
-                        if (response.itemInfo.item.description !== null) {
-                            this._AppConfig.description = response.itemInfo.item.description;
+                        if (this._WebMap.item.description !== null) {
+                            this._AppConfig.description = this._WebMap.item.description;
                         }
                     }
 
-                    this._AppConfig.owner = response.itemInfo.item.owner;
-                    document.title = this._AppConfig.title || response.itemInfo.item.title;
-                    //add a title
-                    if (this._AppConfig.displaytitle === "true" || this._AppConfig.displaytitle === true) {
-                        this._AppConfig.title = this._AppConfig.title || response.itemInfo.item.title;
-
-                        //add small image and application title to the toolbar SJS
-                        //createToolbarTitle();
-
-                        //Add a logo to the header if set SJS
-                        var logoImgHtml = '<img id="titleLogo" src="' +  this._AppConfig.titleLogoUrl + '" alt="MD Logo" />';
-                        dojo.create("div", {
-                            id: 'webmapTitle',
-                            innerHTML: logoImgHtml
-                        }, "header");
-                        dojo.style(dojo.byId("header"), "height", "80px");
-                        var logoImgHtml = '<img id="tbLogoImage" src="' +  this._AppConfig.titleLogoUrl + '" alt="MD Logo" style="height:100%" />';
-                        // dojo.byId('ToolbarLogo').innerHTML = logoImgHtml
-                        //dojo.style(dojo.byId("header"), "height", "70px");
-                    } else if (!this._AppConfig.link1.url && !this._AppConfig.link2.url) {
-                        //no title or links - hide header
-                        esri.hide(dojo.byId('header'));
-                        esri.show(dojo.byId('ToolbarLogo'));
-                        dojo.addClass(dojo.body(), 'embed');
-                        dojo.query("html").addClass("embed");
-                    }
-                    //add banner image to header SJS
-                    if (this._AppConfig.headerbanner) {
-                        var hdImgHTML = "url(" + this._AppConfig.headerbanner + ")";
-                        dojo.style(dojo.byId("header"), "background-image", hdImgHTML)
+                    //add a custom logo to the map if provided
+                    if (this._AppConfig.customlogo.image) {
+                        esri.show(dojo.byId('logo'));
+                        //if a link isn't provided don't make the logo clickable
+                        if (this._AppConfig.customlogo.link) {
+                            var link = dojo.create('a', {
+                                href: this._AppConfig.customlogo.link,
+                                target: '_blank'
+                            }, dojo.byId('logo'));
+                            dojo.create('img', {
+                                src: this._AppConfig.customlogo.image
+                            }, link);
+                        } else {
+                            dojo.create('img', {
+                                id: 'logoImage',
+                                src: this._AppConfig.customlogo.image
+                            }, dojo.byId('logo'));
+                            //set the cursor to the default instead of the pointer since the logo is not clickable
+                            dojo.style(dojo.byId('logo'), 'cursor', 'default');
+                        }
                     }
                 }
 
@@ -290,8 +293,8 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
 
                     //add the time slider if the layers are time-aware
                     if (configOptions.displaytimeslider === 'true' || configOptions.displaytimeslider === true) {
-                        if (response.itemInfo.itemData.widgets && response.itemInfo.itemData.widgets.timeSlider) {
-                            addTimeSlider(response.itemInfo.itemData.widgets.timeSlider.properties);
+                        if (this._WebMap.itemData.widgets && this._WebMap.itemData.widgets.timeSlider) {
+                            addTimeSlider(this._WebMap.itemData.widgets.timeSlider.properties);
                         } else {
                             //check to see if we have time aware layers
                             var timeLayers = hasTemporalLayer(layers);

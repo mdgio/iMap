@@ -4,17 +4,19 @@
  http://resources.arcgis.com/en/help/arcgis-web-map-json/
 
  ***
- To enable the ability for users to save or share their map, generate a GUID for the webmap and specify as an "id" property in the main JSON object
+ To enable the ability for users to save or share their map, generate a GUID for the webmap and specify as an "id" property
+ in the JSON objects "item" property.
+
  Can use this website to generate a GUID- http://www.guidgenerator.com/online-guid-generator.aspx
 
  Also, set an id property for each operational layer, to enable saving and sharing.  The id does not need to be a GUID, just unique.
  ***
 
- Two properties are required for the web map: "item" and "itemData".  See the first link for an example
+ Two properties are required for the web map: "item" and "itemData".  See the first link above for an example
 
  {
-     "id": "5caf4ec5-4d38-42fd-bc94-c7a1a1cf3ddb",
      "item": {
+        "id": "5caf4ec5-4d38-42fd-bc94-c7a1a1cf3ddb",
          "title":"Soil Survey Map of USA",
          "snippet": "Detailed description of data",
          "extent": [[-139.4916, 10.7191],[-52.392, 59.5199]]
@@ -45,33 +47,33 @@
  }
  */
 {
-    "id": "5caf4ec5-4d38-42fd-bc94-c7a1a1cf3ddb",
     "item": {
-    "title":"Soil Survey Map of USA",
+        "id": "5caf4ec5-4d38-42fd-bc94-c7a1a1cf3ddb",
+        "title":"Soil Survey Map of USA",
         "snippet": "Detailed description of data",
         "extent": [[-139.4916, 10.7191],[-52.392, 59.5199]]
-},
-    "itemData": {
-    "operationalLayers": [{
-        "url": "http://server.arcgisonline.com/ArcGIS/rest/services/Specialty/Soil_Survey_Map/MapServer",
-        "visibility": true,
-        "opacity": 0.75,
-        "title": "Soil Survey Map",
-        "id": "204d94c9b1374de9a21574c9efa31164"
-    }],
-        "baseMap": {
-        "baseMapLayers": [{
-            "opacity": 1,
-            "visibility": true,
-            "url": "http://services.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer"
-        },{
-            "isReference": true,
-            "opacity": 1,
-            "visibility": true,
-            "url": "http://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Reference_Overlay/MapServer"
-        }],
-            "title": "World_Terrain_Base"
     },
-    "version": "2.3"
-}
+    "itemData": {
+        "operationalLayers": [{
+            "url": "http://server.arcgisonline.com/ArcGIS/rest/services/Specialty/Soil_Survey_Map/MapServer",
+            "visibility": true,
+            "opacity": 0.75,
+            "title": "Soil Survey Map",
+            "id": "204d94c9b1374de9a21574c9efa31164"
+        }],
+            "baseMap": {
+            "baseMapLayers": [{
+                "opacity": 1,
+                "visibility": true,
+                "url": "http://services.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer"
+            },{
+                "isReference": true,
+                "opacity": 1,
+                "visibility": true,
+                "url": "http://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Reference_Overlay/MapServer"
+            }],
+                "title": "World_Terrain_Base"
+        },
+        "version": "2.3"
+    }
 }

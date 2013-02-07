@@ -43,16 +43,15 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                         // Use lang.hitch to have the callbacks run in the scope of this module
                         webMapRequest.then(
                             lang.hitch(this, function(webMap) { //The response object is the Web Map
-                                this._WebMapId = webMap.id;
+                                this._WebMapId = webMap.item.id;
                                 this._WebMap = webMap;
                                 this._CheckForWebMapOverrides();
                             }), lang.hitch(this, function(error) {
                                 alert("Unable to load web map" + " : " + error.message);
                             })
                         );
-                    } else { //*** Create a map, load layers, etc. using the standard API methods
-                        _Map = new esri.Map('map');
-
+                    } else { // Create a map, load layers, etc. using the standard API calls in CreateMap fxn below
+                        this._CheckForWebMapOverrides();
                     }
                 }
                 
@@ -116,44 +115,67 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
 
                 //The function which finally creates the map object using the webmap object
                 , CreateMap: function () {
-                    var mapDeferred = esri.arcgis.utils.createMap(this._WebMap, "map", {
-                        mapOptions: {
+                    //create the map and enable/disable map options like slider, wraparound, esri logo etc
+                    if (this._AppConfig.displayslider === 'true' || this._AppConfig.displayslider === true) {
+                        this._AppConfig.displaySlider = true;
+                    } else {
+                        this._AppConfig.displaySlider;
+                    }
+                    if (this._AppConfig.constrainmapextent === 'true' || this._AppConfig.constrainmapextent === true) {
+                        this._AppConfig.constrainmapextent = true;
+                    } else {
+                        this._AppConfig.constrainmapextent = false;
+                    }
+
+                    if (this._WebMap = null) { //*** Create a map, add layers, etc. using the standard API methods here:
+                        this._Map = new esri.Map('map', {
                             slider: this._AppConfig.displaySlider,
                             sliderStyle:'small',
                             nav: false,
-                            wrapAround180: !this._AppConfig.constrainmapextent,
+                            wrapAround180: !this._AppConfig.constrainmapextent, //set wraparound to false if the extent is limited.
                             showAttribution:true,
-                            //set wraparound to false if the extent is limited.
                             logo: !this._AppConfig.customlogo.image //hide esri logo if custom logo is provided
-                        },
-                        ignorePopups: false,
-                        bingMapsKey: this._AppConfig.bingmapskey
-                    });
-
-                    mapDeferred.addCallback(lang.hitch(this, function (response) {
-                        //get the popup click handler so we can disable it when measure tool is active
-                        clickHandler = response.clickEventHandle;
-                        clickListener = response.clickEventListener;
-                        this._Map = response.map;
-
-                        //if an extent was specified using url params go to that extent now
-                        if (this._AppConfig.extent) {
-                            this._Map.setExtent(new esri.geometry.Extent(dojo.fromJson(this._AppConfig.extent)));
-                        }
+                        });
 
                         if (this._Map.loaded)
                             this._RaiseLoadedEvent();
                         else
                             dojo.connect(this._Map, "onLoad", this._RaiseLoadedEvent);
-                    }));
+                    } else { //Map will be created using the webmap defined earlier
+                        var mapDeferred = esri.arcgis.utils.createMap(this._WebMap, "map", {
+                            mapOptions: {
+                                slider: this._AppConfig.displaySlider,
+                                sliderStyle:'small',
+                                nav: false,
+                                wrapAround180: !this._AppConfig.constrainmapextent,
+                                showAttribution:true,
+                                //set wraparound to false if the extent is limited.
+                                logo: !this._AppConfig.customlogo.image //hide esri logo if custom logo is provided
+                            },
+                            ignorePopups: false,
+                            bingMapsKey: this._AppConfig.bingmapskey
+                        });
 
-                    mapDeferred.addErrback(function (error) {
-                        alert("Error creating map : " + dojo.toJson(error.message));
-                    });
+                        mapDeferred.addCallback(lang.hitch(this, function (response) {
+                            //get the popup click handler so we can disable it when measure tool is active
+                            clickHandler = response.clickEventHandle;
+                            clickListener = response.clickEventListener;
+                            this._Map = response.map;
 
-                    //if embed set to true, change the map size.
-                    if (this._AppConfig.embed === "true" || this._AppConfig.embed === true) {
-                        changeMapSize();
+                            //if an extent was specified using url params go to that extent now
+                            if (this._AppConfig.extent) {
+                                this._Map.setExtent(new esri.geometry.Extent(dojo.fromJson(this._AppConfig.extent)));
+                            }
+
+                            if (this._Map.loaded)
+                                this._RaiseLoadedEvent();
+                            else
+                                dojo.connect(this._Map, "onLoad", this._RaiseLoadedEvent);
+                        }));
+
+                        mapDeferred.addErrback(function (error) {
+                            alert("Error creating map : " + dojo.toJson(error.message));
+                        });
                     }
                 }
 
@@ -186,7 +208,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                         this._Map.graphics.add(maxExtentGraphic);
                     }
 
-
+                    this.emit('maploaded');
                 }
             }
         )

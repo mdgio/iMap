@@ -37,7 +37,7 @@
         ]
     }
     // The modules which need to be loaded immediately during app load - most of the widgets are lazy-loaded (e.g. on button click)
-    , ["jquery", "dojo/dom", "dojo/ready", "dojo/_base/lang" /*, "dojo/parser"*/, "require"
+    , ["jquery", "dojo/dom", "dojo/ready", "dojo/_base/lang", "require"
         , "modules/core/utilities/environment", "modules/core/configuration/app", "modules/core/configuration/map", "modules/core/configuration/layout", "modules/core/interop/interop"
         , "dijit/layout/BorderContainer", "dijit/layout/ContentPane", "dijit/Toolbar"
         , "esri/arcgis/utils"
@@ -47,22 +47,26 @@
         , "esri/dijit/Bookmarks", "esri/dijit/Attribution"*//*, "myModules/custommenu"*//*, "esri/dijit/Print"*//*, "apl/ElevationsChart/Pane"*//*, "dijit/MenuItem"*/]
     //The callback to run once Dojo and the required modules are ready.  References to the instantiated objects in the array can be exposed
     // as parameters in the callback functhistion, but a parameter does not have to be inserted for each array item
-    , function($, dom, ready, lang /*, parser*/, require, environment, app, mapConfig, layout, dataInterop) {
+    , function($, dom, ready, lang, require, environment, app, mapConfig, layout, dataInterop) {
        //ready(function() {
             var appConfigurator = new app();
             var mapConfigurator = new mapConfig();
             var layoutHandler = new layout();
             $(document).ready(
                 function(){ //jQuery is now loaded and ready
-                    //The application configuration parameters have been determined
+                    //The application configuration has been loaded
                     appConfigurator.on('configured', function (appConfig) {
                         //Configure the web map
                         mapConfigurator.on('configured', function (webmap) {
+                            // Perform initial layout of the page
                             layout.InitialLayout(appConfig);
+                            // Map has been created and loaded
+                            mapConfigurator.on('maploaded', function () {
+                                // Finish creating application elements
+                                layout.FinalizeLayout(webmap);
+
+                            });
                             mapConfigurator.CreateMap();
-                            layout.FinalizeLayout(webmap);
-                            //Create the application elements
-                            //init();
                         });
                         mapConfigurator.configure(appConfig);
                     });

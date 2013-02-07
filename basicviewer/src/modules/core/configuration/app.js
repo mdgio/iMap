@@ -24,8 +24,10 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     //URL to title logo, if none specified, then defaults to assets/MDLogo.gif
                     //titleLogoUrl: "assets/MDlogo-small.gif",
                     titleLogoUrl: "assets/MDlogo.gif",
+                    //The height (px) of the Header (where title, logo, and links are located)
+                    headerHeight: "30",
                     //URL to banner image, if non specified then defaults to iMap banner image.
-                    headerbanner: "assets/imap/imapBanner2.jpg",
+                    //headerbanner: "assets/imap/imapBanner2.jpg",
                     //Enter a description for the application. This description will appear in the left pane
                     //if no description is entered the webmap description will be used.
                     description: "",
@@ -132,8 +134,8 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     //in the lower right corner of the map. If nothing is specified then the esri logo will appear.
                     //Example customLogoImage: "http://serverapi.arcgisonline.com/jsapi/arcgis/2.4compact/images/map/logo-med.png"
                     customlogo: {
-                        image: '',
-                        link: ''
+                        image: 'assets/mdimaplogo.png',
+                        link: 'http://mdimap.towson.edu/portal/'
                     }
                     //embed means the margins will be collapsed to just include the map no title or links, default is to embed if in iframe
                     , embed: environment.IframeEmbedded
@@ -157,9 +159,12 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                             if (response.values.titleLogoUrl !== undefined) {
                                 configOptions.titleLogoUrl = response.values.titleLogoUrl;
                             }
-                            if (response.values.headerbanner !== undefined) {
-                                configOptions.headerbanner = response.values.headerbanner;
+                            if (response.values.headerHeight !== undefined) {
+                                configOptions.headerHeight = response.values.headerHeight;
                             }
+                            /*if (response.values.headerbanner !== undefined) {
+                                configOptions.headerbanner = response.values.headerbanner;
+                            }*/
                             if (response.values.description !== undefined) {
                                 configOptions.description = response.values.description;
                             }

@@ -351,8 +351,8 @@ function getItem(item, extArray) {
 
   deferred.addErrback(function (error) {
     alert(i18n.viewer.errors.createMap + " : " + dojo.toJson(error.message));
-  });
-}
+ });
+ }
 */
 
 //CREATE MAP
@@ -406,10 +406,11 @@ function createMap(webmapitem) {
           dojo.query("html").addClass("embed");
       }
       //add banner image to header SJS
-      if (configOptions.headerbanner) {
+      /*No longer using
+        if (configOptions.headerbanner) {
           var hdImgHTML = "url(" + configOptions.headerbanner + ")";
           dojo.style(dojo.byId("header"), "background-image", hdImgHTML)
-      }
+      }*/
 
     //get the popup click handler so we can disable it when measure tool is active
     clickHandler = response.clickEventHandle;
