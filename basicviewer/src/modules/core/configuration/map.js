@@ -5,8 +5,8 @@
     3. If a web map is not found in step 1, then an ESRI map is programmatically created.  This is the place where a map can be defined if not
         using a web map.  Note: Users' ability to save and/or share their map customizations will not be possible with this option.
 */
-define(["dojo/_base/declare", "dojo/_base/lang", "dojo/on", "dojo/Evented", "../utilities/environment", "../utilities/maphandler"],
-    function(declare, lang, Evented, environment, mapHandler){
+define(["dojo/_base/declare", "dojo/_base/lang", "dojo/on", "dojo/Evented", "esri/tasks/Locator", "../utilities/environment", "../utilities/maphandler"],
+    function(declare, lang, on, Evented, Locator, environment, mapHandler){
         return declare([Evented],
             {
                 _AppConfig: null
@@ -140,9 +140,9 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/on", "dojo/Evented", "../
                         });
 
                         if (this._Map.loaded)
-                            this._RaiseLoadedEvent();
+                            this._FinishMapElements();
                         else
-                            dojo.connect(this._Map, "onLoad", this._RaiseLoadedEvent);
+                            dojo.connect(this._Map, "onLoad", this._FinishMapElements);
                     } else { //Map will be created using the webmap defined earlier
                         var mapDeferred = esri.arcgis.utils.createMap(this._WebMap, "map", {
                             mapOptions: {
@@ -170,9 +170,9 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/on", "dojo/Evented", "../
                             }
 
                             if (this._Map.loaded)
-                                this._RaiseLoadedEvent();
+                                this._FinishMapElements();
                             else
-                                dojo.connect(this._Map, "onLoad", this._RaiseLoadedEvent);
+                                dojo.connect(this._Map, "onLoad", this._FinishMapElements);
                         }));
 
                         mapDeferred.addErrback(function (error) {
@@ -181,7 +181,10 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/on", "dojo/Evented", "../
                     }
                 }
 
-                , _RaiseLoadedEvent: function () {
+                , _FinishMapElements: function () {
+                    // Set the singleton instance of the map handler, so other modules can require maphandler and have direct access to the map
+                    mapHandler.map = this._Map;
+
                     //constrain the extent
                     if (this._AppConfig.constrainmapextent === 'true' || this._AppConfig.constrainmapextent === true) {
                         var webmapExtent = this._Map.extent.expand(1.5);
@@ -210,56 +213,22 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/on", "dojo/Evented", "../
                         this._Map.graphics.add(maxExtentGraphic);
                     }
 
-                if (configOptions.displayscalebar === "true" || configOptions.displayscalebar === true) {
-                    //add scalebar
-                    var scalebar = new esri.dijit.Scalebar({
-                        map: map,
-                        scalebarUnit: i18n.viewer.main.scaleBarUnits //metric or english
-                    });
-                }
-
-                    //initialize the geocoder
-                    if (this._AppConfig.placefinder.url && location.protocol === "https:") {
-                        this._AppConfig.placefinder.url = this._AppConfig.placefinder.url.replace('http:', 'https:');
+                    if (configOptions.displayscalebar === "true" || configOptions.displayscalebar === true) {
+                        //add scalebar
+                        require(["esri/dijit/Scalebar"],
+                            lang.hitch(this, function(Scalebar) {
+                                var scalebar = new Scalebar({
+                                    map: this._Map,
+                                    scalebarUnit: i18n.viewer.main.scaleBarUnits //metric or english
+                                });
+                            })
+                        );
                     }
-
-                    locator = new esri.tasks.Locator(configOptions.placefinder.url);
-                    locator.outSpatialReference = map.spatialReference;
-                    dojo.connect(locator, "onAddressToLocationsComplete", showResults);
-
-                    // Set the singleton instance of the map so other modules can require maphandler and have direct access to the map
-                    mapHandler.map = this._Map;
-                    this.emit('maploaded');
+                    this._RaiseMapLoaded();
                 }
 
-                        //OVERVIEW MAP
-                        function addOverview(isVisible) {
-                    //attachTo:bottom-right,bottom-left,top-right,top-left
-                    //opacity: opacity of the extent rectangle - values between 0 and 1.
-                    //color: fill color of the extnet rectangle
-                    //maximizeButton: When true the maximize button is displayed
-                    //expand factor: The ratio between the size of the ov map and the extent rectangle.
-                    //visible: specify the initial visibility of the ovmap.
-                    var overviewMapDijit = new esri.dijit.OverviewMap({
-                        map: map,
-                        attachTo: "top-right",
-                        opacity: 0.5,
-                        color: "#000000",
-                        expandfactor: 2,
-                        maximizeButton: false,
-                        visible: isVisible,
-                        id: 'overviewMap'
-                    });
-                    overviewMapDijit.startup();
-                }
-
-                function destroyOverview() {
-                    var ov = dijit.byId('overviewMap');
-                    if (ov) {
-                        var vis = ov.visible;
-                        ov.destroy();
-                        addOverview(vis);
-                    }
+                , _RaiseMapLoaded: function () { //Let main module know map is loaded
+                    this.emit('maploaded', this._Map);
                 }
             }
         )

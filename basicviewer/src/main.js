@@ -61,9 +61,10 @@
                             // Perform initial layout of the page
                             layout.InitialLayout(appConfig);
                             // Map has been created and loaded
-                            mapConfigurator.on('maploaded', function () {
+                            mapConfigurator.on('maploaded', function (map) {
                                 // Finish creating application elements
-                                layout.FinalizeLayout(webmap);
+                                layout.FinalizeLayout(webmap, map);
+                                //Create toolbar
 
                             });
                             mapConfigurator.CreateMap();

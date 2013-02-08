@@ -516,7 +516,7 @@ function initUI(response) {
     }
 
   }*/
-
+/* Created as new module
   //initialize the geocoder
   if (configOptions.placefinder.url && location.protocol === "https:") {
     configOptions.placefinder.url = configOptions.placefinder.url.replace('http:', 'https:');
@@ -524,7 +524,7 @@ function initUI(response) {
   locator = new esri.tasks.Locator(configOptions.placefinder.url);
   locator.outSpatialReference = map.spatialReference;
   dojo.connect(locator, "onAddressToLocationsComplete", showResults);
-
+*/
 /* Moved to map config
   if (configOptions.displayscalebar === "true" || configOptions.displayscalebar === true) {
     //add scalebar

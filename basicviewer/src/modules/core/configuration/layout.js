@@ -11,6 +11,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
             {
                 _AppConfig: null
                 , _WebMap: null
+                , _Map: null
 
                 //Layout the regions of the Dojo container based on app configs.
                 //This way the map can be sized properly when first created.
@@ -34,8 +35,9 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                         ShowLeftOrRightPanel('left');
                 }
 
-                , FinalizeLayout: function(webMap) {
+                , FinalizeLayout: function(webMap, map) {
                     this._WebMap = webMap;
+                    this._Map = map;
                     document.title = this._AppConfig.title || this._WebMap.item.title;
                     this._AppConfig.owner = this._WebMap.item.owner;
 
@@ -69,7 +71,6 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                                 innerHTML: this._AppConfig.link2.text
                             }, 'link2List');
                         }
-
                     }
 
                     //add webmap's description to details panel
@@ -100,6 +101,34 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                             dojo.style(dojo.byId('logo'), 'cursor', 'default');
                         }
                     }
+
+                    if (this._AppConfig.displaysearch === 'true' || this._AppConfig.displaysearch === true) {
+                        //Create the search location tool
+                        require(["../geolocator"],
+                            lang.hitch(this, function(geolocator) {
+                                var geoloc = new geolocator({ //Set the required properties of the module
+                                    geocoderUrl: this._AppConfig.placefinder.url
+                                    , map: this._Map
+                                    , sourceCountry: this._AppConfig.placefinder.countryCode
+                                });
+                                geoloc.startup();
+                            })
+                        );
+                    }
+
+                    if (this._AppConfig.displayoverviewmap === 'true' || this._AppConfig.displayoverviewmap === true) {
+                        //Create the overview map
+                        require(["../ovmap"],
+                            lang.hitch(this, function(overviewmap) {
+                                var ovmap = new overviewmap({
+                                    map: this._Map
+                                });
+                                ovmap.startup();
+                            })
+                        );
+                    }
+
+
                 }
 
                 , _DisplayLeftPanel: function () {

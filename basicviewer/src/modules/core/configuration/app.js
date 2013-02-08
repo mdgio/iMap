@@ -22,7 +22,6 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     //Enter a title, if no title is specified, the webmap's title is used.
                     title: "Maryland iMap",
                     //URL to title logo, if none specified, then defaults to assets/MDLogo.gif
-                    //titleLogoUrl: "assets/MDlogo-small.gif",
                     titleLogoUrl: "assets/MDlogo.gif",
                     //The height (px) of the Header (where title, logo, and links are located)
                     headerHeight: "30",
@@ -107,9 +106,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     //search should be  restricted to the current extent. View the geocode.arcgis.com documentation for details http://geocode.arcgis.com/arcgis/geocoding.html#multifield
                     placefinder: {
                         "url": "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer",
-                        "singlelinefieldname": "SingleLine",
-                        "countryCode":"",
-                        "currentExtent":false
+                        "countryCode":""
                     },
                     //Set link text and url parameters if you want to display clickable links in the upper right-corner
                     //of the application.
@@ -240,9 +237,6 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                             if (response.values.embed !== undefined) {
                                 configOptions.embed = response.values.embed;
                             }
-                            if (response.values.placefinderfieldname !== undefined) {
-                                configOptions.placefinder.singlelinefieldname = response.values.placefinderfieldname;
-                            }
                             if (response.values.customlogoimage !== undefined) {
                                 configOptions.customlogo.image = response.values.customlogoimage;
                             }
@@ -277,91 +271,6 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                         if (urlObject.query.webmap) {
                             configOptions.webmap = urlObject.query.webmap;
                         }
-                        /*if (urlObject.query.title) {
-                            configOptions.title = urlObject.query.title;
-                        }
-                        if (urlObject.query.customlogoimage) {
-                            configOptions.customlogo.image = urlObject.query.customlogoimage;
-                        }
-                        if (urlObject.query.displaytitle) {
-                            configOptions.displaytitle = (urlObject.query.displaytitle === 'true') ? true : false;
-                        }
-                        if (urlObject.query.theme) {
-                            configOptions.theme = urlObject.query.theme;
-                        }
-                        if (urlObject.query.bingmapskey) {
-                            configOptions.bingmapskey = urlObject.query.bingmapskey;
-                        }
-                        if (urlObject.query.displaymeasure) {
-                            configOptions.displaymeasure = (urlObject.query.displaymeasure === 'true') ? true : false;
-                        }
-                        if (urlObject.query.displayshare) {
-                            configOptions.displayshare = (urlObject.query.displayshare === 'true') ? true : false;
-                        }
-                        if (urlObject.query.displaybasemaps) {
-                            configOptions.displaybasemaps = (urlObject.query.displaybasemaps === 'true') ? true : false;
-                        }
-                        if (urlObject.query.displayoverviewmap) {
-                            configOptions.displayoverviewmap = (urlObject.query.displayoverviewmap === 'true') ? true : false;
-                        }
-                        if (urlObject.query.displayeditor) {
-                            configOptions.displayeditor = (urlObject.query.displayeditor === 'true') ? true : false;
-                        }
-                        if (urlObject.query.displaylegend) {
-                            configOptions.displaylegend = (urlObject.query.displaylegend === 'true') ? true : false;
-                        }
-                        if (urlObject.query.displaysearch) {
-                            configOptions.displaysearch = (urlObject.query.displaysearch === 'true') ? true : false;
-                        }
-                        if (urlObject.query.displaybookmarks) {
-                            configOptions.displaybookmarks = (urlObject.query.displaybookmarks === 'true') ? true : false;
-                        }
-                        if (urlObject.query.displaylayerlist) {
-                            configOptions.displaylayerlist = (urlObject.query.displaylayerlist === 'true') ? true : false;
-                        }
-                        if (urlObject.query.displaydetails) {
-                            configOptions.displaydetails = (urlObject.query.displaydetails === 'true') ? true : false;
-                        }
-                        if (urlObject.query.displaytimeslider) {
-                            configOptions.displaytimeslider = (urlObject.query.displaytimeslider === 'true') ? true : false;
-                        }
-                        if (urlObject.query.displayelevation) {
-                            configOptions.displayelevation = (urlObject.query.displayelevation === 'true') ? true : false;
-                        }
-                        if (urlObject.query.showelevationdifference) {
-                            configOptions.showelevationdifference = (urlObject.query.showelevationdifference === 'true') ? true : false;
-                        }
-                        if (urlObject.query.displayprint) {
-                            configOptions.displayprint = (urlObject.query.displayprint === 'true') ? true : false;
-                        }
-                        if (urlObject.query.displayscalebar) {
-                            configOptions.displayscalebar = (urlObject.query.displayscalebar === 'true') ? true : false;
-                        }
-                        if (urlObject.query.displayslider) {
-                            configOptions.displayslider = (urlObject.query.displayslider === 'true') ? true : false;
-                        }
-                        if (urlObject.query.constrainmapextent) {
-                            configOptions.constrainmapextent = (urlObject.query.constrainmapextent === 'true') ? true : false;
-                        }
-                        if (urlObject.query.basemapGroupOwner && urlObject.query.basemapGroupTitle) {
-                            configOptions.basemapgroup.title = urlObject.query.basemapGroupTitle;
-                            configOptions.basemapgroup.owner = urlObject.query.basemapGroupOwner;
-                        }
-                        if (urlObject.query.extent) {
-                            configOptions.extent = urlObject.query.extent;
-                        }
-                        if (urlObject.query.gcsextent) {
-                            configOptions.gcsextent = urlObject.query.gcsextent;
-                        }
-                        if (urlObject.query.customLogoImage) {
-                            configOptions.customlogo.image = urlObject.query.customLogoImage;
-                        }
-                        if (urlObject.query.embed) {
-                            configOptions.embed = (urlObject.query.embed === 'true') ? true : false;
-                        }
-                        if (urlObject.query.leftpanelvisible) {
-                            configOptions.leftPanelVisibility = (urlObject.query.leftpanelvisible === 'true') ? true : false;
-                        }*/
                     }
 
                     //Raise event letting calling module know configuration is complete
