@@ -357,7 +357,8 @@ function getItem(item, extArray) {
 
 //CREATE MAP
 function createMap(webmapitem) {
-  var mapDeferred = esri.arcgis.utils.createMap(webmapitem, "map", {
+/* Moved to map config
+ var mapDeferred = esri.arcgis.utils.createMap(webmapitem, "map", {
     mapOptions: {
       slider: configOptions.displaySlider,
       sliderStyle:'small',
@@ -370,48 +371,54 @@ function createMap(webmapitem) {
     ignorePopups: false,
     bingMapsKey: configOptions.bingmapskey
   });
+  */
 
   mapDeferred.addCallback(function (response) {
-    //add webmap's description to details panel 
+/* moved to layout config
+
+    //add webmap's description to details panel
     if (configOptions.description === "") {
       if (response.itemInfo.item.description !== null) {
         configOptions.description = response.itemInfo.item.description;
       }
     }
+*/
+/* moved to layout config
+    configOptions.owner = response.itemInfo.item.owner;
+    document.title = configOptions.title || response.itemInfo.item.title;
+    //add a title
+    if (configOptions.displaytitle === "true" || configOptions.displaytitle === true) {
+      configOptions.title = configOptions.title || response.itemInfo.item.title;
 
-      configOptions.owner = response.itemInfo.item.owner;
-      document.title = configOptions.title || response.itemInfo.item.title;
-      //add a title
-      if (configOptions.displaytitle === "true" || configOptions.displaytitle === true) {
-          configOptions.title = configOptions.title || response.itemInfo.item.title;
+      //add small image and application title to the toolbar SJS
+      //createToolbarTitle();
 
-          //add small image and application title to the toolbar SJS
-          //createToolbarTitle();
+      //Add a logo to the header if set SJS
+      var logoImgHtml = '<img id="titleLogo" src="' +  configOptions.titleLogoUrl + '" alt="MD Logo" />';
+      dojo.create("div", {
+          id: 'webmapTitle',
+          innerHTML: logoImgHtml
+      }, "header");
+      dojo.style(dojo.byId("header"), "height", "80px");
+      var logoImgHtml = '<img id="tbLogoImage" src="' +  configOptions.titleLogoUrl + '" alt="MD Logo" style="height:100%" />';
+     // dojo.byId('ToolbarLogo').innerHTML = logoImgHtml
+      //dojo.style(dojo.byId("header"), "height", "70px");
+    } else if (!configOptions.link1.url && !configOptions.link2.url) {
+      //no title or links - hide header
+      esri.hide(dojo.byId('header'));
+      esri.show(dojo.byId('ToolbarLogo'));
+      dojo.addClass(dojo.body(), 'embed');
+      dojo.query("html").addClass("embed");
+    }
+ */
 
-          //Add a logo to the header if set SJS
-          var logoImgHtml = '<img id="titleLogo" src="' +  configOptions.titleLogoUrl + '" alt="MD Logo" />';
-          dojo.create("div", {
-              id: 'webmapTitle',
-              innerHTML: logoImgHtml
-          }, "header");
-          dojo.style(dojo.byId("header"), "height", "80px");
-          var logoImgHtml = '<img id="tbLogoImage" src="' +  configOptions.titleLogoUrl + '" alt="MD Logo" style="height:100%" />';
-         // dojo.byId('ToolbarLogo').innerHTML = logoImgHtml
-          //dojo.style(dojo.byId("header"), "height", "70px");
-      } else if (!configOptions.link1.url && !configOptions.link2.url) {
-          //no title or links - hide header
-          esri.hide(dojo.byId('header'));
-          esri.show(dojo.byId('ToolbarLogo'));
-          dojo.addClass(dojo.body(), 'embed');
-          dojo.query("html").addClass("embed");
-      }
-      //add banner image to header SJS
-      /*No longer using
-        if (configOptions.headerbanner) {
-          var hdImgHTML = "url(" + configOptions.headerbanner + ")";
-          dojo.style(dojo.byId("header"), "background-image", hdImgHTML)
-      }*/
-
+    //add banner image to header SJS
+    /*No longer using
+    if (configOptions.headerbanner) {
+      var hdImgHTML = "url(" + configOptions.headerbanner + ")";
+      dojo.style(dojo.byId("header"), "background-image", hdImgHTML)
+    }*/
+/* in map config
     //get the popup click handler so we can disable it when measure tool is active
     clickHandler = response.clickEventHandle;
     clickListener = response.clickEventListener;
@@ -419,13 +426,14 @@ function createMap(webmapitem) {
     //Constrain the extent of the map to the webmap's initial extent
     if (configOptions.constrainmapextent === 'true' || configOptions.constrainmapextent === true) {
       webmapExtent = response.map.extent.expand(1.5);
-    }
-
+    }*/
+/* leaving out
     //if an extent was specified using url params go to that extent now    
     if (configOptions.extent) {
       map.setExtent(new esri.geometry.Extent(dojo.fromJson(configOptions.extent)));
     }
-
+*/
+/* in map config
     if (map.loaded) {
         addToolbarToMap();
       initUI(response);
@@ -441,16 +449,19 @@ function createMap(webmapitem) {
   mapDeferred.addErrback(function (error) {
     alert(i18n.viewer.errors.createMap + " : " + dojo.toJson(error.message));
   });
-
+*/
+/* Shouldn't have to worry about
     //if embed set to true, change the map size.
     if (configOptions.embed === "true" || configOptions.embed === true) {
         changeMapSize()
     }
+*/
+
 }
 
 function initUI(response) {
-  var layers = response.itemInfo.itemData.operationalLayers;
-
+//  var layers = response.itemInfo.itemData.operationalLayers;
+/* in map config
   //constrain the extent
   if (configOptions.constrainmapextent === 'true' || configOptions.constrainmapextent === true) {
     var basemapExtent = map.getLayer(map.layerIds[0]).fullExtent.expand(1.5);
@@ -479,9 +490,9 @@ function initUI(response) {
 
     map.graphics.add(maxExtentGraphic);
   }
+*/
 
-
-
+/* in layout config
   //add a custom logo to the map if provided
   if (configOptions.customlogo.image) {
     esri.show(dojo.byId('logo'));
@@ -504,7 +515,7 @@ function initUI(response) {
       dojo.style(dojo.byId('logo'), 'cursor', 'default');
     }
 
-  }
+  }*/
 
   //initialize the geocoder
   if (configOptions.placefinder.url && location.protocol === "https:") {
@@ -514,6 +525,7 @@ function initUI(response) {
   locator.outSpatialReference = map.spatialReference;
   dojo.connect(locator, "onAddressToLocationsComplete", showResults);
 
+/* Moved to map config
   if (configOptions.displayscalebar === "true" || configOptions.displayscalebar === true) {
     //add scalebar
     var scalebar = new esri.dijit.Scalebar({
@@ -521,11 +533,12 @@ function initUI(response) {
       scalebarUnit: i18n.viewer.main.scaleBarUnits //metric or english
     });
   }
-
+*/
   //Add/Remove tools depending on the config settings or url parameters
   if (configOptions.displayprint === "true" || configOptions.displayprint === true) {
     addPrint();
   }
+
   if (configOptions.displaylayerlist === 'true' || configOptions.displaylayerlist === true) {
     addLayerList(layers);
   }
@@ -543,11 +556,12 @@ function initUI(response) {
   } else {
     esri.hide(dojo.byId('floater'));
   }
+/* Not implemented in final
   if (configOptions.displayelevation && configOptions.displaymeasure) {
 
     esri.show(dojo.byId('bottomPane'));
     createElevationProfileTools();
-  }
+  }*/
   if (configOptions.displaybookmarks === 'true' || configOptions.displaybookmarks === true) {
     addBookmarks(response);
   }
@@ -562,11 +576,12 @@ function initUI(response) {
     configOptions.displayeditor = false;
   }
 
+/* Not using in final
   //do we have any operational layers - if not then set legend to false
   var layerInfo = buildLayersList(layers);
   if (layerInfo.length === 0) {
     configOptions.displaylegend = false;
-  }
+  }*/
 
   //hide the left pane if editor, details and legend are all false
   if (configOptions.displayeditor === 'true' || configOptions.displayeditor === true) {
@@ -709,7 +724,8 @@ function initUI(response) {
     resizeMap(); //resize the map in case any of the border elements have changed
 }
 
-function addToolbarToMap(){
+/* Added as 2 lines to layout config
+  function addToolbarToMap(){
     var placeholder = dojo.byId('toolbarContainer');
     //placeholder.load('widgets/toolbar/templates/toolbar.html');
     // points to $dojoroot/dijit/form/tests/TestFile.html
@@ -721,8 +737,8 @@ function addToolbarToMap(){
 //        }
 //    })
    dojo.byId('map_root').appendChild(placeholder);
-}
-
+}*/
+/* Probably leave out
 function (createToolbarTitle){
     //Add a title to the toolbar Left SJS
     dojo.create("div", {
@@ -735,8 +751,8 @@ function (createToolbarTitle){
         style: 'font: 14pt/16pt times, cursive, Serif; padding-left:5px; padding-top:5px; display:inline-block;'
     }, "webmap-toolbar-left");
     return
-}
-
+}*/
+/* in layout config
 function displayLeftPanel() {
   //display the left panel if any of these options are enabled. 
   var display = false;
@@ -750,7 +766,7 @@ function displayLeftPanel() {
     display = true;
   }
   return display;
-}
+}*/
 
 /* Should no longer be necessary with 3.3 API
 function resizeMap() {
@@ -761,6 +777,7 @@ function resizeMap() {
 }
 */
 
+/* Not used in final
 //select panels in the stack container. The stack container is used to organize content 
 //in the left panel (editor, legend, details)
 function navigateStack(label) {
@@ -792,6 +809,7 @@ function navigateStack(label) {
   }
   toggleToolbarButtons(buttonLabel);
 }
+*/
 
 //use the locator to find the input location
 function findLocation() {
@@ -912,6 +930,7 @@ function checkMapSpatialReference() {
     dijit.byId("mainWindow").resize();
   }
 }*/
+/* moved to layout config
 function showLeftOrRightPanel(direction) {
     var targetDivId = direction.toLowerCase() + "Pane";
     var targetDiv = dojo.byId(targetDivId);
@@ -921,7 +940,7 @@ function showLeftOrRightPanel(direction) {
         dijit.byId("mainWindow").resize();
     }
 }
-
+*/
 /*function hideLeftPanel() {
   //close the left panel when x button is clicked
   var leftPaneWidth = dojo.style(dojo.byId("leftPane"), "width");
@@ -937,6 +956,8 @@ function showLeftOrRightPanel(direction) {
 
   }, 100);
 }*/
+
+/* moved to layout
 function hideLeftOrRightPanel(direction) {
     //close the left panel when x button is clicked
     direction = direction.toLowerCase();
@@ -956,8 +977,9 @@ function hideLeftOrRightPanel(direction) {
         }, 100);
     }
 }
+*/
 
-
+/* Left out
 //LEFT TOOLBAR BUTTONS
 
 function toggleToolbarButtons(label) {
@@ -972,7 +994,7 @@ function toggleToolbarButtons(label) {
     }
   });
 
-}
+}*/
 
 
 //SOCIAL MEDIA TOOLS
@@ -1171,7 +1193,7 @@ function addBookmarks(info) {
 //Create a menu with a list of operational layers. Each menu item contains a check box
 //that allows users to toggle layer visibility.
 
-//LAYERS
+//LAYERS (TOC)
 function addLayerList(layers) {
   /*var layerList = buildLayerVisibleList(layers);
   if (layerList.length > 0) {
@@ -1416,7 +1438,7 @@ function toggleMeasure() {
 
 }
 
-
+/* moved to map config
 //OVERVIEW MAP
 function addOverview(isVisible) {
   //attachTo:bottom-right,bottom-left,top-right,top-left
@@ -1446,8 +1468,9 @@ function destroyOverview() {
     addOverview(vis);
   }
 }
+*/
 
-
+/* Leaving out, replaced by TOC
 //LEGEND
 //Add the legend to the application - the legend will be 
 //added to the left panel of the application. 
@@ -1488,7 +1511,8 @@ function addLegend(layerInfo) {
 
 
 }
-
+*/
+/* Leaving out, replaced by TOC
 //build a list of layers to dispaly in the legend
 function buildLayersList(layers){
 
@@ -1537,7 +1561,8 @@ function buildLayersList(layers){
     }
   });
   return layerInfos;
-  }
+}
+*/
 
 //EDITOR
 //Determine if the webmap has any editable layers  
@@ -1649,7 +1674,7 @@ function destroyEditor() {
 
 }
 
-
+/* Moved to maphandler
 //POPUPS
 //Utility methods used to enable/disable popups. For example when users are measuring locations
 //on the map we want to turn popups off so they don't appear when users click to specify a measure area. 
@@ -1663,7 +1688,7 @@ function disablePopups() {
   if (clickHandler) {
     dojo.disconnect(clickHandler);
   }
-}
+}*/
 
 //SOCIAL NETWORKING
 //Create menu of social network sharing options (Email, Twitter, Facebook)
@@ -1778,10 +1803,10 @@ function createSearchTool(){
 //  }
 //}
 //determine if the browser supports HTML5 input placeholder
-function supportsPlaceholder() {
-  var i = document.createElement('input');
-  return 'placeholder' in i;
-}
+//function supportsPlaceholder() {
+//  var i = document.createElement('input');
+//  return 'placeholder' in i;
+//}
 
 //TIME SLIDER
 //Add the time slider if the webmap has time-aware layers 
@@ -2052,7 +2077,7 @@ function createTimeSlider(timeProperties) {
 
 }
 
-
+/* Not going to convert by us
 //ELEVATION PROFILE TOOL
 function createElevationProfileTools() {
 
@@ -2089,7 +2114,9 @@ function createElevationProfileTools() {
     showElevationDifference: configOptions.showelevationdifference
   });
 }
+*/
 
+/* Probably going to leave out
 //EXPAND TO FULL PAGE
 //SJS
 function changeMapSize() {
@@ -2123,4 +2150,4 @@ function changeMapSize() {
         dojo.byId('header').setAttribute('display', 'block');
         resizeMap()
     }
-}
+}*/

@@ -5,8 +5,8 @@
     3. If a web map is not found in step 1, then an ESRI map is programmatically created.  This is the place where a map can be defined if not
         using a web map.  Note: Users' ability to save and/or share their map customizations will not be possible with this option.
 */
-define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "dojo/Evented"],
-    function(declare, environment, lang, Evented){
+define(["dojo/_base/declare", "dojo/_base/lang", "dojo/on", "dojo/Evented", "../utilities/environment", "../utilities/maphandler"],
+    function(declare, lang, Evented, environment, mapHandler){
         return declare([Evented],
             {
                 _AppConfig: null
@@ -14,6 +14,8 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                 , _WebMap: null
                 , _WebMapOverrides: null
                 , _Map: null
+                , _clickListener: null
+                , _clickHandler: null
 
                 //Pass in the application configuration, which can contain a web map id
                 , configure: function (appConfig) {
@@ -157,9 +159,9 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                         });
 
                         mapDeferred.addCallback(lang.hitch(this, function (response) {
-                            //get the popup click handler so we can disable it when measure tool is active
-                            clickHandler = response.clickEventHandle;
-                            clickListener = response.clickEventListener;
+                            //get the popup click handler so we can disable it when a module needs to disable map popups (e.g. measure, draw tools)
+                            mapHandler._clickHandler = response.clickEventHandle;
+                            mapHandler._clickListener = response.clickEventListener;
                             this._Map = response.map;
 
                             //if an extent was specified using url params go to that extent now
@@ -182,11 +184,11 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                 , _RaiseLoadedEvent: function () {
                     //constrain the extent
                     if (this._AppConfig.constrainmapextent === 'true' || this._AppConfig.constrainmapextent === true) {
-                        var webmapExtent = response.map.extent.expand(1.5);
-                        var basemapExtent = this._Map.getLayer(map.layerIds[0]).fullExtent.expand(1.5);
+                        var webmapExtent = this._Map.extent.expand(1.5);
+                        var basemapExtent = this._Map.getLayer(this._Map.layerIds[0]).fullExtent.expand(1.5);
                         //create a graphic with a hole over the web map's extent. This hole will allow
                         //the web map to appear and hides the rest of the map to limit the visible extent to the webmap.
-                        var clipPoly = new esri.geometry.Polygon(map.spatialReference);
+                        var clipPoly = new esri.geometry.Polygon(this._Map.spatialReference);
                         clipPoly.addRing([
                             [basemapExtent.xmin, basemapExtent.ymin],
                             [basemapExtent.xmin, basemapExtent.ymax],
@@ -208,7 +210,56 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                         this._Map.graphics.add(maxExtentGraphic);
                     }
 
+                if (configOptions.displayscalebar === "true" || configOptions.displayscalebar === true) {
+                    //add scalebar
+                    var scalebar = new esri.dijit.Scalebar({
+                        map: map,
+                        scalebarUnit: i18n.viewer.main.scaleBarUnits //metric or english
+                    });
+                }
+
+                    //initialize the geocoder
+                    if (this._AppConfig.placefinder.url && location.protocol === "https:") {
+                        this._AppConfig.placefinder.url = this._AppConfig.placefinder.url.replace('http:', 'https:');
+                    }
+
+                    locator = new esri.tasks.Locator(configOptions.placefinder.url);
+                    locator.outSpatialReference = map.spatialReference;
+                    dojo.connect(locator, "onAddressToLocationsComplete", showResults);
+
+                    // Set the singleton instance of the map so other modules can require maphandler and have direct access to the map
+                    mapHandler.map = this._Map;
                     this.emit('maploaded');
+                }
+
+                        //OVERVIEW MAP
+                        function addOverview(isVisible) {
+                    //attachTo:bottom-right,bottom-left,top-right,top-left
+                    //opacity: opacity of the extent rectangle - values between 0 and 1.
+                    //color: fill color of the extnet rectangle
+                    //maximizeButton: When true the maximize button is displayed
+                    //expand factor: The ratio between the size of the ov map and the extent rectangle.
+                    //visible: specify the initial visibility of the ovmap.
+                    var overviewMapDijit = new esri.dijit.OverviewMap({
+                        map: map,
+                        attachTo: "top-right",
+                        opacity: 0.5,
+                        color: "#000000",
+                        expandfactor: 2,
+                        maximizeButton: false,
+                        visible: isVisible,
+                        id: 'overviewMap'
+                    });
+                    overviewMapDijit.startup();
+                }
+
+                function destroyOverview() {
+                    var ov = dijit.byId('overviewMap');
+                    if (ov) {
+                        var vis = ov.visible;
+                        ov.destroy();
+                        addOverview(vis);
+                    }
                 }
             }
         )

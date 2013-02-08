@@ -277,7 +277,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                         if (urlObject.query.webmap) {
                             configOptions.webmap = urlObject.query.webmap;
                         }
-                        if (urlObject.query.title) {
+                        /*if (urlObject.query.title) {
                             configOptions.title = urlObject.query.title;
                         }
                         if (urlObject.query.customlogoimage) {
@@ -350,9 +350,9 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                         if (urlObject.query.extent) {
                             configOptions.extent = urlObject.query.extent;
                         }
-                        /*if (urlObject.query.gcsextent) {
+                        if (urlObject.query.gcsextent) {
                             configOptions.gcsextent = urlObject.query.gcsextent;
-                        }*/
+                        }
                         if (urlObject.query.customLogoImage) {
                             configOptions.customlogo.image = urlObject.query.customLogoImage;
                         }
@@ -361,7 +361,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                         }
                         if (urlObject.query.leftpanelvisible) {
                             configOptions.leftPanelVisibility = (urlObject.query.leftpanelvisible === 'true') ? true : false;
-                        }
+                        }*/
                     }
 
                     //Raise event letting calling module know configuration is complete
