@@ -5,8 +5,8 @@
     3. If a web map is not found in step 1, then an ESRI map is programmatically created.  This is the place where a map can be defined if not
         using a web map.  Note: Users' ability to save and/or share their map customizations will not be possible with this option.
 */
-define(["dojo/_base/declare", "dojo/_base/lang", "dojo/on", "dojo/Evented", "esri/tasks/Locator", "../utilities/environment", "../utilities/maphandler"],
-    function(declare, lang, on, Evented, Locator, environment, mapHandler){
+define(["dojo/_base/declare", "dojo/_base/lang", "dojo/on", "dojo/Evented", "../utilities/environment", "../utilities/maphandler"],
+    function(declare, lang, on, Evented, environment, mapHandler){
         return declare([Evented],
             {
                 _AppConfig: null
@@ -99,7 +99,8 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/on", "dojo/Evented", "esr
 
                             this._WebMapOverrides = webMapov;
                             this._ReconcileWebMapOverrides();
-                        }
+                        } else
+                            this._RaiseConfiguredEvent();
                     } else { //No customizations, just load default web map
                         this._RaiseConfiguredEvent();
                     }
@@ -112,7 +113,7 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/on", "dojo/Evented", "esr
                 }
 
                 , _RaiseConfiguredEvent: function() { // Let the calling module know the map configuration has finished
-                    this.emit('configured', this._WebMap);
+                    this.emit('mapconfigured', this._WebMap);
                 }
 
                 //The function which finally creates the map object using the webmap object
@@ -129,7 +130,7 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/on", "dojo/Evented", "esr
                         this._AppConfig.constrainmapextent = false;
                     }
 
-                    if (this._WebMap = null) { //*** Create a map, add layers, etc. using the standard API methods here:
+                    if (!this._WebMap) { //*** Create a map, add layers, etc. using the standard API methods here:
                         this._Map = new esri.Map('map', {
                             slider: this._AppConfig.displaySlider,
                             sliderStyle:'small',
@@ -213,13 +214,13 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/on", "dojo/Evented", "esr
                         this._Map.graphics.add(maxExtentGraphic);
                     }
 
-                    if (configOptions.displayscalebar === "true" || configOptions.displayscalebar === true) {
+                    if (this._AppConfig.displayscalebar === "true" || this._AppConfig.displayscalebar === true) {
                         //add scalebar
                         require(["esri/dijit/Scalebar"],
                             lang.hitch(this, function(Scalebar) {
                                 var scalebar = new Scalebar({
                                     map: this._Map,
-                                    scalebarUnit: i18n.viewer.main.scaleBarUnits //metric or english
+                                    scalebarUnit: "metric"//i18n.viewer.main.scaleBarUnits //metric or english
                                 });
                             })
                         );

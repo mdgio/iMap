@@ -69,6 +69,7 @@ body {
 }
 
 #map {
+    height: 100%;
     padding:0px;
     border-right:solid 0px #999;
     border-bottom:solid 0px #999;

@@ -24,7 +24,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     //URL to title logo, if none specified, then defaults to assets/MDLogo.gif
                     titleLogoUrl: "assets/MDlogo.gif",
                     //The height (px) of the Header (where title, logo, and links are located)
-                    headerHeight: "30",
+                    headerHeight: "80",
                     //URL to banner image, if non specified then defaults to iMap banner image.
                     //headerbanner: "assets/imap/imapBanner2.jpg",
                     //Enter a description for the application. This description will appear in the left pane
@@ -274,7 +274,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     }
 
                     //Raise event letting calling module know configuration is complete
-                    this.emit('configured', configOptions);
+                    this.emit('appconfigured', configOptions);
                 }
         })
     }

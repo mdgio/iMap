@@ -55,15 +55,15 @@
             $(document).ready(
                 function(){ //jQuery is now loaded and ready
                     //The application configuration has been loaded
-                    appConfigurator.on('configured', function (appConfig) {
+                    appConfigurator.on('appconfigured', function (appConfig) {
                         //Configure the web map
-                        mapConfigurator.on('configured', function (webmap) {
+                        mapConfigurator.on('mapconfigured', function (webmap) {
                             // Perform initial layout of the page
-                            layout.InitialLayout(appConfig);
+                            layoutHandler.InitialLayout(appConfig);
                             // Map has been created and loaded
                             mapConfigurator.on('maploaded', function (map) {
                                 // Finish creating application elements
-                                layout.FinalizeLayout(webmap, map);
+                                layoutHandler.FinalizeLayout(webmap, map);
                                 //Create toolbar
 
                             });

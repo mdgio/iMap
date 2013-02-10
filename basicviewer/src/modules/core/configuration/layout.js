@@ -16,14 +16,14 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                 //Layout the regions of the Dojo container based on app configs.
                 //This way the map can be sized properly when first created.
                 , InitialLayout: function (appConfig) {
+                    this._AppConfig = appConfig;
                     //load the specified theme
                     var ss = document.createElement("link");
                     ss.type = "text/css";
                     ss.rel = "stylesheet";
-                    ss.href = "css/" + this._AppConfig.theme + ".css";
+                    ss.href = "src/css/" + this._AppConfig.theme + ".css";
                     document.getElementsByTagName("head")[0].appendChild(ss);
 
-                    this._AppConfig = appConfig;
                     //If app is embedded, do not show the header, footer, title, title logo, and hyperlinks
                     if (!this._AppConfig.embed) {
                         dojo.addClass(dojo.body(),'notembed');
@@ -102,7 +102,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                         }
                     }
 
-                    if (this._AppConfig.displaysearch === 'true' || this._AppConfig.displaysearch === true) {
+                    /*if (this._AppConfig.displaysearch === 'true' || this._AppConfig.displaysearch === true) {
                         //Create the search location tool
                         require(["../geolocator"],
                             lang.hitch(this, function(geolocator) {
@@ -127,8 +127,9 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                             })
                         );
                     }
-
-
+*/
+                    this._Map.resize();
+                    this._Map.reposition();
                 }
 
                 , _DisplayLeftPanel: function () {
