@@ -33,6 +33,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     }
                     if (this._AppConfig.leftPanelVisibility) // Show the left pane on startup
                         ShowLeftOrRightPanel('left');
+
                 }
 
                 , FinalizeLayout: function(webMap, map) {
@@ -128,8 +129,6 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                         );
                     }
 */
-                    this._Map.resize();
-                    this._Map.reposition();
                 }
 
                 , _DisplayLeftPanel: function () {

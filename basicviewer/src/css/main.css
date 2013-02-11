@@ -69,14 +69,20 @@ body {
 }
 
 #map {
-    height: 100%;
-    padding:0px;
+    /*padding:0px;*/
     border-right:solid 0px #999;
     border-bottom:solid 0px #999;
     -moz-box-shadow: inset 0 0 0px #888;
     -webkit-box-shadow: inset 0 0 0px #888;
     box-shadow: inner 0 0 0px #888;
     background-color:#fff;
+
+    position: absolute;
+    padding: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
 
 #siteFooter {
