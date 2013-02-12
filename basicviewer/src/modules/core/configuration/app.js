@@ -1,6 +1,7 @@
-// The class to handle configuring the application and what it loads
-// If a query string parameter containing an appid is found, then it will override any of configOptions with those found in the AGO app JSON.
-// Finally, any other query string parameters found will override any options set previously
+/* This class runs at startup to handle configuring the application and what it loads
+     If a query string parameter containing an appid is found, then it will override any of configOptions with those found in the AGO app JSON.
+     Finally, it checks for the presence of a webmap override parameter (URL to a json object), which means this application has been shared.
+*/
 define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Evented", "../utilities/environment"],
     function(declare, entities, lang, Evented, environment){
         return declare([Evented], {

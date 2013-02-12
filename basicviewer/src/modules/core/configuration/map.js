@@ -1,4 +1,4 @@
-/* The class to handle configuring the web map.
+/* The class runs at startup to handle configuring the web map and creating the map object.
     1. Checks the app config passed in for an AGO web map id.  If not found, checks for a URL to a web map JSON object defined outside AGO.
     2. In either case, it then checks the app config for the presence of a shared web map override URL to customize the web map. If not present,
         it checks Local Storage for a saved web map customization.

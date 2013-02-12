@@ -1,9 +1,5 @@
 /**
- * Created with JetBrains WebStorm.
- * User: James.Somerville
- * Date: 2/1/13
- * Time: 2:49 PM
- * To change this template use File | Settings | File Templates.
+ This class is run at startup and handles the layout and creation of non-map elements in the page.
  */
 define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "dojo/Evented", "dijit/registry", "require"],
     function(declare, environment, lang, Evented, registry, require){
@@ -54,18 +50,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     dojo.byId('map_root').appendChild(placeholder);
 
                     if (!this._AppConfig.embed) {
-                        //dojo.style(dojo.byId("header"), "height", this._AppConfig.headerHeight + "px");
-                        //add a title
-                        /*if (this._AppConfig.displaytitle === "true" || this._AppConfig.displaytitle === true) {
-                            this._AppConfig.title = this._AppConfig.title || this._WebMap.item.title;
-                            //Add a logo to the header if set
-                            var logoImgHtml = '<img id="titleLogo" src="' +  this._AppConfig.titleLogoUrl + '" alt="MD Logo" />';
-                            dojo.create("div", {
-                                id: 'webmapTitle',
-                                innerHTML: logoImgHtml + "<span>" + this._AppConfig.title + "</span>"
-                            }, "header");
-                        }*/
-                        //create the links for the top of the application if provided
+                        //create the links for the top of the application, if provided
                         if (this._AppConfig.link1.url && this._AppConfig.link2.url) {
                             esri.show(dojo.byId('nav'));
                             dojo.create("a", {
@@ -119,7 +104,6 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                                     , map: this._Map
                                     , sourceCountry: this._AppConfig.placefinder.countryCode
                                 });
-                                //geoloc.startup();
                             })
                         );
                     }
@@ -131,10 +115,11 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                                 var ovmap = new overviewmap({
                                     map: this._Map
                                 });
-                                //ovmap.startup();
                             })
                         );
                     }
+
+                    //Set the toolbar
 
                 }
 
