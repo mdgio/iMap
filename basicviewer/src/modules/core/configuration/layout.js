@@ -5,8 +5,8 @@
  * Time: 2:49 PM
  * To change this template use File | Settings | File Templates.
  */
-define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "dojo/Evented"],
-    function(declare, environment, lang, Evented){
+define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "dojo/Evented", "dijit/registry"],
+    function(declare, environment, lang, Evented, registry){
         return declare([Evented],
             {
                 _AppConfig: null
@@ -26,14 +26,21 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
 
                     //If app is embedded, do not show the header, footer, title, title logo, and hyperlinks
                     if (!this._AppConfig.embed) {
-                        dojo.addClass(dojo.body(),'notembed');
-                        dojo.query("html").addClass("notembed");
+                        //add a title and logo, if applicable; automatically sets the height of the header depending on content and padding/margins
+                        if (this._AppConfig.displaytitle === "true" || this._AppConfig.displaytitle === true) {
+                            this._AppConfig.title = this._AppConfig.title || this._WebMap.item.title;
+                            //Add a logo to the header if set
+                            var logoImgHtml = '<img id="titleLogo" src="' +  this._AppConfig.titleLogoUrl + '" alt="MD Logo" />';
+                            dojo.create("div", {
+                                id: 'webmapTitle',
+                                innerHTML: logoImgHtml + "<div class='titleDiv'>" + this._AppConfig.title + "</div>"
+                            }, "header");
+                        }
                         esri.show(dojo.byId('header'));
                         esri.show(dojo.byId('bottomPane'));
                     }
                     if (this._AppConfig.leftPanelVisibility) // Show the left pane on startup
-                        ShowLeftOrRightPanel('left');
-
+                        this._ShowLeftOrRightPanel('left');
                 }
 
                 , FinalizeLayout: function(webMap, map) {
@@ -47,9 +54,9 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     dojo.byId('map_root').appendChild(placeholder);
 
                     if (!this._AppConfig.embed) {
-                        dojo.style(dojo.byId("header"), "height", this._AppConfig.headerHeight + "px");
+                        //dojo.style(dojo.byId("header"), "height", this._AppConfig.headerHeight + "px");
                         //add a title
-                        if (this._AppConfig.displaytitle === "true" || this._AppConfig.displaytitle === true) {
+                        /*if (this._AppConfig.displaytitle === "true" || this._AppConfig.displaytitle === true) {
                             this._AppConfig.title = this._AppConfig.title || this._WebMap.item.title;
                             //Add a logo to the header if set
                             var logoImgHtml = '<img id="titleLogo" src="' +  this._AppConfig.titleLogoUrl + '" alt="MD Logo" />';
@@ -57,7 +64,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                                 id: 'webmapTitle',
                                 innerHTML: logoImgHtml + "<span>" + this._AppConfig.title + "</span>"
                             }, "header");
-                        }
+                        }*/
                         //create the links for the top of the application if provided
                         if (this._AppConfig.link1.url && this._AppConfig.link2.url) {
                             esri.show(dojo.byId('nav'));
@@ -102,8 +109,8 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                             dojo.style(dojo.byId('logo'), 'cursor', 'default');
                         }
                     }
-
-                    /*if (this._AppConfig.displaysearch === 'true' || this._AppConfig.displaysearch === true) {
+                    /*
+                    if (this._AppConfig.displaysearch === 'true' || this._AppConfig.displaysearch === true) {
                         //Create the search location tool
                         require(["../geolocator"],
                             lang.hitch(this, function(geolocator) {
@@ -127,8 +134,8 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                                 ovmap.startup();
                             })
                         );
-                    }
-*/
+                    }*/
+
                 }
 
                 , _DisplayLeftPanel: function () {
@@ -146,7 +153,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     return display;
                 }
 
-                , ShowLeftOrRightPanel: function (direction) {
+                , _ShowLeftOrRightPanel: function (direction) {
                     var targetDivId = direction.toLowerCase() + "Pane";
                     var targetDiv = dojo.byId(targetDivId);
                     var targetPaneWidth = dojo.style(targetDiv, "width");

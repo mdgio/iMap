@@ -9,10 +9,13 @@ html,body {
 body {
     font-family:"trebuchet ms", helvetica, arial, sans-serif;
     color:#333;
-    margin:0px;
-    padding:0px;
 }
-.notembed{
+/* Set the Dojo BorderContainers required attributes */
+#bc /*#leftPane*/ {
+    width: 100%;
+    height: 100%;
+}
+/*.notembed{
     display: block;
     height:100%;
     width:100%;
@@ -22,30 +25,32 @@ body {
 }
 .notembed #header{
     padding:0px;
-    height:30px;
     overflow:hidden;
-}
-#header{
+}*/
+#header #bottomPane{
     margin:0px;
     padding:0px;
     overflow-y: hidden;
     overflow-x: hidden;
-    height:30px;
-    /*width: 1910px;*/
+    vertical-align: middle;
 }
 
-#bottomPane{
-    height: 0px;
+.titleDiv {
+    margin-left: 5px;
+    position: absolute;
+    bottom: 0;
+    display:inline-block;
+    font-family:"Georgia",Times,serif;
 }
 
 #titleLogo{
     float: left;
-    margin: 5px 0px 0px 10px;
+    margin: 0px 0px 0px 0px;
 }
 
 #webmapTitle{
     font-family:"gill sans",helvetica,arial,sans-serif;
-    color: #333;
+    color: #FFFFFD;
     font-size:32px;
     max-width:72%;
     /*float:left;*/
@@ -53,11 +58,12 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
     -o-text-overflow:ellipsis;
-    padding-top:0px;
-    margin-top:0px;
+    padding:0px;
+    margin:2px 0px;
+    position: relative;
 }
 /*The main window is the box that contains the map, tools and left panel.*/
-#mainWindow{
+/*#mainWindow{
     position: relative;
     border:solid 0px #999;
     -webkit-border-radius: 0px;
@@ -66,7 +72,7 @@ body {
     -moz-box-shadow: 0 0 0px #888;
     -webkit-box-shadow: 0 0 0px #888;
     box-shadow: 0 0 0px #888;
-}
+}*/
 
 #map {
     /*padding:0px;*/
@@ -76,13 +82,7 @@ body {
     -webkit-box-shadow: inset 0 0 0px #888;
     box-shadow: inner 0 0 0px #888;
     background-color:#fff;
-
-    position: absolute;
-    padding: 0;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    height: 100%;
 }
 
 #siteFooter {
@@ -95,23 +95,24 @@ body {
 /*Left pane contains a stack container with legend and webmap details*/
 #leftPane {
     padding:0px;
-    width:0px;
+    /*width:0px;*/
     border-right:solid 1px #999;
 }
 #leftPane #rightPane a{
     color:#336699;
+    /*display:none;*/
 }
 
 /*Right pane contains TOC*/
 #rightPane {
     padding:0px;
-    width:0px;
+    /*width:0px;*/
     border-left:solid 1px #999;
 }
 
-.dijitContentPane{
+/*.dijitContentPane{
     overflow:hidden;
-}
+}*/
 
 #legendPanel{
     /*width:100%;*/
@@ -359,6 +360,7 @@ td.dijitMenuItemIconCell,td.dijitMenuItemLabel{
     right:10px;
     top:10px;
     height:100%;
+    display: none;
 }
 #nav a:link,
 #nav a:visited{
@@ -446,7 +448,7 @@ td.dijitMenuItemIconCell,td.dijitMenuItemLabel{
 }
 
 #measureDiv{
-    padding:2px !important;
+    padding:0px !important;
 }
 #measureTool{
     width:214px;

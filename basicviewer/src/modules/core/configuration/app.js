@@ -8,7 +8,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                 // This is the default configuration for the application (if no appid is specified below and no appid querystring param is passed in)
                 var configOptions = {
                     //The ArcGIS Online id for a web mapping application item that was published and possibly configured on ArcGIS.com
-                    // In most cases this will be null.
+                    // In most cases this will be null (empty quotes).
                     appid: "",
                     //The ID for the map from ArcGIS.com
                     //If not going to specify a Web Map in AGO, then use empty quotes ("") here
@@ -20,7 +20,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     //set to true to display the title
                     displaytitle: true,
                     //Enter a title, if no title is specified, the webmap's title is used.
-                    title: "Maryland iMap",
+                    title: "iMap",
                     //URL to title logo, if none specified, then defaults to assets/MDLogo.gif
                     titleLogoUrl: "assets/MDlogo.gif",
                     //The height (px) of the Header (where title, logo, and links are located)
@@ -74,7 +74,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     //i18n.viewer.main.scaleBarUnits,
                     //The elevation tool uses the  measurement tool to draw the lines. So if this is set
                     //to true then displaymeasure needs to be true too.
-                    displayelevation: false,
+                    displayelevation: true,
                     //This option is used when the elevation chart is displayed to control what is displayed when users mouse over or touch the chart. When true, elevation gain/loss will be shown from the first location to the location under the cursor/finger.
                     showelevationdifference: false,
                     displayscalebar: true,
@@ -87,8 +87,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                         key: '',
                         login: ''
                     },
-                    //Set to true to display the left panel on startup. The left panel can contain the legend, details and editor. Set to true to
-                    //hide left panel on initial startup. 2
+                    //Set to true to display the left panel on startup. The left panel can contain the legend, details, editor, and custom widgets
                     leftPanelVisibility: false,
                     //If the webmap uses Bing Maps data, you will need to provide your Bing Maps Key
                     bingmapskey: "",
@@ -262,20 +261,20 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
 
             //override configuration settings if any url parameters are set
             , _checkForOverrides: function (urlObject, configOptions) {
-                    if (urlObject.query) {
-                        // If the map is being shared by another, then alterations to the default webmap will be in the JSON
-                        //   object located at the encoded URL passed in the webmapov parameter
-                        if (urlObject.query.webmapov) {
-                            configOptions.webmapoverride = entities.decode(urlObject.query.webmapov);
-                        }
-                        if (urlObject.query.webmap) {
-                            configOptions.webmap = urlObject.query.webmap;
-                        }
+                if (urlObject.query) {
+                    // If the map is being shared by another, then alterations to the default webmap will be in the JSON
+                    //   object located at the encoded URL passed in the webmapov parameter
+                    if (urlObject.query.webmapov) {
+                        configOptions.webmapoverride = entities.decode(urlObject.query.webmapov);
                     }
-
-                    //Raise event letting calling module know configuration is complete
-                    this.emit('appconfigured', configOptions);
+                    if (urlObject.query.webmap) {
+                        configOptions.webmap = urlObject.query.webmap;
+                    }
                 }
+
+                //Raise event letting calling module know configuration is complete
+                this.emit('appconfigured', configOptions);
+            }
         })
     }
 );

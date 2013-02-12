@@ -39,7 +39,7 @@
     // The modules which need to be loaded immediately during app load - most of the widgets are lazy-loaded (e.g. on button click)
     , ["jquery", "dojo/dom", "dojo/ready", "dojo/_base/lang", "require"
         , "modules/core/utilities/environment", "modules/core/configuration/app", "modules/core/configuration/map", "modules/core/configuration/layout", "modules/core/interop/interop"
-        , "dijit/layout/BorderContainer", "dijit/layout/ContentPane", "dijit/Toolbar"
+        , "dijit/layout/BorderContainer", "dijit/layout/ContentPane", "dijit/Toolbar", "dojo/parser"
         , "esri/arcgis/utils"
         /*, "dijit/layout/StackContainer", "modules/core/toc/toc",*/
         /*"dojo/i18n!localize/template"*/ /* , "esri/dijit/Scalebar", "esri/tasks/locator", "esri/tasks/geometry", "esri/dijit/BasemapGallery", "esri/dijit/OverviewMap"
@@ -48,7 +48,7 @@
     //The callback to run once Dojo and the required modules are ready.  References to the instantiated objects in the array can be exposed
     // as parameters in the callback functhistion, but a parameter does not have to be inserted for each array item
     , function($, dom, ready, lang, require, environment, app, mapConfig, layout, dataInterop) {
-       //ready(function() {
+       ready(function() {
             var appConfigurator = new app();
             var mapConfigurator = new mapConfig();
             var layoutHandler = new layout();
@@ -74,6 +74,6 @@
                     appConfigurator.configure();
                 }
             );
-       //});
+       });
     });
 })();
