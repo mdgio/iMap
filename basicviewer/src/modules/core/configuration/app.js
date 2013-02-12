@@ -24,7 +24,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     //URL to title logo, if none specified, then defaults to assets/MDLogo.gif
                     titleLogoUrl: "assets/MDlogo.gif",
                     //The height (px) of the Header (where title, logo, and links are located)
-                    headerHeight: "80",
+                    //headerHeight: "80",
                     //URL to banner image, if non specified then defaults to iMap banner image.
                     //headerbanner: "assets/imap/imapBanner2.jpg",
                     //Enter a description for the application. This description will appear in the left pane
@@ -134,7 +134,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                         link: 'http://mdimap.towson.edu/portal/'
                     }
                     //embed means the margins will be collapsed to just include the map no title or links, default is to embed if in iframe
-                    , embed: environment.IframeEmbedded
+                    , embed: (environment.IframeEmbedded || environment.WindowHeight < 600)
                 };
 
                 var urlObject = esri.urlToObject(document.location.href);
@@ -155,9 +155,9 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                             if (response.values.titleLogoUrl !== undefined) {
                                 configOptions.titleLogoUrl = response.values.titleLogoUrl;
                             }
-                            if (response.values.headerHeight !== undefined) {
+                            /*if (response.values.headerHeight !== undefined) {
                                 configOptions.headerHeight = response.values.headerHeight;
-                            }
+                            }*/
                             /*if (response.values.headerbanner !== undefined) {
                                 configOptions.headerbanner = response.values.headerbanner;
                             }*/

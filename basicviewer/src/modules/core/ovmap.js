@@ -5,16 +5,17 @@
  * Time: 11:12 AM
  * To change this template use File | Settings | File Templates.
  */
-define(["dojo/_base/declare", "dojo/topic", "esri/dijit/OverviewMap"],
-    function(declare, topic, overviewmap){
+define(["dojo/_base/declare", "dojo/_base/lang", "dojo/topic", "esri/dijit/OverviewMap"],
+    function(declare, lang, topic, overviewmap){
         return declare([], {
             //The map gets set by passing in when the module is instantiated (layout.js)
             map: null
             , _overviewMapDijit: null
 
-            , constructor: function() {
-                declare.safeMixin(this,args);
-                _createOvMap();
+            , constructor: function(args) {
+                //declare.safeMixin(this,args);
+                this.map = args.map;
+                this._createOvMap();
                 //Listen for when the basemap changes, as the overview map needs to be recreated with the new basemap
                 topic.subscribe('basemapchanged', lang.hitch(this, this._recreateOverview));
             }
@@ -36,13 +37,15 @@ define(["dojo/_base/declare", "dojo/topic", "esri/dijit/OverviewMap"],
                 //visible: specify the initial visibility of the ovmap.
                 this._overviewMapDijit = new overviewmap({
                     map: this.map,
-                    attachTo: "top-right",
+                    attachTo: "bottom-right",
                     opacity: 0.5,
                     color: "#000000",
                     expandfactor: 2,
                     maximizeButton: false,
                     visible: false,
-                    id: 'overviewMap'
+                    id: 'overviewMap',
+                    width: 100,
+                    height: 100
                 });
                 this._overviewMapDijit.startup();
             }

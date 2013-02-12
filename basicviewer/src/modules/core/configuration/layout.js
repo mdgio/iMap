@@ -5,8 +5,8 @@
  * Time: 2:49 PM
  * To change this template use File | Settings | File Templates.
  */
-define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "dojo/Evented", "dijit/registry"],
-    function(declare, environment, lang, Evented, registry){
+define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "dojo/Evented", "dijit/registry", "require"],
+    function(declare, environment, lang, Evented, registry, require){
         return declare([Evented],
             {
                 _AppConfig: null
@@ -109,7 +109,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                             dojo.style(dojo.byId('logo'), 'cursor', 'default');
                         }
                     }
-                    /*
+
                     if (this._AppConfig.displaysearch === 'true' || this._AppConfig.displaysearch === true) {
                         //Create the search location tool
                         require(["../geolocator"],
@@ -119,7 +119,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                                     , map: this._Map
                                     , sourceCountry: this._AppConfig.placefinder.countryCode
                                 });
-                                geoloc.startup();
+                                //geoloc.startup();
                             })
                         );
                     }
@@ -131,10 +131,10 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                                 var ovmap = new overviewmap({
                                     map: this._Map
                                 });
-                                ovmap.startup();
+                                //ovmap.startup();
                             })
                         );
-                    }*/
+                    }
 
                 }
 

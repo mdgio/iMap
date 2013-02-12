@@ -180,10 +180,10 @@ body {
 
 /*Style for company logo added to the map*/
 .logo{
-    bottom:5px;
+    bottom:2px;
     cursor:pointer;
     position:absolute;
-    right:5px;
+    right:15px;
     z-index:30;
 }
 .logo img{
@@ -607,7 +607,7 @@ div#editDiv.templatePicker .grid  .selectedItem {
 }
 
 #search {
-    display: block;
-    z-index: 2;
-    padding-bottom: 5px;
+    inline: block;
+    position: absolute;
+    z-index: 70;
 }
