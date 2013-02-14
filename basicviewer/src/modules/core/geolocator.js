@@ -27,7 +27,7 @@ define(["dojo/_base/declare", "dojo/on", "dojo/_base/lang", "esri/dijit/Geocoder
                 }));
 
                 // create the geocoder
-                var geocoder = new Geocoder({
+                var geocoder = new esri.dijit.Geocoder({
                     autoNavigate: true, // do not zoom to best result
                     maxLocations: 20, // increase number of results returned
                     map: this.map,

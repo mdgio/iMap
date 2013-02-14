@@ -1,8 +1,9 @@
 /**
  This class is run at startup and handles the layout and creation of non-map elements in the page.
  */
-define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "dojo/Evented", "dijit/registry", "require"],
-    function(declare, environment, lang, Evented, registry, require){
+define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "dojo/Evented", "dijit/registry", "require", "dijit/layout/ContentPane"
+    , "dijit/layout/BorderContainer"],
+    function(declare, environment, lang, Evented, registry, require, contentPane){
         return declare([Evented],
             {
                 _AppConfig: null
@@ -38,9 +39,10 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
 
                     // Determine if a left panel widget is set to show on startup, if so lay out the panel, but do not create widget yet
                     if (this._AppConfig.startupwidget && this._AppConfig.startupwidget !== 'none')
-                        this._ShowLeftOrRightPanel('left');
-                    /*if (this._AppConfig.leftPanelVisibility) // Show the left pane on startup
-                        this._ShowLeftOrRightPanel('left');*/
+                        // true means the panel will be shown on startup
+                        this._LayoutLeftPanel(true);
+                    else // false means the panel will be hidden, but available on startup
+                        this._LayoutLeftPanel(false);
                 }
 
                 , FinalizeLayout: function(webMap, map) {
@@ -127,19 +129,22 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
 
                 }
 
-                , _DisplayLeftPanel: function () {
-                    //display the left panel if any of these options are enabled.
-                    var display = false;
-                    if (this._AppConfig.displaydetails && this._AppConfig.description !== '') {
-                        display = true;
-                    }
-                    if (this._AppConfig.displaylegend) {
-                        display = true;
-                    }
-                    if (this._AppConfig.displayeditor) {
-                        display = true;
-                    }
-                    return display;
+                , _LayoutLeftPanel: function (show) {
+                    var leftBC = registry.byId('leftPane');
+                    if (this._AppConfig.leftpanewidth && this._AppConfig.leftpanewidth !== "")
+                        dojo.style(leftBC, "width", this._AppConfig.leftpanewidth + "px");
+                    if (show)
+                        esri.show(dojo.byId('leftPane'));
+                    /*var cp = new contentPane({
+                        id: 'leftPaneHeader',
+                        region: 'top',
+                        style: 'height:10px;',
+                        content: esri.substitute({
+                            close_title: 'hi',//i18n.panel.close.title,
+                            close_alt: 'hi2'//i18n.panel.close.label
+                        }, '<div style="float:right;clear:both;" id="paneCloseBtn"><a title=${close_title} alt=${close_alt} href="JavaScript:hideLeftOrRightPanel(\'left\');"><img src=assets/closepanel.png border="0"/></a></div>')
+                    });
+                    bc.addChild(cp);*/
                 }
 
                 , _ShowLeftOrRightPanel: function (direction) {

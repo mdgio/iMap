@@ -95,8 +95,10 @@ body {
 /*Left pane contains a stack container with legend and webmap details*/
 #leftPane {
     padding:0px;
+    margin:0px;
     /*width:0px;*/
     border-right:solid 1px #999;
+    display: none;
 }
 #leftPane #rightPane a{
     color:#336699;

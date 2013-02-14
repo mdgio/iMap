@@ -41,7 +41,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                         link: 'http://mdimap.towson.edu/portal/'
                     },
                     //specify the width of the panel that holds the editor, legend, details
-                    leftpanewidth: 228,
+                    leftpanewidth: '228',
                     //specify the width of the panel that holds the TOC
                     //rightpanewidth: 280,
                     //The height (px) of the Header (where title, logo, and links are located)
