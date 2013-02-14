@@ -1,9 +1,6 @@
 /**
- * Created with JetBrains WebStorm.
- * User: James.Somerville
- * Date: 2/8/13
- * Time: 11:12 AM
- * To change this template use File | Settings | File Templates.
+ Creates an ESRI Overview map dijit.
+ Also contains a function to recreate an overview map (apparently needed when basemap is switched).
  */
 define(["dojo/_base/declare", "dojo/_base/lang", "dojo/topic", "esri/dijit/OverviewMap"],
     function(declare, lang, topic, overviewmap){
@@ -13,7 +10,7 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/topic", "esri/dijit/Overv
             , _overviewMapDijit: null
 
             , constructor: function(args) {
-                //declare.safeMixin(this,args);
+                //map gets by passin in during instantiation
                 this.map = args.map;
                 this._createOvMap();
                 //Listen for when the basemap changes, as the overview map needs to be recreated with the new basemap

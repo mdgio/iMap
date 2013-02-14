@@ -1,14 +1,11 @@
 /**
- * Created with JetBrains WebStorm.
- * User: James.Somerville
- * Date: 2/8/13
- * Time: 11:12 AM
- * To change this template use File | Settings | File Templates.
+ Contains the ESRI Geocoder dijit (which includes the textbox).
+ Also adds a graphics layer to the map and a results handler to show pins on the map.
+ To do: implement a popup for the pins to show address info- http://help.arcgis.com/en/webapi/javascript/arcgis/jssamples/#sample/locator_poi
  */
 define(["dojo/_base/declare", "dojo/on", "dojo/_base/lang", "esri/dijit/Geocoder", "esri/dijit/Popup"],
     function(declare, on, lang, Geocoder, Popup){
         return declare([], {
-            //The geocoderUrl, map, sourceCountry get set by passing in when the module is instantiated (layout.js)
             geocoderUrl: null
             , map: null
             , sourceCountry: null
@@ -17,7 +14,7 @@ define(["dojo/_base/declare", "dojo/on", "dojo/_base/lang", "esri/dijit/Geocoder
             //, _InfoTemplate: null
 
             , constructor: function(args) {
-                //declare.safeMixin(this,args);
+                //The geocoderUrl, map, sourceCountry get set by passing in when the module is instantiated (layout.js)
                 this.geocoderUrl = args.geocoderUrl;
                 this.map = args.map;
                 this.sourceCountry = args.sourceCountry;
@@ -30,7 +27,7 @@ define(["dojo/_base/declare", "dojo/on", "dojo/_base/lang", "esri/dijit/Geocoder
                 }));
 
                 // create the geocoder
-                var geocoder = new esri.dijit.Geocoder({
+                var geocoder = new Geocoder({
                     autoNavigate: true, // do not zoom to best result
                     maxLocations: 20, // increase number of results returned
                     map: this.map,

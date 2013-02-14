@@ -539,6 +539,7 @@ function initUI(response) {
     addPrint();
   }
 
+
   if (configOptions.displaylayerlist === 'true' || configOptions.displaylayerlist === true) {
     addLayerList(layers);
   }

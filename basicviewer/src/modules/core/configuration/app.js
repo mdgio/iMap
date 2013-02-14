@@ -18,41 +18,51 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     // Can be relative. For example, if in basicviewer root- "./WebMap.js"
                     // If both webmap and webmapurl are empty, then a map must be programmatically defined in map.js
                     webmapurl: "webmap.js",
+                    //Enter a description for the application. This description will appear in the left pane
+                    //if no description is entered, the webmap description (if populated) will be used.
+                    description: "",
+                    //specify an owner for the app - used by the print option. The default value will be the web map's owner
+                    owner: '',
+
+                    //*** Layout ***
+                    //Specify a color theme for the app. Valid options are gray,blue,purple,green and orange
+                    theme: 'imap',
                     //set to true to display the title
                     displaytitle: true,
                     //Enter a title, if no title is specified, the webmap's title is used.
                     title: "iMap",
                     //URL to title logo, if none specified, then defaults to assets/MDLogo.gif
                     titleLogoUrl: "assets/MDlogo.gif",
+                    //Provide an image and url for a logo that will be displayed as a clickable image
+                    //in the lower right corner of the map. If nothing is specified then the esri logo will appear.
+                    //Example customLogoImage: "http://serverapi.arcgisonline.com/jsapi/arcgis/2.4compact/images/map/logo-med.png"
+                    customlogo: {
+                        image: 'assets/mdimaplogo.png',
+                        link: 'http://mdimap.towson.edu/portal/'
+                    },
+                    //specify the width of the panel that holds the editor, legend, details
+                    leftpanewidth: 228,
+                    //specify the width of the panel that holds the TOC
+                    //rightpanewidth: 280,
                     //The height (px) of the Header (where title, logo, and links are located)
                     //headerHeight: "80",
                     //URL to banner image, if non specified then defaults to iMap banner image.
                     //headerbanner: "assets/imap/imapBanner2.jpg",
-                    //Enter a description for the application. This description will appear in the left pane
-                    //if no description is entered the webmap description will be used.
-                    description: "",
-                    //specify an owner for the app - used by the print option. The default value will be the web map's owner
-                    owner: '',
-                    //Specify a color theme for the app. Valid options are gray,blue,purple,green and orange
-                    theme: 'imap',
-                    //Optional tools - set to false to hide the tool
-                    //set to false to hide the zoom slider on the map
-                    displayslider: true,
-                    displaymeasure: true,
-                    displaybasemaps: true,
-                    displayoverviewmap: true,
+
+                    //*** Widgets ***
+                    displaydetails: true,
+                    tablecontents: true,
                     displayeditor: true,
+                    startupwidget: 'displaydetails',
                     ////When editing you need to specify a proxyurl (see below) if the service is on a different domain
                     //Specify a proxy url if you will be editing, using the elevation profile or have secure services or web maps that are not shared with everyone.
                     proxyurl: "proxy.ashx",
-                    displaylegend: false,
-                    displaysearch: true,
-                    displaylayerlist: true,
-                    displaybookmarks: true,
-                    displaydetails: true,
+
+                    //*** Tools ***
+                    //Optional tools - set to false to hide the tool
                     displaytimeslider: true,
-                    displayprint: true,
                     //Print options
+                    displayprint: true,
                     printtask: "http://utility.arcgisonline.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task",
                     //Set the label in the nls file for your browsers language
                     printlayouts: [{
@@ -72,15 +82,10 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                         label:  'Portrait - PNG',//i18n.tools.print.layouts.label4,
                         format: 'PNG32'
                     }],
-                    //i18n.viewer.main.scaleBarUnits,
-                    //The elevation tool uses the  measurement tool to draw the lines. So if this is set
-                    //to true then displaymeasure needs to be true too.
-                    displayelevation: true,
-                    //This option is used when the elevation chart is displayed to control what is displayed when users mouse over or touch the chart. When true, elevation gain/loss will be shown from the first location to the location under the cursor/finger.
-                    showelevationdifference: false,
-                    displayscalebar: true,
-                    displayshare: true,
-                    //if enabled enter bitly key and login below.
+                    displaybasemaps: true,
+                    displaybookmarks: true,
+                    displaymeasure: true,
+                    displayshare: true,//if enabled enter bitly key and login below.
                     //The application allows users to share the map with social networking sites like twitter
                     //and facebook. The url for the application can be quite long so shorten it using bit.ly.
                     //You will need to provide your own bitly key and login.
@@ -88,10 +93,26 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                         key: '',
                         login: ''
                     },
-                    //Set to true to display the left panel on startup. The left panel can contain the legend, details, editor, and custom widgets
-                    leftPanelVisibility: false,
+                    //set to false to hide the zoom slider on the map
+                    displayslider: true,
+                    displayoverviewmap: true,
+                    displaysearch: true,
+
+                    displayscalebar: true,
                     //If the webmap uses Bing Maps data, you will need to provide your Bing Maps Key
                     bingmapskey: "",
+
+                    //i18n.viewer.main.scaleBarUnits,
+                    //The elevation tool uses the  measurement tool to draw the lines. So if this is set
+                    //to true then displaymeasure needs to be true too.
+                    //displayelevation: true,
+                    //This option is used when the elevation chart is displayed to control what is displayed when users mouse over or touch the chart. When true, elevation gain/loss will be shown from the first location to the location under the cursor/finger.
+                    //showelevationdifference: false,
+
+
+                    //Set to true to display the left panel on startup. The left panel can contain the legend, details, editor, and custom widgets
+                    //leftPanelVisibility: false,
+
                     //Modify this to point to your sharing service URL if you are using the portal
                     sharingurl: "http://www.arcgis.com/sharing/content/items",
                     //specify a group in ArcGIS.com that contains the basemaps to display in the basemap gallery
@@ -120,20 +141,10 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                         url: '',
                         text: ''
                     },
-                    //specify the width of the panel that holds the editor, legend, details
-                    leftpanewidth: 228,
-                    //specify the width of the panel that holds the TOC
-                    //rightpanewidth: 280,
+
                     //Restrict the map's extent to the initial extent of the web map. When true users
                     //will not be able to pan/zoom outside the initial extent.
-                    constrainmapextent: false,
-                    //Provide an image and url for a logo that will be displayed as a clickable image
-                    //in the lower right corner of the map. If nothing is specified then the esri logo will appear.
-                    //Example customLogoImage: "http://serverapi.arcgisonline.com/jsapi/arcgis/2.4compact/images/map/logo-med.png"
-                    customlogo: {
-                        image: 'assets/mdimaplogo.png',
-                        link: 'http://mdimap.towson.edu/portal/'
-                    }
+                    constrainmapextent: false
                     //embed means the margins will be collapsed to just include the map no title or links, default is to embed if in iframe
                     , embed: (environment.IframeEmbedded || environment.WindowHeight < 600)
                 };
@@ -156,23 +167,35 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                             if (response.values.titleLogoUrl !== undefined) {
                                 configOptions.titleLogoUrl = response.values.titleLogoUrl;
                             }
+                            if (response.values.leftpanewidth !== undefined) {
+                                configOptions.leftpanewidth = response.values.leftpanewidth;
+                            }
                             /*if (response.values.headerHeight !== undefined) {
                                 configOptions.headerHeight = response.values.headerHeight;
                             }*/
                             /*if (response.values.headerbanner !== undefined) {
                                 configOptions.headerbanner = response.values.headerbanner;
                             }*/
-                            if (response.values.description !== undefined) {
-                                configOptions.description = response.values.description;
-                            }
                             if (response.values.displaytitle !== undefined) {
                                 configOptions.displaytitle = response.values.displaytitle;
                             }
                             if (response.values.theme !== undefined) {
                                 configOptions.theme = response.values.theme;
                             }
+                            if (response.values.description !== undefined) {
+                                configOptions.description = response.values.description;
+                            }
+                            if (response.values.displaydetails !== undefined) {
+                                configOptions.displaydetails = response.values.displaydetails;
+                            }
+                            if (response.values.tablecontents !== undefined) {
+                                configOptions.tablecontents = response.values.tablecontents;
+                            }
                             if (response.values.displayeditor !== undefined) {
                                 configOptions.displayeditor = response.values.displayeditor;
+                            }
+                            if (response.values.startupwidget !== undefined) {
+                                configOptions.startupwidget = response.values.startupwidget;
                             }
                             if (response.values.displayprint !== undefined) {
                                 configOptions.displayprint = response.values.displayprint;
@@ -186,15 +209,12 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                             if (response.values.displaymeasure !== undefined) {
                                 configOptions.displaymeasure = response.values.displaymeasure;
                             }
-                            if (response.values.displaylegend !== undefined) {
+                            /*if (response.values.displaylegend !== undefined) {
                                 configOptions.displaylegend = response.values.displaylegend;
-                            }
-                            if (response.values.displaydetails !== undefined) {
-                                configOptions.displaydetails = response.values.displaydetails;
-                            }
-                            if (response.values.displaylayerlist !== undefined) {
+                            }*/
+                            /*if (response.values.displaylayerlist !== undefined) {
                                 configOptions.displaylayerlist = response.values.displaylayerlist;
-                            }
+                            }*/
                             if (response.values.displaybasemaps !== undefined) {
                                 configOptions.displaybasemaps = response.values.displaybasemaps;
                             }
@@ -207,12 +227,12 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                             if (response.values.displayslider !== undefined) {
                                 configOptions.displayslider = response.values.displayslider;
                             }
-                            if (response.values.displayelevation !== undefined) {
+                            /*if (response.values.displayelevation !== undefined) {
                                 configOptions.displayelevation = response.values.displayelevation;
                             }
                             if (response.values.showelevationdifference !== undefined) {
                                 configOptions.showelevationdifference === response.values.showelevationdifference;
-                            }
+                            }*/
                             if (response.values.displayoverviewmap !== undefined) {
                                 configOptions.displayoverviewmap = response.values.displayoverviewmap;
                             }

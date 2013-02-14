@@ -7,8 +7,7 @@
  */
 {
     "values": {
-        "displaybasemaps": "true",
-        "tablecontents": "true",
+    "displaybasemaps": "true",
         "displaylegend": "true",
         "displayshare": "true",
         "displaymeasure": "true",
@@ -16,15 +15,15 @@
         "showelevationdifference": "false",
         "theme": "gray",
         "displaydetails": "true",
-        "startupwidget": "none",
         "displayeditor": "true",
+        "displaylayerlist": "true",
         "displayoverviewmap": "true",
         "displaytimeslider": "true",
         "displayprint": "true",
         "displaysearch": "true"
 },
     "configurationSettings": [{
-    "category": "<b>Layout</b>",
+    "category": "<b>Application Layout</b>",
     "fields": [{
         "label": "Theme:",
         "fieldName": "theme",
@@ -70,60 +69,41 @@
         "type": "string",
         "tooltip": "URL for upper left image"
     },{
+        "placeHolder": "URL to banner image",
+        "label": "Banner Image URL:",
+        "fieldName": "headerbanner",
+        "type": "string",
+        "tooltip":  "URL for banner image displayed in Header."
+    }, {
         "placeHolder": "URL to image",
         "label": "Logo on map:",
         "fieldName": "customlogoimage",
         "type": "string",
         "tooltip": "Url for image"
-    },{
-        "placeHolder": "Left panel width",
-        "label": "Left panel width (px):",
-        "fieldName": "leftpanewidth",
-        "type": "string",
-        "tooltip": "in pixels"
+    }, {
+        "label": "Include Overview Map",
+        "fieldName": "displayoverviewmap",
+        "type": "boolean",
+        "tooltip": ""
     }]
 }, {
-    "category": "<b>Widgets</b>",
+    "category": "<b>Tools to include</b>",
     "fields": [{
+        "label": "Legend *",
+        "fieldName": "displaylegend",
+        "type": "boolean",
+        "tooltip": ""
+    }, {
         "label": "Details *",
         "fieldName": "displaydetails",
         "type": "boolean",
-        "tooltip": "Descriptions"
-    }, {
-        "label": "Table of Contents",
-        "fieldName": "tablecontents",
-        "type": "boolean",
-        "tooltip": "Legend and Add Data"
+        "tooltip": ""
     }, {
         "label": "Editor *",
         "fieldName": "displayeditor",
         "type": "boolean",
         "tooltip": "Display editor if web map contains feature service layer"
     }, {
-        "label": "Startup Widget:",
-        "fieldName": "startupwidget",
-        "type": "string",
-        "options": [{
-            "label": "None",
-            "value": "none"
-        }, {
-            "label": "Details",
-            "value": "displaydetails"
-        }, {
-            "label": "Table of Contents",
-            "value": "tablecontents"
-        }, {
-            "label": "Editor",
-            "value": "displayeditor"
-        }],
-        "tooltip": "Widget to show in left panel on load"
-    }, {
-        "value": "* These menu items will appear in the application when the web map has layers that require them.",
-        "type": "paragraph"
-    }]
-}, {
-    "category": "<b>Tools</b>",
-    "fields": [{
         "label": "Time Slider *",
         "fieldName": "displaytimeslider",
         "type": "boolean",
@@ -131,6 +111,11 @@
     }, {
         "label": "Print",
         "fieldName": "displayprint",
+        "type": "boolean",
+        "tooltip": ""
+    }, {
+        "label": "Layer List *",
+        "fieldName": "displaylayerlist",
         "type": "boolean",
         "tooltip": ""
     }, {
@@ -149,6 +134,15 @@
         "type": "boolean",
         "tooltip": ""
     }, {
+        "label": "Elevation",
+        "fieldName": "displayelevation",
+        "type": "boolean",
+        "tooltip": "Dispay an elevation profile. Note that the measure tool must be active for this tool to work."
+    },{
+        "label": "Show elevation difference",
+        "fieldName": "showelevationdifference",
+        "tooltip": "When true elevation gain loss is shown from the first location to the location under the cursor/finger."
+    }, {
         "label": "Share",
         "fieldName": "displayshare",
         "type": "boolean",
@@ -159,10 +153,8 @@
         "type": "boolean",
         "tooltip": ""
     }, {
-        "label": "Include Overview Map",
-        "fieldName": "displayoverviewmap",
-        "type": "boolean",
-        "tooltip": ""
+        "value": "* These menu items will appear in the application when the web map has layers that require them.",
+        "type": "paragraph"
     }]
 }]
 }

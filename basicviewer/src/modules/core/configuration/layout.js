@@ -35,8 +35,12 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                         esri.show(dojo.byId('header'));
                         esri.show(dojo.byId('bottomPane'));
                     }
-                    if (this._AppConfig.leftPanelVisibility) // Show the left pane on startup
+
+                    // Determine if a left panel widget is set to show on startup, if so lay out the panel, but do not create widget yet
+                    if (this._AppConfig.startupwidget && this._AppConfig.startupwidget !== 'none')
                         this._ShowLeftOrRightPanel('left');
+                    /*if (this._AppConfig.leftPanelVisibility) // Show the left pane on startup
+                        this._ShowLeftOrRightPanel('left');*/
                 }
 
                 , FinalizeLayout: function(webMap, map) {
