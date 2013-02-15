@@ -175,8 +175,9 @@ body {
 }
 
 #webmap-toolbar-center {
-    float: right;
+    margin: 0 auto;
     overflow:hidden;
+    display: table;
 }
 
 #webmap-toolbar-right {
@@ -617,4 +618,16 @@ div#editDiv.templatePicker .grid  .selectedItem {
     inline: block;
     position: absolute;
     z-index: 70;
+}
+
+.claro .dijitArrowButtonInner{
+    display: none !important;
+}
+
+.claro .dijitButtonText{
+    display: none !important;
+}
+
+.esriGeocoderContainer{
+    margin-top: 10px;
 }
