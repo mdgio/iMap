@@ -96,7 +96,7 @@ body {
 #leftPane {
     padding:0px;
     margin:0px;
-    /*width:0px;*/
+    width:230px;
     border-right:solid 1px #999;
     display: none;
 }

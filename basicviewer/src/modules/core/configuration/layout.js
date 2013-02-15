@@ -130,11 +130,18 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                 }
 
                 , _LayoutLeftPanel: function (show) {
+                    var changesMade = false;
                     var leftBC = registry.byId('leftPane');
-                    if (this._AppConfig.leftpanewidth && this._AppConfig.leftpanewidth !== "")
-                        dojo.style(leftBC, "width", this._AppConfig.leftpanewidth + "px");
-                    if (show)
+                    if (this._AppConfig.leftpanewidth && this._AppConfig.leftpanewidth !== "") {
+                        //dojo.style(leftBC, "width", this._AppConfig.leftpanewidth + "px");
+                        changesMade = true;
+                    }
+                    if (show) {
                         esri.show(dojo.byId('leftPane'));
+                        changesMade = true;
+                    }
+                    if (changesMade)
+                        registry.byId('bc').resize();
                     /*var cp = new contentPane({
                         id: 'leftPaneHeader',
                         region: 'top',
