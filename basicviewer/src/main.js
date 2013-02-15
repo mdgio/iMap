@@ -43,7 +43,7 @@
     // The modules which need to be loaded immediately during app load - most of the widgets are lazy-loaded (e.g. on button click)
     , ["dojo/parser", "jquery", "dojo/dom", "dojo/ready", "dojo/_base/lang", "require"
         , "modules/core/utilities/environment", "modules/core/configuration/app", "modules/core/configuration/map", "modules/core/configuration/layout", "modules/core/interop/interop"
-        , "dijit/layout/BorderContainer", "dijit/layout/StackContainer", "dijit/Toolbar", "dojo/parser", "dojox/layout/FloatingPane", "dijit/MenuItem"
+        , "dijit/layout/BorderContainer", "dijit/layout/TabContainer", "dijit/Toolbar", "dojo/parser", "dojox/layout/FloatingPane", "dijit/MenuItem"
         , "esri/arcgis/utils"
         /*, "dijit/layout/StackContainer", "modules/core/toc/toc",*/
         /*"dojo/i18n!localize/template"*/ /* , "esri/dijit/Scalebar", "esri/tasks/locator", "esri/tasks/geometry", "esri/dijit/BasemapGallery", "esri/dijit/OverviewMap"

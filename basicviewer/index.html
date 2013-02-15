@@ -183,7 +183,29 @@
               <!--<div data-dojo-type="dijit.layout.BorderContainer" data-dojo-props="design:'headline',gutters:'false'"
                    style="width:100%;height:100%;padding:0;">-->
             <!--Left Panel-->
-            <div data-dojo-type="dijit/layout/BorderContainer" id="leftPane" data-dojo-props="design:'headline', gutters:'false', region:'left', splitter:true">
+            <!--<div data-dojo-type="dijit/layout/BorderContainer" id="leftPane" data-dojo-props="design:'headline', gutters:'false', region:'left', splitter:true">
+            </div>-->
+            <!--<div data-dojo-type="dijit/layout/ContentPane" id="leftPane" data-dojo-props="gutters:'false', region:'left', splitter:true">
+            </div>-->
+            <div data-dojo-type="dijit/layout/ContentPane" id="leftPane" data-dojo-props="region:'left', splitter:true">
+                <div data-dojo-type="dijit/layout/TabContainer">
+
+                    <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="title:'Details', selected:true">
+                        <div id="legendDiv"></div>
+                    </div>
+
+                    <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="title:'Legend'" >
+                        Content for the second tab
+                    </div>
+
+                    <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="title:'Ag Selector'" >
+                        Content for the third tab
+                    </div>
+
+                    <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="title:'Editor'" >
+                        Content for the fourth tab
+                    </div>
+                </div>
             </div>
             <!--End Left Panel-->
             <!-- Map Section -->

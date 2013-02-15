@@ -539,10 +539,10 @@ function initUI(response) {
     addPrint();
   }
 
-
+/* Replaced by TOC
   if (configOptions.displaylayerlist === 'true' || configOptions.displaylayerlist === true) {
     addLayerList(layers);
-  }
+  }*/
   if (configOptions.displaybasemaps === 'true' || configOptions.displaybasemaps === true) {
     //add menu driven basemap gallery if embed = true
     if (configOptions.embed) {
@@ -566,10 +566,11 @@ function initUI(response) {
   if (configOptions.displaybookmarks === 'true' || configOptions.displaybookmarks === true) {
     addBookmarks(response);
   }
-  if (configOptions.displayoverviewmap === 'true' || configOptions.displayoverviewmap === true) {
+/* converted to new layout.js
+ if (configOptions.displayoverviewmap === 'true' || configOptions.displayoverviewmap === true) {
     //add the overview map - with initial visibility set to false.
     addOverview(false);
-  }
+  }*/
 
   //do we have any editable layers - if not then set editable to false
   editLayers = hasEditableLayers(layers);
@@ -592,9 +593,10 @@ function initUI(response) {
   if (configOptions.displaydetails === 'true' || configOptions.displaydetails === true) {
     configOptions.displaydetails = true;
   }
-  if (configOptions.displaylegend === 'true' || configOptions.displaylegend === true) {
+/*  Replaced by TOC
+    if (configOptions.displaylegend === 'true' || configOptions.displaylegend === true) {
     configOptions.displaylegend = true;
-  }
+  }*/
 	addInterop();
 
   if (displayLeftPanel()) {

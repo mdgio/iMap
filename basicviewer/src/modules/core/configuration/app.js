@@ -41,11 +41,11 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                         link: 'http://mdimap.towson.edu/portal/'
                     },
                     //specify the width of the panel that holds the editor, legend, details
-                    leftpanewidth: '228',
+                    leftpanewidth: '250',
                     //specify the width of the panel that holds the TOC
                     //rightpanewidth: 280,
                     //The height (px) of the Header (where title, logo, and links are located)
-                    //headerHeight: "80",
+                    headerHeight: "80",
                     //URL to banner image, if non specified then defaults to iMap banner image.
                     //headerbanner: "assets/imap/imapBanner2.jpg",
 
@@ -170,9 +170,9 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                             if (response.values.leftpanewidth !== undefined) {
                                 configOptions.leftpanewidth = response.values.leftpanewidth;
                             }
-                            /*if (response.values.headerHeight !== undefined) {
+                            if (response.values.headerHeight !== undefined) {
                                 configOptions.headerHeight = response.values.headerHeight;
-                            }*/
+                            }
                             /*if (response.values.headerbanner !== undefined) {
                                 configOptions.headerbanner = response.values.headerbanner;
                             }*/

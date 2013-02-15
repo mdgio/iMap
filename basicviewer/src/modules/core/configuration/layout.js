@@ -9,11 +9,13 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                 _AppConfig: null
                 , _WebMap: null
                 , _Map: null
+                , _MainBordCont: null
 
                 //Layout the regions of the Dojo container based on app configs.
                 //This way the map can be sized properly when first created.
                 , InitialLayout: function (appConfig) {
                     this._AppConfig = appConfig;
+                    this._MainBordCont = registry.byId('bc');
                     //load the specified theme
                     var ss = document.createElement("link");
                     ss.type = "text/css";
@@ -27,14 +29,16 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                         if (this._AppConfig.displaytitle === "true" || this._AppConfig.displaytitle === true) {
                             this._AppConfig.title = this._AppConfig.title || this._WebMap.item.title;
                             //Add a logo to the header if set
+                            dojo.style(dojo.byId("header"), "height", this._AppConfig.headerHeight + "px");
                             var logoImgHtml = '<img id="titleLogo" src="' +  this._AppConfig.titleLogoUrl + '" alt="MD Logo" />';
                             dojo.create("div", {
                                 id: 'webmapTitle',
                                 innerHTML: logoImgHtml + "<div class='titleDiv'>" + this._AppConfig.title + "</div>"
                             }, "header");
                         }
-                        esri.show(dojo.byId('header'));
-                        esri.show(dojo.byId('bottomPane'));
+                        //esri.show(dojo.byId('header'));
+                        //esri.show(dojo.byId('bottomPane'));
+                        //this._MainBordCont.resize();
                     }
 
                     // Determine if a left panel widget is set to show on startup, if so lay out the panel, but do not create widget yet
@@ -133,15 +137,15 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     var changesMade = false;
                     var leftBC = registry.byId('leftPane');
                     if (this._AppConfig.leftpanewidth && this._AppConfig.leftpanewidth !== "") {
-                        //dojo.style(leftBC, "width", this._AppConfig.leftpanewidth + "px");
+                        dojo.style(dojo.byId('leftPane'), "width", this._AppConfig.leftpanewidth + "px");
                         changesMade = true;
                     }
                     if (show) {
-                        esri.show(dojo.byId('leftPane'));
+                        //esri.show(dojo.byId('leftPane'));
                         changesMade = true;
                     }
                     if (changesMade)
-                        registry.byId('bc').resize();
+                        this._MainBordCont.resize();
                     /*var cp = new contentPane({
                         id: 'leftPaneHeader',
                         region: 'top',
