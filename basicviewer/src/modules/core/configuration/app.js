@@ -20,7 +20,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     webmapurl: "webmap.js",
                     //Enter a description for the application. This description will appear in the left pane
                     //if no description is entered, the webmap description (if populated) will be used.
-                    description: "",
+                    description: "Test description",
                     //specify an owner for the app - used by the print option. The default value will be the web map's owner
                     owner: '',
 
@@ -146,7 +146,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     //will not be able to pan/zoom outside the initial extent.
                     constrainmapextent: false
                     //embed means the margins will be collapsed to just include the map no title or links, default is to embed if in iframe
-                    , embed: (environment.IframeEmbedded || environment.WindowHeight < 600)
+                    , embed: true //(environment.IframeEmbedded || environment.WindowHeight < 600)
                 };
 
                 var urlObject = esri.urlToObject(document.location.href);

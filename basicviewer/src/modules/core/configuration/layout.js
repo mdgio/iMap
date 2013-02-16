@@ -23,6 +23,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     ss.href = "src/css/" + this._AppConfig.theme + ".css";
                     document.getElementsByTagName("head")[0].appendChild(ss);
 
+                    var changesMade = false;
                     //If app is embedded, do not show the header, footer, title, title logo, and hyperlinks
                     if (!this._AppConfig.embed) {
                         //add a title and logo, if applicable; automatically sets the height of the header depending on content and padding/margins
@@ -36,17 +37,20 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                                 innerHTML: logoImgHtml + "<div class='titleDiv'>" + this._AppConfig.title + "</div>"
                             }, "header");
                         }
-                        //esri.show(dojo.byId('header'));
-                        //esri.show(dojo.byId('bottomPane'));
-                        //this._MainBordCont.resize();
+                        esri.show(dojo.byId('header'));
+                        esri.show(dojo.byId('bottomPane'));
+                        changesMade = true;
                     }
 
                     // Determine if a left panel widget is set to show on startup, if so lay out the panel, but do not create widget yet
-                    if (this._AppConfig.startupwidget && this._AppConfig.startupwidget !== 'none')
+                    if (this._AppConfig.startupwidget && this._AppConfig.startupwidget !== 'none') {
                         // true means the panel will be shown on startup
                         this._LayoutLeftPanel(true);
-                    else // false means the panel will be hidden, but available on startup
+                        changesMade = true;
+                    } else // false means the panel will be hidden, but available on startup
                         this._LayoutLeftPanel(false);
+                    if (changesMade)
+                        this._MainBordCont.resize();
                 }
 
                 , FinalizeLayout: function(webMap, map) {
@@ -129,33 +133,18 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                         );
                     }
 
+                    //Set the left pane tabs
+                    this._CreateLeftPaneTabs();
                     //Set the toolbar
 
                 }
 
                 , _LayoutLeftPanel: function (show) {
-                    var changesMade = false;
                     var leftBC = registry.byId('leftPane');
-                    if (this._AppConfig.leftpanewidth && this._AppConfig.leftpanewidth !== "") {
+                    if (this._AppConfig.leftpanewidth && this._AppConfig.leftpanewidth !== "")
                         dojo.style(dojo.byId('leftPane'), "width", this._AppConfig.leftpanewidth + "px");
-                        changesMade = true;
-                    }
-                    if (show) {
-                        //esri.show(dojo.byId('leftPane'));
-                        changesMade = true;
-                    }
-                    if (changesMade)
-                        this._MainBordCont.resize();
-                    /*var cp = new contentPane({
-                        id: 'leftPaneHeader',
-                        region: 'top',
-                        style: 'height:10px;',
-                        content: esri.substitute({
-                            close_title: 'hi',//i18n.panel.close.title,
-                            close_alt: 'hi2'//i18n.panel.close.label
-                        }, '<div style="float:right;clear:both;" id="paneCloseBtn"><a title=${close_title} alt=${close_alt} href="JavaScript:hideLeftOrRightPanel(\'left\');"><img src=assets/closepanel.png border="0"/></a></div>')
-                    });
-                    bc.addChild(cp);*/
+                    if (show)
+                        esri.show(dojo.byId('leftPane'));
                 }
 
                 , _ShowLeftOrRightPanel: function (direction) {
@@ -185,6 +174,24 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                         setTimeout(function () {
                             toggleToolbarButtons('');
                         }, 100);
+                    }
+                }
+
+                // Function to handle loading the tab container.  The widget contents of a tab are lazy-loaded on click, except for the startup widget.
+                , _CreateLeftPaneTabs: function () {
+                    if ((this._AppConfig.displaydetails === 'true' || this._AppConfig.displaydetails === true) && this._AppConfig.description !== "") {
+                        var selectedPane = (this._AppConfig.startupwidget === 'displaydetails') ? true : false;
+                        var detailCp = new contentPane({
+                            title: 'Details', //i18n.tools.details.title,
+                            selected: selectedPane,
+                            id: "detailPanel"
+                        });
+
+                        //set the detail info
+                        detailCp.set('content', this._AppConfig.description);
+
+                        registry.byId('leftTabCont').addChild(detailCp);
+                        dojo.addClass(dojo.byId('detailPanel'), 'panel_content');
                     }
                 }
             }

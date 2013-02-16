@@ -33,7 +33,7 @@ body {
     overflow-y: hidden;
     overflow-x: hidden;
     vertical-align: middle;
-    /*display:none;*/
+    display:none;
 }
 
 /*#header {
@@ -103,7 +103,7 @@ body {
     margin:0px;
     border-right:solid 1px #999;
     /*width: 250px;*/
-    /*display:none;*/
+    display:none;
 }
 #leftPane #rightPane a{
     color:#336699;
@@ -192,7 +192,7 @@ body {
     cursor:pointer;
     position:absolute;
     right:15px;
-    z-index:30;
+    z-index:98;
 }
 .logo img{
     border:none;
