@@ -1,9 +1,9 @@
 /**
  This class is run at startup and handles the layout and creation of non-map elements in the page.
  */
-define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "dojo/Evented", "dijit/registry", "require", "dijit/layout/ContentPane"
-    , "dijit/layout/BorderContainer"],
-    function(declare, environment, lang, Evented, registry, require, contentPane){
+define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "dojo/Evented", "dijit/registry", "require", "dojo/dom", "dijit/layout/ContentPane"
+    , "dojox/widget/Standby", "dijit/layout/BorderContainer"],
+    function(declare, environment, lang, Evented, registry, require, dom, contentPane, Standby){
         return declare([Evented],
             {
                 _AppConfig: null
@@ -24,21 +24,21 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     document.getElementsByTagName("head")[0].appendChild(ss);
 
                     var changesMade = false;
+                    this._AppConfig.title = this._AppConfig.title || this._WebMap.item.title;
                     //If app is embedded, do not show the header, footer, title, title logo, and hyperlinks
                     if (!this._AppConfig.embed) {
                         //add a title and logo, if applicable; automatically sets the height of the header depending on content and padding/margins
                         if (this._AppConfig.displaytitle === "true" || this._AppConfig.displaytitle === true) {
-                            this._AppConfig.title = this._AppConfig.title || this._WebMap.item.title;
                             //Add a logo to the header if set
-                            dojo.style(dojo.byId("header"), "height", this._AppConfig.headerHeight + "px");
+                            dojo.style(dom.byId("header"), "height", this._AppConfig.headerHeight + "px");
                             var logoImgHtml = '<img id="titleLogo" src="' +  this._AppConfig.titleLogoUrl + '" alt="MD Logo" />';
                             dojo.create("div", {
                                 id: 'webmapTitle',
                                 innerHTML: logoImgHtml + "<div class='titleDiv'>" + this._AppConfig.title + "</div>"
                             }, "header");
                         }
-                        esri.show(dojo.byId('header'));
-                        esri.show(dojo.byId('bottomPane'));
+                        esri.show(dom.byId('header'));
+                        esri.show(dom.byId('bottomPane'));
                         changesMade = true;
                     }
 
@@ -60,13 +60,13 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     this._AppConfig.owner = this._WebMap.item.owner;
 
                     //Overlay toolbar on map
-                    var placeholder = dojo.byId('toolbarContainer');
-                    dojo.byId('map_root').appendChild(placeholder);
+                    var placeholder = dom.byId('toolbarContainer');
+                    dom.byId('map_root').appendChild(placeholder);
 
                     if (!this._AppConfig.embed) {
                         //create the links for the top of the application, if provided
                         if (this._AppConfig.link1.url && this._AppConfig.link2.url) {
-                            esri.show(dojo.byId('nav'));
+                            esri.show(dom.byId('nav'));
                             dojo.create("a", {
                                 href: this._AppConfig.link1.url,
                                 target: '_blank',
@@ -89,13 +89,13 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
 
                     //add a custom logo to the map if provided
                     if (this._AppConfig.customlogo.image) {
-                        esri.show(dojo.byId('logo'));
+                        esri.show(dom.byId('logo'));
                         //if a link isn't provided don't make the logo clickable
                         if (this._AppConfig.customlogo.link) {
                             var link = dojo.create('a', {
                                 href: this._AppConfig.customlogo.link,
                                 target: '_blank'
-                            }, dojo.byId('logo'));
+                            }, dom.byId('logo'));
                             dojo.create('img', {
                                 src: this._AppConfig.customlogo.image
                             }, link);
@@ -103,9 +103,9 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                             dojo.create('img', {
                                 id: 'logoImage',
                                 src: this._AppConfig.customlogo.image
-                            }, dojo.byId('logo'));
+                            }, dom.byId('logo'));
                             //set the cursor to the default instead of the pointer since the logo is not clickable
-                            dojo.style(dojo.byId('logo'), 'cursor', 'default');
+                            dojo.style(dom.byId('logo'), 'cursor', 'default');
                         }
                     }
 
@@ -142,14 +142,14 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                 , _LayoutLeftPanel: function (show) {
                     var leftBC = registry.byId('leftPane');
                     if (this._AppConfig.leftpanewidth && this._AppConfig.leftpanewidth !== "")
-                        dojo.style(dojo.byId('leftPane'), "width", this._AppConfig.leftpanewidth + "px");
+                        dojo.style(dom.byId('leftPane'), "width", this._AppConfig.leftpanewidth + "px");
                     if (show)
-                        esri.show(dojo.byId('leftPane'));
+                        esri.show(dom.byId('leftPane'));
                 }
 
                 , _ShowLeftOrRightPanel: function (direction) {
                     var targetDivId = direction.toLowerCase() + "Pane";
-                    var targetDiv = dojo.byId(targetDivId);
+                    var targetDiv = dom.byId(targetDivId);
                     var targetPaneWidth = dojo.style(targetDiv, "width");
                     if (targetPaneWidth === 0) {
                         dojo.style(targetDiv, "width", configOptions[targetDivId.toLowerCase() + "width"] + "px");
@@ -161,7 +161,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     //close the left panel when x button is clicked
                     direction = direction.toLowerCase();
                     var targetDivId = direction + "Pane";
-                    var targetDiv = dojo.byId(targetDivId);
+                    var targetDiv = dom.byId(targetDivId);
                     var targetPaneWidth = dojo.style(targetDiv, "width");
                     if (targetPaneWidth === 0) {
                         targetPaneWidth = configOptions[targetDivId.toLowerCase() + "width"];
@@ -177,8 +177,11 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     }
                 }
 
-                // Function to handle loading the tab container.  The widget contents of a tab are lazy-loaded on click, except for the startup widget.
+                /*** Function to handle loading the tab container.  The widget contents of a tab are lazy-loaded on click, except for the startup widget.
+                    This is the place to create new tabs for new widgets. See existing widgets for how-to.*/
                 , _CreateLeftPaneTabs: function () {
+                    var leftTabCont = registry.byId('leftTabCont');
+                    // Details panel
                     if ((this._AppConfig.displaydetails === 'true' || this._AppConfig.displaydetails === true) && this._AppConfig.description !== "") {
                         var selectedPane = (this._AppConfig.startupwidget === 'displaydetails') ? true : false;
                         var detailCp = new contentPane({
@@ -186,12 +189,65 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                             selected: selectedPane,
                             id: "detailPanel"
                         });
-
+                        var detailsContent = '';
+                        if (this._AppConfig.embed && (this._AppConfig.displaytitle === "true" || this._AppConfig.displaytitle === true))
+                            detailsContent = detailsContent.concat('<h1>', this._AppConfig.title, '</h1>', this._AppConfig.description);
+                        else
+                            detailsContent = this._AppConfig.description;
                         //set the detail info
-                        detailCp.set('content', this._AppConfig.description);
+                        detailCp.set('content', detailsContent);
 
-                        registry.byId('leftTabCont').addChild(detailCp);
-                        dojo.addClass(dojo.byId('detailPanel'), 'panel_content');
+                        leftTabCont.addChild(detailCp);
+                        dojo.addClass(dom.byId('detailPanel'), 'panel_content');
+                    }
+
+                    // Table of Contents
+                    if ((this._AppConfig.tablecontents === 'true' || this._AppConfig.tablecontents === true)) {
+                        var selectedPane = (this._AppConfig.startupwidget === 'tablecontents') ? true : false;
+                        var tocCp = new contentPane({
+                            title: 'Contents', //i18n.tools.details.title,
+                            selected: selectedPane,
+                            id: "tocPanel"
+                        });
+
+                        if (selectedPane) { // Get the toc widget and load immediately
+                            require(["../toc/toc"],
+                                lang.hitch(this, function(tocWidg) {
+                                    var contentsTab = dom.byId("tocPanel");
+                                    // Create our widget and place it
+                                    var widget = new tocWidg();
+                                    widget.placeAt(contentsTab);
+                                    widget.initializeDijitToc(this._Map);
+                                })
+                            );
+                        } else { // Don't load the widget, unless needed- i.e. when a user clicks on the tab button (lazy loading)
+                            leftTabCont.watch("selectedChildWidget", lang.hitch(this, function(name, oval, nval){
+                                if (nval.id === 'tocPanel') {
+                                    var contentsTab = dom.byId("tocPanel");
+                                    if (!contentsTab.hasLoaded) { //Widget has not been activated yet. Run-time load it now.
+                                        var standby = new Standby({target: "tocPanel"});
+                                        document.body.appendChild(standby.domNode);
+                                        standby.show();
+                                        require(["../toc/toc"],
+                                            lang.hitch(this, function(tocWidg) {
+                                                    // Create our widget and place it
+                                                    var widget = new tocWidg();
+                                                    widget.placeAt(contentsTab);
+                                                    contentsTab.hasLoaded = true;
+                                                    widget.initializeDijitToc(this._Map);
+                                                    standby.hide();
+                                                    //standby.destroyRecursive(false);
+                                            })
+                                        );
+                                    }
+                                }
+                            }));
+                        }
+
+                        leftTabCont.addChild(tocCp);
+                        dojo.addClass(dom.byId('tocPanel'), 'panel_content');
+                        if (selectedPane)
+                            leftTabCont.selectChild(tocCp);
                     }
                 }
             }

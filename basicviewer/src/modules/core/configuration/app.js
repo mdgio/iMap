@@ -32,7 +32,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     //Enter a title, if no title is specified, the webmap's title is used.
                     title: "iMap",
                     //URL to title logo, if none specified, then defaults to assets/MDLogo.gif
-                    titleLogoUrl: "assets/MDlogo.gif",
+                    titleLogoUrl: "assets/MDlogo-small.gif",
                     //Provide an image and url for a logo that will be displayed as a clickable image
                     //in the lower right corner of the map. If nothing is specified then the esri logo will appear.
                     //Example customLogoImage: "http://serverapi.arcgisonline.com/jsapi/arcgis/2.4compact/images/map/logo-med.png"
@@ -45,7 +45,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     //specify the width of the panel that holds the TOC
                     //rightpanewidth: 280,
                     //The height (px) of the Header (where title, logo, and links are located)
-                    headerHeight: "80",
+                    headerHeight: "40",
                     //URL to banner image, if non specified then defaults to iMap banner image.
                     //headerbanner: "assets/imap/imapBanner2.jpg",
 
@@ -134,19 +134,19 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     //ArcGIS.com. Enter link values for the link1 and link2 and text to add links. For example
                     //url:'http://www.esri.com',text:'Esri'
                     link1: {
-                        url: '',
-                        text: ''
+                        url: 'http://www.maryland.gov/Pages/default.aspx',
+                        text: 'Maryland Gov'
                     },
                     link2: {
-                        url: '',
-                        text: ''
+                        url: 'http://doit.maryland.gov/about/Pages/gio.aspx',
+                        text: 'GIO'
                     },
 
                     //Restrict the map's extent to the initial extent of the web map. When true users
                     //will not be able to pan/zoom outside the initial extent.
                     constrainmapextent: false
                     //embed means the margins will be collapsed to just include the map no title or links, default is to embed if in iframe
-                    , embed: true //(environment.IframeEmbedded || environment.WindowHeight < 600)
+                    , embed: (environment.IframeEmbedded || environment.WindowHeight < 600)
                 };
 
                 var urlObject = esri.urlToObject(document.location.href);

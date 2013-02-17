@@ -3,7 +3,7 @@ define(["dojo/_base/declare", "jquery", "dojo/dom-construct", "dijit/_WidgetBase
 	"dojo/text!./templates/toc.html", "dojo/dom-style", "dojo/_base/fx", "dojo/_base/lang", "./legend/TOC", "xstyle/css!./css/toc.css", "jqueryui"],
     function(declare, $, domConstruct, WidgetBase, TemplatedMixin, WidgetsInTemplateMixin, dojoOn, dojoRegistry, ready, parser, template, domsty, fxer, language, legendToc){
         //The module needs to be explicitly declared when it will be declared in markup.  Otherwise, do not put one in.
-        return declare("modules/core/toc/toc", [WidgetBase, TemplatedMixin, WidgetsInTemplateMixin], {
+        return declare(/*"modules/core/toc/toc",*/ [WidgetBase, TemplatedMixin, WidgetsInTemplateMixin], {
             // The template HTML fragment (as a string, created in dojo/text definition above)
 			templateString: template,
 			// The CSS class to be applied to the root node in our template

@@ -162,7 +162,8 @@
     <body class="claro">
         <div id="bc" data-dojo-id="bc" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="design:'headline', gutters:false">
             <!-- Header Section-->
-            <div id="header" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'top'">
+            <div id="header" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'top'"
+                    style="overflow: hidden;">
               <!--Title dyanmically generated -->
               <div id="nav">
                   <!--<div align="right">
@@ -187,24 +188,9 @@
             </div>-->
             <!--<div data-dojo-type="dijit/layout/ContentPane" id="leftPane" data-dojo-props="gutters:'false', region:'left', splitter:true">
             </div>-->
+            <!-- Set to hidden by default, controlled by app config.  Tabs are dynamically created in app.js > _CreateLeftPaneTabs fxn -->
             <div data-dojo-type="dijit/layout/ContentPane" id="leftPane" data-dojo-props="region:'left', splitter:true">
                 <div id="leftTabCont" data-dojo-type="dijit/layout/TabContainer">
-
-                    <!--<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="title:'Details', selected:true">
-                        <div id="legendDiv"></div>
-                    </div>
-
-                    <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="title:'Legend'" >
-                        Content for the second tab
-                    </div>
-
-                    <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="title:'Ag Selector'" >
-                        Content for the third tab
-                    </div>
-
-                    <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="title:'Editor'" >
-                        Content for the fourth tab
-                    </div>-->
                 </div>
             </div>
             <!--End Left Panel-->
