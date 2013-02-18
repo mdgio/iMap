@@ -207,7 +207,8 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                         var tocCp = new contentPane({
                             title: 'Contents', //i18n.tools.details.title,
                             selected: selectedPane,
-                            id: "tocPanel"
+                            id: "tocPanel",
+                            content: '<div id="accRoot"></div>'
                         });
 
                         if (selectedPane) { // Get the toc widget and load immediately
@@ -231,10 +232,10 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                                         require(["../toc/toc"],
                                             lang.hitch(this, function(tocWidg) {
                                                     // Create our widget and place it
-                                                    var widget = new tocWidg();
-                                                    widget.placeAt(contentsTab);
+                                                    var widget = new tocWidg({ esriMap: this._Map });
+                                                    //widget.placeAt(contentsTab);
                                                     contentsTab.hasLoaded = true;
-                                                    widget.initializeDijitToc(this._Map);
+                                                    //widget.initializeDijitToc(this._Map);
                                                     standby.hide();
                                                     //standby.destroyRecursive(false);
                                             })

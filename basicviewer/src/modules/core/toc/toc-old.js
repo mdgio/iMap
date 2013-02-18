@@ -1,45 +1,44 @@
 // The parent container for the Table of Contents and Add Data accordion
-define(["dojo/_base/declare", /*"jquery",*/ "dojo/dom-construct", "dijit/_WidgetBase", /*"dijit/_TemplatedMixin", "dijit/_WidgetsInTemplateMixin",*/ "dojo/on", "dijit/registry", "dojo/ready", "dojo/parser"
-	/*"dojo/text!./templates/toc.html"*/, "dijit/layout/AccordionContainer", "dijit/layout/ContentPane", "dojo/dom-style", "dojo/_base/fx", "dojo/_base/lang", "./legend/TOC" /*,"xstyle/css!./css/toc.css", "jqueryui"*/],
-    function(declare, /*$,*/ domConstruct, WidgetBase, /*TemplatedMixin, WidgetsInTemplateMixin,*/ dojoOn, dojoRegistry, ready, parser /*template,*/
-             , AccordionContainer, ContentPane, domsty, fxer, language, legendToc){
+define(["dojo/_base/declare", "jquery", "dojo/dom-construct", "dijit/_WidgetBase", "dijit/_TemplatedMixin", "dijit/_WidgetsInTemplateMixin", "dojo/on", "dijit/registry", "dojo/ready", "dojo/parser",
+	"dojo/text!./templates/toc.html", "dojo/dom-style", "dojo/_base/fx", "dojo/_base/lang", "./legend/TOC", "xstyle/css!./css/toc.css", "jqueryui"],
+    function(declare, $, domConstruct, WidgetBase, TemplatedMixin, WidgetsInTemplateMixin, dojoOn, dojoRegistry, ready, parser, template, domsty, fxer, language, legendToc){
         //The module needs to be explicitly declared when it will be declared in markup.  Otherwise, do not put one in.
-        return declare(/*"modules/core/toc/toc",*/ [WidgetBase /*, TemplatedMixin, WidgetsInTemplateMixin*/], {
+        return declare(/*"modules/core/toc/toc",*/ [WidgetBase, TemplatedMixin, WidgetsInTemplateMixin], {
             // The template HTML fragment (as a string, created in dojo/text definition above)
-			//templateString: template,
+			templateString: template,
 			// The CSS class to be applied to the root node in our template
-			//baseClass: "tocdivParent",
+			baseClass: "tocdivParent",
             // During the resize event, check if the jquery accordion has been created yet
-            //tocHasBeenAccordioned: false,
+            tocHasBeenAccordioned: false,
             // The ESRI map object to bind to the TOC
-            esriMap: null,
+            _esriMap: null,
             // The table of contents dijit
             _dijitToc: null,
 
             //The event handlers below are not needed, unless for custom code.  They are here for reference.
-            constructor: function(args) {
-                declare.safeMixin(this,args);
+            constructor: function() {
+                this.inherited(arguments);
+            },
 
-                var aContainer = new AccordionContainer(null, 'accRoot');
-                var legendPane = new ContentPane({
-                    title: "Legend",
-                    content: '<div id="tocDiv"></div>'
-                });
-                this.initializeDijitToc(this.esriMap);
+            postMixInProperties: function() {
+                this.inherited(arguments);
+            },
 
-                var addDataPane = new ContentPane({
-                    title:"Add Data",
-                    content:'<div id="tocAddDiv"></div>'
-                });
+            buildRendering: function () {
+                this.inherited(arguments);
+            },
 
-                aContainer.addChild(legendPane);
-                aContainer.addChild(addDataPane);
-                aContainer.startup();
+            postCreate: function () {
+                this.inherited(arguments);
+            },
+
+            startup: function () {
+                this.inherited(arguments);
             },
 
             //Resize event was found to be the place where jQuery accordion can be created and sized properly.
             //Once created, it is "refreshed" (resized) when the widget is resized.
-            /*resize: function () {
+            resize: function () {
                 this.inherited(arguments);
                 if (this.tocHasBeenAccordioned) {
                     $(this.domNode.children[0]).accordion("refresh");
@@ -52,16 +51,16 @@ define(["dojo/_base/declare", /*"jquery",*/ "dojo/dom-construct", "dijit/_Widget
                         }
                     });
                 }
-            },*/
+            },
 
-            // Create the toc dijit, if needed, otherwise do nothing.  If esriMap has already been set, do not need to pass in again.
+            // Create the toc dijit, if needed, otherwise do nothing.  If _esriMap has already been set, do not need to pass in again.
             initializeDijitToc: function(esriMap) {
                 var tocIsCreated = false;
-                if (esriMap != null && (this.esriMap == null || this.esriMap != esriMap)) {
-                    this.esriMap = esriMap;
+                if (esriMap != null && (this._esriMap == null || this._esriMap != esriMap)) {
+                    this._esriMap = esriMap;
                     this._createDijitToc();
                     tocIsCreated = true;
-                } else if (this.esriMap != null && this._dijitToc == null) {
+                } else if (this._esriMap != null && this._dijitToc == null) {
                     this._createDijitToc();
                     tocIsCreated = true;
                 }
@@ -74,16 +73,30 @@ define(["dojo/_base/declare", /*"jquery",*/ "dojo/dom-construct", "dijit/_Widget
                     this._dijitToc.destroyRecursive();
                 //Override the default of the TOC to show a visibility slider for the service layers
                 theTocLayerInfos = [];
-                for(var j = this.esriMap.layerIds.length - 1; j >= 0; j--) {
-                    var agsLayer = this.esriMap.getLayer(this.esriMap.layerIds[j]);
+                for(var j = this._esriMap.layerIds.length - 1; j >= 0; j--) {
+                    var agsLayer = this._esriMap.getLayer(this._esriMap.layerIds[j]);
                     theTocLayerInfos.push({ layer: agsLayer, slider: true })
                 }
 
                 this._dijitToc = new legendToc({
-                        map: this.esriMap,
+                        map: this._esriMap,
                         layerInfos: theTocLayerInfos
                     }, 'tocDiv');
                 this._dijitToc.startup();
+
+                /*require(["modules/core/toc/legend/TOC"],
+                    function(legendToc) {
+                        var thisWidget = dijit.byId('tocWidg');
+                        thisWidget._dijitToc = new legendToc({
+                        //this._dijitToc = new legendToc({
+                            //map: this._esriMap,
+                            map: thisWidget._esriMap,
+                            layerInfos: theTocLayerInfos
+                        }, 'tocDiv');
+                        //this._dijitToc.startup();
+                        thisWidget._dijitToc.startup();
+                    }
+                );*/
             }
         });
 });
