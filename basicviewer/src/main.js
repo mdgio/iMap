@@ -41,7 +41,7 @@
         ]
     }
     // The modules which need to be loaded immediately during app load - most of the widgets are lazy-loaded (e.g. on button click)
-    , ["dojo/parser", "jquery", "dojo/dom", "dojo/ready", "dojo/_base/lang", "require"
+    , ["dojo/parser", /*"jquery",*/ "dojo/dom", "dojo/ready", "dojo/_base/lang", "require"
         , "modules/core/utilities/environment", "modules/core/configuration/app", "modules/core/configuration/map", "modules/core/configuration/layout", "modules/core/interop/interop"
         , "dijit/layout/BorderContainer", "dijit/layout/TabContainer", "dijit/Toolbar", "dojo/parser", "dojox/layout/FloatingPane", "dijit/MenuItem"
         , "esri/arcgis/utils"
@@ -51,14 +51,14 @@
         , "esri/dijit/Bookmarks", "esri/dijit/Attribution"*//*, "myModules/custommenu"*//*, "esri/dijit/Print"*//*, "apl/ElevationsChart/Pane"*//*, "dijit/MenuItem"*/]
     //The callback to run once Dojo and the required modules are ready.  References to the instantiated objects in the array can be exposed
     // as parameters in the callback functhistion, but a parameter does not have to be inserted for each array item
-    , function(parser, $, dom, ready, lang, require, environment, app, mapConfig, layout, dataInterop) {
+    , function(parser, /*$,*/ dom, ready, lang, require, environment, app, mapConfig, layout, dataInterop) {
        ready(function() {
             parser.parse();
             var appConfigurator = new app();
             var mapConfigurator = new mapConfig();
             var layoutHandler = new layout();
-            $(document).ready(
-                function(){ //jQuery is now loaded and ready
+            //$(document).ready(
+                //function(){ //jQuery is now loaded and ready
                     //The application configuration has been loaded
                     appConfigurator.on('appconfigured', function (appConfig) {
                         //Configure the web map
@@ -77,8 +77,8 @@
                         mapConfigurator.configure(appConfig);
                     });
                     appConfigurator.configure();
-                }
-            );
+                //}
+            //);
        });
     });
 })();

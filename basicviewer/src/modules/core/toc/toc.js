@@ -4,7 +4,7 @@ define(["dojo/_base/declare", /*"jquery",*/ "dojo/dom-construct", "dijit/_Widget
     function(declare, /*$,*/ domConstruct, WidgetBase, /*TemplatedMixin, WidgetsInTemplateMixin,*/ dojoOn, dojoRegistry, ready, parser /*template,*/
              , AccordionContainer, ContentPane, domsty, fxer, language, legendToc){
         //The module needs to be explicitly declared when it will be declared in markup.  Otherwise, do not put one in.
-        return declare(/*"modules/core/toc/toc",*/ [WidgetBase /*, TemplatedMixin, WidgetsInTemplateMixin*/], {
+        return declare(/*"modules/core/toc/toc",*/ [WidgetBase, AccordionContainer /*, TemplatedMixin, WidgetsInTemplateMixin*/], {
             // The template HTML fragment (as a string, created in dojo/text definition above)
 			//templateString: template,
 			// The CSS class to be applied to the root node in our template
@@ -15,26 +15,50 @@ define(["dojo/_base/declare", /*"jquery",*/ "dojo/dom-construct", "dijit/_Widget
             esriMap: null,
             // The table of contents dijit
             _dijitToc: null,
+            _accordion: null,
 
             //The event handlers below are not needed, unless for custom code.  They are here for reference.
             constructor: function(args) {
                 declare.safeMixin(this,args);
-
-                var aContainer = new AccordionContainer(null, 'accRoot');
-                var legendPane = new ContentPane({
+                this.esriMap = args.esriMap;
+                //this._accordion = new AccordionContainer(null, 'accRoot');
+                //this._accordion = new AccordionContainer(null);
+                /*var legendPane = new ContentPane({
                     title: "Legend",
-                    content: '<div id="tocDiv"></div>'
+                    content: '<div id="tocDiv">Stuff here</div>'
                 });
-                this.initializeDijitToc(this.esriMap);
 
                 var addDataPane = new ContentPane({
                     title:"Add Data",
-                    content:'<div id="tocAddDiv"></div>'
+                    content:'<div id="tocAddDiv">Stuff here</div>'
                 });
 
-                aContainer.addChild(legendPane);
-                aContainer.addChild(addDataPane);
-                aContainer.startup();
+                this.addChild(legendPane);
+                this.addChild(addDataPane);
+
+                this.initializeDijitToc(this.esriMap);
+                legendPane.addChild(this._dijitToc);*/
+
+                //this._accordion.startup();
+            },
+
+            postCreate: function () {
+                this.inherited(arguments);
+                var legendPane = new ContentPane({
+                    title: "Legend"
+                });
+
+                var addDataPane = new ContentPane({
+                    title:"Add Data",
+                    content:'<div id="tocAddDiv">Stuff here</div>'
+                });
+
+                this.addChild(legendPane);
+                this.addChild(addDataPane);
+
+                this.initializeDijitToc(this.esriMap);
+                legendPane.addChild(this._dijitToc);
+
             },
 
             //Resize event was found to be the place where jQuery accordion can be created and sized properly.
@@ -82,8 +106,8 @@ define(["dojo/_base/declare", /*"jquery",*/ "dojo/dom-construct", "dijit/_Widget
                 this._dijitToc = new legendToc({
                         map: this.esriMap,
                         layerInfos: theTocLayerInfos
-                    }, 'tocDiv');
-                this._dijitToc.startup();
+                    }/*, 'tocDiv'*/);
+                //this._dijitToc.startup();
             }
         });
 });

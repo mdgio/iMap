@@ -180,7 +180,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                 /*** Function to handle loading the tab container.  The widget contents of a tab are lazy-loaded on click, except for the startup widget.
                     This is the place to create new tabs for new widgets. See existing widgets for how-to.*/
                 , _CreateLeftPaneTabs: function () {
-                    var leftTabCont = registry.byId('leftTabCont');
+                    var leftTabCont = registry.byId('leftPane');
                     // Details panel
                     if ((this._AppConfig.displaydetails === 'true' || this._AppConfig.displaydetails === true) && this._AppConfig.description !== "") {
                         var selectedPane = (this._AppConfig.startupwidget === 'displaydetails') ? true : false;
@@ -208,11 +208,14 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                             title: 'Contents', //i18n.tools.details.title,
                             selected: selectedPane,
                             id: "tocPanel",
-                            content: '<div id="accRoot"></div>'
+                            style: "padding: 0px"/*,
+                            content: '<div id="accRoot"></div>'*/
                         });
+                        leftTabCont.addChild(tocCp);
+                        dojo.addClass(dom.byId('tocPanel'), 'panel_content');
 
                         if (selectedPane) { // Get the toc widget and load immediately
-                            require(["../toc/toc"],
+                            /*require(["../toc/toc"],
                                 lang.hitch(this, function(tocWidg) {
                                     var contentsTab = dom.byId("tocPanel");
                                     // Create our widget and place it
@@ -220,7 +223,16 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                                     widget.placeAt(contentsTab);
                                     widget.initializeDijitToc(this._Map);
                                 })
-                            );
+                            );*/
+                                require(["../toc/toc"],
+                                    lang.hitch(this, function(tocWidg) {
+                                        // Create our widget and place it
+                                        var widget = new tocWidg({ esriMap: this._Map });
+                                        tocCp.addChild(widget);
+                                        widget.startup();
+                                        tocCp.resize();
+                                    })
+                                );
                         } else { // Don't load the widget, unless needed- i.e. when a user clicks on the tab button (lazy loading)
                             leftTabCont.watch("selectedChildWidget", lang.hitch(this, function(name, oval, nval){
                                 if (nval.id === 'tocPanel') {
@@ -233,11 +245,12 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                                             lang.hitch(this, function(tocWidg) {
                                                     // Create our widget and place it
                                                     var widget = new tocWidg({ esriMap: this._Map });
-                                                    //widget.placeAt(contentsTab);
+                                                    var tocPane = registry.byId('tocPanel');
+                                                    tocPane.addChild(widget);
+                                                    widget.startup();
+                                                    tocPane.resize();
                                                     contentsTab.hasLoaded = true;
-                                                    //widget.initializeDijitToc(this._Map);
                                                     standby.hide();
-                                                    //standby.destroyRecursive(false);
                                             })
                                         );
                                     }
@@ -245,11 +258,14 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                             }));
                         }
 
-                        leftTabCont.addChild(tocCp);
-                        dojo.addClass(dom.byId('tocPanel'), 'panel_content');
+                        //leftTabCont.addChild(tocCp);
+                        //dojo.addClass(dom.byId('tocPanel'), 'panel_content');
                         if (selectedPane)
                             leftTabCont.selectChild(tocCp);
                     }
+
+                    // Editor Panel
+
                 }
             }
         )

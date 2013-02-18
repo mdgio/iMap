@@ -18,6 +18,7 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/on", "dojo/Evented", "../
                 , _clickHandler: null
 
                 //Pass in the application configuration, which can contain a web map id
+
                 , configure: function (appConfig) {
                     this._AppConfig = appConfig;
                     this._setDefaults();
