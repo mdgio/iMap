@@ -263,7 +263,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                         if (selectedPane)
                             leftTabCont.selectChild(tocCp);
                     }
-
+/*
                     // Editor Panel
                     if (configOptions.displayeditor == 'true' || configOptions.displayeditor === true) {
                         //do we have any editable layers - if not then disregard
@@ -300,8 +300,9 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                                             })
                                         );
                                     }
-                                } else //Destroy the dijit
+                                } else {//Destroy the dijit
 
+                                }
                             }));
 
                             if (selectedPane) { // Get the toc widget and load immediately
@@ -313,7 +314,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                             }
                             addEditor(editLayers);
                         }
-                    }
+                    }*/
                 }
 
                 //Determine if the webmap has any editable layers

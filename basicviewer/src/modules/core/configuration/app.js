@@ -20,7 +20,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     webmapurl: "webmap.js",
                     //Enter a description for the application. This description will appear in the left pane
                     //if no description is entered, the webmap description (if populated) will be used.
-                    description: "Test description",
+                    description: "This is the development version of iMap, for use as a template.",
                     //specify an owner for the app - used by the print option. The default value will be the web map's owner
                     owner: '',
 
@@ -30,7 +30,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     //set to true to display the title
                     displaytitle: true,
                     //Enter a title, if no title is specified, the webmap's title is used.
-                    title: "iMap",
+                    title: "iMap Sample Title",
                     //URL to title logo, if none specified, then defaults to assets/MDLogo.gif
                     titleLogoUrl: "assets/MDlogo-small.gif",
                     //Provide an image and url for a logo that will be displayed as a clickable image
@@ -52,7 +52,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     //*** Widgets ***
                     displaydetails: true,
                     tablecontents: true,
-                    displayeditor: true,
+                    displayeditor: false,
                     startupwidget: 'displaydetails',
                     ////When editing you need to specify a proxyurl (see below) if the service is on a different domain
                     //Specify a proxy url if you will be editing, using the elevation profile or have secure services or web maps that are not shared with everyone.
