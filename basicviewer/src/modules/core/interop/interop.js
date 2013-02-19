@@ -14,9 +14,6 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dijit/
 			floaterDiv: null,
 			//Floater child
 			innerDiv: null,
-            // During the resize event, tell if the jquery accordion has been created yet
-            //tocHasBeenAccordioned: false,
-            //id: null,
             //URL for portal 
             portalUrl: 'http://www.arcgis.com',
             // The ESRI map object to bind to the TOC
@@ -75,7 +72,7 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dijit/
         					listening(evt);
         				});
 
-            },
+            }
 
             /*resize: function () {
                 this.inherited(arguments);
@@ -83,7 +80,8 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dijit/
            
 
         });
-			function listening(evt){
+
+      function listening(evt){
 				        var fileName = evt.target.value.toLowerCase();
           				if (dojo.isIE) { //filename is full path in IE so extract the file name
             			var arr = fileName.split("\\");
@@ -94,61 +92,61 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dijit/
           				}else{
             				dojo.byId('upload-status').innerHTML = '<p style="color:red">Add shapefile as .zip file</p>';
          				}
-			}
+		}
 			
-			 function generateFeatureCollection(fileName) {
+	  function generateFeatureCollection(fileName) {
        
-        var name = fileName.split(".");
-        //Chrome and IE add c:\fakepath to the value - we need to remove it
-        //See this link for more info: http://davidwalsh.name/fakepath
-        name = name[0].replace("c:\\fakepath\\","");
+            var name = fileName.split(".");
+            //Chrome and IE add c:\fakepath to the value - we need to remove it
+            //See this link for more info: http://davidwalsh.name/fakepath
+            name = name[0].replace("c:\\fakepath\\","");
         
-        dojo.byId('upload-status').innerHTML = '<b>Loading… </b>' + name; 
+            dojo.byId('upload-status').innerHTML = '<b>Loading… </b>' + name;
         
-        //Define the input params for generate see the rest doc for details
-        //http://www.arcgis.com/apidocs/rest/index.html?generate.html
-        var params = {
-          'name': name,
-          'targetSR': map.spatialReference,
-          'maxRecordCount': 1000,
-          'enforceInputFileSizeLimit': true,
-          'enforceOutputJsonSizeLimit': true
-        };
+            //Define the input params for generate see the rest doc for details
+            //http://www.arcgis.com/apidocs/rest/index.html?generate.html
+            var params = {
+            'name': name,
+            'targetSR': map.spatialReference,
+            'maxRecordCount': 1000,
+            'enforceInputFileSizeLimit': true,
+            'enforceOutputJsonSizeLimit': true
+            };
 
-        //generalize features for display Here we generalize at 1:40,000 which is approx 10 meters 
-        //This should work well when using web mercator.  
-        var extent = esri.geometry.getExtentForScale(map,40000); 
-        var resolution = extent.getWidth() / map.width;
-        params.generalize = true;
-        params.maxAllowableOffset = resolution;
-        params.reducePrecision = true;
-        params.numberOfDigitsAfterDecimal = 0;
-        
-        var myContent = {
-          'filetype': 'shapefile',
-          'publishParameters': dojo.toJson(params),
-          'f': 'json',
-          'callback.html': 'textarea'
-        };
+            //generalize features for display Here we generalize at 1:40,000 which is approx 10 meters
+            //This should work well when using web mercator.
+            var extent = esri.geometry.getExtentForScale(map,40000);
+            var resolution = extent.getWidth() / map.width;
+            params.generalize = true;
+            params.maxAllowableOffset = resolution;
+            params.reducePrecision = true;
+            params.numberOfDigitsAfterDecimal = 0;
 
-        //use the rest generate operation to generate a feature collection from the zipped shapefile 
-        esri.request({
-          url: 'http://www.arcgis.com' + '/sharing/rest/content/features/generate',
-          content: myContent,
-          form: dojo.byId('uploadForm'),
-          handleAs: 'json',
-          load: dojo.hitch(this, function (response) {
-            if (response.error) {
-              errorHandler(response.error);
-              return;
-            }
-            dojo.byId('upload-status').innerHTML = '<b>Loaded: </b>' + response.featureCollection.layers[0].layerDefinition.name;
-            addShapefileToMap(response.featureCollection);
-          }),
-          error: dojo.hitch(this, errorHandler)
-        });
+            var myContent = {
+            'filetype': 'shapefile',
+            'publishParameters': dojo.toJson(params),
+            'f': 'json',
+            'callback.html': 'textarea'
+            };
 
-      }
+            //use the rest generate operation to generate a feature collection from the zipped shapefile
+            esri.request({
+                url: 'http://www.arcgis.com' + '/sharing/rest/content/features/generate',
+                content: myContent,
+                form: dojo.byId('uploadForm'),
+                handleAs: 'json',
+                load: dojo.hitch(this, function (response) {
+                    if (response.error) {
+                    errorHandler(response.error);
+                    return;
+                    }
+                    dojo.byId('upload-status').innerHTML = '<b>Loaded: </b>' + response.featureCollection.layers[0].layerDefinition.name;
+                    addShapefileToMap(response.featureCollection);
+                }),
+                error: dojo.hitch(this, errorHandler)
+            });
+
+        }
 
       function errorHandler(error) {
         dojo.byId('upload-status').innerHTML = "<p style='color:red'>" + error.message + "</p>";
@@ -188,28 +186,28 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dijit/
         //change the default symbol for the feature collection for polygons and points
         var symbol = null;
         switch (layer.geometryType) {
-        case 'esriGeometryPoint':
-          symbol = new esri.symbol.PictureMarkerSymbol({
-            'angle':0,
-            'xoffset':0,
-            'yoffset':0,
-            'type':'esriPMS',
-            'url':'http://static.arcgis.com/images/Symbols/Shapes/BluePin1LargeB.png',
-            'contentType':'image/png',
-            'width':20,
-            'height':20
-          });
-          break;
-        case 'esriGeometryPolygon':
-          symbol = new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_SOLID, new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color([112, 112, 112]), 1), new dojo.Color([136, 136, 136, 0.25]));
-          break;
+            case 'esriGeometryPoint':
+            symbol = new esri.symbol.PictureMarkerSymbol({
+                'angle':0,
+                'xoffset':0,
+                'yoffset':0,
+                'type':'esriPMS',
+                'url':'http://static.arcgis.com/images/Symbols/Shapes/BluePin1LargeB.png',
+                'contentType':'image/png',
+                'width':20,
+                'height':20
+            });
+            break;
+            case 'esriGeometryPolygon':
+            symbol = new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_SOLID, new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color([112, 112, 112]), 1), new dojo.Color([136, 136, 136, 0.25]));
+            break;
         }
         if (symbol) {
           layer.setRenderer(new esri.renderer.SimpleRenderer(symbol));
         }
-        }
+      }
 
-});
+    });
 
 	  /*function() {
         esri.config.defaults.io.proxyUrl = "/arcgisserver/apis/javascript/proxy/proxy.ashx";
@@ -336,4 +334,4 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dijit/
         }
         if (symbol) {
           layer.setRenderer(new esri.renderer.SimpleRenderer(symbol));
-        });*/
+    });*/

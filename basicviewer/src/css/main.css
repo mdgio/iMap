@@ -154,6 +154,7 @@ body {
 #toolbarContainer .dijitToolbar {
     height:100%;
     background-color: rgba(255, 255, 255, 0);
+    background-image: none !important;
 }
 /*Measure toggle button*/
 .claro .dijitToolbar .dijitButtonNode:hover {
@@ -166,7 +167,53 @@ body {
 
 .claro .dijitToolbar  .dijitButtonNode{
     padding: 5px;
-    background:url(../images/imap/toolbar_bg.png) repeat-x #282828; !important
+    background:url(../assets/imap/toolbar_bg.png) repeat-x #282828; !important
+
+}
+/* Change color of tab menu*/
+.claro .dijitTab{
+    background-color: #1E2227;
+    background-image: none !important;
+    color: #ffffff;
+}
+.claro .dijitTablisContainer{
+    background-color: #131313;
+}
+
+.claro .dijitTabListContainer-top .dijitTabStripButtonDisabled{
+    background-color: #131313;
+}
+
+.claro .dijitTabListContainer-bottom .dijitTabStripButtonDisabled{
+    background-color: #131313;
+}
+
+.claro .dijitTabListContainer-top .dijitContentPane{
+    background-color: #131313;
+}
+
+.claro .dijitTabController{
+    background-color: #3C3A3A;
+}
+
+.claro .dijitTabContainerTop-tabs .dijitTabChecked {
+    background-color: #131313;
+    background-image: none !important;
+}
+.claro .dijitTabListContainer-top .tabStripButton{
+    background-image: none !important;
+}
+.claro .dijitTabStripMenuIcon {
+    background-position: -150px 50%;
+}
+.claro .dijitTabStripSlideRightIcon{
+    background-position: -124px 50%;
+}
+.claro .dijitTabContainerTop-dijitContentPane, .claro .dijitTabContainerLeft-dijitContentPane, .claro .dijitTabContainerBottom-dijitContentPane, .claro .dijitTabContainerRight-dijitContentPane, .claro .dijitAccordionContainer-dijitContentPane{
+    background-color: #131313;
+}
+.claro .dijitTabListContainer-top .tabStripButtonDisabled, .claro .dijitTabListContainer-bottom .tabStripButtonDisabled{
+    background-color: #1E2227;
 }
 
 /*The top toolbar is split into three sections. */
@@ -478,9 +525,17 @@ td.dijitMenuItemIconCell,td.dijitMenuItemLabel{
     -moz-border-radius: 4px;
     border-radius: 4px;
     box-shadow: 0 0 0.25em #BBBBBB;
+    z-index: 100;
 }
 
+div#map_zoom_slider.esriSimpleSlider.esriSimpleSliderVertical.esriSimpleSliderTL{
+    z-index: 100;
+}
+.esriSimpleSlider .esriSimpleSliderVertical .esriSimpleSliderTL{
+    z-index: 100;
+}
 .esriSimpleSlider {
+    z-index: 100;
     border: none !important;
     background-color:transparent !important;
     color:#fff !important;
@@ -491,6 +546,7 @@ td.dijitMenuItemIconCell,td.dijitMenuItemLabel{
 .esriSimpleSlider div{
     margin-top:10px;
     margin-bottom:10px;
+
 }
 
 /*Styles for the search box (find address or place)*/
@@ -617,8 +673,10 @@ div#editDiv.templatePicker .grid  .selectedItem {
 
 #search {
     inline: block;
+    float: right;
     position: absolute;
     z-index: 70;
+    margin-left: 30px;
 }
 
 .claro .dijitArrowButtonInner{
