@@ -534,10 +534,11 @@ function initUI(response) {
     });
   }
 */
+/* moved to toolmanager
   //Add/Remove tools depending on the config settings or url parameters
   if (configOptions.displayprint === "true" || configOptions.displayprint === true) {
     addPrint();
-  }
+  }*/
 
 /* Replaced by TOC
   if (configOptions.displaylayerlist === 'true' || configOptions.displaylayerlist === true) {
@@ -1287,7 +1288,7 @@ function addLayerList(layers) {
   return layerInfos;
 }*/
 
-
+/* moved to toolmanager
 //PRINT WIDGET
 function addPrint() {
     var layoutOptions ={
@@ -1313,7 +1314,7 @@ function addPrint() {
     dojo.byId('webmap-toolbar-center').appendChild(printer.printDomNode);
 
     printer.startup();
-}
+}*/
 
 //DATA WIDGET
 function addInterop() {

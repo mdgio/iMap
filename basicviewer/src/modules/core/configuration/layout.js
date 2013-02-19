@@ -2,8 +2,8 @@
  This class is run at startup and handles the layout and creation of non-map elements in the page.
  */
 define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "dojo/Evented", "dijit/registry", "require", "dojo/dom", "dijit/layout/ContentPane"
-    , "dojox/widget/Standby", "dijit/layout/BorderContainer"],
-    function(declare, environment, lang, Evented, registry, require, dom, contentPane, Standby){
+    , "dojox/widget/Standby", /*"../utilities/tabmanager",*/ "../utilities/toolmanager", "dijit/layout/BorderContainer"],
+    function(declare, environment, lang, Evented, registry, require, dom, contentPane, Standby, /*TabManager,*/ ToolManager){
         return declare([Evented],
             {
                 _AppConfig: null
@@ -136,7 +136,8 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     //Set the left pane tabs
                     this._CreateLeftPaneTabs();
                     //Set the toolbar
-
+                    var toolManager = new ToolManager({ AppConfig: this._AppConfig, WebMap: this._WebMap });
+                    toolManager.CreateTools();
                 }
 
                 , _LayoutLeftPanel: function (show) {

@@ -20,7 +20,7 @@
         "displayeditor": "true",
         "displayoverviewmap": "true",
         "displaytimeslider": "true",
-        "displayprint": "true",
+        "displayprint": "false",
         "displaysearch": "true"
 },
     "configurationSettings": [{

@@ -30,7 +30,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     //set to true to display the title
                     displaytitle: true,
                     //Enter a title, if no title is specified, the webmap's title is used.
-                    title: "iMap Sample Title",
+                    title: "Capital Budget - FY 2014",
                     //URL to title logo, if none specified, then defaults to assets/MDLogo.gif
                     titleLogoUrl: "assets/MDlogo-small.gif",
                     //Provide an image and url for a logo that will be displayed as a clickable image
@@ -61,8 +61,8 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     //*** Tools ***
                     //Optional tools - set to false to hide the tool
                     displaytimeslider: true,
-                    //Print options
-                    displayprint: true,
+                    //Print options - Default is to not display on mobile devices, but can be overriden manually or in AGO
+                    displayprint: !(environment.TouchEnabled && environment.WindowWidth < 1200),
                     printtask: "http://utility.arcgisonline.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task",
                     //Set the label in the nls file for your browsers language
                     printlayouts: [{
