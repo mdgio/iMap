@@ -573,10 +573,10 @@ function initUI(response) {
   }*/
 
   //do we have any editable layers - if not then set editable to false
-  editLayers = hasEditableLayers(layers);
+/*  editLayers = hasEditableLayers(layers);
   if (editLayers.length === 0) {
     configOptions.displayeditor = false;
-  }
+  }*/
 
 /* Not using in final
   //do we have any operational layers - if not then set legend to false
@@ -585,14 +585,14 @@ function initUI(response) {
     configOptions.displaylegend = false;
   }*/
 
-  //hide the left pane if editor, details and legend are all false
+/*  //hide the left pane if editor, details and legend are all false
   if (configOptions.displayeditor === 'true' || configOptions.displayeditor === true) {
     configOptions.displayeditor = true;
-  }
-
+  }*/
+/* Moved to new
   if (configOptions.displaydetails === 'true' || configOptions.displaydetails === true) {
     configOptions.displaydetails = true;
-  }
+  }*/
 /*  Replaced by TOC
     if (configOptions.displaylegend === 'true' || configOptions.displaylegend === true) {
     configOptions.displaylegend = true;
@@ -600,7 +600,7 @@ function initUI(response) {
 	addInterop();
 
   if (displayLeftPanel()) {
-
+/* Moved to new
     //create left panel
 	var bc = dijit.byId('leftPane');
 	esri.show(dojo.byId('leftPane'));
@@ -626,8 +626,8 @@ function initUI(response) {
       //Add the Editor Button and Panel
       if (configOptions.displayeditor == 'true' || configOptions.displayeditor === true) {
         addEditor(editLayers); //only enabled if map contains editable layers
-      }
-
+      }*/
+/*
       //Add the Detail button and panel
       if ((configOptions.displaydetails === 'true' || configOptions.displaydetails === true) && configOptions.description !== "") {
 
@@ -664,15 +664,16 @@ function initUI(response) {
       if (configOptions.displaylegend == 'true' || configOptions.displaylegend === true) {
         addLegend(layerInfo);
       }
-
-      if (configOptions.leftPanelVisibility == 'false' || configOptions.leftPanelVisibility === false) {
+*/
+/*     Moved to new layout.js
+       if (configOptions.leftPanelVisibility == 'false' || configOptions.leftPanelVisibility === false) {
           hideLeftOrRightPanel('left');
-      }
+      }*/
       //***edit
     //dijit.byId('mainWindow').resize();
     //resizeMap();
   }
-
+/* Not used in new layout
     //Instantiate the right panel
     var rightPaneDiv = dojo.byId('rightPane')
     esri.show(rightPaneDiv);
@@ -681,7 +682,7 @@ function initUI(response) {
 
     dijit.byId('mainWindow').resize();
     resizeMap();
-
+*/
 
   //Create the search location tool
   if (configOptions.displaysearch === 'true' || configOptions.displaysearch === true) {
@@ -720,11 +721,11 @@ function initUI(response) {
   if (configOptions.displayshare === 'true' || configOptions.displayshare === true) {
     createSocialLinks();
   }
-
+/*
   //resize the border container 
    dijit.byId('bc').resize();
    
-    resizeMap(); //resize the map in case any of the border elements have changed
+    resizeMap(); //resize the map in case any of the border elements have changed*/
 }
 
 /* Added as 2 lines to layout config
@@ -813,6 +814,7 @@ function navigateStack(label) {
   toggleToolbarButtons(buttonLabel);
 }
 */
+/* Should be wrapped into new geolocator dijit
 
 //use the locator to find the input location
 function findLocation() {
@@ -922,6 +924,7 @@ function checkMapSpatialReference() {
     return {mapIsWebMercator: mapIsWebMercator, mapIsGCS:mapIsGCS, mapSR: mapSR};
 
   }
+*/
 
 //Utility functions that handles showing and hiding the left or right panel. Hide occurs when
 //the x (close) button is clicked for left panel.
@@ -1235,7 +1238,7 @@ function addLayerList(layers) {
 
     dojo.byId('webmap-toolbar-center').appendChild(button.domNode);
   }*/
-
+/* moved to leftpane
     var toggleButton = new dijit.form.ToggleButton({
         //label: i18n.tools.layers.label,
         title: i18n.tools.layers.title,
@@ -1252,7 +1255,7 @@ function addLayerList(layers) {
             hideLeftOrRightPanel('right');
     });
 
-    dojo.byId('webmap-toolbar-center').appendChild(toggleButton.domNode);
+    dojo.byId('webmap-toolbar-center').appendChild(toggleButton.domNode);*/
 }
 
 //build a list of layers for the toggle layer list - this list
@@ -1566,7 +1569,7 @@ function buildLayersList(layers){
   return layerInfos;
 }
 */
-
+/* moved to new layout
 //EDITOR
 //Determine if the webmap has any editable layers  
 function hasEditableLayers(layers) {
@@ -1583,14 +1586,14 @@ function hasEditableLayers(layers) {
     }
   });
   return layerInfos;
-}
+}*/
 
 //if the webmap contains editable layers add an editor button to the map
 //that adds basic editing capability to the app.
 function addEditor(editLayers) {
 
   //create the button that show/hides the editor 
-  var editTb = new dijit.form.ToggleButton({
+/*  var editTb = new dijit.form.ToggleButton({
     showLabel: true,
     label: i18n.tools.editor.label,
     title: i18n.tools.editor.title,
@@ -1603,7 +1606,7 @@ function addEditor(editLayers) {
   dojo.byId('webmap-toolbar-left').appendChild(editTb.domNode);
   dojo.connect(editTb, 'onClick', function () {
     navigateStack('editPanel');
-  });
+  });*/
 
   //create the content pane that holds the editor widget 
   var editCp = new dijit.layout.ContentPane({
@@ -1667,7 +1670,7 @@ function createEditor() {
   }
 
 }
-
+/* Moved to editor widget
 function destroyEditor() {
   if (editorWidget) {
     editorWidget.destroy();
@@ -1675,7 +1678,7 @@ function destroyEditor() {
     enablePopups();
   }
 
-}
+}*/
 
 /* Moved to maphandler
 //POPUPS

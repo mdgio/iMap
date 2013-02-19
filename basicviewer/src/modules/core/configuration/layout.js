@@ -208,8 +208,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                             title: 'Contents', //i18n.tools.details.title,
                             selected: selectedPane,
                             id: "tocPanel",
-                            style: "padding: 0px"/*,
-                            content: '<div id="accRoot"></div>'*/
+                            style: "padding: 0px"
                         });
                         leftTabCont.addChild(tocCp);
                         dojo.addClass(dom.byId('tocPanel'), 'panel_content');
@@ -234,7 +233,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                                     })
                                 );
                         } else { // Don't load the widget, unless needed- i.e. when a user clicks on the tab button (lazy loading)
-                            leftTabCont.watch("selectedChildWidget", lang.hitch(this, function(name, oval, nval){
+                             var tocWatch = leftTabCont.watch("selectedChildWidget", lang.hitch(this, function(name, oval, nval){
                                 if (nval.id === 'tocPanel') {
                                     var contentsTab = dom.byId("tocPanel");
                                     if (!contentsTab.hasLoaded) { //Widget has not been activated yet. Run-time load it now.
@@ -251,6 +250,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                                                     tocPane.resize();
                                                     contentsTab.hasLoaded = true;
                                                     standby.hide();
+                                                    tocWatch.unwatch();
                                             })
                                         );
                                     }
@@ -265,7 +265,72 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     }
 
                     // Editor Panel
+                    if (configOptions.displayeditor == 'true' || configOptions.displayeditor === true) {
+                        //do we have any editable layers - if not then disregard
+                        var editLayers = this._hasEditableLayers(layers);
+                        if (editLayers.length > 0) {
+                            var selectedPane = (this._AppConfig.startupwidget === 'displayeditor') ? true : false;
+                            var editCp = new dijit.layout.ContentPane({
+                                title: "Editor",//i18n.tools.editor.title,
+                                selected: selectedPane,
+                                id: "editPanel",
+                                style: "padding: 0px"
+                            });
+                            leftTabCont.addChild(tocCp);
+                            dojo.addClass(dom.byId('tocPanel'), 'panel_content');
 
+                            var editWatch = leftTabCont.watch("selectedChildWidget", lang.hitch(this, function(name, oval, nval){
+                                if (nval.id === 'editPanel') {
+                                    var contentsTab = dom.byId("editPanel");
+                                    if (!contentsTab.hasLoaded) { //Widget has not been activated yet. Run-time load it now.
+                                        var standby = new Standby({target: "tocPanel"});
+                                        document.body.appendChild(standby.domNode);
+                                        standby.show();
+                                        require(["../editor"],
+                                            lang.hitch(this, function(editorWidg) {
+                                                // Create our widget and place it
+                                                var widget = new tocWidg({ esriMap: this._Map });
+                                                var tocPane = registry.byId('tocPanel');
+                                                tocPane.addChild(widget);
+                                                widget.startup();
+                                                tocPane.resize();
+                                                contentsTab.hasLoaded = true;
+                                                standby.hide();
+                                                tocWatch.unwatch();
+                                            })
+                                        );
+                                    }
+                                } else //Destroy the dijit
+
+                            }));
+
+                            if (selectedPane) { // Get the toc widget and load immediately
+                            //hide or show the editor
+                            if (label === 'editPanel') {
+                                createEditor();
+                            } else {
+                                destroyEditor();
+                            }
+                            addEditor(editLayers);
+                        }
+                    }
+                }
+
+                //Determine if the webmap has any editable layers
+                , _hasEditableLayers: function (layers) {
+                    var layerInfos = [];
+                    dojo.forEach(layers, function (mapLayer, index) {
+                        if (mapLayer.layerObject) {
+                            if (mapLayer.layerObject.isEditable) {
+                                if (mapLayer.layerObject.isEditable()) {
+                                    layerInfos.push({
+                                        'featureLayer': mapLayer.layerObject
+                                    });
+                                }
+                            }
+                        }
+                    });
+                    return layerInfos;
                 }
             }
         )
