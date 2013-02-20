@@ -46,7 +46,8 @@ body {
     position: absolute;
     bottom: 0;
     display:inline-block;
-    font-family:"Georgia",Times,serif;
+    font-family:Verdana,Arial,Helvetica,sans-serif;
+    font-stretch: expanded;
 }
 
 #titleLogo{
@@ -421,12 +422,12 @@ td.dijitMenuItemIconCell,td.dijitMenuItemLabel{
 #nav a:link,
 #nav a:visited{
     padding:5px 5px 4px 5px;
-    color:#666;
+    color: #c47bb3;
     text-decoration:none;
 }
 #nav a:hover{
     text-decoration:underline;
-    color:#444;
+    color: #fcfad3;
 }
 #nav ul{
     padding:bottom:5px;
@@ -470,14 +471,14 @@ td.dijitMenuItemIconCell,td.dijitMenuItemLabel{
     padding:0px !important;
 }
 .dojoxFloatingPaneContent{
-    font-family:"trebuchet ms", helvetica, arial, sans-serif;
+    font-family:Verdana,Arial,Helvetica,sans-serif;
     font-size:8pt;
     font-weight:bold;
     padding-bottom:4px;
 }
 .dojoxFloatingPaneTitle{
     color:#fff;
-    font-family:"trebuchet ms", helvetica, arial, sans-serif;
+    font-family:Verdana,Arial,Helvetica,sans-serif;
     font-size:12pt;
     font-weight:bold;
     width:100%;
