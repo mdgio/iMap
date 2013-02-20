@@ -1,0 +1,1 @@
+The location of custom modules- on an application-specific basis.  Pattern after modules in the "core" folder.
