@@ -10,7 +10,7 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/topic", "esri/dijit/Overv
             , _overviewMapDijit: null
 
             , constructor: function(args) {
-                //map gets by passin in during instantiation
+                //map gets by passed in during instantiation
                 this.map = args.map;
                 this._createOvMap();
                 //Listen for when the basemap changes, as the overview map needs to be recreated with the new basemap

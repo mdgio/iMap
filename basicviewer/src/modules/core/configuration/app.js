@@ -15,7 +15,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     //If not going to specify a Web Map in AGO, then use empty quotes ("") here
                     webmap: "", //d9236293e0ae42798c306485bf978d93
                     // The URL to an ArcGIS Web Map- if not using ArcGIS.com.
-                    // Can be relative. For example, if in basicviewer root- "./WebMap.js"
+                    // Can be relative to index.html. For example, if in basicviewer root- "webmap.js"
                     // If both webmap and webmapurl are empty, then a map must be programmatically defined in map.js
                     webmapurl: "webmap.js",
                     //Enter a description for the application. This description will appear in the left pane
@@ -41,7 +41,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                         link: 'http://mdimap.towson.edu/portal/'
                     },
                     //specify the width of the panel that holds the editor, legend, details
-                    leftpanewidth: '250',
+                    leftpanewidth: '300',
                     //specify the width of the panel that holds the TOC
                     //rightpanewidth: 280,
                     //The height (px) of the Header (where title, logo, and links are located)
@@ -84,7 +84,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     }],
                     displaybasemaps: true,
                     displaybookmarks: true,
-                    displaymeasure: true,
+                    displaymeasure: false,
                     displayshare: true,//if enabled enter bitly key and login below.
                     //The application allows users to share the map with social networking sites like twitter
                     //and facebook. The url for the application can be quite long so shorten it using bit.ly.

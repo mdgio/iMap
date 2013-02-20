@@ -1,19 +1,21 @@
-/**
- Contains the ESRI Editor dijit for feature layers.
- */
+/*** Module to handle loading the tab container.  The widget contents of a tab are lazy-loaded on click, except for the startup widget.
+ This is the place to create new tabs for new widgets. See existing widgets for how-to.*/
 define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "dojo/Evented", "dijit/registry", "require", "dojo/dom", "dijit/layout/ContentPane"
-    , "dojox/widget/Standby", "maphandler", "dijit/layout/BorderContainer"],
+    , "dojox/widget/Standby", "../utilities/maphandler", "dijit/layout/BorderContainer"],
     function(declare, environment, lang, Evented, registry, require, dom, contentPane, Standby, mapHandler){
         return declare([], {
             //The application configuration properties (originated as configOptions from app.js then overridden by AGO if applicable)
             _AppConfig: null
             //The web map configuration properties (from map.js). If a webmap was not used, some functionality is not available
             , _WebMap: null
-            //mapHandler contains a reference to the actual arcgis map object and helper fxns
+            //The map object
+            , _Map: null
 
-            , constructor: function(args) {
+            , constructor: function(args) { //The args get passed in from the constructor in layout.js
                 this._AppConfig = args.AppConfig;
                 this._WebMap = args.WebMap;
+                //mapHandler contains a reference to the actual arcgis map object and helper fxns
+                this._Map = mapHandler.map;
             }
 
             /*** Function to handle loading the tab container.  The widget contents of a tab are lazy-loaded on click, except for the startup widget.
@@ -104,7 +106,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                 }
 
                 // Editor Panel
-                if (configOptions.displayeditor == 'true' || configOptions.displayeditor === true) {
+                if (this._AppConfig.displayeditor == 'true' || this._AppConfig.displayeditor === true) {
                     //do we have any editable layers - if not then disregard
                     var editLayers = this._hasEditableLayers(layers);
                     if (editLayers.length > 0) {
@@ -155,6 +157,23 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                             }*/
                     }
                 }
+            }
+
+            //Determine if the webmap has any editable layers
+            , _hasEditableLayers: function (layers) {
+                var layerInfos = [];
+                dojo.forEach(layers, function (mapLayer, index) {
+                    if (mapLayer.layerObject) {
+                        if (mapLayer.layerObject.isEditable) {
+                            if (mapLayer.layerObject.isEditable()) {
+                                layerInfos.push({
+                                    'featureLayer': mapLayer.layerObject
+                                });
+                            }
+                        }
+                    }
+                });
+                return layerInfos;
             }
         });
     }

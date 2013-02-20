@@ -69,8 +69,6 @@
                             mapConfigurator.on('maploaded', function (map) {
                                 // Finish creating application elements
                                 layoutHandler.FinalizeLayout(webmap, map);
-                                //Create toolbar
-
                             });
                             mapConfigurator.CreateMap();
                         });
