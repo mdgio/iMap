@@ -1376,7 +1376,6 @@ function toggleInterop() {
     dijit.byId('floaterIO').hide();
     dijit.byId('tglbtnInterop').set('checked', false); //uncheck the measure toggle button
   }
-
 }
 
 

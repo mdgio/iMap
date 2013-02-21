@@ -46,6 +46,23 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                 } else
                     esri.hide(dom.byId('floater'));
 
+                //*** This is the add shapefile tool, created as a module. Use this as a pattern for new tools.
+                if (this._AppConfig.displayinterop === "true" || this._AppConfig.displayinterop === true) {
+                    require(["../interop/interop"], lang.hitch(this, function(dataInteropDijit) {
+                            this._createInterop(dataInteropDijit);
+                        })
+                    );
+                }
+            }
+
+            // Show/hide one of the tool's pane and uncheck the toolbar button
+            , _toggleTool: function (floaterDivId, btnDijitId) {
+                if (dojo.byId(floaterDivId).style.visibility === 'hidden') {
+                    dijit.byId(floaterDivId).show();
+                } else {
+                    dijit.byId(floaterDivId).hide();
+                    dijit.byId(btnDijitId).set('checked', false); //uncheck the measure toggle button
+                }
             }
 
             , _addPrint: function (PrintDijit) {
@@ -135,6 +152,24 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     }
                 }
 
+            }
+
+            // This creates the dijit and the button for the add shapefile data tool
+            , _createInterop: function (dataInteropDijit) {
+                var dataDijit = new dataInteropDijit({
+                    floaterDiv: 'floaterIO',
+                    innerDiv: 'interopDiv'
+                });
+                dataDijit.startup();
+                var tglbtnInterop = new ToggleButton({
+                    title: "Data",
+                    iconClass: "esriDataIcon",
+                    id: "tglbtnInterop"
+                });
+                on(tglbtnInterop, "click", lang.hitch(this, function () {
+                    this._toggleTool('floaterIO', 'tglbtnInterop');
+                }));
+                this._CenterToolDiv.appendChild(tglbtnInterop.domNode);
             }
         });
     }

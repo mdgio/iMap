@@ -1,8 +1,8 @@
 /*** Module to handle loading the tab container.  The widget contents of a tab are lazy-loaded on click, except for the startup widget.
  This is the place to create new tabs for new widgets. See existing widgets for how-to.*/
 define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "dojo/Evented", "dijit/registry", "require", "dojo/dom", "dijit/layout/ContentPane"
-    , "dojox/widget/Standby", "../utilities/maphandler", "dijit/layout/BorderContainer"],
-    function(declare, environment, lang, Evented, registry, require, dom, contentPane, Standby, mapHandler){
+    , "dojox/widget/Standby", "../utilities/maphandler", "dojo/dom-class", "dijit/layout/BorderContainer"],
+    function(declare, environment, lang, Evented, registry, require, dom, contentPane, Standby, mapHandler, domClass){
         return declare([], {
             //The application configuration properties (originated as configOptions from app.js then overridden by AGO if applicable)
             _AppConfig: null
@@ -22,7 +22,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
              This is the place to create new tabs for new widgets. See existing widgets for how-to.*/
             , CreateLeftPaneTabs: function () {
                 var leftTabCont = registry.byId('leftPane');
-                // Details panel
+                // Details panel- This pane gets created right away, since it is so simple and usually the start pane.
                 if ((this._AppConfig.displaydetails === 'true' || this._AppConfig.displaydetails === true) && this._AppConfig.description !== "") {
                     var selectedPane = (this._AppConfig.startupwidget === 'displaydetails') ? true : false;
                     var detailCp = new contentPane({
@@ -39,31 +39,24 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     detailCp.set('content', detailsContent);
 
                     leftTabCont.addChild(detailCp);
-                    dojo.addClass(dom.byId('detailPanel'), 'panel_content');
+                    domClass.add(dom.byId('detailPanel'), 'panel_content');
                 }
 
-                // Table of Contents
+                //*** Table of Contents- use as an example of lazy-loading a pane at runtime
                 if ((this._AppConfig.tablecontents === 'true' || this._AppConfig.tablecontents === true)) {
                     var selectedPane = (this._AppConfig.startupwidget === 'tablecontents') ? true : false;
+                    //Create the tab pane initially, so title is present in tab bar
                     var tocCp = new contentPane({
                         title: 'Contents', //i18n.tools.details.title,
                         selected: selectedPane,
                         id: "tocPanel",
                         style: "padding: 0px"
                     });
+                    //Add pane to tab container and style to the pane
                     leftTabCont.addChild(tocCp);
-                    dojo.addClass(dom.byId('tocPanel'), 'panel_content');
+                    domClass.add(dom.byId('tocPanel'), 'panel_content');
 
                     if (selectedPane) { // Get the toc widget and load immediately
-                        /*require(["../toc/toc"],
-                         lang.hitch(this, function(tocWidg) {
-                         var contentsTab = dom.byId("tocPanel");
-                         // Create our widget and place it
-                         var widget = new tocWidg();
-                         widget.placeAt(contentsTab);
-                         widget.initializeDijitToc(this._Map);
-                         })
-                         );*/
                         require(["../toc/toc"],
                             lang.hitch(this, function(tocWidg) {
                                 // Create our widget and place it
@@ -74,6 +67,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                             })
                         );
                     } else { // Don't load the widget, unless needed- i.e. when a user clicks on the tab button (lazy loading)
+                        //
                         var tocWatch = leftTabCont.watch("selectedChildWidget", lang.hitch(this, function(name, oval, nval){
                             if (nval.id === 'tocPanel') {
                                 var contentsTab = dom.byId("tocPanel");
@@ -105,7 +99,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                         leftTabCont.selectChild(tocCp);
                 }
 
-                // Editor Panel
+                // Editor Panel - not implemented yet
                 if (this._AppConfig.displayeditor == 'true' || this._AppConfig.displayeditor === true) {
                     //do we have any editable layers - if not then disregard
                     var editLayers = this._hasEditableLayers(layers);
@@ -158,6 +152,8 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     }
                 }
             }
+
+
 
             //Determine if the webmap has any editable layers
             , _hasEditableLayers: function (layers) {

@@ -8,6 +8,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
             configure: function () {
                 // This is the default configuration for the application (if no appid is specified below and no appid querystring param is passed in)
                 var configOptions = {
+                    //*** Layout ***
                     //The ArcGIS Online id for a web mapping application item that was published and possibly configured on ArcGIS.com
                     // In most cases this will be null (empty quotes).
                     appid: "",
@@ -48,6 +49,23 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     headerHeight: "40",
                     //URL to banner image, if non specified then defaults to iMap banner image.
                     //headerbanner: "assets/imap/imapBanner2.jpg",
+                    //Set link text and url parameters if you want to display clickable links in the upper right-corner
+                    //of the application.
+                    //ArcGIS.com. Enter link values for the link1 and link2 and text to add links. For example
+                    //url:'http://www.esri.com',text:'Esri'
+                    link1: {
+                        url: 'http://www.maryland.gov/Pages/default.aspx',
+                            text: 'Maryland Gov'
+                    },
+                    link2: {
+                        url: 'http://doit.maryland.gov/about/Pages/gio.aspx',
+                            text: 'GIO'
+                    },
+                    //Restrict the map's extent to the initial extent of the web map. When true users
+                    //will not be able to pan/zoom outside the initial extent.
+                    constrainmapextent: false,
+                    //embed means the margins will be collapsed to just include the map no title or links, default is to embed if in iframe
+                    embed: (environment.IframeEmbedded || environment.WindowHeight < 600),
 
                     //*** Widgets ***
                     displaydetails: true,
@@ -97,11 +115,11 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     displayslider: true,
                     displayoverviewmap: true,
                     displaysearch: true,
-
                     displayscalebar: true,
-                    //If the webmap uses Bing Maps data, you will need to provide your Bing Maps Key
-                    bingmapskey: "",
+                    //Drawing toolbar
+                    displayinterop: true,
 
+                    //*** General Settings ***
                     //i18n.viewer.main.scaleBarUnits,
                     //The elevation tool uses the  measurement tool to draw the lines. So if this is set
                     //to true then displaymeasure needs to be true too.
@@ -109,10 +127,8 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     //This option is used when the elevation chart is displayed to control what is displayed when users mouse over or touch the chart. When true, elevation gain/loss will be shown from the first location to the location under the cursor/finger.
                     //showelevationdifference: false,
 
-
-                    //Set to true to display the left panel on startup. The left panel can contain the legend, details, editor, and custom widgets
-                    //leftPanelVisibility: false,
-
+                    //If the webmap uses Bing Maps data, you will need to provide your Bing Maps Key
+                    bingmapskey: "",
                     //Modify this to point to your sharing service URL if you are using the portal
                     sharingurl: "http://www.arcgis.com/sharing/content/items",
                     //specify a group in ArcGIS.com that contains the basemaps to display in the basemap gallery
@@ -128,25 +144,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     placefinder: {
                         "url": "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer",
                         "countryCode":""
-                    },
-                    //Set link text and url parameters if you want to display clickable links in the upper right-corner
-                    //of the application.
-                    //ArcGIS.com. Enter link values for the link1 and link2 and text to add links. For example
-                    //url:'http://www.esri.com',text:'Esri'
-                    link1: {
-                        url: 'http://www.maryland.gov/Pages/default.aspx',
-                        text: 'Maryland Gov'
-                    },
-                    link2: {
-                        url: 'http://doit.maryland.gov/about/Pages/gio.aspx',
-                        text: 'GIO'
-                    },
-
-                    //Restrict the map's extent to the initial extent of the web map. When true users
-                    //will not be able to pan/zoom outside the initial extent.
-                    constrainmapextent: false
-                    //embed means the margins will be collapsed to just include the map no title or links, default is to embed if in iframe
-                    , embed: (environment.IframeEmbedded || environment.WindowHeight < 600)
+                    }
                 };
 
                 var urlObject = esri.urlToObject(document.location.href);
@@ -267,6 +265,8 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                                 configOptions.basemapgroup.title = response.values.basemapgrouptitle;
                                 configOptions.basemapgroup.owner = response.values.basemapgroupowner;
                             }
+                            if (response.values.displayinterop !== undefined)
+                                configOptions.displayinterop = response.values.displayinterop;
 
                             this._checkForOverrides(urlObject, configOptions);
                         }),

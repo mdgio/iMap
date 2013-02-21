@@ -21,7 +21,8 @@
         "displayoverviewmap": "true",
         "displaytimeslider": "true",
         "displayprint": "false",
-        "displaysearch": "true"
+        "displaysearch": "true",
+        "displaydraw": "false"
 },
     "configurationSettings": [{
     "category": "<b>Layout</b>",
@@ -161,6 +162,11 @@
     }, {
         "label": "Include Overview Map",
         "fieldName": "displayoverviewmap",
+        "type": "boolean",
+        "tooltip": ""
+    }, {
+        "label": "Add File",
+        "fieldName": "displayinterop",
         "type": "boolean",
         "tooltip": ""
     }]
