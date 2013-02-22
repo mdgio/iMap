@@ -136,7 +136,6 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     //Set the left pane tabs
                     var tabManager = new TabManager({ AppConfig: this._AppConfig, WebMap: this._WebMap });
                     tabManager.CreateLeftPaneTabs();
-                    //this._CreateLeftPaneTabs();
                     //Set the toolbar
                     var toolManager = new ToolManager({ AppConfig: this._AppConfig, WebMap: this._WebMap });
                     toolManager.CreateTools();

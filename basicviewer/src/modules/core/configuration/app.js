@@ -10,11 +10,11 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                 var configOptions = {
                     //*** Layout ***
                     //The ArcGIS Online id for a web mapping application item that was published and possibly configured on ArcGIS.com
-                    // In most cases this will be null (empty quotes).
+                    // In most cases this will be null (empty quotes) and will be passed in in the URL querystring.
                     appid: "",
                     //The ID for the map from ArcGIS.com
                     //If not going to specify a Web Map in AGO, then use empty quotes ("") here
-                    webmap: "", //d9236293e0ae42798c306485bf978d93
+                    webmap: "",
                     // The URL to an ArcGIS Web Map- if not using ArcGIS.com.
                     // Can be relative to index.html. For example, if in basicviewer root- "webmap.js"
                     // If both webmap and webmapurl are empty, then a map must be programmatically defined in map.js

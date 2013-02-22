@@ -67,7 +67,7 @@
                             layoutHandler.InitialLayout(appConfig);
                             // Map has been created and loaded
                             mapConfigurator.on('maploaded', function (map) {
-                                // Finish creating application elements
+                                // Finish creating application elements, including the tab manager and tool manager
                                 layoutHandler.FinalizeLayout(webmap, map);
                             });
                             mapConfigurator.CreateMap();

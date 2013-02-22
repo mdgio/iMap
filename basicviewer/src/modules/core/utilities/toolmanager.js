@@ -47,42 +47,48 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     esri.hide(dom.byId('floater'));
 
                 //*** This is the add shapefile tool, created as a module. Use this as a pattern for new tools.
-                // The _AppConfig parameter originates in app.js, and can be overridden by AGO if parameter is made configurable.
+                // The _AppConfig parameter originates in app.js, and can be overridden by AGO if parameter is made configurable in config.js.
                 if (this._AppConfig.displayinterop === "true" || this._AppConfig.displayinterop === true) {
-                    //*** Give button a unique btnId, set title, and iconClass as appropriate
+                    //*** Give button a unique btnId, set title, iconClass as appropriate
                     var btnId = 'tglbtnInterop';
-                    //Create the button for the toolbar
-                    var tglbtn = new ToggleButton({
-                        title: "Data",
-                        iconClass: "esriDataIcon",
-                        id: btnId
-                    }); //Button gets added to toolbar
-                    this._CenterToolDiv.appendChild(tglbtn.domNode);
-                    //On the first click, dynamically load the module from the server. Then remove the click handler. lang.hitch keeps the scope in this module
-                    var toolClick = on(tglbtn, "click", lang.hitch(this, function () {
-                        toolClick.remove();
-                        //*** Set the relative location to your module
-                        require(["../interop/interop"], lang.hitch(this, function(customDijit) {
-                            var theDijit = new customDijit({
-                                //*** Provide a unique ID for the parent div of the floating panel
-                                floaterDivId: 'floaterIO',
-                                buttonDivId: btnId,
-                                innerDiv: 'interopDiv'
-                            });
-                            dataDijit.startup();
-                        }));
-                    }));
+                    var btnTitle = 'Data';
+                    var btnIconClass = 'esriDataIcon';
+                    //*** Provide a unique ID for the parent div of the floating panel
+                    var parentDivId = 'floaterIO';
+                    //*** The relative path to your module
+                    var modulePath = "../interop/interop";
+
+                    this._CreateToolButton(btnId, btnTitle, btnIconClass, parentDivId, modulePath);
                 }
             }
 
-            // Show/hide one of the tool's pane and uncheck the toolbar button
-            , _toggleTool: function (floaterDivId, btnDijitId) {
-                if (dojo.byId(floaterDivId).style.visibility === 'hidden') {
-                    dijit.byId(floaterDivId).show();
-                } else {
-                    dijit.byId(floaterDivId).hide();
-                    dijit.byId(btnDijitId).set('checked', false); //uncheck the measure toggle button
-                }
+            // Creates a toolbar button, and wires up a click handler to request your module and load it on first click only.
+            , _CreateToolButton: function (btnId, btnTitle, btnIconClass, parentDivId, modulePath) {
+                //Create the button for the toolbar
+                var tglbtn = new ToggleButton({
+                    title: btnTitle,
+                    iconClass: btnIconClass,
+                    id: btnId
+                }); //Button gets added to toolbar
+                this._CenterToolDiv.appendChild(tglbtn.domNode);
+                //On the first click, dynamically load the module from the server. Then remove the click handler. lang.hitch keeps the scope in this module
+                var toolClick = on(tglbtn, "click", lang.hitch(this, function () {
+                    toolClick.remove();
+                    try {
+                        document.body.style.cursor = "wait";
+                    } catch (e) {}
+                    //*** Set the relative location to your module
+                    require([modulePath], lang.hitch(this, function(customDijit) {
+                        var theDijit = new customDijit({
+                            floaterDivId: parentDivId,
+                            buttonDivId: btnId
+                        });
+                        theDijit.startup();
+                        try {
+                            document.body.style.cursor = "auto";
+                        } catch (e) {}
+                    }));
+                }));
             }
 
             , _addPrint: function (PrintDijit) {
