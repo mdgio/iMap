@@ -9,30 +9,36 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dijit/
 			templateString: template,
 			// The CSS class to be applied to the root node in our template
 			/*baseClass: "interop",*/
-			//Floater
-			floaterDiv: null,
+			//Give a unique ID for the floating panel. Populated from constructor in toolmanager.js
+			floaterDivId: null,
+            //Give a unique ID for the button associated with this module. Populated from constructor in toolmanager.js
+            buttonDivId: null,
 			//Floater child
 			innerDiv: null,
-            //URL for portal 
-            portalUrl: 'http://www.arcgis.com',
-            // The ESRI map object to bind to the TOC
+            // The ESRI map object to bind to the TOC. Set in constructor
             map: null,
-            // The table of contents dijit
-            _floatingPane: null,
+            //URL for portal
+            portalUrl: 'http://www.arcgis.com',
 
+            //*** The title for your panel
+            panelTitle: 'Data Interoperability',
+
+            //*** Creates the floating pane. Should be included in your module and be re-usable without modification (if using floating pane)
             constructor: function(args) {
-                // This automatically sets the properties above that are passed in from the
+                // safeMixin automatically sets the properties above that are passed in from the toolmanager.js
                 declare.safeMixin(this,args);
+                // mapHandler is a singleton object that you can require above and use to get a reference to the map.
                 this.map = mapHandler.map;
-                //create Floating Pane to house the layout UI of the widget.
+                //Create Floating Pane to house the layout UI of the widget. The parentModule property is created to obtain a reference to this module in close button click.
   				var fpI = new floatingPane({
 	 				title: 'Data Interoperability',
+                    parentModule: this,
 	 				resizable: false,
 	 				dockable: false,
 	 				closable: false,
 	 				style: "position:absolute;top:0;left:50px;width:245px;height:265px;z-index:100;visibility:hidden;",
-	 				id: 'floaterIO'
-			    }, dom.byId(this.floaterDiv));
+	 				id: this.floaterDivId
+			    }, dom.byId(this.floaterDivId));
   				fpI.startup();
   				//Create a title bar for Floating Pane
   				var titlePane = query('#floaterIO .dojoxFloatingPaneTitle')[0];
@@ -42,17 +48,20 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dijit/
     				innerHTML: esri.substitute({
       				close_title: 'Close Data', //i18n.panel.close.title,
       				close_alt: 'Close Data'//i18n.panel.close.label
-    				}, '<a alt=${close_alt} title=${close_title} href="JavaScript:dijit.registery.byId(\'dataDijit\').toggleInterop();"><img  src="assets/close.png"/></a>')
+    				}, '<a alt=${close_alt} title=${close_title} href="JavaScript:dijit.registry.byId(\'floaterIO\').parentModule.ToggleTool(\'' + this.floaterDivId + '\', \'' + this.buttonDivId + '\'' + ');"><img  src="assets/close.png"/></a>')
   				}, titlePane);
   				//Set the content of the Floating Pane to the template HTML.
  				dom.byId(this.innerDiv).innerHTML = template;
             }
 
+            /*** A standard module event handler. In the postcreate and startup handlers,
+             * you can assume the module has been created.  You don't need to add a handler function if you are not writing code in it.
+             */
             , startup: function () {
-                //esri.config.defaults.io.proxyUrl = "/arcgisserver/apis/javascript/proxy/proxy.ashx";
                 //var uploadForm = dom.byId("uploadForm");
                 var uploadForm = dom.byId('inFile');
                 //on(uploadForm.data, "onchange", lang.hitch(this, function(evt){
+                // Add an event handler for when the upload shapefile form is submitted.
                 on(uploadForm, "onsubmit", lang.hitch(this, function(evt){
                     this._listening(evt);
                 }));
@@ -176,6 +185,16 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dijit/
                 }
                 if (symbol) {
                     layer.setRenderer(new esri.renderer.SimpleRenderer(symbol));
+                }
+            }
+
+            //*** This gets called by the Close (x) button in the floating pane created above. Re-use in your widget.
+            , ToggleTool: function (floaterDivId, btnDijitId) {
+                if (dojo.byId(floaterDivId).style.visibility === 'hidden') {
+                    dijit.byId(floaterDivId).show();
+                } else {
+                    dijit.byId(floaterDivId).hide();
+                    dijit.byId(btnDijitId).set('checked', false); //uncheck the measure toggle button
                 }
             }
         });

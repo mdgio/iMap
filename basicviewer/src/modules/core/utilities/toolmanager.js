@@ -47,11 +47,31 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     esri.hide(dom.byId('floater'));
 
                 //*** This is the add shapefile tool, created as a module. Use this as a pattern for new tools.
+                // The _AppConfig parameter originates in app.js, and can be overridden by AGO if parameter is made configurable.
                 if (this._AppConfig.displayinterop === "true" || this._AppConfig.displayinterop === true) {
-                    require(["../interop/interop"], lang.hitch(this, function(dataInteropDijit) {
-                            this._createInterop(dataInteropDijit);
-                        })
-                    );
+                    //*** Give button a unique btnId, set title, and iconClass as appropriate
+                    var btnId = 'tglbtnInterop';
+                    //Create the button for the toolbar
+                    var tglbtn = new ToggleButton({
+                        title: "Data",
+                        iconClass: "esriDataIcon",
+                        id: btnId
+                    }); //Button gets added to toolbar
+                    this._CenterToolDiv.appendChild(tglbtn.domNode);
+                    //On the first click, dynamically load the module from the server. Then remove the click handler. lang.hitch keeps the scope in this module
+                    var toolClick = on(tglbtn, "click", lang.hitch(this, function () {
+                        toolClick.remove();
+                        //*** Set the relative location to your module
+                        require(["../interop/interop"], lang.hitch(this, function(customDijit) {
+                            var theDijit = new customDijit({
+                                //*** Provide a unique ID for the parent div of the floating panel
+                                floaterDivId: 'floaterIO',
+                                buttonDivId: btnId,
+                                innerDiv: 'interopDiv'
+                            });
+                            dataDijit.startup();
+                        }));
+                    }));
                 }
             }
 
@@ -152,24 +172,6 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     }
                 }
 
-            }
-
-            // This creates the dijit and the button for the add shapefile data tool
-            , _createInterop: function (dataInteropDijit) {
-                var dataDijit = new dataInteropDijit({
-                    floaterDiv: 'floaterIO',
-                    innerDiv: 'interopDiv'
-                });
-                dataDijit.startup();
-                var tglbtnInterop = new ToggleButton({
-                    title: "Data",
-                    iconClass: "esriDataIcon",
-                    id: "tglbtnInterop"
-                });
-                on(tglbtnInterop, "click", lang.hitch(this, function () {
-                    this._toggleTool('floaterIO', 'tglbtnInterop');
-                }));
-                this._CenterToolDiv.appendChild(tglbtnInterop.domNode);
             }
         });
     }
