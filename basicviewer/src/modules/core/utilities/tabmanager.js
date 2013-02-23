@@ -44,20 +44,46 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
 
                 //*** Table of Contents- use as an example of lazy-loading a pane at runtime
                 if ((this._AppConfig.tablecontents === 'true' || this._AppConfig.tablecontents === true)) {
-                    var selectedPane = (this._AppConfig.startupwidget === 'tablecontents') ? true : false;
+                    //*** Check if this pane was set to be the startup pane in app.js or AGO. Replace the param name in next line.
+                    var configParamName = 'tablecontents';
+                    //*** Give the tab's content pane a unique id
+                    var paneId = 'tocPanel';
+                    var tabTitle = 'Contents';
+                    var modulePath = "../toc/toc";
+                    //*** If your widget requires specific constructor parameters to be passed in, you can set the object here.
+                    var constructorParams = { esriMap: this._Map };
+                    //*** Does your widget's parent need to be resized after it's startup in order to layout properly? Default to false.
+                    var resizeAfterStartup = true;
+
+                    var selectedPane = (this._AppConfig.startupwidget === configParamName) ? true : false;
                     //Create the tab pane initially, so title is present in tab bar
-                    var tocCp = new contentPane({
-                        title: 'Contents', //i18n.tools.details.title,
+                    var parentPane = new contentPane({
+                        title: tabTitle, //i18n.tools.details.title,
                         selected: selectedPane,
-                        id: "tocPanel",
+                        id: paneId,
                         style: "padding: 0px"
                     });
                     //Add pane to tab container and style to the pane
-                    leftTabCont.addChild(tocCp);
-                    domClass.add(dom.byId('tocPanel'), 'panel_content');
+                    leftTabCont.addChild(parentPane);
+                    domClass.add(dom.byId(paneId), 'panel_content');
 
                     if (selectedPane) { // Get the toc widget and load immediately
-                        require(["../toc/toc"],
+                        this._CreateWidget(modulePath, parentPane, constructorParams, resizeAfterStartup);
+                    } else { // Don't load the widget, unless needed- i.e. when a user clicks on the tab button (lazy loading)
+                        var tocWatch = leftTabCont.watch("selectedChildWidget", lang.hitch(this, function(name, oval, nval){
+                            if (nval.id === paneId) {
+                                tocWatch.unwatch();
+                                var standby = new Standby({target: "tocPanel"});
+                                document.body.appendChild(standby.domNode);
+                                standby.show();
+                                this._CreateWidget(modulePath, parentPane, constructorParams, resizeAfterStartup);
+                                standby.hide();
+                            }
+                        }));
+                    }
+
+                    /*if (selectedPane) { // Get the toc widget and load immediately
+                        require([modulePath],
                             lang.hitch(this, function(tocWidg) {
                                 // Create our widget and place it
                                 var widget = new tocWidg({ esriMap: this._Map });
@@ -69,18 +95,18 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     } else { // Don't load the widget, unless needed- i.e. when a user clicks on the tab button (lazy loading)
                         //
                         var tocWatch = leftTabCont.watch("selectedChildWidget", lang.hitch(this, function(name, oval, nval){
-                            if (nval.id === 'tocPanel') {
+                            if (nval.id === paneId) {
                                 var contentsTab = dom.byId("tocPanel");
                                 if (!contentsTab.hasLoaded) { //Widget has not been activated yet. Run-time load it now.
                                     var standby = new Standby({target: "tocPanel"});
                                     document.body.appendChild(standby.domNode);
                                     standby.show();
-                                    require(["../toc/toc"],
+                                    require([modulePath],
                                         lang.hitch(this, function(tocWidg) {
                                             // Create our widget and place it
                                             var widget = new tocWidg({ esriMap: this._Map });
-                                            var tocPane = registry.byId('tocPanel');
-                                            tocPane.addChild(widget);
+                                            //var tocPane = registry.byId('tocPanel');
+                                            //tocPane.addChild(widget);
                                             widget.startup();
                                             tocPane.resize();
                                             contentsTab.hasLoaded = true;
@@ -91,7 +117,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                                 }
                             }
                         }));
-                    }
+                    }*/
 
                     //leftTabCont.addChild(tocCp);
                     //dojo.addClass(dom.byId('tocPanel'), 'panel_content');
@@ -151,6 +177,17 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                             }*/
                     }
                 }
+            }
+
+            , _CreateWidget: function (modulePath, parentPane, constructorParams, resizeAfterStartup) {
+                require([modulePath], lang.hitch(this, function(Widget) {
+                        // Create our widget and place it
+                        var widget = new Widget(constructorParams);
+                        parentPane.addChild(widget);
+                        widget.startup();
+                        if (resizeAfterStartup)
+                            parentPane.resize();
+                }));
             }
 
 

@@ -74,9 +74,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                 //On the first click, dynamically load the module from the server. Then remove the click handler. lang.hitch keeps the scope in this module
                 var toolClick = on(tglbtn, "click", lang.hitch(this, function () {
                     toolClick.remove();
-                    try {
-                        document.body.style.cursor = "wait";
-                    } catch (e) {}
+                    try { document.body.style.cursor = "wait"; } catch (e) {}
                     //*** Set the relative location to your module
                     require([modulePath], lang.hitch(this, function(customDijit) {
                         var theDijit = new customDijit({
@@ -84,9 +82,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                             buttonDivId: btnId
                         });
                         theDijit.startup();
-                        try {
-                            document.body.style.cursor = "auto";
-                        } catch (e) {}
+                        try { document.body.style.cursor = "auto"; } catch (e) {}
                     }));
                 }));
             }

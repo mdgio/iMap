@@ -6,10 +6,10 @@
  */
 define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dijit/_TemplatedMixin", "dijit/_WidgetsInTemplateMixin", "dojo/on", "dijit/registry", "dojo/ready", "dojo/parser"
     , "dojo/text!./templates/interop.html", "dojo/_base/fx", "dojo/_base/lang"
-    , "dojo/dom", "dojox/layout/FloatingPane", "dojo/query", "../utilities/maphandler", "dojo/has"
+    , "dojo/dom", "dojox/layout/FloatingPane", "dojo/query", "../utilities/maphandler", "dojo/has", "dojo/json"
     , "xstyle/css!./css/interop.css"],
     function(declare, domConstruct, WidgetBase, TemplatedMixin, WidgetsInTemplateMixin, on, registry, ready, parser, template, fxer, lang
-                , dom, floatingPane, query, mapHandler, has){
+                , dom, floatingPane, query, mapHandler, has, JSON){
         return declare([WidgetBase, TemplatedMixin, WidgetsInTemplateMixin],{
             //*** Properties needed for this style of module
             // The template HTML fragment (as a string, created in dojo/text definition above)
@@ -87,13 +87,9 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dijit/
              * you can assume the module has been created.  You don't need to add a handler function if you are not writing code in it.
              */
             , startup: function () {
-                //var uploadForm = dom.byId("uploadForm");
                 var uploadForm = dom.byId('inFile');
-                //on(uploadForm.data, "onchange", lang.hitch(this, function(evt){
                 // Add an event handler for when the upload shapefile form is submitted.
-                on(uploadForm, "onsubmit", lang.hitch(this, function(evt){
-                    this._listening(evt);
-                }));
+                uploadForm.onchange = lang.hitch(this, this._listening);
             }
 
             , _listening: function (evt) {
@@ -137,7 +133,7 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dijit/
 
                 var myContent = {
                     'filetype': 'shapefile',
-                    'publishParameters': dojo.toJson(params),
+                    'publishParameters': JSON.stringify(params),
                     'f': 'json',
                     'callback.html': 'textarea'
                 };
@@ -146,17 +142,18 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dijit/
                 esri.request({
                     url: 'http://www.arcgis.com' + '/sharing/rest/content/features/generate',
                     content: myContent,
-                    form: dojo.byId('uploadForm'),
+                    form: dom.byId('uploadForm'),
                     handleAs: 'json',
-                    load: dojo.hitch(this, function (response) {
+                    timeout: 120000,
+                    load: lang.hitch(this, function (response) {
                         if (response.error) {
                             this._errorHandler(response.error);
                             return;
                         }
-                        dojo.byId('upload-status').innerHTML = '<b>Loaded: </b>' + response.featureCollection.layers[0].layerDefinition.name;
+                        dom.byId('upload-status').innerHTML = '<b>Loaded: </b>' + response.featureCollection.layers[0].layerDefinition.name;
                         this._addShapefileToMap(response.featureCollection);
                     }),
-                    error: dojo.hitch(this, this._errorHandler)
+                    error: lang.hitch(this, this._errorHandler)
                 });
             }
 
