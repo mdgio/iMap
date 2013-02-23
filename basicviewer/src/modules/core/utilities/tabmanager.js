@@ -81,48 +81,8 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                             }
                         }));
                     }
-
-                    /*if (selectedPane) { // Get the toc widget and load immediately
-                        require([modulePath],
-                            lang.hitch(this, function(tocWidg) {
-                                // Create our widget and place it
-                                var widget = new tocWidg({ esriMap: this._Map });
-                                tocCp.addChild(widget);
-                                widget.startup();
-                                tocCp.resize();
-                            })
-                        );
-                    } else { // Don't load the widget, unless needed- i.e. when a user clicks on the tab button (lazy loading)
-                        //
-                        var tocWatch = leftTabCont.watch("selectedChildWidget", lang.hitch(this, function(name, oval, nval){
-                            if (nval.id === paneId) {
-                                var contentsTab = dom.byId("tocPanel");
-                                if (!contentsTab.hasLoaded) { //Widget has not been activated yet. Run-time load it now.
-                                    var standby = new Standby({target: "tocPanel"});
-                                    document.body.appendChild(standby.domNode);
-                                    standby.show();
-                                    require([modulePath],
-                                        lang.hitch(this, function(tocWidg) {
-                                            // Create our widget and place it
-                                            var widget = new tocWidg({ esriMap: this._Map });
-                                            //var tocPane = registry.byId('tocPanel');
-                                            //tocPane.addChild(widget);
-                                            widget.startup();
-                                            tocPane.resize();
-                                            contentsTab.hasLoaded = true;
-                                            standby.hide();
-                                            tocWatch.unwatch();
-                                        })
-                                    );
-                                }
-                            }
-                        }));
-                    }*/
-
-                    //leftTabCont.addChild(tocCp);
-                    //dojo.addClass(dom.byId('tocPanel'), 'panel_content');
                     if (selectedPane)
-                        leftTabCont.selectChild(tocCp);
+                        leftTabCont.selectChild(parentPane);
                 }
 
                 // Editor Panel - not implemented yet
@@ -179,6 +139,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                 }
             }
 
+            //*** This function should be pretty re-useable for adding a widget to a tab panel. See tablecontents above for example.
             , _CreateWidget: function (modulePath, parentPane, constructorParams, resizeAfterStartup) {
                 require([modulePath], lang.hitch(this, function(Widget) {
                         // Create our widget and place it
@@ -189,8 +150,6 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                             parentPane.resize();
                 }));
             }
-
-
 
             //Determine if the webmap has any editable layers
             , _hasEditableLayers: function (layers) {

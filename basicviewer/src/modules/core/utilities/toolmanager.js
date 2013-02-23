@@ -75,7 +75,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                 var toolClick = on(tglbtn, "click", lang.hitch(this, function () {
                     toolClick.remove();
                     try { document.body.style.cursor = "wait"; } catch (e) {}
-                    //*** Set the relative location to your module
+                    //*** Set the relative location to the module
                     require([modulePath], lang.hitch(this, function(customDijit) {
                         var theDijit = new customDijit({
                             floaterDivId: parentDivId,
