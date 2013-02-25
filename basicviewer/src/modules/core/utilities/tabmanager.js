@@ -55,6 +55,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     //*** Does your widget's parent need to be resized after it's startup in order to layout properly? Default to false.
                     var resizeAfterStartup = true;
 
+                    //*** The rest of this block should be pretty re-usable for other tabs
                     var selectedPane = (this._AppConfig.startupwidget === configParamName) ? true : false;
                     //Create the tab pane initially, so title is present in tab bar
                     var parentPane = new contentPane({
@@ -73,7 +74,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                         var tocWatch = leftTabCont.watch("selectedChildWidget", lang.hitch(this, function(name, oval, nval){
                             if (nval.id === paneId) {
                                 tocWatch.unwatch();
-                                var standby = new Standby({target: "tocPanel"});
+                                var standby = new Standby({target: paneId});
                                 document.body.appendChild(standby.domNode);
                                 standby.show();
                                 this._CreateWidget(modulePath, parentPane, constructorParams, resizeAfterStartup);

@@ -14,7 +14,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     appid: "",
                     //The ID for the map from ArcGIS.com
                     //If not going to specify a Web Map in AGO, then use empty quotes ("") here
-                    webmap: "",
+                    webmap: "3182b7b31f10425ba0884fccc1916682",
                     // The URL to an ArcGIS Web Map- if not using ArcGIS.com.
                     // Can be relative to index.html. For example, if in basicviewer root- "webmap.js"
                     // If both webmap and webmapurl are empty, then a map must be programmatically defined in map.js
@@ -42,7 +42,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                         link: 'http://mdimap.towson.edu/portal/'
                     },
                     //specify the width of the panel that holds the editor, legend, details
-                    leftpanewidth: '300',
+                    leftpanewidth: '350',
                     //specify the width of the panel that holds the TOC
                     //rightpanewidth: 280,
                     //The height (px) of the Header (where title, logo, and links are located)
@@ -71,7 +71,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     displaydetails: true,
                     tablecontents: true,
                     displayeditor: false,
-                    startupwidget: 'none',
+                    startupwidget: 'tablecontents',
                     ////When editing you need to specify a proxyurl (see below) if the service is on a different domain
                     //Specify a proxy url if you will be editing, using the elevation profile or have secure services or web maps that are not shared with everyone.
                     proxyurl: "proxy.ashx",
@@ -149,7 +149,8 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
 
                 var urlObject = esri.urlToObject(document.location.href);
 
-                //is an appid specified (either in the config option above, or in query string) - if so, download json from AGO, otherwise accept configOptions defaults
+                //is an appid specified (either in the config option above, or in query string) -
+                // if so, download json from AGO, and override applicable defaults, otherwise configOptions defaults will be used
                 if (configOptions.appid || (urlObject.query && urlObject.query.appid)) {
                     var appid = configOptions.appid || urlObject.query.appid;
                     var requestHandle = esri.request({

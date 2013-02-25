@@ -3,13 +3,16 @@
  *  utilities/maphandler is a singleton object containing a reference to the map object and other properties/fxns- such as enabling/disabling popups.
  *  A good help sample: http://dojotoolkit.org/documentation/tutorials/1.8/recipes/custom_widget/
  *  If using an esri dijit, they should all be AMD-compatible. Help: http://help.arcgis.com/en/webapi/javascript/arcgis/jshelp/#inside_dojo_amd
+ *
+ *  Note: It seems when working with map layer events (e.g. "onClick"),
+ *  in order to work with modules, dojo/aspect after() or before() functions should be used.
  */
-define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dijit/_TemplatedMixin", "dijit/_WidgetsInTemplateMixin", "dojo/on", "dijit/registry", "dojo/ready", "dojo/parser"
+define(["dojo/_base/declare", "dojo/aspect", "dojo/dom-construct", "dijit/_WidgetBase", "dijit/_TemplatedMixin", "dijit/_WidgetsInTemplateMixin", "dojo/on", "dijit/registry", "dojo/ready", "dojo/parser"
     , "dojo/text!./templates/interop.html", "dojo/_base/fx", "dojo/_base/lang"
-    , "dojo/dom", "dojox/layout/FloatingPane", "dojo/query", "../utilities/maphandler", "dojo/has", "dojo/json"
+    , "dojo/dom", "dojox/layout/FloatingPane", "dojo/query", "../utilities/maphandler", "dojo/has", "dojo/json", "dojo/_base/Color"
     , "xstyle/css!./css/interop.css"],
-    function(declare, domConstruct, WidgetBase, TemplatedMixin, WidgetsInTemplateMixin, on, registry, ready, parser, template, fxer, lang
-                , dom, floatingPane, query, mapHandler, has, JSON){
+    function(declare, aspect, domConstruct, WidgetBase, TemplatedMixin, WidgetsInTemplateMixin, on, registry, ready, parser, template, fxer, lang
+                , dom, floatingPane, query, mapHandler, has, JSON, Color){
         return declare([WidgetBase, TemplatedMixin, WidgetsInTemplateMixin],{
             //*** Properties needed for this style of module
             // The template HTML fragment (as a string, created in dojo/text definition above)
@@ -168,21 +171,25 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dijit/
                 //for an example of how to work with local storage.
                 var fullExtent;
                 var layers = [];
-
-                dojo.forEach(featureCollection.layers, lang.hitch(this, function (layer) {
+                //dojo.forEach(featureCollection.layers, lang.hitch(this, function (layer) {
+                for (var i = 0; i < featureCollection.layers.length; i++) {
+                    layer = featureCollection.layers[i];
                     var infoTemplate = new esri.InfoTemplate("Details", "${*}");
                     var layer = new esri.layers.FeatureLayer(layer, {
                         infoTemplate: infoTemplate
                     });
                     //associate the feature with the popup on click to enable highlight and zoomto
-                    on(layer,'onClick', lang.hitch(this, function(evt){
-                        this.map.infoWindow.setFeatures([evt.graphic]);
-                    }));
+                    //connect.connect(layer, 'onClick', lang.hitch(this, function(evt){
+                    /*aspect.after(layer, 'onClick', lang.hitch(this, function(evt){
+                        if (evt)
+                            this.map.infoWindow.setFeatures([evt.graphic]);
+                    }));*/
                     //change default symbol if desired. Comment this out and the layer will draw with the default symbology
                     this._changeRenderer(layer);
                     fullExtent = fullExtent ? fullExtent.union(layer.fullExtent) : layer.fullExtent;
                     layers.push(layer);
-                }));
+                //}));
+                }
                 this.map.addLayers(layers);
                 this.map.setExtent(fullExtent.expand(1.25), true);
 
@@ -206,7 +213,7 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dijit/
                         });
                         break;
                     case 'esriGeometryPolygon':
-                        symbol = new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_SOLID, new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color([112, 112, 112]), 1), new dojo.Color([136, 136, 136, 0.25]));
+                        symbol = new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_SOLID, new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new Color([112, 112, 112]), 1), new Color([136, 136, 136, 0.25]));
                         break;
                 }
                 if (symbol) {

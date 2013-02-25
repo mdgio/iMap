@@ -42,7 +42,7 @@
     }
     // The modules which need to be loaded immediately during app load - most of the widgets are lazy-loaded (e.g. on button click)
     , ["dojo/parser", /*"jquery",*/ "dojo/dom", "dojo/ready", "dojo/_base/lang", "require"
-        , "modules/core/utilities/environment", "modules/core/configuration/app", "modules/core/configuration/map", "modules/core/configuration/layout", "modules/core/interop/interop"
+        , "modules/core/utilities/environment", "modules/core/configuration/app", "modules/core/configuration/map", "modules/core/configuration/layout"
         , "dijit/layout/BorderContainer", "dijit/layout/TabContainer", "dijit/Toolbar", "dojo/parser", "dojox/layout/FloatingPane", "dijit/MenuItem"
         , "esri/arcgis/utils"
         /*, "dijit/layout/StackContainer", "modules/core/toc/toc",*/
@@ -51,7 +51,7 @@
         , "esri/dijit/Bookmarks", "esri/dijit/Attribution"*//*, "myModules/custommenu"*//*, "esri/dijit/Print"*//*, "apl/ElevationsChart/Pane"*//*, "dijit/MenuItem"*/]
     //The callback to run once Dojo and the required modules are ready.  References to the instantiated objects in the array can be exposed
     // as parameters in the callback functhistion, but a parameter does not have to be inserted for each array item
-    , function(parser, /*$,*/ dom, ready, lang, require, environment, app, mapConfig, layout, dataInterop) {
+    , function(parser, /*$,*/ dom, ready, lang, require, environment, app, mapConfig, layout) {
        ready(function() {
             parser.parse();
             var appConfigurator = new app();
