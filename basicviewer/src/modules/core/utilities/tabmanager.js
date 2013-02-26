@@ -128,7 +128,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                 leftTabCont.addChild(parentPane);
                 domClass.add(dom.byId(paneId), 'panel_content');
 
-                if (selectedPane) { // Get the toc widget and load immediately
+                if (selectedPane) { // Get the widget and load immediately
                     this._CreateWidget(modulePath, parentPane, constructorParams, resizeAfterStartup);
                 } else { // Don't load the widget, unless needed- i.e. when a user clicks on the tab button (lazy loading)
                     var tocWatch = leftTabCont.watch("selectedChildWidget", lang.hitch(this, function(name, oval, nval){

@@ -1,3 +1,5 @@
+//*** Ignore this file. It came from the original Basic Viewer, and is being ported to the new modules. Will eventually be deleted.
+
 var map, locator;
 var clickHandler, clickListener;
 var editLayers = [],editorWidget;
