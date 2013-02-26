@@ -1,7 +1,7 @@
 // The parent container for the Table of Contents and Add Data accordion
-define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/on", "dijit/registry", "dojo/ready", "dojo/parser"
-	, "dijit/layout/AccordionContainer", "dijit/layout/ContentPane", "dojo/dom-style", "dojo/_base/fx", "dojo/_base/lang", "./legend/TOC"],
-    function(declare, domConstruct, WidgetBase, dojoOn, dojoRegistry, ready, parser
+define(["dojo/_base/declare", /*"jquery",*/ "dojo/dom-construct", "dijit/_WidgetBase", /*"dijit/_TemplatedMixin", "dijit/_WidgetsInTemplateMixin",*/ "dojo/on", "dijit/registry", "dojo/ready", "dojo/parser"
+	/*"dojo/text!./templates/toc.html"*/, "dijit/layout/AccordionContainer", "dijit/layout/ContentPane", "dojo/dom-style", "dojo/_base/fx", "dojo/_base/lang", "./legend/TOC" /*,"xstyle/css!./css/toc.css", "jqueryui"*/],
+    function(declare, /*$,*/ domConstruct, WidgetBase, /*TemplatedMixin, WidgetsInTemplateMixin,*/ dojoOn, dojoRegistry, ready, parser /*template,*/
              , AccordionContainer, ContentPane, domsty, fxer, language, legendToc){
         //The module needs to be explicitly declared when it will be declared in markup.  Otherwise, do not put one in.
         return declare(/*"modules/core/toc/toc",*/ [WidgetBase, AccordionContainer /*, TemplatedMixin, WidgetsInTemplateMixin*/], {
@@ -16,12 +16,6 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/o
             // The table of contents dijit
             _dijitToc: null,
             _accordion: null,
-
-
-
-            //onExtentChange() - use when map extent changes to change not scale dependeny in toc items
-            //isVisibleAtScale(scale)
-
 
             //The event handlers below are not needed, unless for custom code.  They are here for reference.
             constructor: function(args) {
