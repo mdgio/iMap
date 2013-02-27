@@ -1,6 +1,7 @@
 // _TOCNode is a node, with 3 possible types: layer(service)|layer|legend
-define(["dojo/_base/declare", "dijit/_WidgetBase", "dijit/_TemplatedMixin", "dijit/_WidgetsInTemplateMixin", "dojo/fx/Toggler", "dijit/form/HorizontalSlider" ],
-    function(declare, WidgetBase, TemplatedMixin, WidgetsInTemplateMixin, Toggler, Slider){
+define(["dojo/_base/declare", "dijit/_WidgetBase", "dijit/_TemplatedMixin", "dijit/_WidgetsInTemplateMixin"
+    , "dojo/fx/Toggler", "dijit/form/HorizontalSlider", "dojo/dom", "dijit/registry", "dojo/query" ],
+    function(declare, WidgetBase, TemplatedMixin, WidgetsInTemplateMixin, Toggler, Slider, dom, registry, query){
     	//Had to create a variable name for the class here, so an internal function could reference it to create new _TOCNodes
         var _TOCNode = declare([WidgetBase, TemplatedMixin, WidgetsInTemplateMixin], {
         	templateString: '<div class="agsjsTOCNode">' +
@@ -8,7 +9,7 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dijit/_TemplatedMixin", "dij
 	            '<span data-dojo-attach-point="contentNode" class="agsjsTOCContent">' +
 	            '<span data-dojo-attach-point="checkContainerNode"></span>' +//<input type="checkbox" data-dojo-attach-point="checkNode"/>' +
 	            '<img src="${_blankGif}" alt="" data-dojo-attach-point="iconNode" />' +
-	            '<span data-dojo-attach-point="labelNode">' +
+	            '<span data-dojo-attach-point="labelNode" data-dojo-attach-event="onclick:_labelClick" style="cursor:pointer">' +
 	            '</span></span></div>' +
 	            '<div data-dojo-attach-point="containerNode" style="display: none;"> </div></div>',
 	        rootLayer: null,
@@ -19,7 +20,7 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dijit/_TemplatedMixin", "dij
 	        _childTOCNodes: [],
 	        constructor: function(params, srcNodeRef) {
 	            dojo.mixin(this, params);
-	
+
 	        },
 	        // extension point. called automatically after widget DOM ready.
 	        postCreate: function() {
@@ -461,6 +462,30 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dijit/_TemplatedMixin", "dij
 	                this._toggleContainer();
 	            }
 	        },
+
+            //Test
+            _labelClick: function(evt) {
+
+                var t = evt.target;
+                if (t) {
+                    var serviceLayerDiv = dom.byId(t["parentElement"]["parentElement"]["parentElement"]["parentElement"]["id"]);
+                    //var treeRootDiv = registry.byId('dijit__WidgetBase_0');
+                    var tocDijit = registry.byId('dijit_layout_AccordionContainer_0');
+                    if (tocDijit.selectedElement) {
+                        var nl = query(".selectedTocNode");
+                        if (nl.length > 0)
+                            nl[0].className = '';
+                        //tocDijit.selectedElement["children"][0]["children"][0]["children"][2].className = 'unselectedTocNode';
+                        //serviceLayerDiv["children"][0]["children"][0]["children"][2]
+                    }
+                    tocDijit.selectedElement = null;
+                    tocDijit.selectedElement = serviceLayerDiv;
+                    //tocDijit.selectedElement.className = 'selectedTocNode';
+                    t.className = 'selectedTocNode';
+                }
+            },
+            //end test
+
 	        _getVisibleLayers: function() {
 	            var vis = [];
 	            dojo.forEach(this.rootLayer.layerInfos, function(layerInfo) {

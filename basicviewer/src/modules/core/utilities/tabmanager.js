@@ -46,10 +46,14 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                 if ((this._AppConfig.tablecontents === 'true' || this._AppConfig.tablecontents === true)) {
                     //*** Check if this pane was set to be the startup pane in app.js or AGO. Replace the param name in next line.
                     var configParamName = 'tablecontents';
-                    //*** Give the tab's content pane a unique id
-                    var paneId = 'tocPanel';
-                    //*** The title to display in the tab
-                    var tabTitle = 'Contents';
+                    //*** Constructor params for the tab (which is a contentpane- http://dojotoolkit.org/reference-guide/1.8/dijit/layout/ContentPane.html).
+                    //*** Give the tab's content pane a unique id.
+                    //*** and title to display in the tab
+                    var tabParams = {
+                        title: 'Contents', //i18n.tools.details.title,
+                        id: 'tocPanel',
+                        style: "overflow:hidden;"
+                    };
                     //*** The relative path to your module file
                     var modulePath = "../toc/toc";
                     //*** If your widget requires specific constructor parameters to be passed in, you can set the object here.
@@ -57,7 +61,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     //*** Does your widget's parent need to be resized after it's startup in order to layout properly? Default to false.
                     var resizeAfterStartup = true;
 
-                    this._CreateTabPane(leftTabCont, configParamName, paneId, tabTitle, modulePath, constructorParams, resizeAfterStartup);
+                    this._CreateTabPane(leftTabCont, configParamName, tabParams, modulePath, constructorParams, resizeAfterStartup);
                 }
 
                 // Editor Panel - not implemented yet
@@ -115,26 +119,28 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
             }
 
             //*** This function should be pretty re-useable for creating a tab content pane, which your widget will be added to. See Table of Contents for use.
-            , _CreateTabPane: function (leftTabCont, configParamName, paneId, tabTitle, modulePath, constructorParams, resizeAfterStartup) {
+            , _CreateTabPane: function (leftTabCont, configParamName, tabParams, modulePath, constructorParams, resizeAfterStartup) {
                 var selectedPane = (this._AppConfig.startupwidget === configParamName) ? true : false;
+                tabParams.selected = selectedPane;
                 //Create the tab pane initially, so title is present in tab bar
-                var parentPane = new contentPane({
+                var parentPane = new contentPane(tabParams);
+                /*var parentPane = new contentPane({
                     title: tabTitle, //i18n.tools.details.title,
                     selected: selectedPane,
                     id: paneId,
                     style: "padding: 0px"
-                });
+                });*/
                 //Add pane to tab container and style to the pane
                 leftTabCont.addChild(parentPane);
-                domClass.add(dom.byId(paneId), 'panel_content');
+                domClass.add(dom.byId(tabParams.id), 'panel_content');
 
                 if (selectedPane) { // Get the widget and load immediately
                     this._CreateWidget(modulePath, parentPane, constructorParams, resizeAfterStartup);
                 } else { // Don't load the widget, unless needed- i.e. when a user clicks on the tab button (lazy loading)
                     var tocWatch = leftTabCont.watch("selectedChildWidget", lang.hitch(this, function(name, oval, nval){
-                        if (nval.id === paneId) {
+                        if (nval.id === tabParams.id) {
                             tocWatch.unwatch();
-                            var standby = new Standby({target: paneId});
+                            var standby = new Standby({target: tabParams.id});
                             document.body.appendChild(standby.domNode);
                             standby.show();
                             this._CreateWidget(modulePath, parentPane, constructorParams, resizeAfterStartup);
