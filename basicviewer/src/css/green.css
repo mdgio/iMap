@@ -7,15 +7,61 @@ body {
   background-color:#ecf4e9;
 }
 /*override claro background and other props*/
-#toolbarContainer .dijitToolbar {
+/*#toolbarContainer .dijitToolbar {
   background:url(../../assets/green/toolbar_bg.png) repeat-x #4a6f1c;
-}
+}*/
 /*Measure toggle button*/
 .claro .dijitToolbar .dijitButtonNode:hover {
   background:url(../../assets/green/sidebar_header_active_bg.png) repeat-x #b5d19a;
 }
 .claro .dijitToolbar .dijitToggleButtonChecked .dijitButtonNode {
    background:url(../../assets/green/sidebar_header_active_bg.png) repeat-x #b5d19a;
+}
+
+/* Change color of tab menu*/
+.claro .dijitTab{
+    background-color: rgba(166, 215, 161, 0.80);
+    background-image: none !important;
+    color: #1E2227;
+}
+.claro .dijitTablisContainer{
+    background-color: rgba(166, 215, 161, 0.80);
+}
+
+.claro .dijitTabListContainer-top .dijitTabStripButtonDisabled{
+    background-color: rgba(166, 215, 161, 0.80);
+}
+
+.claro .dijitTabListContainer-bottom .dijitTabStripButtonDisabled{
+    background-color: rgba(166, 215, 161, 0.80);
+}
+
+.claro .dijitTabListContainer-top .dijitContentPane{
+    background-color: rgba(166, 215, 161, 0.80);
+}
+
+.claro .dijitTabController{
+    background-color: #527C30;
+}
+
+.claro .dijitTabContainerTop-tabs .dijitTabChecked {
+    background-color: rgba(166, 215, 161, 0.80);
+    background-image: none !important;
+}
+.claro .dijitTabListContainer-top .tabStripButton{
+    background-image: none !important;
+}
+.claro .dijitTabStripMenuIcon {
+    background-position: -150px 50%;
+}
+.claro .dijitTabStripSlideRightIcon{
+    background-position: -124px 50%;
+}
+.claro .dijitTabContainerTop-dijitContentPane, .claro .dijitTabContainerLeft-dijitContentPane, .claro .dijitTabContainerBottom-dijitContentPane, .claro .dijitTabContainerRight-dijitContentPane, .claro .dijitAccordionContainer-dijitContentPane{
+    background-color: rgba(227, 255, 215, 0.80);
+}
+.claro .dijitTabListContainer-top .tabStripButtonDisabled, .claro .dijitTabListContainer-bottom .tabStripButtonDisabled{
+    background-color: rgba(166, 215, 161, 0.80);
 }
 
 /*Attribute Inspector button styling (delete buttons)*/

@@ -7,9 +7,9 @@ body {
   background-color:#e9eef2;
 }
 /*override claro background and other props*/
-#toolbarContainer .dijitToolbar {
+/*#toolbarContainer .dijitToolbar {
   background:url(../../assets/blue/toolbar_bg.png) repeat-x #6788a2;
-}
+}*/
 /*Measure toggle button*/
 .claro .dijitToolbar .dijitButtonNode:hover {
   background:url(../../assets/blue/sidebar_header_active_bg.png) repeat-x #cee1ec;
@@ -19,6 +19,52 @@ body {
 }
 .dojoxFloatingPaneTitle{
   background:url(../../assets/blue/toolbar_bg.png) repeat-x #6788a2;
+}
+
+/* Change color of tab menu*/
+.claro .dijitTab{
+    background-color: #7DA4BC;
+    background-image: none !important;
+    color: #ffffff;
+}
+.claro .dijitTablisContainer{
+    background-color: #7DA4BC;
+}
+
+.claro .dijitTabListContainer-top .dijitTabStripButtonDisabled{
+    background-color: #7DA4BC;
+}
+
+.claro .dijitTabListContainer-bottom .dijitTabStripButtonDisabled{
+    background-color: #7DA4BC;
+}
+
+.claro .dijitTabListContainer-top .dijitContentPane{
+    background-color: #7DA4BC;
+}
+
+.claro .dijitTabController{
+    background-color: #4E7698;
+}
+
+.claro .dijitTabContainerTop-tabs .dijitTabChecked {
+    background-color: #7DA4BC;
+    background-image: none !important;
+}
+.claro .dijitTabListContainer-top .tabStripButton{
+    background-image: none !important;
+}
+.claro .dijitTabStripMenuIcon {
+    background-position: -150px 50%;
+}
+.claro .dijitTabStripSlideRightIcon{
+    background-position: -124px 50%;
+}
+.claro .dijitTabContainerTop-dijitContentPane, .claro .dijitTabContainerLeft-dijitContentPane, .claro .dijitTabContainerBottom-dijitContentPane, .claro .dijitTabContainerRight-dijitContentPane, .claro .dijitAccordionContainer-dijitContentPane{
+    background-color: #eaf4ff;
+}
+.claro .dijitTabListContainer-top .tabStripButtonDisabled, .claro .dijitTabListContainer-bottom .tabStripButtonDisabled{
+    background-color: #3D5971;
 }
 
 .esriPopup .titlePane{
