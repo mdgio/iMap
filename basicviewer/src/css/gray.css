@@ -7,9 +7,9 @@ body {
   background-color:#EEE;
 }
 /*override claro background and other props*/
-#toolbarContainer .dijitToolbar {
+/*#toolbarContainer .dijitToolbar {
   background:url(../../assets/gray/toolbar_bg.png) repeat-x #545454;
-}
+}*/
 /*Measure toggle button*/
 .claro .dijitToolbar .dijitButtonNode:hover {
   background:url(../../assets/gray/sidebar_header_active_bg.png) repeat-x #CEE1EC;
@@ -50,6 +50,52 @@ body {
 .claro .dijitDialogPaneActionBar .dijitButtonNode{
   background-image:none;
   background:url(../../assets/gray/sidebar_header_active_bg.png) repeat-x #CEE1EC;
+}
+
+/* Change color of tab menu*/
+.claro .dijitTab{
+    background-color: #EEE;
+    background-image: none !important;
+    color: #060606;
+}
+.claro .dijitTablisContainer{
+    background-color: #fafafa;
+}
+
+.claro .dijitTabListContainer-top .dijitTabStripButtonDisabled{
+    background-color: #EEE;
+}
+
+.claro .dijitTabListContainer-bottom .dijitTabStripButtonDisabled{
+    background-color: #EEE;
+}
+
+.claro .dijitTabListContainer-top .dijitContentPane{
+    background-color: #EEE;
+}
+
+.claro .dijitTabController{
+    background-color: #B4B4B4;
+}
+
+.claro .dijitTabContainerTop-tabs .dijitTabChecked {
+    background-color: #e1e1e1;
+    background-image: none !important;
+}
+.claro .dijitTabListContainer-top .tabStripButton{
+    background-image: none !important;
+}
+.claro .dijitTabStripMenuIcon {
+    background-position: -150px 50%;
+}
+.claro .dijitTabStripSlideRightIcon{
+    background-position: -124px 50%;
+}
+.claro .dijitTabContainerTop-dijitContentPane, .claro .dijitTabContainerLeft-dijitContentPane, .claro .dijitTabContainerBottom-dijitContentPane, .claro .dijitTabContainerRight-dijitContentPane, .claro .dijitAccordionContainer-dijitContentPane{
+    background-color: #f9f9f9;
+}
+.claro .dijitTabListContainer-top .tabStripButtonDisabled, .claro .dijitTabListContainer-bottom .tabStripButtonDisabled{
+    background-color: #EEE;
 }
 
 .esriPopup .pointer.top {

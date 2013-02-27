@@ -27,7 +27,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
 
                     //*** Layout ***
                     //Specify a color theme for the app. Valid options are gray,blue,purple,green and orange
-                    theme: 'imap',
+                    theme: "orange",
                     //set to true to display the title
                     displaytitle: true,
                     //Enter a title, if no title is specified, the webmap's title is used.
