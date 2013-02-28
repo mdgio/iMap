@@ -22,24 +22,24 @@ body {
 
 /* Change color of tab menu*/
 .claro .dijitTab{
-    background-color: #1E2227;
+    background-color: #6d7d86;
     background-image: none !important;
     color: #ffffff;
 }
 .claro .dijitTablisContainer{
-    background-color: #131313;
+    background-color: #6d7d86;
 }
 
 .claro .dijitTabListContainer-top .dijitTabStripButtonDisabled{
-    background-color: #131313;
+    background-color: #6d7d86;
 }
 
 .claro .dijitTabListContainer-bottom .dijitTabStripButtonDisabled{
-    background-color: #131313;
+    background-color: #6d7d86;
 }
 
 .claro .dijitTabListContainer-top .dijitContentPane{
-    background-color: #131313;
+    background-color: #6d7d86;
 }
 
 .claro .dijitTabController{
@@ -47,7 +47,7 @@ body {
 }
 
 .claro .dijitTabContainerTop-tabs .dijitTabChecked {
-    background-color: #131313;
+    background-color: #6d7d86;
     background-image: none !important;
 }
 .claro .dijitTabListContainer-top .tabStripButton{
@@ -60,10 +60,10 @@ body {
     background-position: -124px 50%;
 }
 .claro .dijitTabContainerTop-dijitContentPane, .claro .dijitTabContainerLeft-dijitContentPane, .claro .dijitTabContainerBottom-dijitContentPane, .claro .dijitTabContainerRight-dijitContentPane, .claro .dijitAccordionContainer-dijitContentPane{
-    background-color: #131313;
+    background-color: #ececec;
 }
 .claro .dijitTabListContainer-top .tabStripButtonDisabled, .claro .dijitTabListContainer-bottom .tabStripButtonDisabled{
-    background-color: #1E2227;
+    background-color: #6d7d86;
 }
 
 
