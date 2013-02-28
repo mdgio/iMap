@@ -52,7 +52,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     var tabParams = {
                         title: 'Contents', //i18n.tools.details.title,
                         id: 'tocPanel',
-                        style: "overflow:hidden;"
+                        style: "padding: 0px"
                     };
                     //*** The relative path to your module file
                     var modulePath = "../toc/toc";
@@ -124,12 +124,6 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                 tabParams.selected = selectedPane;
                 //Create the tab pane initially, so title is present in tab bar
                 var parentPane = new contentPane(tabParams);
-                /*var parentPane = new contentPane({
-                    title: tabTitle, //i18n.tools.details.title,
-                    selected: selectedPane,
-                    id: paneId,
-                    style: "padding: 0px"
-                });*/
                 //Add pane to tab container and style to the pane
                 leftTabCont.addChild(parentPane);
                 domClass.add(dom.byId(tabParams.id), 'panel_content');
@@ -158,7 +152,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                         // Create our widget and place it
                         var widget = new Widget(constructorParams);
                         parentPane.addChild(widget);
-                        widget.startup();
+                        //widget.startup();
                         if (resizeAfterStartup)
                             parentPane.resize();
                 }));

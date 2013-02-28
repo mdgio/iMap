@@ -1,8 +1,9 @@
 // The parent container for the Table of Contents and Add Data accordion
 define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/on", "dijit/registry", "dojo/ready", "dojo/parser"
-	, "dijit/layout/AccordionContainer", "dijit/layout/ContentPane", "dojo/dom-style", "dojo/_base/fx", "dojo/_base/lang", "./legend/TOC"],
+	, "dijit/layout/AccordionContainer", "dijit/layout/ContentPane", "dojo/dom-class", "dojo/_base/fx", "dojo/_base/lang", "./legend/TOC"
+    , "./legend/btnbar", "dojo/query", "dojo/dom-style", "xstyle/css!./css/toc.css"],
     function(declare, domConstruct, WidgetBase, dojoOn, registry, ready, parser
-             , AccordionContainer, ContentPane, domsty, fxer, language, legendToc){
+             , AccordionContainer, ContentPane, domClass, fxer, language, legendToc, btnBar, query, domStyle){
         //The module needs to be explicitly declared when it will be declared in markup.  Otherwise, do not put one in.
         return declare(/*"modules/core/toc/toc",*/ [WidgetBase, AccordionContainer /*, TemplatedMixin, WidgetsInTemplateMixin*/], {
             // The template HTML fragment (as a string, created in dojo/text definition above)
@@ -53,9 +54,12 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/o
                 this.inherited(arguments);
                 var legendPane = new ContentPane({
                     title: "Legend",
+                    style: "padding: 0px"/*,
                     content: '<button onclick="dijit.registry.byId(\'dijit_layout_AccordionContainer_0\').moveSelectedUp()">Move Up</button><button onclick="dijit.registry.byId(\'dijit_layout_AccordionContainer_0\').moveSelectedDown()">Move Down</button><button onclick="dijit.registry.byId(\'dijit_layout_AccordionContainer_0\').removeSelected()">Remove</button>'
-                    //<button onclick="dijit.registry.byId(\'dijit_layout_AccordionContainer_0\').AddNew()">Add</button>
+                    *///<button onclick="dijit.registry.byId(\'dijit_layout_AccordionContainer_0\').AddNew()">Add</button>
                 });
+
+                domClass.add(legendPane.domNode, 'tocLegendPane');
 
                 var addDataPane = new ContentPane({
                     title:"Add Data",
@@ -65,11 +69,45 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/o
                 this.addChild(legendPane);
                 this.addChild(addDataPane);
 
+                //var buttons = new btnBar();
 
+                //Create a title bar for Floating Pane
+                //var titlePane = query('#tocPanel .dijitAccordionTitle');
+                //Add close button to title pane. dijit.registry is used to obtain a reference to this floating pane's parentModule
+                /*var closeDiv = domConstruct.create('div', {
+                    id: "closeBtn",
+                 titlePane            innerHTML: esri.substitute({
+                        close_title: 'Close Data', //i18n.panel.close.title,
+                        close_alt: 'Close Data'//i18n.panel.close.label
+                    }, '<a alt=${close_alt} title=${close_title} href="JavaScript:dijit.registry.byId(\'' + this.floaterDivId + '\').parentModule.ToggleTool();"><img  src="assets/close.png"/></a>')
+                }, titlePane);*/
+
+
+                //legendPane.addChild(buttons);
+
+                /*var legendSubPane = new ContentPane({
+                    id: 'tocLegendSubPane'
+                });*/
+
+                //legendPane.addChild(legendSubPane);
 
                 this.initializeDijitToc(this.esriMap);
+                //legendSubPane.addChild(this._dijitToc);
                 legendPane.addChild(this._dijitToc);
                 this.tocParent = registry.byId('dijit__WidgetBase_0');
+            },
+
+            startup: function () {
+                this.inherited(arguments);
+
+                var buttons = new btnBar();
+                var titlePanes = query('#tocPanel .dijitAccordionTitle');
+                if (titlePanes.length > 0) {
+                    var firstPane = titlePanes[0];//.children[0];
+                    domStyle.set(firstPane, "height", "30px");
+                    var closeDiv = domConstruct.place(buttons.domNode, firstPane);
+
+                }
             },
 
             //Test
