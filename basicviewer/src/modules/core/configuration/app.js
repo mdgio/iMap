@@ -100,7 +100,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                         label:  'Portrait - PNG',//i18n.tools.print.layouts.label4,
                         format: 'PNG32'
                     }],
-                    displaybasemaps: true,
+                    displaybasemaps: false,
                     displaybookmarks: true,
                     displaymeasure: false,
                     displayshare: true,//if enabled enter bitly key and login below.
