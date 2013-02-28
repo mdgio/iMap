@@ -1,3 +1,12 @@
+.selectedTocNode {
+    background-color: red;
+}
+
+input[type='checkbox'] {
+    width:25px;
+    height:25px;
+}
+
 html,body {
     height:100%;
     width:100%;
@@ -172,6 +181,7 @@ body {
     background:url(../assets/imap/toolbar_bg.png) repeat-x #282828; !important
 
 }
+
 
 /*The top toolbar is split into three sections. */
 #webmap-toolbar-left {

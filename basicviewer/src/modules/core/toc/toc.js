@@ -1,8 +1,9 @@
 // The parent container for the Table of Contents and Add Data accordion
-define(["dojo/_base/declare", /*"jquery",*/ "dojo/dom-construct", "dijit/_WidgetBase", /*"dijit/_TemplatedMixin", "dijit/_WidgetsInTemplateMixin",*/ "dojo/on", "dijit/registry", "dojo/ready", "dojo/parser"
-	/*"dojo/text!./templates/toc.html"*/, "dijit/layout/AccordionContainer", "dijit/layout/ContentPane", "dojo/dom-style", "dojo/_base/fx", "dojo/_base/lang", "./legend/TOC" /*,"xstyle/css!./css/toc.css", "jqueryui"*/],
-    function(declare, /*$,*/ domConstruct, WidgetBase, /*TemplatedMixin, WidgetsInTemplateMixin,*/ dojoOn, dojoRegistry, ready, parser /*template,*/
-             , AccordionContainer, ContentPane, domsty, fxer, language, legendToc){
+define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/on", "dijit/registry", "dojo/ready", "dojo/parser"
+	, "dijit/layout/AccordionContainer", "dijit/layout/ContentPane", "dojo/dom-class", "dojo/_base/fx", "dojo/_base/lang", "./legend/TOC"
+    , "./legend/btnbar", "dojo/query", "dojo/dom-style", "xstyle/css!./css/toc.css"],
+    function(declare, domConstruct, WidgetBase, dojoOn, registry, ready, parser
+             , AccordionContainer, ContentPane, domClass, fxer, language, legendToc, btnBar, query, domStyle){
         //The module needs to be explicitly declared when it will be declared in markup.  Otherwise, do not put one in.
         return declare(/*"modules/core/toc/toc",*/ [WidgetBase, AccordionContainer /*, TemplatedMixin, WidgetsInTemplateMixin*/], {
             // The template HTML fragment (as a string, created in dojo/text definition above)
@@ -16,6 +17,13 @@ define(["dojo/_base/declare", /*"jquery",*/ "dojo/dom-construct", "dijit/_Widget
             // The table of contents dijit
             _dijitToc: null,
             _accordion: null,
+            selectedElement: null,
+            tocParent: null,
+
+
+            //onExtentChange() - use when map extent changes to change not scale dependeny in toc items
+            //isVisibleAtScale(scale)
+
 
             //The event handlers below are not needed, unless for custom code.  They are here for reference.
             constructor: function(args) {
@@ -41,12 +49,17 @@ define(["dojo/_base/declare", /*"jquery",*/ "dojo/dom-construct", "dijit/_Widget
 
                 //this._accordion.startup();
             },
-
+//href="JavaScript:dijit.registry.byId(\'' + this.floaterDivId + '\').parentModule.ToggleTool();"
             postCreate: function () {
                 this.inherited(arguments);
                 var legendPane = new ContentPane({
-                    title: "Legend"
+                    title: "Legend",
+                    style: "padding: 0px"/*,
+                    content: '<button onclick="dijit.registry.byId(\'dijit_layout_AccordionContainer_0\').moveSelectedUp()">Move Up</button><button onclick="dijit.registry.byId(\'dijit_layout_AccordionContainer_0\').moveSelectedDown()">Move Down</button><button onclick="dijit.registry.byId(\'dijit_layout_AccordionContainer_0\').removeSelected()">Remove</button>'
+                    *///<button onclick="dijit.registry.byId(\'dijit_layout_AccordionContainer_0\').AddNew()">Add</button>
                 });
+
+                domClass.add(legendPane.domNode, 'tocLegendPane');
 
                 var addDataPane = new ContentPane({
                     title:"Add Data",
@@ -56,10 +69,111 @@ define(["dojo/_base/declare", /*"jquery",*/ "dojo/dom-construct", "dijit/_Widget
                 this.addChild(legendPane);
                 this.addChild(addDataPane);
 
-                this.initializeDijitToc(this.esriMap);
-                legendPane.addChild(this._dijitToc);
+                //var buttons = new btnBar();
 
+                //Create a title bar for Floating Pane
+                //var titlePane = query('#tocPanel .dijitAccordionTitle');
+                //Add close button to title pane. dijit.registry is used to obtain a reference to this floating pane's parentModule
+                /*var closeDiv = domConstruct.create('div', {
+                    id: "closeBtn",
+                 titlePane            innerHTML: esri.substitute({
+                        close_title: 'Close Data', //i18n.panel.close.title,
+                        close_alt: 'Close Data'//i18n.panel.close.label
+                    }, '<a alt=${close_alt} title=${close_title} href="JavaScript:dijit.registry.byId(\'' + this.floaterDivId + '\').parentModule.ToggleTool();"><img  src="assets/close.png"/></a>')
+                }, titlePane);*/
+
+
+                //legendPane.addChild(buttons);
+
+                /*var legendSubPane = new ContentPane({
+                    id: 'tocLegendSubPane'
+                });*/
+
+                //legendPane.addChild(legendSubPane);
+
+                this.initializeDijitToc(this.esriMap);
+                //legendSubPane.addChild(this._dijitToc);
+                legendPane.addChild(this._dijitToc);
+                this.tocParent = registry.byId('dijit__WidgetBase_0');
             },
+
+            startup: function () {
+                this.inherited(arguments);
+
+                var buttons = new btnBar();
+                var titlePanes = query('#tocPanel .dijitAccordionTitle');
+                if (titlePanes.length > 0) {
+                    var firstPane = titlePanes[0];//.children[0];
+                    domStyle.set(firstPane, "height", "30px");
+                    var closeDiv = domConstruct.place(buttons.domNode, firstPane);
+
+                }
+            },
+
+            //Test
+            moveSelectedUp: function () {
+                var previousOne;
+                var parent = this.tocParent.domNode;
+                if (this.selectedElement) {
+                    //parent = this.selectedElement.parentNode;
+                    previousOne = this.selectedElement.previousElementSibling;
+                }
+                if (previousOne)
+                    parent.insertBefore(this.selectedElement, previousOne);
+            },
+            moveSelectedDown: function () {
+                var nextOne;
+                var twoDown;
+                var parent = this.tocParent.domNode;
+                if (this.selectedElement) {
+                    //parent = this.selectedElement.parentNode;
+                    nextOne = this.selectedElement.nextElementSibling;
+                    if (nextOne) {
+                        twoDown = nextOne.nextElementSibling;
+                        if (twoDown)
+                            parent.insertBefore(twoDown, this.selectedElement);
+                        else if (this.selectedElement)
+                            parent.appendChild(this.selectedElement);
+                    }
+                }
+            },
+            removeSelected: function () {
+                if (this.selectedElement) {
+                    this.selectedElement.parentNode.removeChild(this.selectedElement);
+                    this.selectedElement = null;
+                }
+            },
+            AddNew: function () {
+                var parent = this.tocParent;
+                //var parent = document.getElementById("topdog");
+                var max = -1;
+                var current;
+                if (parent) {
+                    for (var i = 0; i < parent.children.length; i++) {
+                        current = parseInt(parent.children[i].id, 10);
+                        max = (current > max) ? current : max;
+                    }
+                    max++;
+                    var div = document.createElement("div");
+                    div.id = max;
+                    div.className = 'unselected';
+                    div.innerHTML = max;
+                    div.onclick = mFunc;
+
+                    parent.appendChild(div);
+                }
+            },
+            /*mFunc: function (e) {
+                var curId = (e.currentTarget) ? e.currentTarget.id : e.id;
+                var f = document.getElementById(curId);
+                if (selectedElement)
+                    selectedElement.className = 'unselected';
+                selectedElement= f;
+                f.className = 'selected';
+            },*/
+            //end test
+
+
 
             //Resize event was found to be the place where jQuery accordion can be created and sized properly.
             //Once created, it is "refreshed" (resized) when the widget is resized.
@@ -72,7 +186,7 @@ define(["dojo/_base/declare", /*"jquery",*/ "dojo/dom-construct", "dijit/_Widget
                     $(this.domNode.children[0]).accordion({ heightStyle: "fill",
                         create: function(e) {
                             //Get a reference to the toc widget, as the scope in here is tied to the accordion, then set property
-                            dojoRegistry.getEnclosingWidget(e.target).tocHasBeenAccordioned = true;
+                            registry.getEnclosingWidget(e.target).tocHasBeenAccordioned = true;
                         }
                     });
                 }
