@@ -48,22 +48,42 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
 
                 //*** This is the add shapefile tool, created as a module. Use this as a pattern for new tools.
                 // The _AppConfig parameter originates in app.js, and can be overridden by AGO if parameter is made configurable in config.js.
+                if (this._AppConfig.displaybasemaps === "true" || this._AppConfig.displaybasemaps === true) {
+                    //*** Give button a unique btnId, set title, iconClass as appropriate
+                    var btnId = 'tglbtnBasemaps';
+                    var btnTitle = 'Basemaps';
+                    var btnIconClass = 'esriBasemapIcon';
+                    //*** Constructor parameters object you want passed into your module
+                    //*** Provide a unique ID for the parent div of the floating panel (if applicable)
+                    var widgetParams = { AppConfig: this._AppConfig };
+                    //*** The relative path to your module
+                    var modulePath = "../basemaps";
+
+                    this._CreateToolButton(widgetParams, btnId, btnTitle, btnIconClass, /*parentDivId,*/ modulePath);
+                }
+
+                //*** This is the add shapefile tool, created as a module. Use this as a pattern for new tools.
+                // The _AppConfig parameter originates in app.js, and can be overridden by AGO if parameter is made configurable in config.js.
                 if (this._AppConfig.displayinterop === "true" || this._AppConfig.displayinterop === true) {
                     //*** Give button a unique btnId, set title, iconClass as appropriate
                     var btnId = 'tglbtnInterop';
                     var btnTitle = 'Data';
                     var btnIconClass = 'esriDataIcon';
-                    //*** Provide a unique ID for the parent div of the floating panel
-                    var parentDivId = 'floaterIO';
+                    //*** Constructor parameters object you want passed into your module
+                    //*** Provide a unique ID for the parent div of the floating panel (if applicable)
+                    var widgetParams = { floaterDivId: 'floaterIO' };
+                    //var parentDivId = 'floaterIO';//floaterDivId
                     //*** The relative path to your module
                     var modulePath = "../interop/interop";
 
-                    this._CreateToolButton(btnId, btnTitle, btnIconClass, parentDivId, modulePath);
+                    this._CreateToolButton(widgetParams, btnId, btnTitle, btnIconClass, /*parentDivId,*/ modulePath);
                 }
             }
 
             // Creates a toolbar button, and wires up a click handler to request your module and load it on first click only.
-            , _CreateToolButton: function (btnId, btnTitle, btnIconClass, parentDivId, modulePath) {
+            , _CreateToolButton: function (widgetParams, btnId, btnTitle, btnIconClass, /*parentDivId,*/ modulePath) {
+                //Pass in the id of the button, as most tools need to toggle it.
+                widgetParams.buttonDivId = btnId;
                 //Create the button for the toolbar
                 var tglbtn = new ToggleButton({
                     title: btnTitle,
@@ -77,10 +97,11 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     try { document.body.style.cursor = "wait"; } catch (e) {}
                     //*** Set the relative location to the module
                     require([modulePath], lang.hitch(this, function(customDijit) {
-                        var theDijit = new customDijit({
+                        var theDijit = new customDijit(widgetParams);
+                        /*var theDijit = new customDijit({
                             floaterDivId: parentDivId,
                             buttonDivId: btnId
-                        });
+                        });*/
                         theDijit.startup();
                         try { document.body.style.cursor = "auto"; } catch (e) {}
                     }));
