@@ -43,10 +43,10 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                             this._addMeasurementWidget(MeasurementDijit);
                         })
                     );
-                } else
-                    esri.hide(dom.byId('floater'));
+                } /*else
+                    esri.hide(dom.byId('floater'));*/
 
-                //*** The basemap tool
+                //*** The basemap tool. An example of loading a DropDownButton, which needs it contents loading before startup.
                 if (this._AppConfig.displaybasemaps === "true" || this._AppConfig.displaybasemaps === true) {
                     //Get the basemap dijit- a dropdown button with the dropdown content
                     require(["../basemaps"],

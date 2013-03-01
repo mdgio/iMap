@@ -3,8 +3,8 @@
 }
 
 input[type='checkbox'] {
-    width:25px;
-    height:25px;
+    width:19px;
+    height:19px;
 }
 
 html,body {
@@ -654,9 +654,9 @@ div#editDiv.templatePicker .grid  .selectedItem {
     margin-left: 30px;
 }
 
-.claro .dijitArrowButtonInner{
+/*.claro .dijitArrowButtonInner{
     display: none !important;
-}
+}*/
 
 .claro .dijitButtonText{
     display: none !important;

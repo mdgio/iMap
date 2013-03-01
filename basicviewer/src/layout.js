@@ -601,7 +601,7 @@ if (configOptions.displaybasemaps === 'true' || configOptions.displaybasemaps ==
     if (configOptions.displaylegend === 'true' || configOptions.displaylegend === true) {
     configOptions.displaylegend = true;
   }*/
-	addInterop();
+//	addInterop();
 
   if (displayLeftPanel()) {
 /* Moved to new
@@ -687,13 +687,13 @@ if (configOptions.displaybasemaps === 'true' || configOptions.displaybasemaps ==
     dijit.byId('mainWindow').resize();
     resizeMap();
 */
-
+/* Moved to module
   //Create the search location tool
   if (configOptions.displaysearch === 'true' || configOptions.displaysearch === true) {
     createSearchTool();
   } else {
     esri.hide(dojo.byId('webmap-toolbar-right'));
-  }
+  }*/
 
   //add the time slider if the layers are time-aware 
   if (configOptions.displaytimeslider === 'true' || configOptions.displaytimeslider === true) {
@@ -1318,10 +1318,10 @@ function addPrint() {
 
     printer.startup();
 }*/
-
+/* Moved to toolmanager
 //DATA WIDGET
 function addInterop() {
-   /*var fpI = new dojox.layout.FloatingPane({
+   *//*var fpI = new dojox.layout.FloatingPane({
 		title: 'Data Interoperability',
 		resizable: false,
 		dockable: false,
@@ -1329,10 +1329,10 @@ function addInterop() {
 		style: "position:absolute;top:0;left:50px;width:245px;height:175px;z-index:100;visibility:hidden;",
 		id: 'interop'
 	}, dojo.byID('interop'));
-    //fpI.startup();*/
+    //fpI.startup();*//*
 
 
-  /*var titlePane = dojo.query('#interop .dojoxFloatingPaneTitle')[0];
+  *//*var titlePane = dojo.query('#interop .dojoxFloatingPaneTitle')[0];
   //add close button to title pane
   var closeDiv = dojo.create('div', {
     id: "closeBtn",
@@ -1340,13 +1340,13 @@ function addInterop() {
       close_title: i18n.panel.close.title,
       close_alt: i18n.panel.close.label
     }, '<a alt=${close_alt} title=${close_title} href="JavaScript:toggleInterop();"><img  src="images/close.png"/></a>')
-  }, titlePane);*/
+  }, titlePane);*//*
 
   //create interop programatically
   //var objInterop = new dataInterop('interop');
-  /*var objInterop = new dataInteropDijit({
+  *//*var objInterop = new dataInteropDijit({
   	id: interopTool'
-  }, 'interopDiv');*/
+  }, 'interopDiv');*//*
     //var floater = 'floaterIO';
     //var innerDiv = 'interopDiv';
     var objInterop = new dataInteropDijit({ 
@@ -1379,7 +1379,7 @@ function toggleInterop() {
     dijit.byId('floaterIO').hide();
     dijit.byId('tglbtnInterop').set('checked', false); //uncheck the measure toggle button
   }
-}
+}*/
 
 
 //MEASUREMENT/DRAW
@@ -1749,7 +1749,7 @@ function createSocialLinks() {
   dojo.byId('webmap-toolbar-center').appendChild(menuButton.domNode);
 
 }
-
+/* Moved to module
 //SEARCH TOOL
 //Tool that allows users to search for an address or place. 
 //This tool uses a single line address locator.
@@ -1759,7 +1759,7 @@ function createSearchTool(){
         map: map
     }, "search");
     geocoder.startup();
-}
+}*/
 //function createSearchTool() {
 //  //add the toolbar section that holds the search tool
 //  var wrapperDiv = dojo.create('div', {
