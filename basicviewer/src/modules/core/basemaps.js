@@ -1,16 +1,15 @@
 /**
- Creates an ESRI Overview map dijit.
+ Creates an ESRI basemaps dijit.
  Also contains a function to recreate an overview map (apparently needed when basemap is switched).
  */
-define(["dojo/_base/declare", "dojo/_base/lang", "dojo/topic", "utilities/maphandler", "dijit/layout/ContentPane"
-    , "dijit/Menu", "esri/dijit/BasemapGallery", "dijit/registry"],
-    function(declare, lang, topic, mapHandler, ContentPane, Menu, BasemapGallery, registry){
-        return declare([], {
-            //Give a unique ID for the button associated with this module. Populated from constructor in toolmanager.js
-            buttonDivId: null,
+define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/_base/lang", "dojo/topic", "./utilities/maphandler", "dijit/layout/ContentPane"
+    , "dijit/Menu", "esri/dijit/BasemapGallery", "dijit/registry", "dojo/aspect" /*, "./custommenu"*/
+    , "dijit/form/DropDownButton", "dojo/dom", "dojo/topic", "dojo/dom-construct"],
+    function(declare, WidgetBase, lang, topic, mapHandler, ContentPane, Menu, BasemapGallery, registry, aspect /*, custommenu*/
+        , DropDownButton, dom, topic, domConstruct){
+        return declare([WidgetBase, DropDownButton], {
             // The ESRI map object to bind to the TOC. Set in constructor
             map: null,
-            // Whether the application is embedded (or mobile)
             //The application configuration properties (originated as configOptions from app.js then overridden by AGO if applicable)
             AppConfig: null,
 
@@ -20,22 +19,17 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/topic", "utilities/maphan
                 declare.safeMixin(this,args);
                 // mapHandler is a singleton object that you can require above and use to get a reference to the map.
                 this.map = mapHandler.map;
-
-
-                //Open it
-                //this.ToggleTool();
             }
 
-            //*** This gets called by the Close (x) button in the floating pane created above. Re-use in your widget.
-            /*, ToggleTool: function () {
-                if (dojo.byId(this.floaterDivId).style.visibility === 'hidden') {
-                    dijit.byId(this.floaterDivId).show();
-                } else {
-                    dijit.byId(this.floaterDivId).hide();
-                    dijit.byId(this.buttonDivId).set('checked', false); //uncheck the toggle button
-                }
-            },*/
+            , postCreate: function () {
+                this.inherited(arguments);
+                /*if (this.AppConfig.embed)
+                    this._addBasemapGalleryMenu();
+                else*/
+                    this._addBasemapGallery();
+            }
 
+/*  Tentatively not implementing the skinny gallery, would have to troubleshoot custommenu
             //BASEMAP GALLERY
             , _addBasemapGalleryMenu: function () {
                 //This option is used for embedded maps so the gallery fits well with apps of smaller sizes.
@@ -65,39 +59,35 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/topic", "utilities/maphan
                     map: map
                 });
                 cp.set('content', basemapMenu.domNode);
-                dojo.connect(basemapGallery, 'onLoad', function () {
-                    dojo.forEach(basemapGallery.basemaps, lang.hitch(this, function (basemap) {
+
+                //Use aspect after, instead of dojo/on, since onLoad is a function
+                aspect.after(basemapGallery, 'onLoad', lang.hitch(this, function () {
+                    for(var i = 0; i < basemapGallery.basemaps.length; i++) {
+                        var basemap = basemapGallery.basemaps[i];
                         //Add a menu item for each basemap, when the menu items are selected
-                        registry.byId('basemapMenu').addChild(new myModules.custommenu({
+                        registry.byId('basemapMenu').addChild(new custommenu({
                             label: basemap.title,
                             icon: basemap.thumbnailUrl,
                             onClick: function () {
                                 basemapGallery.select(basemap.id);
                             }
                         }));
+                    };
+                }));
 
-                    }));
-                });
+                cp.set('content', basemapGallery.domNode);
+                //Set this dropdownbutton's drop down content
+                this.dropDown = cp;
 
-                var button = new dijit.form.DropDownButton({
-                    //label: i18n.tools.basemap.label,
-                    id: "basemapBtn",
-                    iconClass: "esriBasemapIcon",
-                    title: i18n.tools.basemap.title,
-                    dropDown: cp
-                });
-
-                dojo.byId('webmap-toolbar-center').appendChild(button.domNode);
-
-                dojo.connect(basemapGallery, "onSelectionChange", function () {
+                aspect.after(basemapGallery, "onSelectionChange", lang.hitch(this, function () {
                     //close the basemap window when an item is selected
                     //destroy and recreate the overview map  - so the basemap layer is modified.
-                    destroyOverview();
-                    dijit.byId('basemapBtn').closeDropDown();
-                });
+                    topic.publish('basemapchanged');
+                    registry.byId('basemapBtn').closeDropDown();
+                }));
 
-                basemapGallery.startup();
-            }
+                //basemapGallery.startup();
+            }*/
 
             //Add the basemap gallery widget to the application.
             , _addBasemapGallery: function () {
@@ -109,41 +99,29 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/topic", "utilities/maphan
                         "title": this.AppConfig.basemapgroup.title
                     }
                 }
-                var cp = new dijit.layout.ContentPane({
+                var cp = new ContentPane({
                     id: 'basemapGallery',
                     style: "max-height:448px;width:380px;"
                 });
 
                 //if a bing maps key is provided - display bing maps too.
-                var basemapGallery = new esri.dijit.BasemapGallery({
+                var basemapGallery = new BasemapGallery({
                     showArcGISBasemaps: true,
                     basemapsGroup: basemapGroup,
                     bingMapsKey: this.AppConfig.bingmapskey,
-                    map: map
-                }, dojo.create('div'));
-
+                    map: this.map
+                }, domConstruct.create('div'));
 
                 cp.set('content', basemapGallery.domNode);
+                //Set this dropdownbutton's drop down content
+                this.dropDown = cp;
 
-
-                var button = new dijit.form.DropDownButton({
-                    //label: i18n.tools.basemap.label,
-                    id: "basemapBtn",
-                    iconClass: "esriBasemapIcon",
-                    title: i18n.tools.basemap.title,
-                    dropDown: cp
-                });
-
-                dojo.byId('webmap-toolbar-center').appendChild(button.domNode);
-
-                dojo.connect(basemapGallery, "onSelectionChange", function () {
+                aspect.after(basemapGallery, "onSelectionChange", lang.hitch(this, function () {
                     //close the basemap window when an item is selected
                     //destroy and recreate the overview map  - so the basemap layer is modified.
-                    destroyOverview();
-                    dijit.byId('basemapBtn').closeDropDown();
-                });
-
-                basemapGallery.startup();
+                    topic.publish('basemapchanged');
+                    registry.byId('basemapBtn').closeDropDown();
+                }));
             }
         });
     });

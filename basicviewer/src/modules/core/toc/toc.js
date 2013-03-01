@@ -1,7 +1,7 @@
 // The parent container for the Table of Contents and Add Data accordion
 define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/on", "dijit/registry", "dojo/ready", "dojo/parser"
 	, "dijit/layout/AccordionContainer", "dijit/layout/ContentPane", "dojo/dom-class", "dojo/_base/fx", "dojo/_base/lang", "./legend/TOC"
-    , "./legend/btnbar", "dojo/query", "dojo/dom-style", "xstyle/css!./css/toc.css"],
+    , "./btnbar", "dojo/query", "dojo/dom-style", "xstyle/css!./css/toc.css"],
     function(declare, domConstruct, WidgetBase, dojoOn, registry, ready, parser
              , AccordionContainer, ContentPane, domClass, fxer, language, legendToc, btnBar, query, domStyle){
         //The module needs to be explicitly declared when it will be declared in markup.  Otherwise, do not put one in.

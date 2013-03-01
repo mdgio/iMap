@@ -12,7 +12,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     //The ArcGIS Online id for a web mapping application item that was published and possibly configured on ArcGIS.com
                     // In most cases this will be null (empty quotes) and will be passed in in the URL querystring.
                     appid: "",
-                    //The ID for the map from ArcGIS.com
+                    //The ID for a web map from ArcGIS Online (AGO)
                     //If not going to specify a Web Map in AGO, then use empty quotes ("") here
                     webmap: "3182b7b31f10425ba0884fccc1916682",
                     // The URL to an ArcGIS Web Map- if not using ArcGIS.com.
@@ -65,7 +65,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     //will not be able to pan/zoom outside the initial extent.
                     constrainmapextent: false,
                     //embed means the margins will be collapsed to just include the map no title or links, default is to embed if in iframe
-                    embed: (environment.IframeEmbedded || environment.WindowHeight < 600),
+                    embed: true, //(environment.IframeEmbedded || environment.WindowHeight < 600),
 
                     //*** Widgets ***
                     displaydetails: true,
@@ -100,7 +100,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                         label:  'Portrait - PNG',//i18n.tools.print.layouts.label4,
                         format: 'PNG32'
                     }],
-                    displaybasemaps: false,
+                    displaybasemaps: true,
                     displaybookmarks: true,
                     displaymeasure: false,
                     displayshare: true,//if enabled enter bitly key and login below.

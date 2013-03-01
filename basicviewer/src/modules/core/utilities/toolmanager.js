@@ -3,9 +3,9 @@
  */
 define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "dojo/Evented", "dijit/registry", "require", "dojo/dom", "dijit/layout/ContentPane"
     , "dojox/widget/Standby", "../utilities/maphandler", "dojo/_base/array", "dojo/query"
-    , "dojox/layout/FloatingPane", "dojo/dom-construct", "dojo/on", "dijit/form/ToggleButton"],
+    , "dojox/layout/FloatingPane", "dojo/dom-construct", "dojo/on", "dijit/form/ToggleButton", "dijit/form/DropDownButton"],
     function(declare, environment, lang, Evented, registry, require, dom, contentPane, Standby, mapHandler, dojoArray, query
-        , floatingPane, domConstruct, on, ToggleButton){
+        , floatingPane, domConstruct, on, ToggleButton, DropDownButton){
         return declare([], {
             //The application configuration properties (originated as configOptions from app.js then overridden by AGO if applicable)
             _AppConfig: null
@@ -46,20 +46,21 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                 } else
                     esri.hide(dom.byId('floater'));
 
-                //*** This is the add shapefile tool, created as a module. Use this as a pattern for new tools.
-                // The _AppConfig parameter originates in app.js, and can be overridden by AGO if parameter is made configurable in config.js.
+                //*** The basemap tool
                 if (this._AppConfig.displaybasemaps === "true" || this._AppConfig.displaybasemaps === true) {
-                    //*** Give button a unique btnId, set title, iconClass as appropriate
-                    var btnId = 'tglbtnBasemaps';
-                    var btnTitle = 'Basemaps';
-                    var btnIconClass = 'esriBasemapIcon';
-                    //*** Constructor parameters object you want passed into your module
-                    //*** Provide a unique ID for the parent div of the floating panel (if applicable)
-                    var widgetParams = { AppConfig: this._AppConfig };
-                    //*** The relative path to your module
-                    var modulePath = "../basemaps";
-
-                    this._CreateToolButton(widgetParams, btnId, btnTitle, btnIconClass, /*parentDivId,*/ modulePath);
+                    //Get the basemap dijit- a dropdown button with the dropdown content
+                    require(["../basemaps"],
+                        lang.hitch(this, function(basemapDijit) {
+                            var baseMapBtn = new basemapDijit({
+                                id: "basemapBtn",
+                                iconClass: "esriBasemapIcon",
+                                title: "Basemaps",
+                                AppConfig: this._AppConfig
+                            });
+                            //Button gets added to toolbar
+                            this._CenterToolDiv.appendChild(baseMapBtn.domNode);
+                        })
+                    );
                 }
 
                 //*** This is the add shapefile tool, created as a module. Use this as a pattern for new tools.
@@ -76,32 +77,29 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     //*** The relative path to your module
                     var modulePath = "../interop/interop";
 
-                    this._CreateToolButton(widgetParams, btnId, btnTitle, btnIconClass, /*parentDivId,*/ modulePath);
+                    this._CreateToolButton(widgetParams, btnId, btnTitle, btnIconClass, modulePath);
                 }
             }
 
             // Creates a toolbar button, and wires up a click handler to request your module and load it on first click only.
-            , _CreateToolButton: function (widgetParams, btnId, btnTitle, btnIconClass, /*parentDivId,*/ modulePath) {
+            , _CreateToolButton: function (widgetParams, btnId, btnTitle, btnIconClass, modulePath) {
                 //Pass in the id of the button, as most tools need to toggle it.
                 widgetParams.buttonDivId = btnId;
                 //Create the button for the toolbar
-                var tglbtn = new ToggleButton({
+                var theBtn = new ToggleButton({
                     title: btnTitle,
                     iconClass: btnIconClass,
                     id: btnId
-                }); //Button gets added to toolbar
-                this._CenterToolDiv.appendChild(tglbtn.domNode);
+                });
+                //Button gets added to toolbar
+                this._CenterToolDiv.appendChild(theBtn.domNode);
                 //On the first click, dynamically load the module from the server. Then remove the click handler. lang.hitch keeps the scope in this module
-                var toolClick = on(tglbtn, "click", lang.hitch(this, function () {
+                var toolClick = on(theBtn, "click", lang.hitch(this, function () {
                     toolClick.remove();
                     try { document.body.style.cursor = "wait"; } catch (e) {}
                     //*** Set the relative location to the module
                     require([modulePath], lang.hitch(this, function(customDijit) {
                         var theDijit = new customDijit(widgetParams);
-                        /*var theDijit = new customDijit({
-                            floaterDivId: parentDivId,
-                            buttonDivId: btnId
-                        });*/
                         theDijit.startup();
                         try { document.body.style.cursor = "auto"; } catch (e) {}
                     }));

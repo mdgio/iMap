@@ -90,6 +90,7 @@ define(["dojo/_base/declare", "dojo/aspect", "dojo/dom-construct", "dijit/_Widge
              * you can assume the module has been created.  You don't need to add a handler function if you are not writing code in it.
              */
             , startup: function () {
+                this.inherited(arguments);
                 var uploadForm = dom.byId('inFile');
                 // Add an event handler for when the upload shapefile form is submitted.
                 uploadForm.onchange = lang.hitch(this, this._listening);

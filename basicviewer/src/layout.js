@@ -546,14 +546,15 @@ function initUI(response) {
   if (configOptions.displaylayerlist === 'true' || configOptions.displaylayerlist === true) {
     addLayerList(layers);
   }*/
-  if (configOptions.displaybasemaps === 'true' || configOptions.displaybasemaps === true) {
+ /*  Added to layout and basemap modules
+if (configOptions.displaybasemaps === 'true' || configOptions.displaybasemaps === true) {
     //add menu driven basemap gallery if embed = true
     if (configOptions.embed) {
       addBasemapGalleryMenu();
     } else {
       addBasemapGallery();
     }
-  }
+  }*/
 
   if (configOptions.displaymeasure === 'true' || configOptions.displaymeasure === true) {
     addMeasurementWidget();
@@ -1054,7 +1055,7 @@ function createLink(mapTitle, url) {
   dojo.byId('twitterLink').href = "http://www.twitter.com/home?status=" + mapTitle + "+" + url;
 }
 
-
+/* Converted to module
 //BASEMAP GALLERY
 function addBasemapGalleryMenu() {
   //This option is used for embedded maps so the gallery fits well with apps of smaller sizes. 
@@ -1163,7 +1164,7 @@ function addBasemapGallery() {
   });
 
   basemapGallery.startup();
-}
+}*/
 
 
 //BOOKMARKS
