@@ -81,11 +81,11 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     }
 
                     //add webmap's description to details panel
-                    if (this._AppConfig.description === "") {
-                        if (this._WebMap.item.description !== null) {
+                    //if (this._AppConfig.description === "") {
+                        if (this._WebMap.item.description) {
                             this._AppConfig.description = this._WebMap.item.description;
                         }
-                    }
+                    //}
 
                     //add a custom logo to the map if provided
                     if (this._AppConfig.customlogo.image) {

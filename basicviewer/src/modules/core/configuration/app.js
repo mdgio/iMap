@@ -14,7 +14,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     appid: "",
                     //The ID for a web map from ArcGIS Online (AGO)
                     //If not going to specify a Web Map in AGO, then use empty quotes ("") here
-                    webmap: "596001328e0348dfb5a81cd606ebfa3a",
+                    webmap: "d1201eea7afb4ed49f08a310e9803f2f",
                     // The URL to an ArcGIS Web Map- if not using ArcGIS.com.
                     // Can be relative to index.html. For example, if in basicviewer root- "webmap.js"
                     // If both webmap and webmapurl are empty, then a map must be programmatically defined in map.js
@@ -65,7 +65,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     //will not be able to pan/zoom outside the initial extent.
                     constrainmapextent: false,
                     //embed means the margins will be collapsed to just include the map no title or links, default is to embed if in iframe
-                    embed: (environment.IframeEmbedded || environment.WindowHeight < 600),
+                    embed: false, //(environment.IframeEmbedded || environment.WindowHeight < 500),
 
                     //*** Widgets ***
                     displaydetails: true,
@@ -160,16 +160,16 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                         },
                         callbackParamName: "callback",
                         load: lang.hitch(this, function (response) {
-                            if (response.values.title !== undefined) {
+                            if (response.values.title) {
                                 configOptions.title = response.values.title;
                             }
-                            if (response.values.titleLogoUrl !== undefined) {
+                            if (response.values.titleLogoUrl) {
                                 configOptions.titleLogoUrl = response.values.titleLogoUrl;
                             }
                             if (response.values.leftpanewidth !== undefined) {
                                 configOptions.leftpanewidth = response.values.leftpanewidth;
                             }
-                            if (response.values.headerHeight !== undefined) {
+                            if (response.values.headerHeight) {
                                 configOptions.headerHeight = response.values.headerHeight;
                             }
                             /*if (response.values.headerbanner !== undefined) {
