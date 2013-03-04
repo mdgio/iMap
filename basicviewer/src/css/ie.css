@@ -19,7 +19,12 @@ body{
 #bookmarkView{
   width: 210px; 
 }
-
+#toolbarContainer .dijitToolbar{
+background: transparent;
+}
+#webmap-toolbar-center {
+text-align:center;
+}
 .esriPrint{
   float:left;
 }
