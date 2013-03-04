@@ -24,12 +24,14 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                 var leftTabCont = registry.byId('leftPane');
                 // Details panel- This pane gets created right away, since it is so simple and usually the start pane.
                 if ((this._AppConfig.displaydetails === 'true' || this._AppConfig.displaydetails === true) && this._AppConfig.description !== "") {
+                    //*** Check if this pane was set to be the startup pane in app.js or AGO. Replace the param name in next line.
                     var selectedPane = (this._AppConfig.startupwidget === 'displaydetails') ? true : false;
                     var detailCp = new contentPane({
                         title: 'Details', //i18n.tools.details.title,
                         selected: selectedPane,
                         id: "detailPanel"
                     });
+
                     var detailsContent = '';
                     if (this._AppConfig.embed && (this._AppConfig.displaytitle === "true" || this._AppConfig.displaytitle === true))
                         detailsContent = detailsContent.concat('<h1>', this._AppConfig.title, '</h1>', this._AppConfig.description);

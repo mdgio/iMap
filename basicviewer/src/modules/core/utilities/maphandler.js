@@ -9,6 +9,10 @@ define(["dojo/_base/declare", "dojo/on"],
             , _clickHandler: null
             //The default _clickListener of the map (for popups)
             , _clickListener: null
+            //The original web map object before any customizations have been applied. Needed after startup if user saves customizations.
+            , OriginalWebMap: null
+            //The web map object after local or shared customizations have been applied. This is the startup configuration in map.js.
+            , CustomizedWebMap: null
             //A Dojo Memory Store object that keeps track of the layers in the map, and some of their properties
             //Used as the source for the TOC tree.
             //Also used by save map capability to determine what customizations from the original web map, the user performed.
