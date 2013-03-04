@@ -168,6 +168,7 @@ body {
     background-image: none !important;
     z-index: 28;
     padding: 0px !important;
+    border-width: 0px;
 }
 /*Measure toggle button*/
 .claro .dijitToolbar .dijitButtonNode:hover {
@@ -358,7 +359,7 @@ body {
 }
 /*style for the print link*/
 .esriPrintout{
-    color:#fff;
+    color: #000000;
 }
 /*styles for the share dropdown menu items*/
 .iconLink{
