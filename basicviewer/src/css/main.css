@@ -157,6 +157,7 @@ body {
     padding:0px !important;
     height:48px;
     background-color: rgba(255, 255, 255, 0);
+    background-image: none !important;
     z-index: 28;
     position: relative;
 }
@@ -166,6 +167,7 @@ body {
     background-color: rgba(255, 255, 255, 0);
     background-image: none !important;
     z-index: 28;
+    padding: 0px !important;
 }
 /*Measure toggle button*/
 .claro .dijitToolbar .dijitButtonNode:hover {

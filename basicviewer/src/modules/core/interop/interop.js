@@ -9,10 +9,10 @@
  */
 define(["dojo/_base/declare", "dojo/aspect", "dojo/dom-construct", "dijit/_WidgetBase", "dijit/_TemplatedMixin", "dijit/_WidgetsInTemplateMixin", "dojo/on", "dijit/registry", "dojo/ready", "dojo/parser"
     , "dojo/text!./templates/interop.html", "dojo/_base/fx", "dojo/_base/lang"
-    , "dojo/dom", "dojox/layout/FloatingPane", "dojo/query", "../utilities/maphandler", "dojo/has", "dojo/json", "dojo/_base/Color"
+    , "dojo/dom", "dojox/layout/FloatingPane", "dojo/query", "../utilities/maphandler", "dojo/has", "dojo/json", "dojo/_base/Color", "dojo/dnd/move", "dojo/dom-style"
     , "xstyle/css!./css/interop.css"],
     function(declare, aspect, domConstruct, WidgetBase, TemplatedMixin, WidgetsInTemplateMixin, on, registry, ready, parser, template, fxer, lang
-                , dom, floatingPane, query, mapHandler, has, JSON, Color){
+                , dom, floatingPane, query, mapHandler, has, JSON, Color, move, domstyle){
         return declare([WidgetBase, TemplatedMixin, WidgetsInTemplateMixin],{
             //*** Properties needed for this style of module
             // The template HTML fragment (as a string, created in dojo/text definition above)
@@ -45,15 +45,43 @@ define(["dojo/_base/declare", "dojo/aspect", "dojo/dom-construct", "dijit/_Widge
                 domConstruct.create('div', { id: this.floaterDivId }, 'map');
                 domConstruct.create('div', { id: this.innerDivId }, this.floaterDivId);
 
+                var ConstrainedFloatingPane = dojo.declare(dojox.layout.FloatingPane, {
+
+                    postCreate: function() {
+                        this.inherited(arguments);
+                        this.moveable = new dojo.dnd.move.constrainedMoveable(
+                            this.domNode, {
+                                handle: this.focusNode,
+                                constraints: function() {
+                                    var coordsBody = dojo.coords(dojo.body());
+                                    // or
+                                    var coordsWindow = {
+                                        l: 0,
+                                        t: 0,
+                                        w: window.innerWidth,
+                                        h: window.innerHeight
+                                    };
+
+                                    return coordsWindow;
+                                },
+                                within: true
+                            }
+                        );
+                    }
+
+                });
+
+
                 //Create Floating Pane to house the layout UI of the widget. The parentModule property is created to obtain a reference to this module in close button click.
-  				var fpI = new floatingPane({
+  				var fpI = new ConstrainedFloatingPane({
 	 				title: 'Data Interoperability',
                     parentModule: this,
 	 				resizable: false,
 	 				dockable: false,
 	 				closable: false,
-	 				style: "position:absolute;top:0;left:50px;width:245px;height:265px;z-index:100;visibility:hidden;",
+	 				style: "position:absolute;top:20px;left:20px;width:245px;height:265px;z-index:100;visibility:hidden;",
 	 				id: this.floaterDivId
+
 			    }, dom.byId(this.floaterDivId));
   				fpI.startup();
   				//Create a title bar for Floating Pane
@@ -79,7 +107,12 @@ define(["dojo/_base/declare", "dojo/aspect", "dojo/dom-construct", "dijit/_Widge
             //*** This gets called by the Close (x) button in the floating pane created above. Re-use in your widget.
             , ToggleTool: function () {
                 if (dojo.byId(this.floaterDivId).style.visibility === 'hidden') {
+                    //TODO: find better fix for dancing floating pane
+                    //must reset top and left style properties to keep floating pane from dancing across page on multiple re-open.
+                    domstyle.set(this.floaterDivId, "top", "0px");
+                    domstyle.set(this.floaterDivId, "left", "0px");
                     dijit.byId(this.floaterDivId).show();
+
                 } else {
                     dijit.byId(this.floaterDivId).hide();
                     dijit.byId(this.buttonDivId).set('checked', false); //uncheck the toggle button
@@ -95,6 +128,8 @@ define(["dojo/_base/declare", "dojo/aspect", "dojo/dom-construct", "dijit/_Widge
                 // Add an event handler for when the upload shapefile form is submitted.
                 uploadForm.onchange = lang.hitch(this, this._listening);
             }
+
+
 
             , _listening: function (evt) {
                 var fileName = evt.target.value.toLowerCase();
