@@ -31,6 +31,7 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/on", "dojo/Evented", "../
                                 //response.item is the metadata about the webmap, response.itemData is the webmap
                                 this._WebMapId = this._AppConfig.webmap;
                                 this._WebMap = response;
+                                mapHandler.OriginalWebMap = response;
                                 this._CheckForWebMapOverrides();
                             }), lang.hitch(this, function(error) {
                                 alert("Unable to load web map" + " : " + error.message);
@@ -48,6 +49,7 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/on", "dojo/Evented", "../
                             lang.hitch(this, function(webMap) { //The response object is the Web Map
                                 this._WebMapId = webMap.item.id;
                                 this._WebMap = webMap;
+                                mapHandler.OriginalWebMap = webMap;
                                 this._CheckForWebMapOverrides();
                             }), lang.hitch(this, function(error) {
                                 alert("Unable to load web map" + " : " + error.message);
@@ -109,7 +111,7 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/on", "dojo/Evented", "../
 
                 , _ReconcileWebMapOverrides: function () { // Apply the customizations to the webmap object
 
-
+                    //mapHandler.CustomizedWebMap = ;
                     this._RaiseConfiguredEvent();
                 }
 

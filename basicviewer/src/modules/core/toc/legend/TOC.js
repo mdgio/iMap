@@ -1,5 +1,5 @@
-define(["dojo/_base/declare", "dijit/_WidgetBase", "./_RootLayerTOC", "xstyle/css!./css/TOC.css" ],
-    function(declare, WidgetBase, _RootLayerTOC) {
+define(["dojo/_base/declare", "dojo/aspect", "dijit/_WidgetBase", "./_RootLayerTOC", "xstyle/css!./css/TOC.css" ],
+    function(declare, aspect, WidgetBase, _RootLayerTOC) {
         return declare([WidgetBase], {
         	indentSize: 18,
 	        swatchSize: [30, 30],
@@ -7,6 +7,10 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "./_RootLayerTOC", "xstyle/cs
 	        style: 'inline',
 	        layerInfos: null,
 	        slider: false,
+            //The map object
+            map: null,
+            //The map configuration JSON object. Used to determine how to display layers in the TOC.
+            webMap: null,
 
 	        /**
 	         * @name TOCLayerInfo
@@ -39,6 +43,35 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "./_RootLayerTOC", "xstyle/cs
 	                throw new Error('no map defined in params for TOC');
 	            }
 	            dojo.mixin(this, params);
+
+                /*The TOC could be instantiated during different stages in the app
+                    1. During startup: in which case some layers might have been added to map, but maybe not all
+                    2. After startup: prompted by user to display, in which case most layers have been added, but others could still be added.
+                */
+                //Hook up the map's layer added and removed events right aways to capture any changes to the map
+                aspect.after(this.map, "onLayerAddResult", lang.hitch(this, function (layer, error) {
+                    //Check the web map for how to handle
+
+                    //Create a _RootLayerTOC for it
+
+                    //Insert in the proper position, according to the layerid order
+
+                }));
+
+                aspect.after(this.map, "onLayerRemove", lang.hitch(this, function () {
+                    //Check by id if present in TOC and remove it
+
+                }));
+
+                aspect.after(this.map, "onLayerReorder", lang.hitch(this, function (layer, index) {
+                    //Change the postion of the layer if present in the TOC
+
+                }));
+
+                //Inspect the currently loaded layers and compare to the webmap to see how to handle in the TOC
+
+
+
 	            this._rootLayerTOCs = [];
 	            if (!this.layerInfos) {
 	                this.layerInfos = [];

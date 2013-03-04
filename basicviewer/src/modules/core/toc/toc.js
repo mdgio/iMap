@@ -1,9 +1,9 @@
 // The parent container for the Table of Contents and Add Data accordion
 define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/on", "dijit/registry", "dojo/ready", "dojo/parser"
 	, "dijit/layout/AccordionContainer", "dijit/layout/ContentPane", "dojo/dom-class", "dojo/_base/fx", "dojo/_base/lang", "./legend/TOC"
-    , "./btnbar", "dojo/query", "dojo/dom-style", "xstyle/css!./css/toc.css"],
+    , "./btnbar", "dojo/query", "dojo/dom-style", "../utilities/maphandler", "xstyle/css!./css/toc.css"],
     function(declare, domConstruct, WidgetBase, dojoOn, registry, ready, parser
-             , AccordionContainer, ContentPane, domClass, fxer, language, legendToc, btnBar, query, domStyle){
+             , AccordionContainer, ContentPane, domClass, fxer, language, legendToc, btnBar, query, domStyle, mapHandler){
         //The module needs to be explicitly declared when it will be declared in markup.  Otherwise, do not put one in.
         return declare(/*"modules/core/toc/toc",*/ [WidgetBase, AccordionContainer /*, TemplatedMixin, WidgetsInTemplateMixin*/], {
             // The template HTML fragment (as a string, created in dojo/text definition above)
@@ -49,64 +49,45 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/o
 
                 //this._accordion.startup();
             },
-//href="JavaScript:dijit.registry.byId(\'' + this.floaterDivId + '\').parentModule.ToggleTool();"
+
+            //The dojo accordion, which this module inherits from, has been created and is accessible (though not actually shown yet)
             postCreate: function () {
                 this.inherited(arguments);
+                //Create the content pane for the legend
                 var legendPane = new ContentPane({
                     title: "Legend",
                     style: "padding: 0px"/*,
                     content: '<button onclick="dijit.registry.byId(\'dijit_layout_AccordionContainer_0\').moveSelectedUp()">Move Up</button><button onclick="dijit.registry.byId(\'dijit_layout_AccordionContainer_0\').moveSelectedDown()">Move Down</button><button onclick="dijit.registry.byId(\'dijit_layout_AccordionContainer_0\').removeSelected()">Remove</button>'
                     *///<button onclick="dijit.registry.byId(\'dijit_layout_AccordionContainer_0\').AddNew()">Add</button>
                 });
-
                 domClass.add(legendPane.domNode, 'tocLegendPane');
 
+                //Create the accordion's 2nd pane for the add data section
                 var addDataPane = new ContentPane({
                     title:"Add Data",
                     content:'<div id="tocAddDiv">Stuff here</div>'
                 });
-
+                //Add the panes to the accordion
                 this.addChild(legendPane);
                 this.addChild(addDataPane);
-
-                //var buttons = new btnBar();
-
-                //Create a title bar for Floating Pane
-                //var titlePane = query('#tocPanel .dijitAccordionTitle');
-                //Add close button to title pane. dijit.registry is used to obtain a reference to this floating pane's parentModule
-                /*var closeDiv = domConstruct.create('div', {
-                    id: "closeBtn",
-                 titlePane            innerHTML: esri.substitute({
-                        close_title: 'Close Data', //i18n.panel.close.title,
-                        close_alt: 'Close Data'//i18n.panel.close.label
-                    }, '<a alt=${close_alt} title=${close_title} href="JavaScript:dijit.registry.byId(\'' + this.floaterDivId + '\').parentModule.ToggleTool();"><img  src="assets/close.png"/></a>')
-                }, titlePane);*/
-
-
-                //legendPane.addChild(buttons);
-
-                /*var legendSubPane = new ContentPane({
-                    id: 'tocLegendSubPane'
-                });*/
-
-                //legendPane.addChild(legendSubPane);
-
+                //Create the actual legend "tree" and add to the first pane
                 this.initializeDijitToc(this.esriMap);
-                //legendSubPane.addChild(this._dijitToc);
                 legendPane.addChild(this._dijitToc);
                 this.tocParent = registry.byId('dijit__WidgetBase_0');
             },
 
+            //Use the startup handler to create a button bar in the title area of the accordion. The title nodes were not available in postcreate
             startup: function () {
                 this.inherited(arguments);
 
                 var buttons = new btnBar();
+                //Find the title pane dom nodes within the table of contents module by querying on the specific styles using dojo/query
                 var titlePanes = query('#tocPanel .dijitAccordionTitle');
                 if (titlePanes.length > 0) {
-                    var firstPane = titlePanes[0];//.children[0];
+                    //Set the height of the first title pane (Legend) and insert the buttons there
+                    var firstPane = titlePanes[0];
                     domStyle.set(firstPane, "height", "30px");
                     var closeDiv = domConstruct.place(buttons.domNode, firstPane);
-
                 }
             },
 
@@ -211,16 +192,17 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/o
                 if (this._dijitToc != null)
                     this._dijitToc.destroyRecursive();
                 //Override the default of the TOC to show a visibility slider for the service layers
-                theTocLayerInfos = [];
-                for(var j = this.esriMap.layerIds.length - 1; j >= 0; j--) {
-                    var agsLayer = this.esriMap.getLayer(this.esriMap.layerIds[j]);
-                    theTocLayerInfos.push({ layer: agsLayer, slider: true })
-                }
+                /*theTocLayerInfos = [];
+                 for(var j = this.esriMap.layerIds.length - 1; j >= 0; j--) {
+                 var agsLayer = this.esriMap.getLayer(this.esriMap.layerIds[j]);
+                 theTocLayerInfos.push({ layer: agsLayer, slider: true })
+                 }*/
 
                 this._dijitToc = new legendToc({
-                        map: this.esriMap,
-                        layerInfos: theTocLayerInfos
-                    }/*, 'tocDiv'*/);
+                        map: this.esriMap
+                        , webMap: mapHandler.CustomizedWebMap || mapHandler.OriginalWebMap /*,
+                        layerInfos: theTocLayerInfos*/
+                });
                 //this._dijitToc.startup();
             }
         });
