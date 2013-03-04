@@ -20,15 +20,24 @@ body{
   width: 210px; 
 }
 
+#toolbarContainer .dijitToolbar {
+background: transparent;
+}
+
+#webmap-toolbar-center {
+    text-align:center;
+}
+
 .esriPrint{
   float:left;
 }
-.esriPrint .dijitComboButton .dijitIcon{
-  background-image:url(../../assets/genericprint.png);
-  background-repeat:no-repeat;
-  float:left;
-  width:16px;
-  margin:4px 0 4px 4px;
+.esriPrintIcon{
+    background-image:url(../../assets/toolbar/Print.PNG);
+    background-repeat:no-repeat;
+    display:inline-block;
+    height:48px;
+    width:48px;
+    margin:4px 0 4px 4px;
 }
 .esriPrint .dijitButtonText {
   padding-top:3px;
