@@ -12,151 +12,11 @@
         <link rel="stylesheet" type="text/css" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.3/js/dojo/dojox/layout/resources/floatingpane.css">
         <link rel="stylesheet" type="text/css" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.3/js/esri/css/esri.css" />
         <link rel="stylesheet" type="text/css" href="src/css/main.css">
-
         <!--[if IE]>
           <link rel="stylesheet" type="text/css" href="src/css/ie.css" />
         <![endif]-->
         <script type="text/javascript" src="http://serverapi.arcgisonline.com/jsapi/arcgis/3.3/"></script>
         <script type="text/javascript" src="src/main.js"></script>
-        <!--<script type="text/javascript" src="src/layout.js"></script>-->
-        <script type="text/javascript">
-          /*  var configOptions;
-            var i18n;
-
-            function init() {
-                //get the localization strings
-              //i18n = dojo.i18n.getLocalization("esriTemplate", "template");
-              configOptions = {
-                //The ID for the map from ArcGIS.com
-                webmap: "d9236293e0ae42798c306485bf978d93",
-                //The id for the web mapping applciation item that contains configuration info - in most
-                //cases this will be null.
-                appid: "",
-                //set to true to display the title
-                displaytitle: true,
-                //Enter a title, if no title is specified, the webmap's title is used.
-                title: "Maryland iMap",
-                //URL to title logo, if none specified, then defaults to assets/MDLogo.gif
-                //titleLogoUrl: "assets/MDlogo-small.gif",
-                titleLogoUrl: "assets/MDlogo.gif",
-                  //URL to banner image, if non specified then defaults to iMap banner image.
-                  headerbanner: "assets/imap/imapBanner2.jpg",
-                //Enter a description for the application. This description will appear in the left pane
-                //if no description is entered the webmap description will be used.
-                description: "",
-                //specify an owner for the app - used by the print option. The default value will be the web map's owner
-                owner: '',
-                //Specify a color theme for the app. Valid options are gray,blue,purple,green and orange
-                theme: 'imap',
-                //Optional tools - set to false to hide the tool
-                //set to false to hide the zoom slider on the map
-                displayslider: true,
-                displaymeasure: true,
-                displaybasemaps: true,
-                displayoverviewmap: true,
-                displayeditor: true,
-                ////When editing you need to specify a proxyurl (see below) if the service is on a different domain
-                //Specify a proxy url if you will be editing, using the elevation profile or have secure services or web maps that are not shared with everyone.
-                proxyurl: "proxy.ashx",
-                displaylegend: false,
-                displaysearch: true,
-                displaylayerlist: true,
-                displaybookmarks: true,
-                displaydetails: true,
-                displaytimeslider: true,
-                displayprint: true,
-                //Print options
-                printtask: "http://utility.arcgisonline.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task",
-                //Set the label in the nls file for your browsers language
-                printlayouts: [{
-                  layout: 'Letter ANSI A Landscape',
-                  label: 'Landscape - PDF',//i18n.tools.print.layouts.label1,
-                  format: 'PDF'
-                }, {
-                  layout: 'Letter ANSI A Portrait',
-                  label:  'Portrait - PDF',//i18n.tools.print.layouts.label2,
-                  format: 'PDF'
-                }, {
-                  layout: 'Letter ANSI A Landscape',
-                  label:  'Landscape - PNG',//i18n.tools.print.layouts.label3,
-                  format: 'PNG32'
-                }, {
-                  layout: 'Letter ANSI A Portrait',
-                  label:  'Portrait - PNG',//i18n.tools.print.layouts.label4,
-                  format: 'PNG32'
-                }],
-                //i18n.viewer.main.scaleBarUnits,
-                //The elevation tool uses the  measurement tool to draw the lines. So if this is set
-                //to true then displaymeasure needs to be true too.
-                displayelevation: false,
-                //This option is used when the elevation chart is displayed to control what is displayed when users mouse over or touch the chart. When true, elevation gain/loss will be shown from the first location to the location under the cursor/finger.
-                showelevationdifference: false,
-                displayscalebar: true,
-                displayshare: true,
-                //if enabled enter bitly key and login below.
-                //The application allows users to share the map with social networking sites like twitter
-                //and facebook. The url for the application can be quite long so shorten it using bit.ly.
-                //You will need to provide your own bitly key and login.
-                bitly: {
-                  key: '',
-                  login: ''
-                },
-                //Set to true to display the left panel on startup. The left panel can contain the legend, details and editor. Set to true to
-                //hide left panel on initial startup. 2
-                leftPanelVisibility: false,
-                //If the webmap uses Bing Maps data, you will need to provide your Bing Maps Key
-                bingmapskey: "",
-                //Modify this to point to your sharing service URL if you are using the portal
-                sharingurl: "http://www.arcgis.com/sharing/content/items",
-                //specify a group in ArcGIS.com that contains the basemaps to display in the basemap gallery
-                //example: title:'ArcGIS Online Basemaps' , owner:esri
-                basemapgroup: {
-                  title: '',
-                  owner: ''
-                },
-                //Enter the URL to a Geometry Service
-                geometryserviceurl: "http://utility.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer",
-                //Specify the url and options for the locator service. If using the world geocoding service you can specify the country code and whether or not the
-                //search should be  restricted to the current extent. View the geocode.arcgis.com documentation for details http://geocode.arcgis.com/arcgis/geocoding.html#multifield
-                placefinder: {
-                  "url": "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer",
-                  "singlelinefieldname": "SingleLine",
-                  "countryCode":"",
-                  "currentExtent":false
-                },
-                //Set link text and url parameters if you want to display clickable links in the upper right-corner
-                //of the application.
-                //ArcGIS.com. Enter link values for the link1 and link2 and text to add links. For example
-                //url:'http://www.esri.com',text:'Esri'
-                link1: {
-                  url: '',
-                  text: ''
-                },
-                link2: {
-                  url: '',
-                  text: ''
-                },
-                //specify the width of the panel that holds the editor, legend, details
-                leftpanewidth: 228,
-                  //specify the width of the panel that holds the TOC
-                  rightpanewidth: 280,
-                //Restrict the map's extent to the initial extent of the web map. When true users
-                //will not be able to pan/zoom outside the initial extent.
-                constrainmapextent: false,
-                //Provide an image and url for a logo that will be displayed as a clickable image
-                //in the lower right corner of the map. If nothing is specified then the esri logo will appear.
-                //Example customLogoImage: "http://serverapi.arcgisonline.com/jsapi/arcgis/2.4compact/images/map/logo-med.png"
-                customlogo: {
-                  image: '',
-                  link: ''
-                },
-                //embed = true means the margins will be collapsed to just include the map no title or links
-                embed: false
-              };
-
-              initMap();
-            }*/
-        </script>
     </head>
     <body class="claro">
         <div id="bc" data-dojo-id="bc" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="design:'headline', gutters:false">
@@ -203,7 +63,7 @@
 
               <div id="logo" class="logo" style="display:none;">
                   <!--If a logo is specified in config section then the logo will be added
-                  to the map-->
+                  to the map in layout.js (configured in app.js) -->
               </div>
               <!--Floating window that contains the measure dijit-->
               <div id="floater">

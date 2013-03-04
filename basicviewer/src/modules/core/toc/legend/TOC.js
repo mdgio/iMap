@@ -1,5 +1,5 @@
-define(["dojo/_base/declare", "dojo/aspect", "dijit/_WidgetBase", "./_RootLayerTOC", "xstyle/css!./css/TOC.css" ],
-    function(declare, aspect, WidgetBase, _RootLayerTOC) {
+define(["dojo/_base/declare", "dojo/aspect", "dijit/_WidgetBase", "dojo/_base/lang", "./_RootLayerTOC", "xstyle/css!./css/TOC.css" ],
+    function(declare, aspect, WidgetBase, lang, _RootLayerTOC) {
         return declare([WidgetBase], {
         	indentSize: 18,
 	        swatchSize: [30, 30],
