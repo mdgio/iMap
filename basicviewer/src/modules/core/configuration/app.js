@@ -175,37 +175,37 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                             /*if (response.values.headerbanner !== undefined) {
                                 configOptions.headerbanner = response.values.headerbanner;
                             }*/
-                            if (response.values.displaytitle !== undefined) {
+                            if (response.values.displaytitle) {
                                 configOptions.displaytitle = response.values.displaytitle;
                             }
-                            if (response.values.theme !== undefined) {
+                            if (response.values.theme) {
                                 configOptions.theme = response.values.theme;
                             }
-                            if (response.values.description !== undefined) {
+                            if (response.values.description) {
                                 configOptions.description = response.values.description;
                             }
-                            if (response.values.displaydetails !== undefined) {
+                            if (response.values.displaydetails) {
                                 configOptions.displaydetails = response.values.displaydetails;
                             }
-                            if (response.values.tablecontents !== undefined) {
+                            if (response.values.tablecontents) {
                                 configOptions.tablecontents = response.values.tablecontents;
                             }
-                            if (response.values.displayeditor !== undefined) {
+                            if (response.values.displayeditor) {
                                 configOptions.displayeditor = response.values.displayeditor;
                             }
-                            if (response.values.startupwidget !== undefined) {
+                            if (response.values.startupwidget) {
                                 configOptions.startupwidget = response.values.startupwidget;
                             }
-                            if (response.values.displayprint !== undefined) {
+                            if (response.values.displayprint) {
                                 configOptions.displayprint = response.values.displayprint;
                             }
-                            if (response.values.displaytimeslider !== undefined) {
+                            if (response.values.displaytimeslider) {
                                 configOptions.displaytimeslider = response.values.displaytimeslider;
                             }
-                            if (response.values.displaybookmarks !== undefined) {
+                            if (response.values.displaybookmarks) {
                                 configOptions.displaybookmarks = response.values.displaybookmarks;
                             }
-                            if (response.values.displaymeasure !== undefined) {
+                            if (response.values.displaymeasure) {
                                 configOptions.displaymeasure = response.values.displaymeasure;
                             }
                             /*if (response.values.displaylegend !== undefined) {
@@ -214,16 +214,16 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                             /*if (response.values.displaylayerlist !== undefined) {
                                 configOptions.displaylayerlist = response.values.displaylayerlist;
                             }*/
-                            if (response.values.displaybasemaps !== undefined) {
+                            if (response.values.displaybasemaps) {
                                 configOptions.displaybasemaps = response.values.displaybasemaps;
                             }
-                            if (response.values.displayshare !== undefined) {
+                            if (response.values.displayshare) {
                                 configOptions.displayshare = response.values.displayshare;
                             }
-                            if (response.values.displaysearch !== undefined) {
+                            if (response.values.displaysearch) {
                                 configOptions.displaysearch = response.values.displaysearch;
                             }
-                            if (response.values.displayslider !== undefined) {
+                            if (response.values.displayslider) {
                                 configOptions.displayslider = response.values.displayslider;
                             }
                             /*if (response.values.displayelevation !== undefined) {
@@ -232,41 +232,41 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                             if (response.values.showelevationdifference !== undefined) {
                                 configOptions.showelevationdifference === response.values.showelevationdifference;
                             }*/
-                            if (response.values.displayoverviewmap !== undefined) {
+                            if (response.values.displayoverviewmap) {
                                 configOptions.displayoverviewmap = response.values.displayoverviewmap;
                             }
-                            if (response.values.webmap !== undefined) {
+                            if (response.values.webmap) {
                                 configOptions.webmap = response.values.webmap;
                             }
-                            if (response.values.link1text !== undefined) {
+                            if (response.values.link1text) {
                                 configOptions.link1.text = response.values.link1text;
                             }
-                            if (response.values.link1url !== undefined) {
+                            if (response.values.link1url) {
                                 configOptions.link1.url = response.values.link1url;
                             }
-                            if (response.values.link2text !== undefined) {
+                            if (response.values.link2text) {
                                 configOptions.link2.text = response.values.link2text;
                             }
-                            if (response.values.link2url !== undefined) {
+                            if (response.values.link2url) {
                                 configOptions.link2.url = response.values.link2url;
                             }
-                            if (response.values.placefinderurl !== undefined) {
+                            if (response.values.placefinderurl) {
                                 configOptions.placefinder.url = response.values.placefinderurl;
                             }
-                            if (response.values.embed !== undefined) {
+                            if (response.values.embed) {
                                 configOptions.embed = response.values.embed;
                             }
-                            if (response.values.customlogoimage !== undefined) {
+                            if (response.values.customlogoimage) {
                                 configOptions.customlogo.image = response.values.customlogoimage;
                             }
-                            if (response.values.customlogolink !== undefined) {
+                            if (response.values.customlogolink) {
                                 configOptions.customlogo.link = response.values.customlogolink;
                             }
-                            if (response.values.basemapgrouptitle !== undefined && response.values.basemapgroupowner !== undefined) {
+                            if (response.values.basemapgrouptitle && response.values.basemapgroupowner) {
                                 configOptions.basemapgroup.title = response.values.basemapgrouptitle;
                                 configOptions.basemapgroup.owner = response.values.basemapgroupowner;
                             }
-                            if (response.values.displayinterop !== undefined)
+                            if (response.values.displayinterop)
                                 configOptions.displayinterop = response.values.displayinterop;
 
                             this._checkForOverrides(urlObject, configOptions);

@@ -59,7 +59,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     //*** The relative path to your module file
                     var modulePath = "../toc/toc";
                     //*** If your widget requires specific constructor parameters to be passed in, you can set the object here.
-                    var constructorParams = { esriMap: this._Map };
+                    var constructorParams = { esriMap: this._Map, webMap: mapHandler.getWebMap() };
                     //*** Does your widget's parent need to be resized after it's startup in order to layout properly? Default to false.
                     var resizeAfterStartup = true;
 

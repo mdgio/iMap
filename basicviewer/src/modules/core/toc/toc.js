@@ -6,14 +6,11 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/o
              , AccordionContainer, ContentPane, domClass, fxer, language, legendToc, btnBar, query, domStyle, mapHandler){
         //The module needs to be explicitly declared when it will be declared in markup.  Otherwise, do not put one in.
         return declare(/*"modules/core/toc/toc",*/ [WidgetBase, AccordionContainer /*, TemplatedMixin, WidgetsInTemplateMixin*/], {
-            // The template HTML fragment (as a string, created in dojo/text definition above)
-			//templateString: template,
-			// The CSS class to be applied to the root node in our template
-			//baseClass: "tocdivParent",
-            // During the resize event, check if the jquery accordion has been created yet
-            //tocHasBeenAccordioned: false,
-            // The ESRI map object to bind to the TOC
+            //*** The ESRI map object to bind to the TOC
             esriMap: null,
+            //*** The ESRI Web Map object to be used by the TOC to set properties such as title, visiblity, etc.
+            webMap: null,
+
             // The table of contents dijit
             _dijitToc: null,
             _accordion: null,
@@ -21,33 +18,14 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/o
             tocParent: null,
 
 
-            //onExtentChange() - use when map extent changes to change not scale dependeny in toc items
+            //onExtentChange() - use when map extent changes to change not scale dependency in toc items
             //isVisibleAtScale(scale)
 
 
             //The event handlers below are not needed, unless for custom code.  They are here for reference.
             constructor: function(args) {
-                declare.safeMixin(this,args);
-                this.esriMap = args.esriMap;
-                //this._accordion = new AccordionContainer(null, 'accRoot');
-                //this._accordion = new AccordionContainer(null);
-                /*var legendPane = new ContentPane({
-                    title: "Legend",
-                    content: '<div id="tocDiv">Stuff here</div>'
-                });
-
-                var addDataPane = new ContentPane({
-                    title:"Add Data",
-                    content:'<div id="tocAddDiv">Stuff here</div>'
-                });
-
-                this.addChild(legendPane);
-                this.addChild(addDataPane);
-
-                this.initializeDijitToc(this.esriMap);
-                legendPane.addChild(this._dijitToc);*/
-
-                //this._accordion.startup();
+                //Automatically sets the starred properties above.
+                declare.safeMixin(this, args);
             },
 
             //The dojo accordion, which this module inherits from, has been created and is accessible (though not actually shown yet)
@@ -73,10 +51,12 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/o
                 //Create the actual legend "tree" and add to the first pane
                 this.initializeDijitToc(this.esriMap);
                 legendPane.addChild(this._dijitToc);
+
+                //This is just for testing
                 this.tocParent = registry.byId('dijit__WidgetBase_0');
             },
 
-            //Use the startup handler to create a button bar in the title area of the accordion. The title nodes were not available in postcreate
+            //Use the startup handler to create a button bar in the title area of the accordion. The title nodes were not available in postcreate.
             startup: function () {
                 this.inherited(arguments);
 
@@ -90,6 +70,8 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/o
                     var closeDiv = domConstruct.place(buttons.domNode, firstPane);
                 }
             },
+
+
 
             //Test
             moveSelectedUp: function () {

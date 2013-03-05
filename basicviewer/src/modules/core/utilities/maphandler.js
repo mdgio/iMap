@@ -13,6 +13,11 @@ define(["dojo/_base/declare", "dojo/on"],
             , OriginalWebMap: null
             //The web map object after local or shared customizations have been applied. This is the startup configuration in map.js.
             , CustomizedWebMap: null
+            //Get the "final" web map. If customizations had been applied, then return that web map. Otherwise return the original.
+            , getWebMap: function () {
+                return this.CustomizedWebMap || this.OriginalWebMap;
+            }
+
             //A Dojo Memory Store object that keeps track of the layers in the map, and some of their properties
             //Used as the source for the TOC tree.
             //Also used by save map capability to determine what customizations from the original web map, the user performed.

@@ -48,7 +48,7 @@ define(["dojo/_base/declare", "dojo/aspect", "dijit/_WidgetBase", "dojo/_base/la
                     1. During startup: in which case some layers might have been added to map, but maybe not all
                     2. After startup: prompted by user to display, in which case most layers have been added, but others could still be added.
                 */
-                //Hook up the map's layer added and removed events right aways to capture any changes to the map
+                //Hook up the map's layer added and removed events right away to capture any changes to the map
                 aspect.after(this.map, "onLayerAddResult", lang.hitch(this, function (layer, error) {
                     //Check the web map for how to handle
 
