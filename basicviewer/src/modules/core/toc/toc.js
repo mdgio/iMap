@@ -69,9 +69,18 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/o
                     domStyle.set(firstPane, "height", "30px");
                     var closeDiv = domConstruct.place(buttons.domNode, firstPane);
                 }
+                buttons.startup();
+                //Click events for button bar
+                buttons.on('lyrbtnclick', function (e) {
+                    if (e.btn === 'u') { //Move the selected map layer up
+                        this.moveSelectedUp();
+                    } else if (e.btn === 'd') { //Move the selected map layer down
+                        this.moveSelectedDown();
+                    } else { //Remove the map layer
+                        this.removeSelected();
+                    }
+                });
             },
-
-
 
             //Test
             moveSelectedUp: function () {
@@ -135,25 +144,6 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/o
                 f.className = 'selected';
             },*/
             //end test
-
-
-
-            //Resize event was found to be the place where jQuery accordion can be created and sized properly.
-            //Once created, it is "refreshed" (resized) when the widget is resized.
-            /*resize: function () {
-                this.inherited(arguments);
-                if (this.tocHasBeenAccordioned) {
-                    $(this.domNode.children[0]).accordion("refresh");
-                } else {
-                    //The jquery heightstyle: "fill" - will fill out the enclosing div to the full height
-                    $(this.domNode.children[0]).accordion({ heightStyle: "fill",
-                        create: function(e) {
-                            //Get a reference to the toc widget, as the scope in here is tied to the accordion, then set property
-                            registry.getEnclosingWidget(e.target).tocHasBeenAccordioned = true;
-                        }
-                    });
-                }
-            },*/
 
             // Create the toc dijit, if needed, otherwise do nothing.  If esriMap has already been set, do not need to pass in again.
             initializeDijitToc: function(esriMap) {

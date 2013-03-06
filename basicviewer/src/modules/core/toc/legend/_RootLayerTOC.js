@@ -184,7 +184,8 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "./_TOCNode"],
 	            // sometimes IE may fail next step
 	            this._rootLayerNode = new _TOCNode({
 	                rootLayerTOC: this,
-	                rootLayer: layer
+	                rootLayer: layer,
+                    isRootLayer: true
 	            });
 	
 	
