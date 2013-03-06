@@ -172,7 +172,7 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/o
 
                 this._dijitToc = new legendToc({
                         map: this.esriMap
-                        , webMap: mapHandler.CustomizedWebMap || mapHandler.OriginalWebMap /*,
+                        , webMap: this.webMap /*,
                         layerInfos: theTocLayerInfos*/
                 });
                 //this._dijitToc.startup();
