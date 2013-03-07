@@ -1,7 +1,9 @@
 // _TOCNode is a node, with 3 possible types: layer(service)|layer|legend
 define(["dojo/_base/declare", "dijit/_WidgetBase", "dijit/_TemplatedMixin", "dijit/_WidgetsInTemplateMixin"
-    , "dojo/fx/Toggler", "dijit/form/HorizontalSlider", "dojo/dom", "dijit/registry", "dojo/query", "dojo/Evented" ],
-    function(declare, WidgetBase, TemplatedMixin, WidgetsInTemplateMixin, Toggler, Slider, dom, registry, query){
+    , "dojo/fx/Toggler", "dijit/form/HorizontalSlider", "dojo/dom", "dijit/registry", "dojo/query", "dojo/dom-class"
+    , "dojo/topic"],
+    function(declare, WidgetBase, TemplatedMixin, WidgetsInTemplateMixin, Toggler, Slider, dom, registry, query, domClass
+        , topic){
     	//Had to create a variable name for the class here, so an internal function could reference it to create new _TOCNodes
         var _TOCNode = declare([WidgetBase, TemplatedMixin, WidgetsInTemplateMixin], {
         	templateString: '<div class="agsjsTOCNode">' +
@@ -466,14 +468,25 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dijit/_TemplatedMixin", "dij
 	            }
 	        },
 
-            //Test
+            //Click event for the labels. Used by the top buttons to reorder/remove a parent level layer
             _labelClick: function(evt) {
+                //Check to make sure that the label clicked on is for a parent level node (e.g. a service)
                 if (this.isRootLayer) {
                     var t = evt.target;
                     if (t) {
-                        this.emit(this.rootLayerClick, { tocNode: this.rootLayerTOC.domNode, mapLayer: this.rootLayer });
+                        //De-select any selected layer nodes by querying inside the TOC to find any node with the selected CSS class
+                        var nl = query(".selectedTocNode", this.rootLayerTOC.domNode.parentNode);
+                        if (nl.length > 0)
+                            domClass.remove(t, "selectedTocNode");
+                        //Select the new node
+                        domClass.add(nl[0], "selectedTocNode");
+                        //Fire an event for toc.js to listen to, so it knows which layer is now selected
+                        //this.emit(this.rootLayerClick, { tocNode: this.rootLayerTOC.domNode, mapLayer: this.rootLayer });
+                        topic.publish(this.rootLayerClick, { tocNode: this.rootLayerTOC.domNode, mapLayer: this.rootLayer });
 
-                        var serviceLayerDiv = dom.byId(t["parentElement"]["parentElement"]["parentElement"]["parentElement"]["id"]);
+
+
+                        /*var serviceLayerDiv = dom.byId(t["parentElement"]["parentElement"]["parentElement"]["parentElement"]["id"]);
                         //var treeRootDiv = registry.byId('dijit__WidgetBase_0');
                         var tocDijit = registry.byId('dijit_layout_AccordionContainer_0');
                         if (tocDijit.selectedElement) {
@@ -486,7 +499,7 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dijit/_TemplatedMixin", "dij
                         tocDijit.selectedElement = null;
                         tocDijit.selectedElement = serviceLayerDiv;
                         //tocDijit.selectedElement.className = 'selectedTocNode';
-                        t.className = 'selectedTocNode';
+                        t.className = 'selectedTocNode';*/
                     }
                 }
             },
