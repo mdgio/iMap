@@ -477,9 +477,9 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dijit/_TemplatedMixin", "dij
                         //De-select any selected layer nodes by querying inside the TOC to find any node with the selected CSS class
                         var nl = query(".selectedTocNode", this.rootLayerTOC.domNode.parentNode);
                         if (nl.length > 0)
-                            domClass.remove(t, "selectedTocNode");
+                            domClass.remove(nl[0], "selectedTocNode");
                         //Select the new node
-                        domClass.add(nl[0], "selectedTocNode");
+                        domClass.add(t, "selectedTocNode");
                         //Fire an event for toc.js to listen to, so it knows which layer is now selected
                         //this.emit(this.rootLayerClick, { tocNode: this.rootLayerTOC.domNode, mapLayer: this.rootLayer });
                         topic.publish(this.rootLayerClick, { tocNode: this.rootLayerTOC.domNode, mapLayer: this.rootLayer });

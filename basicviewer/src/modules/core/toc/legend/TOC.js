@@ -95,7 +95,7 @@ define(["dojo/_base/declare", "dojo/aspect", "dijit/_WidgetBase", "dojo/_base/la
 	                    });
 	                    this.refresh();
 	                });
-	                dojo.connect(this.map, 'onLayerRemove', this, function(layer) {
+	                /*dojo.connect(this.map, 'onLayerRemove', this, function(layer) {
 	                    for (var i = 0; i < this.layerInfos.length; i++) {
 	                        if (this.layerInfos[i] == layer) {
 	                            this.layerInfos.splice(i, 1);
@@ -103,7 +103,7 @@ define(["dojo/_base/declare", "dojo/aspect", "dijit/_WidgetBase", "dojo/_base/la
 	                        }
 	                    }
 	                    this.refresh();
-	                });
+	                });*/
 	            }
 	        },
 	        // extension point
