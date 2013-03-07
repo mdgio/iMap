@@ -9,7 +9,7 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dijit/_TemplatedMixin", "doj
             // The CSS class to be applied to the root node in our template
             //, baseClass: "tocBtnBar"
             , baseClass: "navlist"
-            , btnsEnabled: false
+            , BtnsEnabled: false
             //*** Emitted event to let toc know a button was clicked
             , eventName: 'lyrbtnclick'
 
