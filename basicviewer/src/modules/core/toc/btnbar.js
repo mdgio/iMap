@@ -9,30 +9,31 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dijit/_TemplatedMixin", "doj
             // The CSS class to be applied to the root node in our template
             //, baseClass: "tocBtnBar"
             , baseClass: "navlist"
-            , btnsEnabled: false
+            , BtnsEnabled: false
             //*** Emitted event to let toc know a button was clicked
             , eventName: 'lyrbtnclick'
 
             , _clickUp: function(evt) {
-                if (!this.btnsEnabled) {
+                if (this.btnsEnabled) {
                     this._setState(true);
                     this.emit(this.eventName, { btn: 'u' });
                 }
+                //Set the anchor tag's return value to false, so the page does not reload
                 evt["returnValue"] = false;
             }
 
             , _clickDown: function(evt) {
-                if (!this.btnsEnabled) {
+                if (this.btnsEnabled) {
                     this._setState(true);
-                    this.emit(this.eventName, 'd');
+                    this.emit(this.eventName, { btn: 'd' });
                 }
                 evt["returnValue"] = false;
             }
 
             , _clickRemove: function(evt) {
-                if (!this.btnsEnabled) {
+                if (this.btnsEnabled) {
                     this._setState(true);
-                    this.emit(this.eventName, 'r');
+                    this.emit(this.eventName, { btn: 'r' });
                 }
                 evt["returnValue"] = false;
             }
@@ -48,10 +49,12 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dijit/_TemplatedMixin", "doj
                     domClass.replace(this.liLyrRemAP, "liLyrRemDis", "liLyrRem");
                     this.btnsEnabled = false;
                 } else {
-                    domClass.replace(this.liLyrUpAP, "liLyrUp", "liLyrUpDis");
-                    domClass.replace(this.liLyrDwnAP, "liLyrDwn", "liLyrDwnDis");
-                    domClass.replace(this.liLyrRemAP, "liLyrRem", "liLyrRemDis");
-                    this.btnsEnabled = true;
+                    if (!this.btnsEnabled) {
+                        domClass.replace(this.liLyrUpAP, "liLyrUp", "liLyrUpDis");
+                        domClass.replace(this.liLyrDwnAP, "liLyrDwn", "liLyrDwnDis");
+                        domClass.replace(this.liLyrRemAP, "liLyrRem", "liLyrRemDis");
+                        this.btnsEnabled = true;
+                    }
                 }
             }
         });

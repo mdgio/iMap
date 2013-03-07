@@ -1,8 +1,8 @@
 // The parent container for the Table of Contents and Add Data accordion
-define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/on", "dijit/registry", "dojo/ready", "dojo/parser"
+define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/on", "dijit/registry", "dojo/ready", "dojo/_base/lang"
 	, "dijit/layout/AccordionContainer", "dijit/layout/ContentPane", "dojo/dom-class", "dojo/_base/fx", "dojo/_base/lang", "./legend/TOC"
     , "./btnbar", "dojo/query", "dojo/dom-style", "../utilities/maphandler", "dojo/topic", "xstyle/css!./css/toc.css"],
-    function(declare, domConstruct, WidgetBase, dojoOn, registry, ready, parser
+    function(declare, domConstruct, WidgetBase, dojoOn, registry, ready, lang
              , AccordionContainer, ContentPane, domClass, fxer, language, legendToc, btnBar, query, domStyle, mapHandler, topic){
         //The module needs to be explicitly declared when it will be declared in markup.  Otherwise, do not put one in.
         return declare(/*"modules/core/toc/toc",*/ [WidgetBase, AccordionContainer /*, TemplatedMixin, WidgetsInTemplateMixin*/], {
@@ -14,13 +14,13 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/o
             // The table of contents dijit
             _dijitToc: null,
             _accordion: null,
-            selectedElement: null,
-            tocParent: null,
-
+            //The current user-selected layer- properties: tocNode, mapLayer
+            _SelectedLayer: null,
+            //The button bar for manipulating layers
+            _btnBar: null,
 
             //onExtentChange() - use when map extent changes to change not scale dependency in toc items
             //isVisibleAtScale(scale)
-
 
             //The event handlers below are not needed, unless for custom code.  They are here for reference.
             constructor: function(args) {
@@ -34,9 +34,7 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/o
                 //Create the content pane for the legend
                 var legendPane = new ContentPane({
                     title: "Legend",
-                    style: "padding: 0px"/*,
-                    content: '<button onclick="dijit.registry.byId(\'dijit_layout_AccordionContainer_0\').moveSelectedUp()">Move Up</button><button onclick="dijit.registry.byId(\'dijit_layout_AccordionContainer_0\').moveSelectedDown()">Move Down</button><button onclick="dijit.registry.byId(\'dijit_layout_AccordionContainer_0\').removeSelected()">Remove</button>'
-                    *///<button onclick="dijit.registry.byId(\'dijit_layout_AccordionContainer_0\').AddNew()">Add</button>
+                    style: "padding: 0px"
                 });
                 domClass.add(legendPane.domNode, 'tocLegendPane');
 
@@ -51,34 +49,26 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/o
                 //Create the actual legend "tree" and add to the first pane
                 this.initializeDijitToc(this.esriMap);
                 legendPane.addChild(this._dijitToc);
-
-                topic.subscribe('rootlyrclick', this.selectedLayerChanged);
-
-                //This is just for testing
-                //this.tocParent = registry.byId('dijit__WidgetBase_0');
-            }
-
-            //data package contains the newly selected map layer and toc dom node
-            , selectedLayerChanged: function (data) {
-
+                //When a parent layer TOC node is clicked, record it as selected here, so buttons act on it.
+                topic.subscribe('rootlyrclick', lang.hitch(this, this.selectedLayerChanged));
             }
 
             //Use the startup handler to create a button bar in the title area of the accordion. The title nodes were not available in postcreate.
             , startup: function () {
                 this.inherited(arguments);
 
-                var buttons = new btnBar();
+                this._btnBar = new btnBar();
                 //Find the title pane dom nodes within the table of contents module by querying on the specific styles using dojo/query
                 var titlePanes = query('#tocPanel .dijitAccordionTitle');
                 if (titlePanes.length > 0) {
                     //Set the height of the first title pane (Legend) and insert the buttons there
                     var firstPane = titlePanes[0];
                     domStyle.set(firstPane, "height", "30px");
-                    var closeDiv = domConstruct.place(buttons.domNode, firstPane);
+                    var closeDiv = domConstruct.place(this._btnBar.domNode, firstPane);
                 }
-                buttons.startup();
+                this._btnBar.startup();
                 //Click events for button bar
-                buttons.on('lyrbtnclick', function (e) {
+                this._btnBar.on('lyrbtnclick', lang.hitch(this, function (e) {
                     if (e.btn === 'u') { //Move the selected map layer up
                         this.moveSelectedUp();
                     } else if (e.btn === 'd') { //Move the selected map layer down
@@ -86,42 +76,74 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/o
                     } else { //Remove the map layer
                         this.removeSelected();
                     }
-                });
+                }));
             },
 
-            //Test
-            moveSelectedUp: function () {
+            //data package contains the newly selected map layer and toc dom node
+            selectedLayerChanged: function (data) {
+                this._SelectedLayer = null;
+                this._SelectedLayer = data;
+                this._btnBar.EnableButtons();
+            }
+
+            //Move a layer up in the map
+            , moveSelectedUp: function () {
+                var selected = this._SelectedLayer.tocNode;
                 var previousOne;
-                var parent = this.tocParent.domNode;
-                if (this.selectedElement) {
-                    //parent = this.selectedElement.parentNode;
-                    previousOne = this.selectedElement.previousElementSibling;
-                }
-                if (previousOne)
-                    parent.insertBefore(this.selectedElement, previousOne);
-            },
-            moveSelectedDown: function () {
-                var nextOne;
-                var twoDown;
-                var parent = this.tocParent.domNode;
-                if (this.selectedElement) {
-                    //parent = this.selectedElement.parentNode;
-                    nextOne = this.selectedElement.nextElementSibling;
-                    if (nextOne) {
-                        twoDown = nextOne.nextElementSibling;
-                        if (twoDown)
-                            parent.insertBefore(twoDown, this.selectedElement);
-                        else if (this.selectedElement)
-                            parent.appendChild(this.selectedElement);
+                var parent;
+                if (selected) {
+                    parent = selected.parentNode;
+                    previousOne = selected.previousElementSibling;
+                    if (previousOne) { //Move the dom node up one place
+                        parent.insertBefore(selected, previousOne);
+                        //Find the index of the layer in the map and increment by one (if not topmost already)
+                        for (var i = 0; i < this.esriMap.layerIds.length - 1; i++) {
+                            var layerId = this.esriMap.layerIds[i];
+                            if (layerId === this._SelectedLayer.mapLayer.id) {
+                                this.esriMap.reorderLayer(this._SelectedLayer.mapLayer, ++i);
+                                break;
+                            }
+                        }
                     }
                 }
+                this._btnBar.EnableButtons();
+            }
+            //Move a layer down in the map
+            , moveSelectedDown: function () {
+                var selected = this._SelectedLayer.tocNode;
+                if (selected) {
+                    var parent = selected.parentNode;
+                    var nextOne = selected.nextElementSibling;
+                    if (nextOne) {
+                        var twoDown = nextOne.nextElementSibling;
+                        if (twoDown) {
+                            parent.insertBefore(selected, twoDown);
+                        /* This was for moving to the bottom, but don't use as don't want below basemap
+                        else
+                            parent.appendChild(selected);*/
+                            //Find the index of the layer in the map and decrement by one
+                            for (var i = 0; i < this.esriMap.layerIds.length - 1; i++) {
+                                var layerId = this.esriMap.layerIds[i];
+                                if (layerId === this._SelectedLayer.mapLayer.id) {
+                                    this.esriMap.reorderLayer(this._SelectedLayer.mapLayer, --i);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+                this._btnBar.EnableButtons();
             },
+            //Remove the selected node and map layer
             removeSelected: function () {
-                if (this.selectedElement) {
-                    this.selectedElement.parentNode.removeChild(this.selectedElement);
-                    this.selectedElement = null;
+                var selected = this._SelectedLayer.tocNode;
+                if (selected) {
+                    selected.parentNode.removeChild(selected);
+                    this.esriMap.removeLayer(this._SelectedLayer.mapLayer);
+                    this._SelectedLayer = null;
                 }
             },
+
             AddNew: function () {
                 var parent = this.tocParent;
                 //var parent = document.getElementById("topdog");
