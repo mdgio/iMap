@@ -1,9 +1,9 @@
 // The parent container for the Table of Contents and Add Data accordion
 define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/on", "dijit/registry", "dojo/ready", "dojo/parser"
 	, "dijit/layout/AccordionContainer", "dijit/layout/ContentPane", "dojo/dom-class", "dojo/_base/fx", "dojo/_base/lang", "./legend/TOC"
-    , "./btnbar", "dojo/query", "dojo/dom-style", "../utilities/maphandler", "xstyle/css!./css/toc.css"],
+    , "./btnbar", "dojo/query", "dojo/dom-style", "../utilities/maphandler", "dojo/topic", "xstyle/css!./css/toc.css"],
     function(declare, domConstruct, WidgetBase, dojoOn, registry, ready, parser
-             , AccordionContainer, ContentPane, domClass, fxer, language, legendToc, btnBar, query, domStyle, mapHandler){
+             , AccordionContainer, ContentPane, domClass, fxer, language, legendToc, btnBar, query, domStyle, mapHandler, topic){
         //The module needs to be explicitly declared when it will be declared in markup.  Otherwise, do not put one in.
         return declare(/*"modules/core/toc/toc",*/ [WidgetBase, AccordionContainer /*, TemplatedMixin, WidgetsInTemplateMixin*/], {
             //*** The ESRI map object to bind to the TOC
@@ -52,12 +52,19 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/o
                 this.initializeDijitToc(this.esriMap);
                 legendPane.addChild(this._dijitToc);
 
+                topic.subscribe('rootlyrclick', this.selectedLayerChanged);
+
                 //This is just for testing
-                this.tocParent = registry.byId('dijit__WidgetBase_0');
-            },
+                //this.tocParent = registry.byId('dijit__WidgetBase_0');
+            }
+
+            //data package contains the newly selected map layer and toc dom node
+            , selectedLayerChanged: function (data) {
+
+            }
 
             //Use the startup handler to create a button bar in the title area of the accordion. The title nodes were not available in postcreate.
-            startup: function () {
+            , startup: function () {
                 this.inherited(arguments);
 
                 var buttons = new btnBar();
