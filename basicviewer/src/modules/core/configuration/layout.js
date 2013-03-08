@@ -78,18 +78,20 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                         }
 
                         //create the links for the top of the application, if provided
-                        if (this._AppConfig.link1.url && this._AppConfig.link2.url) {
+                        if (this._AppConfig.link1.url) {
                             esri.show(dom.byId('nav'));
                             dojo.create("a", {
                                 href: this._AppConfig.link1.url,
                                 target: '_blank',
                                 innerHTML: this._AppConfig.link1.text
                             }, 'link1List');
-                            dojo.create("a", {
-                                href: this._AppConfig.link2.url,
-                                target: '_blank',
-                                innerHTML: this._AppConfig.link2.text
-                            }, 'link2List');
+                            if (this._AppConfig.link2.url) {
+                                dojo.create("a", {
+                                    href: this._AppConfig.link2.url,
+                                    target: '_blank',
+                                    innerHTML: this._AppConfig.link2.text
+                                }, 'link2List');
+                            }
                         }
                     }
 
