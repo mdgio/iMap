@@ -19,8 +19,9 @@ body{
 #bookmarkView{
   width: 210px; 
 }
-#toolbarContainer .dijitToolbar{
-background: transparent;
+/*#toolbarContainer .dijitToolbar{*/
+#toolbarDij {
+    background: transparent;
 }
 #webmap-toolbar-center {
 text-align:center;

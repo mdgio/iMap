@@ -1433,6 +1433,7 @@ function toggleMeasure() {
   if (dojo.byId('floater').style.visibility === 'hidden') {
     dijit.byId('floater').show();
     disablePopups(); //disable map popups otherwise they interfere with measure clicks
+    measure.setTool(measure.activeTool, false);
   } else {
     dijit.byId('floater').hide();
     enablePopups(); //enable map popup windows

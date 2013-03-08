@@ -65,10 +65,10 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     //will not be able to pan/zoom outside the initial extent.
                     constrainmapextent: false,
                     //embed means the margins will be collapsed to just include the map no title or links, default is to embed if in iframe
-                    embed: (environment.IframeEmbedded || environment.WindowHeight < 500),
+                    embed: (environment.IframeEmbedded || environment.WindowHeight < 500)
 
                     //*** Widgets ***
-                    displaydetails: true,
+                    , displaydetails: true,
                     tablecontents: true,
                     displayeditor: false,
                     startupwidget: 'displaydetails',

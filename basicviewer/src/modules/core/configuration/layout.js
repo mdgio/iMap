@@ -60,8 +60,9 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     this._AppConfig.owner = this._WebMap.item.owner;
 
                     //Overlay toolbar on map
-                    var placeholder = dom.byId('toolbarContainer');
-                    dom.byId('map_root').appendChild(placeholder);
+                    //var placeholder = dom.byId('toolbarContainer');
+                    var placeholder = dom.byId('toolbarDij');
+                    dom.byId('map_root').appendChild(placeholder, { style: {height: '48px'}});
 
                     if (!this._AppConfig.embed) {
                         //create the links for the top of the application, if provided

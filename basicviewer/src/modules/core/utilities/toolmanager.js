@@ -26,8 +26,9 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                 this._RightToolDiv = dom.byId("webmap-toolbar-right");
             }
 
-            /*** Function to handle loading the tab container.  The widget contents of a tab are lazy-loaded on click, except for the startup widget.
-             This is the place to create new tabs for new widgets. See existing widgets for how-to.*/
+            /*** Function to handle loading the toolbar at the top of the map.  Many of the tools only create a button at startup
+             * and defer loading of the actual module until if/when the user actually clicks the button.
+             * This is the place to create new buttons for new widgets. See existing displayinterop below for the best sample.*/
             , CreateTools: function () {
                 if (this._AppConfig.displayprint === "true" || this._AppConfig.displayprint === true) {
                     require(["esri/dijit/Print"],
@@ -37,14 +38,27 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     );
                 }
 
+                //The measure tool with options in a floating pane
                 if (this._AppConfig.displaymeasure === 'true' || this._AppConfig.displaymeasure === true) {
-                    require(["esri/dijit/Measurement"],
+                    /*require(["esri/dijit/Measurement"],
                         lang.hitch(this, function(MeasurementDijit) {
                             this._addMeasurementWidget(MeasurementDijit);
                         })
-                    );
-                } /*else
-                    esri.hide(dom.byId('floater'));*/
+                    );*/
+
+                    //*** Give button a unique btnId, set title, iconClass as appropriate
+                    var btnId = 'tglbtnMeasure';
+                    var btnTitle = 'Measure';
+                    var btnIconClass = 'esriMeasureIcon';
+                    //*** Constructor parameters object you want passed into your module
+                    //*** Provide a unique ID for the parent div of the floating panel (if applicable)
+                    var widgetParams = { floaterDivId: 'floaterMeas' };
+                    //var parentDivId = 'floaterIO';//floaterDivId
+                    //*** The relative path to your module
+                    var modulePath = "../measure";
+
+                    this._CreateToolButton(widgetParams, btnId, btnTitle, btnIconClass, modulePath);
+                }
 
                 //*** The basemap tool. An example of loading a DropDownButton, which needs it contents loading before startup.
                 if (this._AppConfig.displaybasemaps === "true" || this._AppConfig.displaybasemaps === true) {
