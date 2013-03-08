@@ -24,18 +24,12 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     document.getElementsByTagName("head")[0].appendChild(ss);
 
                     var changesMade = false;
-                    this._AppConfig.title = this._AppConfig.title || this._WebMap.item.title;
                     //If app is embedded, do not show the header, footer, title, title logo, and hyperlinks
                     if (!this._AppConfig.embed) {
                         //add a title and logo, if applicable; automatically sets the height of the header depending on content and padding/margins
                         if (this._AppConfig.displaytitle === "true" || this._AppConfig.displaytitle === true) {
-                            //Add a logo to the header if set
+                            //Set the height of the header region
                             dojo.style(dom.byId("header"), "height", this._AppConfig.headerHeight + "px");
-                            var logoImgHtml = '<img id="titleLogo" src="' +  this._AppConfig.titleLogoUrl + '" alt="MD Logo" />';
-                            dojo.create("div", {
-                                id: 'webmapTitle',
-                                innerHTML: logoImgHtml + "<div class='titleDiv'>" + this._AppConfig.title + "</div>"
-                            }, "header");
                         }
                         esri.show(dom.byId('header'));
                         esri.show(dom.byId('bottomPane'));
@@ -56,7 +50,8 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                 , FinalizeLayout: function(webMap, map) {
                     this._WebMap = webMap;
                     this._Map = map;
-                    document.title = this._AppConfig.title || this._WebMap.item.title;
+                    var appTitle = this._AppConfig.title || this._WebMap.item.title;
+                    document.title = appTitle;
                     this._AppConfig.owner = this._WebMap.item.owner;
 
                     //Overlay toolbar on map
@@ -65,6 +60,23 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     dom.byId('map_root').appendChild(placeholder, { style: {height: '48px'}});
 
                     if (!this._AppConfig.embed) {
+                        //add a title and logo, if applicable
+                        if (this._AppConfig.displaytitle === "true" || this._AppConfig.displaytitle === true) {
+                            var titleHtml = "";
+                            if (this._AppConfig.titleLogoUrl) {
+                                if (this._AppConfig.titleLogoLink) {
+                                    titleHtml = '<a target="_blank" href="' + this._AppConfig.titleLogoLink + '">'
+                                        + '<img border="0" alt="MD Logo" src="' +  this._AppConfig.titleLogoUrl + '"></a>';
+                                } else
+                                    titleHtml = '<img border="0" alt="MD Logo" src="' +  this._AppConfig.titleLogoUrl + '">';
+                            }
+                            titleHtml += "<div class='titleDiv'>" + appTitle + "</div>";
+                            dojo.create("div", {
+                                id: 'webmapTitle',
+                                innerHTML: titleHtml
+                            }, "header");
+                        }
+
                         //create the links for the top of the application, if provided
                         if (this._AppConfig.link1.url && this._AppConfig.link2.url) {
                             esri.show(dom.byId('nav'));
@@ -82,11 +94,9 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     }
 
                     //add webmap's description to details panel
-                    //if (this._AppConfig.description === "") {
-                        if (this._WebMap.item.description) {
-                            this._AppConfig.description = this._WebMap.item.description;
-                        }
-                    //}
+                    if (this._WebMap.item.description) {
+                        this._AppConfig.description = this._WebMap.item.description;
+                    }
 
                     //add a custom logo to the map if provided
                     if (this._AppConfig.customlogo.image) {

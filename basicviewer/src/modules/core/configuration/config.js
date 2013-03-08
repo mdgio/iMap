@@ -16,7 +16,7 @@
             "showelevationdifference": "false",
             "theme": "gray",
             "displaydetails": "true",
-            "startupwidget": "none",
+            "startupwidget": "displaydetails",
             "displayeditor": "true",
             "displayoverviewmap": "true",
             "displaytimeslider": "true",
@@ -70,12 +70,24 @@
             "fieldName": "titleLogoUrl",
             "type": "string",
             "tooltip": "URL for upper left image"
+        }, {
+            "placeHolder": "Hyperlink for title logo",
+            "label": "Title Logo Hyperlink:",
+            "fieldName": "titleLogoLink",
+            "type": "string",
+            "tooltip": "URL for title logo hyperlink"
         },{
             "placeHolder": "URL to image",
             "label": "Logo on map:",
             "fieldName": "customlogoimage",
             "type": "string",
             "tooltip": "Url for image"
+        }, {
+            "placeHolder": "Hyperlink for map logo",
+            "label": "Map Logo Hyperlink:",
+            "fieldName": "customlogolink",
+            "type": "string",
+            "tooltip": "URL for map logo hyperlink"
         },{
             "placeHolder": "Header height",
             "label": "Header height (px):",
@@ -111,9 +123,6 @@
             "fieldName": "startupwidget",
             "type": "string",
             "options": [{
-                "label": "None",
-                "value": "none"
-            }, {
                 "label": "Details",
                 "value": "displaydetails"
             }, {
@@ -122,6 +131,9 @@
             }, {
                 "label": "Editor",
                 "value": "displayeditor"
+            }, {
+                "label": "None",
+                "value": "none"
             }],
             "tooltip": "Widget to show in left panel on load"
         }, {

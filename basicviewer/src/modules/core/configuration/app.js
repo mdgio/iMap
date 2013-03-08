@@ -31,9 +31,11 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     //set to true to display the title
                     displaytitle: true,
                     //Enter a title, if no title is specified, the webmap's title is used.
-                    title: "iMap",
+                    title: "",
                     //URL to title logo, if none specified, then defaults to assets/MDLogo.gif
                     titleLogoUrl: "assets/MDlogo-small.gif",
+                    //The hyperlink for the title logo,
+                    titleLogoLink: "http://www.maryland.gov/Pages/default.aspx",
                     //Provide an image and url for a logo that will be displayed as a clickable image
                     //in the lower right corner of the map. If nothing is specified then the esri logo will appear.
                     //Example customLogoImage: "http://serverapi.arcgisonline.com/jsapi/arcgis/2.4compact/images/map/logo-med.png"
@@ -55,11 +57,11 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     //url:'http://www.esri.com',text:'Esri'
                     link1: {
                         url: 'http://www.maryland.gov/Pages/default.aspx',
-                            text: 'Maryland Gov'
+                        text: 'Maryland Gov'
                     },
                     link2: {
                         url: 'http://doit.maryland.gov/about/Pages/gio.aspx',
-                            text: 'GIO'
+                        text: 'GIO'
                     },
                     //Restrict the map's extent to the initial extent of the web map. When true users
                     //will not be able to pan/zoom outside the initial extent.
@@ -165,6 +167,9 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                             }
                             if (response.values.titleLogoUrl) {
                                 configOptions.titleLogoUrl = response.values.titleLogoUrl;
+                            }
+                            if (response.values.titleLogoLink) {
+                                configOptions.titleLogoLink = response.values.titleLogoLink;
                             }
                             if (response.values.leftpanewidth !== undefined) {
                                 configOptions.leftpanewidth = response.values.leftpanewidth;
