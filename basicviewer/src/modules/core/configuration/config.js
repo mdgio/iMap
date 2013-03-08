@@ -95,6 +95,30 @@
             "type": "string",
             "tooltip": "in pixels"
         },{
+            "placeHolder": "Hyperlink 1 Text",
+            "label": "Hyperlink 1 Text:",
+            "fieldName": "link1text",
+            "type": "string",
+            "tooltip": "Text to display"
+        },{
+            "placeHolder": "Hyperlink 1 URL",
+            "label": "Hyperlink 1 URL:",
+            "fieldName": "link1url",
+            "type": "string",
+            "tooltip": "URL to go to"
+        },{
+            "placeHolder": "Hyperlink 2 Text",
+            "label": "Hyperlink 2 Text:",
+            "fieldName": "link2text",
+            "type": "string",
+            "tooltip": "Text to display"
+        },{
+            "placeHolder": "Hyperlink 2 URL",
+            "label": "Hyperlink 2 URL:",
+            "fieldName": "link2url",
+            "type": "string",
+            "tooltip": "URL to go to"
+        },{
             "placeHolder": "Left panel width",
             "label": "Left panel width (px):",
             "fieldName": "leftpanewidth",

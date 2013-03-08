@@ -56,12 +56,12 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     //ArcGIS.com. Enter link values for the link1 and link2 and text to add links. For example
                     //url:'http://www.esri.com',text:'Esri'
                     link1: {
-                        url: 'http://www.maryland.gov/Pages/default.aspx',
-                        text: 'Maryland Gov'
+                        url: '',
+                        text: ''
                     },
                     link2: {
-                        url: 'http://doit.maryland.gov/about/Pages/gio.aspx',
-                        text: 'GIO'
+                        url: '',
+                        text: ''
                     },
                     //Restrict the map's extent to the initial extent of the web map. When true users
                     //will not be able to pan/zoom outside the initial extent.
