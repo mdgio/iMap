@@ -5,7 +5,7 @@ define(["dojo/_base/declare", "dojo/has", "dojo/window"],
         var BrowserEnv = declare("BrowserEnv", [], {
             TouchEnabled: has("touch")
             , WindowWidth: has('device-width')
-            , WindowHeight: win.getBox().h
+            , WindowHeight: (has('ie') < 9) ? document.body.clientHeight : win.getBox().h
             , IframeEmbedded: !(top === self)
             , LocalStorage: (localStorage != null)
         });
