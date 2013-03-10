@@ -132,32 +132,36 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/on", "dojo/Evented", "../
                     } else {
                         this._AppConfig.constrainmapextent = false;
                     }
+                    if (environment.TouchEnabled) {
+                        require(["esri/dijit/PopupMobile"], lang.hitch(this, function(popupMob) {
+                            //create a mobile popup
+                            popup = new esri.dijit.PopupMobile(null, dojo.create("div"));
+                            this._createMap(popup);
+                        }));
+                    } else
+                        this._createMap(null);
+                }
 
+                , _createMap: function (mobilePop) {
+                    var options = {
+                        slider: this._AppConfig.displaySlider,
+                        sliderStyle:'small',
+                        nav: false,
+                        wrapAround180: !this._AppConfig.constrainmapextent,
+                        showAttribution:true, //set wraparound to false if the extent is limited.
+                        logo: !this._AppConfig.customlogo.image //hide esri logo if custom logo is provided
+                    };
+                    if (mobilePop) //Set the popup to the mobile dijit, if applicable
+                        options.infoWindow = mobilePop;
                     if (!this._WebMap) { //*** Create a map, add layers, etc. using the standard API methods here:
-                        this._Map = new esri.Map('map', {
-                            slider: this._AppConfig.displaySlider,
-                            sliderStyle:'small',
-                            nav: false,
-                            wrapAround180: !this._AppConfig.constrainmapextent, //set wraparound to false if the extent is limited.
-                            showAttribution:true,
-                            logo: !this._AppConfig.customlogo.image //hide esri logo if custom logo is provided
-                        });
-
+                        this._Map = new esri.Map('map', options);
                         if (this._Map.loaded)
                             this._FinishMapElements();
                         else
                             dojo.connect(this._Map, "onLoad", this._FinishMapElements);
                     } else { //Map will be created using the webmap defined earlier
                         var mapDeferred = esri.arcgis.utils.createMap(this._WebMap, "map", {
-                            mapOptions: {
-                                slider: this._AppConfig.displaySlider,
-                                sliderStyle:'small',
-                                nav: false,
-                                wrapAround180: !this._AppConfig.constrainmapextent,
-                                showAttribution:true,
-                                //set wraparound to false if the extent is limited.
-                                logo: !this._AppConfig.customlogo.image //hide esri logo if custom logo is provided
-                            },
+                            mapOptions: options,
                             ignorePopups: false,
                             bingMapsKey: this._AppConfig.bingmapskey
                         });

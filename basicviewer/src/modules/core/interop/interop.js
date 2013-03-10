@@ -129,8 +129,6 @@ define(["dojo/_base/declare", "dojo/aspect", "dojo/dom-construct", "dijit/_Widge
                 uploadForm.onchange = lang.hitch(this, this._listening);
             }
 
-
-
             , _listening: function (evt) {
                 var fileName = evt.target.value.toLowerCase();
                 if (has('ie')) { //filename is full path in IE so extract the file name

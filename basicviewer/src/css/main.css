@@ -284,6 +284,14 @@ body {
     width: 48px;
     margin: 4px 0 4px 4px;
 }
+.esriLocationIcon{
+    background-image: url(../../assets/toolbar/location.PNG);
+    background-repeat: no-repeat;
+    display: inline-block;
+    height: 48px;
+    width: 48px;
+    margin: 4px 0 4px 4px;
+}
 .esriLinkIcon{
     background-image: url(../../assets/toolbar/Share.PNG);
     background-repeat: no-repeat;
