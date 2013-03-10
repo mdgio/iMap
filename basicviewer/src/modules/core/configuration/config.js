@@ -11,7 +11,8 @@
             "tablecontents": "true",
             "displaylegend": "true",
             "displayshare": "true",
-            "displaymeasure": "true",
+            "displaymeasure": "false",
+            "displaylocation": "false",
             "displayelevation": "false",
             "showelevationdifference": "false",
             "theme": "gray",
@@ -189,6 +190,11 @@
         }, {
             "label": "Measure",
             "fieldName": "displaymeasure",
+            "type": "boolean",
+            "tooltip": ""
+        }, {
+            "label": "Location",
+            "fieldName": "displaylocation",
             "type": "boolean",
             "tooltip": ""
         }, {

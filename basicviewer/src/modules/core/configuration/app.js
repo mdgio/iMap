@@ -105,6 +105,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     displaybasemaps: true,
                     displaybookmarks: true,
                     displaymeasure: false,
+                    displaylocation: true,
                     displayshare: true,//if enabled enter bitly key and login below.
                     //The application allows users to share the map with social networking sites like twitter
                     //and facebook. The url for the application can be quite long so shorten it using bit.ly.
@@ -211,6 +212,9 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                                 configOptions.displaybookmarks = response.values.displaybookmarks;
                             }
                             if (response.values.displaymeasure) {
+                                configOptions.displaymeasure = response.values.displaymeasure;
+                            }
+                            if (response.values.displaylocation) {
                                 configOptions.displaymeasure = response.values.displaymeasure;
                             }
                             /*if (response.values.displaylegend !== undefined) {

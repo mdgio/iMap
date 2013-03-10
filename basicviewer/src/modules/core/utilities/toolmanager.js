@@ -57,7 +57,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     //*** The relative path to your module
                     var modulePath = "../measure";
 
-                    this._CreateToolButton(widgetParams, btnId, btnTitle, btnIconClass, modulePath);
+                    this._CreateToolButton(widgetParams, btnId, btnTitle, btnIconClass, modulePath, true);
                 }
 
                 //*** The basemap tool. An example of loading a DropDownButton, which needs it contents loading before startup.
@@ -91,12 +91,28 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     //*** The relative path to your module
                     var modulePath = "../interop/interop";
 
-                    this._CreateToolButton(widgetParams, btnId, btnTitle, btnIconClass, modulePath);
+                    this._CreateToolButton(widgetParams, btnId, btnTitle, btnIconClass, modulePath, true);
+                }
+
+                //*** This is the location tool (GPS), created as a module. Use this as a pattern for new tools, if no floating pane needed.
+                if (this._AppConfig.displaylocation === "true" || this._AppConfig.displaylocation === true) {
+                    //*** Give button a unique btnId, set title, iconClass as appropriate
+                    var btnId = 'tglbtnLocation';
+                    var btnTitle = 'Location';
+                    var btnIconClass = 'esriLocationIcon';
+                    //*** Constructor parameters object you want passed into your module
+                    //*** Provide a unique ID for the parent div of the floating panel (if applicable)
+                    var widgetParams = { map: mapHandler.map };
+                    //var parentDivId = 'floaterIO';//floaterDivId
+                    //*** The relative path to your module
+                    var modulePath = "../location";
+
+                    this._CreateToolButton(widgetParams, btnId, btnTitle, btnIconClass, modulePath, false);
                 }
             }
 
             // Creates a toolbar button, and wires up a click handler to request your module and load it on first click only.
-            , _CreateToolButton: function (widgetParams, btnId, btnTitle, btnIconClass, modulePath) {
+            , _CreateToolButton: function (widgetParams, btnId, btnTitle, btnIconClass, modulePath, startupDijit) {
                 //Pass in the id of the button, as most tools need to toggle it.
                 widgetParams.buttonDivId = btnId;
                 //Create the button for the toolbar
@@ -114,7 +130,8 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     //*** Set the relative location to the module
                     require([modulePath], lang.hitch(this, function(customDijit) {
                         var theDijit = new customDijit(widgetParams);
-                        theDijit.startup();
+                        if (startupDijit)
+                            theDijit.startup();
                         try { document.body.style.cursor = "auto"; } catch (e) {}
                     }));
                 }));
