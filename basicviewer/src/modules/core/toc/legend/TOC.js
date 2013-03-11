@@ -59,12 +59,17 @@ define(["dojo/_base/declare", "dojo/aspect", "dijit/_WidgetBase", "dojo/_base/la
 
                 }));
 
-                aspect.after(this.map, "onLayerRemove", lang.hitch(this, function () {
+                aspect.after(this.map, "onLayerRemove", lang.hitch(this, function (layer) {
                     //Check by id if present in TOC and remove it
 
                 }));
 
                 aspect.after(this.map, "onLayerReorder", lang.hitch(this, function (layer, index) {
+                    //Change the postion of the layer if present in the TOC
+
+                }));
+
+                aspect.after(this.map, "onBasemapChange", lang.hitch(this, function () {
                     //Change the postion of the layer if present in the TOC
 
                 }));
@@ -80,14 +85,26 @@ define(["dojo/_base/declare", "dojo/aspect", "dijit/_WidgetBase", "dojo/_base/la
 	
 	                for (var i = this.map.layerIds.length - 1; i >= 0; i--) {
 	                    var rootLayer = this.map.getLayer(this.map.layerIds[i]);
-	                    // these properties defined in BasemapControl widget.
-	                    // since the basemap control add/remove them requently, it's better not to show.
-	                    if (!rootLayer._isBaseMap && !rootLayer._isReference) {
-	                        this.layerInfos.push({
-	                            layer: rootLayer
-	                        });
-	                    }
-	
+                        if (!this.webMap) {
+                            // these properties defined in BasemapControl widget.
+                            // since the basemap control add/remove them requently, it's better not to show.
+                            if (!rootLayer._isBaseMap && !rootLayer._isReference) {
+                                this.layerInfos.push({
+                                    layer: rootLayer
+                                });
+                            }
+                        } else { //Only create root entries for the operational layers, not the basemap layer(s)
+                            for (var p = this.webMap.itemData.operationalLayers.length - 1; p >= 0; p--) {
+                                var opLayer = this.webMap.itemData.operationalLayers[p];
+                                if (rootLayer.id === opLayer.id) {
+                                    this.layerInfos.push({
+                                        layer: rootLayer,
+                                        title: opLayer.title
+                                    });
+                                    break;
+                                }
+                            }
+                        }
 	                }
 	                dojo.connect(this.map, 'onLayerAdd', this, function(layer) {
 	                    this.layerInfos.push({
