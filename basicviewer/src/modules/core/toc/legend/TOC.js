@@ -1,6 +1,6 @@
 define(["dojo/_base/declare", "dojo/aspect", "dijit/_WidgetBase", "dojo/_base/lang", "./_RootLayerTOC"
-    , "dojo/Evented", "xstyle/css!./css/TOC.css" ],
-    function(declare, aspect, WidgetBase, lang, _RootLayerTOC) {
+    , "dojo/on", "dojo/Evented", "xstyle/css!./css/TOC.css" ],
+    function(declare, aspect, WidgetBase, lang, _RootLayerTOC, on) {
         return declare([WidgetBase], {
         	indentSize: 18,
 	        swatchSize: [30, 30],
@@ -64,7 +64,7 @@ define(["dojo/_base/declare", "dojo/aspect", "dijit/_WidgetBase", "dojo/_base/la
 
                 }));
 
-                aspect.after(this.map, "onLayerReorder", lang.hitch(this, function (layer, index) {
+                on(this.map, "onlayerreorder", lang.hitch(this, function (layer, index) {
                     //Change the postion of the layer if present in the TOC
 
                 }));
