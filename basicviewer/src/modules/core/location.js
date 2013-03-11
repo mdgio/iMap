@@ -17,11 +17,13 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dijit/registry", "dojo/on"],
             , _watchID: null
             //Max object id currently in layer
             , _maxObjId: 0
+            //Only on the first time a location is found we are going to zoom the map.
+            , _firstLoc: true
 
             , constructor: function(args) {
                 this.buttonDivId = args.buttonDivId;
                 this.map = args.map;
-                // On tool button click- toggle the floating pane
+                // On tool button click- turn on/off locator
                 on(registry.byId(this.buttonDivId), "click", lang.hitch(this, function () {
                     this.ToggleTool();
                 }));
@@ -30,21 +32,10 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dijit/registry", "dojo/on"],
                 var layerDefinition = {
                     "geometryType" : "esriGeometryPoint",
                     "objectIdField": "ObjectID",
-                    "timeInfo" : {
-                        "startTimeField" : "DATETIME",
-                        "endTimeField" : null,
-                        "timeExtent" : [1277412330365],
-                        "timeInterval" : 1,
-                        "timeIntervalUnits" : "esriTimeUnitsMinutes"
-                    },
                     "fields" : [{
                         "name": "ObjectID",
                         "alias": "ObjectID",
                         "type": "esriFieldTypeOID"
-                    },{
-                        "name" : "DATETIME",
-                        "type" : "esriFieldTypeDate",
-                        "alias" : "DATETIME"
                     }]
                 };
 
@@ -54,57 +45,35 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dijit/registry", "dojo/on"],
                 };
                 // feature layer
                 this.featureLayer = new esri.layers.FeatureLayer(featureCollection);
-
-                //setup a temporal renderer
-                var sms = new esri.symbol.SimpleMarkerSymbol().setColor(new dojo.Color([255, 0, 0])).setSize(8);
-                var observationRenderer = new esri.renderer.SimpleRenderer(sms);
-                var latestObservationRenderer = new esri.renderer.SimpleRenderer(new esri.symbol.SimpleMarkerSymbol());
-                var infos = [{
-                    minAge : 0,
-                    maxAge : 1,
-                    color : new dojo.Color([255, 0, 0])
-                }, {
-                    minAge : 1,
-                    maxAge : 5,
-                    color : new dojo.Color([255, 153, 0])
-                }, {
-                    minAge : 5,
-                    maxAge : 10,
-                    color : new dojo.Color([255, 204, 0])
-                }, {
-                    minAge : 10,
-                    maxAge : Infinity,
-                    color : new dojo.Color([0, 0, 0, 0])
-                }];
-                var ager = new esri.renderer.TimeClassBreaksAger(infos, esri.renderer.TimeClassBreaksAger.UNIT_MINUTES);
-                var sls = new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color([255, 0, 0]), 3);
-                var trackRenderer = new esri.renderer.SimpleRenderer(sls);
-                var renderer = new esri.renderer.TemporalRenderer(observationRenderer, latestObservationRenderer, trackRenderer, ager);
-                this.featureLayer.setRenderer(renderer);
                 this.map.addLayer(this.featureLayer);
 
-                if (this._navigate())
-                    this.enabled = true;
+                this.ToggleTool();
             }
 
             , ToggleTool: function () {
-                if (this.enabled) {
+                if (this.enabled) { //turn off
                     this.enabled = false;
                     //Stop getting locations
-                    navigator.geolocation.clearWatch(this._watchID);
-                    //Remove features in the layer
-                    this.featureLayer.applyEdits(null, null, this.featureLayer.graphics, null, null);
-                    this._maxObjId = 0;
-                } else {
-                    if (this._navigate())
+                    if (navigator.geolocation)
+                        navigator.geolocation.clearWatch(this._watchID);
+                    this._clearGraphics();
+                } else { //turn on
+                    if (this._navigate()) {
                         this.enabled = true;
+                        this._firstLoc = true;
+                    }
                 }
+            }
+
+            , _clearGraphics: function () {
+                //Remove features in the layer
+                this.featureLayer.applyEdits(null, null, this.featureLayer.graphics, null, null);
+                this._maxObjId = 0;
             }
 
             , _navigate: function () {
                 if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(lang.hitch(this, this._zoomToLocation), lang.hitch(this, this._locationError));
-                    this._watchID = navigator.geolocation.watchPosition(lang.hitch(this, this._showLocation), lang.hitch(this, this._locationError));
+                    this._watchID = navigator.geolocation.watchPosition(lang.hitch(this, this._showLocation), lang.hitch(this, this._locationError), {timeout:40000});
                     return true;
                 } else {
                     alert("Navigator not available on this device.");
@@ -115,37 +84,34 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dijit/registry", "dojo/on"],
             , _locationError: function (error) {
                 switch (error.code) {
                     case error.PERMISSION_DENIED:
-                        alert("Location not provided");
+                        alert("Location not permitted");
                         break;
                     case error.POSITION_UNAVAILABLE:
                         alert("Current location not available");
                         break;
                     case error.TIMEOUT:
-                        alert("Timeout");
+                        alert("Locate attempt timeout");
                         break;
                     default:
-                        alert("unknown error");
+                        alert("unknown location error");
                         break;
                 }
             }
 
-            , _zoomToLocation: function (location) {
-                var pt = esri.geometry.geographicToWebMercator(new esri.geometry.Point(location.coords.longitude, location.coords.latitude));
-                this.map.centerAndZoom(pt, 16);
-            }
-
             , _showLocation: function (location) {
-                var now = new Date();
                 var attributes = { ObjectID: ++this._maxObjId };
-
-                attributes.DATETIME = now.getTime();
-
                 var pt = esri.geometry.geographicToWebMercator(new esri.geometry.Point(location.coords.longitude, location.coords.latitude));
                 var graphic = new esri.Graphic(new esri.geometry.Point(pt, this.map.spatialReference), null, attributes);
-
+                this._clearGraphics();
                 this.featureLayer.applyEdits([graphic], null, null, lang.hitch(this, function(adds) {
-                    this.map.setTimeExtent(new esri.TimeExtent(null, new Date()));
-                    this.map.centerAt(graphic.geometry);
+                    if (this._firstLoc) //First time, zoom to location
+                        this.map.centerAndZoom(pt, 16);
+                    else if (this.map.geographicExtent) { //Check if location is still in visible map- so map doesn't jump around
+                        if (!this.map.geographicExtent.expand(.7).contains(graphic.geometry))
+                            this.map.centerAt(graphic.geometry);
+                    } else //geographicExtent not supported in non-Web Mercator, so fall-back to this
+                        this.map.centerAt(graphic.geometry);
+                    this._firstLoc = false;
                 }));
             }
         });
