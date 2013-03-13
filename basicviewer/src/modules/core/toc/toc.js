@@ -1,9 +1,10 @@
 // The parent container for the Table of Contents and Add Data accordion
 define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/on", "dijit/registry", "dojo/ready", "dojo/_base/lang"
 	, "dijit/layout/AccordionContainer", "dijit/layout/ContentPane", "dojo/dom-class", "dojo/_base/fx", "dojo/_base/lang", "./legend/TOC"
-    , "./btnbar", "dojo/query", "dojo/dom-style", "../utilities/maphandler", "dojo/topic", "xstyle/css!./css/toc.css"],
+    , "./btnbar", "dojo/query", "dojo/dom-style", "../utilities/maphandler", "dojo/topic", "./add/add", "xstyle/css!./css/toc.css"],
     function(declare, domConstruct, WidgetBase, dojoOn, registry, ready, lang
-             , AccordionContainer, ContentPane, domClass, fxer, language, legendToc, btnBar, query, domStyle, mapHandler, topic){
+             , AccordionContainer, ContentPane, domClass, fxer, language, legendToc, btnBar, query, domStyle, mapHandler, topic
+             , addData){
         //The module needs to be explicitly declared when it will be declared in markup.  Otherwise, do not put one in.
         return declare(/*"modules/core/toc/toc",*/ [WidgetBase, AccordionContainer /*, TemplatedMixin, WidgetsInTemplateMixin*/], {
             //*** The ESRI map object to bind to the TOC
@@ -39,9 +40,8 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/o
                 domClass.add(legendPane.domNode, 'tocLegendPane');
 
                 //Create the accordion's 2nd pane for the add data section
-                var addDataPane = new ContentPane({
-                    title:"Add Data",
-                    content:'<div id="tocAddDiv">Stuff here</div>'
+                var addDataPane = new addData({
+                    title:"Add Data"
                 });
                 //Add the panes to the accordion
                 this.addChild(legendPane);
@@ -56,6 +56,13 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/o
             //Use the startup handler to create a button bar in the title area of the accordion. The title nodes were not available in postcreate.
             , startup: function () {
                 this.inherited(arguments);
+                //Subscribe to this accordion's selected pane change to populate add data tree the first time
+                var selectTopic = topic.subscribe(this.id + "-selectChild", lang.hitch(this, function (selectedPane) {
+                    if (selectedPane.title.indexOf("Add") >= 0) {
+                        selectTopic.remove();
+                        selectedPane.CreateContents();
+                    }
+                }));
 
                 this._btnBar = new btnBar();
                 //Find the title pane dom nodes within the table of contents module by querying on the specific styles using dojo/query
