@@ -202,8 +202,12 @@
             "name": "ImageryBasemapsEarthCover",
             "id": "ImageryBasemapsEarthCover",
             "url": "http://204.145.182.27/arcgis/rest/services/ImageryBasemapsEarthCover/",
-            "children": [
-
+            "children": [{
+                    "name": "6 inch Imagery",
+                    "id": "6inchimagery",
+                    "url": "http://mdimap.towson.edu/ArcGIS/rest/services/ImageryBaseMapsEarthCover/MD.State.SixInchImagery/ImageServer",
+                    "type": "ImageServer"
+                }
             ]
         },
         {
@@ -401,10 +405,45 @@
             "id": "Weather",
             "url": "http://204.145.182.27/arcgis/rest/services/Weather/",
             "children": []
-        },
-
-
-        {
+        },{
+            "name": "KML",
+            "id": "KML",
+            "children": [
+                {
+                    "name": "Howard Segments",
+                    "id": "HowardSegs",
+                    "url": "http://www.roads.maryland.gov/KMLFILES/Howard_Segments.kmz",
+                    "type": "KML"
+                }, {
+                    "name": "Eco Areas",
+                    "id": "EcoAreas",
+                    "url": "http://204.145.182.27/arcgis/rest/services/Environment/MD_State_TargetedEcologicalAreas/MapServer/kml/mapImage.kmz",
+                    "type": "KML"
+                }
+            ]
+        },{
+            "name": "WMS",
+            "id": "WMS",
+            "children": [
+                {
+                    "name": "NAIP WMS",
+                    "id": "naipwms",
+                    "url": "http://mdimap.towson.edu/arcgis/services/ImageryBaseMapsEarthCover/MD.State.NAIPImagery/MapServer/WMSServer",
+                    "type": "WMS"
+                }
+            ]
+        },{
+            "name": "Feature Layers",
+            "id": "featurelayer",
+            "children": [
+                {
+                    "name": "Cap Budg Ind. Projs",
+                    "id": "capbudg",
+                    "url": "http://204.145.182.27/arcgis/rest/services/BusinessEconomy/MD_State_FY14CapitalBudget/MapServer/1",
+                    "type": "Feature Layer"
+                }
+            ]
+        },{
             "name": "SampleWorldCities",
             "id": "SampleWorldCities",
             "url": "http://204.145.182.27/arcgis/rest/services/SampleWorldCities/MapServer/",

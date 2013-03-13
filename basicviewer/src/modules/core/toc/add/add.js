@@ -1,11 +1,13 @@
 /**
  * The Add Data dijit. Loads a JSON object of services and their URLs into a dijit tree. User can then add them to the map.
+ * Using dojo/_base/connect to connect to map event fxns. This is deprecated along with dojo.connect, but the seemingly appropriate
+ * connector (dojo/aspect) does not obtain the proper callback parameters.
  */
 define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "dojo/store/Memory", "dijit/tree/ObjectStoreModel", "dijit/Tree", "dijit/layout/ContentPane"
     , "../../utilities/maphandler", "dojo/_base/lang", "dijit/TooltipDialog", "dijit/popup", "dojo/on", "dijit/form/Button", "dojox/widget/Standby"
-    , "dojo/dom-construct"],
+    , "dojo/dom-construct", "dojo/_base/connect"],
     function (declare, WidgetBase, dom, json, Memory, ObjectStoreModel, Tree, ContentPane, mapHandler, lang, TooltipDialog, popup, on, Button
-        , Standby, domConstruct) {
+        , Standby, domConstruct, connect) {
         return declare([WidgetBase, ContentPane], {
             //*** The ESRI map object
             map: null
@@ -30,7 +32,8 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "doj
             //The dojo accordion, which this module inherits from, has been created and is accessible (though not actually shown yet)
             , startup: function () {
                 this.inherited(arguments);
-                this._paneStandby = new Standby({target: this.domNode});
+                this._paneStandby = new Standby({target: this.id});
+                document.body.appendChild(this._paneStandby.domNode);
             }
             //The ContentPane has been created, but the actual contents are not created until the tab pane is clicked on, which calls this function
             , CreateContents: function () {
@@ -135,18 +138,23 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "doj
                     this._toolTipDialog = new TooltipDialog({
                         id: 'addDataTooltipDialog',
                         class: "tipDialog"
+                        /*, content: '<button id="btnAddDataTip" type="button">Add</button><button id="btnCloseDataTip" type="button">Close</button>'*/
                     });
+                    this._toolTipDialog.startup();
                     var addBtn = new Button({
-                        label: "Add",
-                        onClick: lang.hitch(this, function(){
+                        label: "Add"
+                        , iconClass: "toolTipAddBtn"
+                        , style: "margin: 0px 10px 0px 0px;"
+                        , onClick: lang.hitch(this, function(){
                             popup.close(this._toolTipDialog);
                             this._paneStandby.show();
                             this._addServiceToMap(item, node);
                         })
                     });
                     var closeBtn = new Button({
-                        label: "Close",
-                        onClick: lang.hitch(this, function(){
+                        label: "Close"
+                        , iconClass: "toolTipCloseBtn"
+                        , onClick: lang.hitch(this, function(){
                             popup.close(this._toolTipDialog);
                         })
                     });
@@ -181,9 +189,8 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "doj
                                 alert("Could not load info for service" + " : " + error.message);
                             })
                         );
-                    } else {
+                    } else //Already have serviceinfo, so display it
                         this._toolTipDialog.descriptionPane.set('content', '<p>' + node.serviceInfo.serviceDescription + '</p>');
-                    }
                 } else if (item.type === "KML" || item.type === "WMS") { //Don't try and get descriptions. Just set to type
                     if (!node.serviceInfo)
                         node.serviceInfo = { serviceDescription: item.type }
@@ -198,45 +205,39 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "doj
 
             , _addServiceToMap: function (item, node) {
                 try {
+                    var layer;
                     if (item.type === "MapServer") {
-                        var layer;
                         //Check if map service is cached, if so, check if wkid matches map's wkid. If so, add as tiled layer.
-                        if (node.serviceInfo && node.serviceInfo.singleFusedMapCache == true && node.serviceInfo.spatialReference.wkid == this.map.spatialReference.wkid) {
+                        if (node.serviceInfo && node.serviceInfo.singleFusedMapCache == true && node.serviceInfo.spatialReference.wkid == this.map.spatialReference.wkid)
                             layer = esri.layers.ArcGISTiledMapServiceLayer(item.url);
-                        } else { //Otherwise add as dynamic layer
+                        else //Otherwise add as dynamic layer
                             layer = esri.layers.ArcGISDynamicMapServiceLayer(item.url);
-                        }
-                        layer.title = item.name;
-                        layer.serviceInfo = node.serviceInfo;
-                        this.map.addLayer(layer);
-                    } else if (item.type === "ImageServer") {
-                        var layer = esri.layers.ArcGISImageServiceLayer(item.url);
-                        layer.title = item.name;
-                        layer.serviceInfo = node.serviceInfo;
-                        this.map.addLayer(layer);
-                    } else if (item.type === "Feature Layer") {
-                        var layer = esri.layers.FeatureLayer(item.url);
-                        layer.title = item.name;
-                        layer.serviceInfo = node.serviceInfo;
-                        layer.serviceInfo = node.serviceInfo;
-                        this.map.addLayer(layer);
-                    } else if (item.type === "KML") {
-                        var layer = esri.layers.KMLLayer(item.url);
-                        layer.title = item.name;
-                        layer.serviceInfo = node.serviceInfo;
-                        this.map.addLayer(layer);
-                    } else if (item.type === "WMS") {
-                        var layer = esri.layers.WMSLayer(item.url);
-                        layer.title = item.name;
-                        layer.serviceInfo = node.serviceInfo;
-                        this.map.addLayer(layer);
-                    } else {
+                    } else if (item.type === "ImageServer")
+                        layer = esri.layers.ArcGISImageServiceLayer(item.url);
+                    else if (item.type === "Feature Layer")
+                        layer = esri.layers.FeatureLayer(item.url);
+                    else if (item.type === "KML")
+                        layer = esri.layers.KMLLayer(item.url);
+                    else if (item.type === "WMS")
+                        layer = esri.layers.WMSLayer(item.url);
+                    else {
                         alert("This layer type is not supported.");
+                        return;
                     }
+                    //Set the title for Legend to use.
+                    layer.title = item.name;
+                    //Take on the REST endpoint's serviceinfo JSON. Legend can then check for it and use it.
+                    layer.serviceInfo = node.serviceInfo;
+                    connect.connect(this.map, "onLayerAddResult", lang.hitch(this, function (layer, error) {
+                        if (error)
+                            alert("Error occurred loading in map : " + error.message);
+                        this._paneStandby.hide();
+                    }));
+                    this.map.addLayer(layer);
                 } catch (ex) {
                     alert("Service could not be loaded in map : " + ex.message);
+                    this._paneStandby.hide();
                 }
-                this._paneStandby.hide();
             }
         });
 });
