@@ -17,6 +17,24 @@
     overflow: auto;
 }
 
+.toolTipAddBtn {
+    background-image: url(../css/add.png);
+    background-repeat: no-repeat;
+    display: inline-block;
+    height: 16px;
+    width: 16px;
+    margin: 2px;
+}
+
+.toolTipCloseBtn {
+    background-image: url(../css/close.png);
+    background-repeat: no-repeat;
+    display: inline-block;
+    height: 16px;
+    width: 16px;
+    margin: 2px;
+}
+
 .navlist {
     position: absolute;
     margin: 0px;
