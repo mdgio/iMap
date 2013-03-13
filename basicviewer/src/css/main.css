@@ -151,7 +151,7 @@ body {
     font-weight: 900;
     width:100% !important;
     padding:0px !important;
-    height:48px;
+    height:56px;
     background-color: rgba(255, 255, 255, 0);
     background-image: none !important;
     z-index: 28;
@@ -167,7 +167,7 @@ body {
     font-weight: 900;
     position: relative;
     /*height:100%;*/
-    height:48px;
+    height:56px;
     background-color: rgba(255, 255, 255, 0);
     background-image: none !important;
     z-index: 28;
@@ -181,11 +181,12 @@ body {
 .claro .dijitToolbar .dijitToggleButtonChecked .dijitButtonNode {
     color:#333;
     border-style: solid;
+
 }
 
 .claro .dijitToolbar  .dijitButtonNode{
     padding: 5px;
-    background:url(../assets/imap/toolbar_bg.png) repeat-x #282828; !important
+    background: none !important;
 
 }
 
@@ -285,7 +286,7 @@ body {
     margin: 4px 0 4px 4px;
 }
 .esriLocationIcon{
-    background-image: url(../../assets/toolbar/location.PNG);
+    background-image: url(../../assets/toolbar/Location.PNG);
     background-repeat: no-repeat;
     display: inline-block;
     height: 48px;
@@ -306,7 +307,7 @@ body {
     display:inline-block;
     height:48px;
     width:48px;
-    margin:4px 0 4px 4px;
+    margin:4px -5px 4px 4px;
 }
 .esriPrintIcon{
     background-image:url(../../assets/toolbar/Print.PNG);
@@ -314,15 +315,29 @@ body {
     display:inline-block;
     height:48px;
     width:48px;
-    margin:4px 0 4px 4px;
+    margin:4px -5px 4px 4px;
 }
+
+.esriPrint .dijitArrowButtonInner{
+    background-position: right;
+}
+/*.esriPrint .dijitReset .dijitInline .dijitButtonText{
+    display:inline;
+    color:white;
+    background-color: black;
+}
+
+.esriPrint .dijitReset .dijitInline .dijitIcon .dijitNoIcon {
+    display: none;
+}*/
 .esriPrint{
     display:inline-block;
     padding:0px;
+
 }
 .claro .dijitComboButton:hover{
     color:#333;
-    background-color: #E2EBF2;
+    /*background-color: #E2EBF2;*/
 }
 .esriLoadingIcon{
     background-image:url(../../assets/loading_black.gif);
@@ -385,15 +400,13 @@ td.dijitMenuItemIconCell,td.dijitMenuItemLabel{
 .dijitMenuItem{
     padding:10px 10px !important;
 }
-/*change the default arrow used by the basemap dropdown button from black to gray*/
-.claro .dijitArrowButtonInner {
-    /*  background-image: url("../../assets/buttonArrows.png");
-      background-position:-152px 53%;*/
-}
+
 /*Use a white arrow for the dropdown*/
 .claro .dijitArrowButtonInner {
-    /*  background-image: url("../../assets/buttonArrows.png");
-      background-position:-53px 53% !important;*/
+    background-image: url("../../assets/toolbar/ArrowButton.png");
+    height: 56px;
+    width: 19px;
+    background-position: center;
 }
 /*Use a white arrow for the basemap, bookmarks and share dropdown buttons*/
 /*#basemapBtn_label + span, #shareButton_label + span, #bookmarkButton_label + span,#layerBtn_label  + span{
@@ -669,9 +682,6 @@ div#editDiv.templatePicker .grid  .selectedItem {
     margin-left: 30px;
 }
 
-/*.claro .dijitArrowButtonInner{
-    display: none !important;
-}*/
 
 .claro .dijitButtonText{
     display: none !important;
