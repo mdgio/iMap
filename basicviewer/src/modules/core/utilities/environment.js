@@ -5,7 +5,8 @@ define(["dojo/_base/declare", "dojo/has", "dojo/window"],
         var BrowserEnv = declare("BrowserEnv", [], {
             TouchEnabled: has("touch")
             , WindowWidth: has('device-width')
-            , WindowHeight: (has('ie') < 9) ? document.body.clientHeight : win.getBox().h
+            //This is a hack for ie 8 and 7, not sure what property is available on startup
+            , WindowHeight: (has('ie') < 9) ? 1000 : win.getBox().h
             , IframeEmbedded: !(top === self)
             , LocalStorage: (localStorage != null)
         });

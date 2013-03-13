@@ -6,6 +6,17 @@
     background-color: #2c7fff;
 }
 
+.tipDialog {
+    width: 220px;
+}
+
+.tipDialogCont {
+    margin: 0px;
+    padding: 0px;
+    max-height: 80px;
+    overflow: auto;
+}
+
 .navlist {
     position: absolute;
     margin: 0px;
