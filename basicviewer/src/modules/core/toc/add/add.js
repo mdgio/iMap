@@ -19,7 +19,7 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "doj
             // The current tree showing in pane. Same object as added to list above
             , _currentTree: null
             , _toolTipDialog: null
-            , _dialogStandby: null
+            , _paneStandby: null
 
             //The event handlers below are not needed, unless for custom code.  They are here for reference.
             , constructor: function(args) {
@@ -28,8 +28,9 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "doj
             }
 
             //The dojo accordion, which this module inherits from, has been created and is accessible (though not actually shown yet)
-            , postCreate: function () {
+            , startup: function () {
                 this.inherited(arguments);
+                this._paneStandby = new Standby({target: this.domNode});
             }
             //The ContentPane has been created, but the actual contents are not created until the tab pane is clicked on, which calls this function
             , CreateContents: function () {
@@ -39,34 +40,40 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "doj
 
             //Swaps out or creates a tree of layers to show
             , _switchTree: function (indexOfTree) {
-                if (this._currentTree) { //If there is already a tree present, remove it
+                this._paneStandby.show();
+                try {
+                    if (this._currentTree) { //If there is already a tree present, remove it
+                        var presentInList = false;
+                        for (var i = 0; i < this._createdTrees.length; i++) {
+                            if (this._currentTree.index == this._createdTrees[i].index) { //Tree has already been added to list of created trees, don't add again
+                                presentInList = true;
+                                break;
+                            }
+                        }
+                        if (!presentInList) //Add this tree to the list, so if selected again later, don't have to re-create
+                            this._createdTrees.push(this._currentTree);
+                        //Remove the current tree from the ContentPane- once fully implemented, will actually probably need to remove it from a child of the ContentPane
+                        this.removeChild(this._currentTree.tree);
+                        this._currentTree = null;
+                    }
+                    //Now show or create the desired tree
                     var presentInList = false;
-                    for (var i = 0; i < this._createdTrees.length; i++) {
-                        if (this._currentTree.index == this._createdTrees[i].index) { //Tree has already been added to list of created trees, don't add again
+                    var p;
+                    for (p = 0; p < this._createdTrees.length; p++) {
+                        if (indexOfTree == this._createdTrees[p].index) {
                             presentInList = true;
                             break;
                         }
                     }
-                    if (!presentInList) //Add this tree to the list, so if selected again later, don't have to re-create
-                        this._createdTrees.push(this._currentTree);
-                    //Remove the current tree from the ContentPane- once fully implemented, will actually probably need to remove it from a child of the ContentPane
-                    this.removeChild(this._currentTree.tree);
-                    this._currentTree = null;
-                }
-                //Now show or create the desired tree
-                var presentInList = false;
-                var p;
-                for (p = 0; p < this._createdTrees.length; p++) {
-                    if (indexOfTree == this._createdTrees[p].index) {
-                        presentInList = true;
-                        break;
+                    if (presentInList) {
+                        this.addChild(this._createdTrees[p].tree);
+                    } else {
+                        this._createTree(p, this._layersJsonLoc[indexOfTree]);
                     }
+                } catch (ex) {
+                    console.log('_switchTree error: ' + ex.message);
                 }
-                if (presentInList) {
-                    this.addChild(this._createdTrees[p].tree);
-                } else {
-                    this._createTree(p, this._layersJsonLoc[indexOfTree]);
-                }
+                this._paneStandby.hide();
             }
 
             // Create new tree of layers, including the model and store. Should only be used by _switchTree fxn.
@@ -127,11 +134,13 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "doj
                 if (!this._toolTipDialog) { //Create a single tooltipdialog to be re-used
                     this._toolTipDialog = new TooltipDialog({
                         id: 'addDataTooltipDialog',
-                        style: "width: 200px;"
+                        class: "tipDialog"
                     });
                     var addBtn = new Button({
                         label: "Add",
                         onClick: lang.hitch(this, function(){
+                            popup.close(this._toolTipDialog);
+                            this._paneStandby.show();
                             this._addServiceToMap(item, node);
                         })
                     });
@@ -141,20 +150,21 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "doj
                             popup.close(this._toolTipDialog);
                         })
                     });
+                    var descPane = new ContentPane({
+                        class: 'tipDialogCont'
+                    });
                     this._toolTipDialog.addChild(addBtn);
                     this._toolTipDialog.addChild(closeBtn);
-                    //domConstruct.place('<div id="addDTDDesc"></div>', this._toolTipDialog.domNode);
-                    this._dialogStandby = new Standby({target: 'addDataTooltipDialog'});
+                    this._toolTipDialog.addChild(descPane);
+                    this._toolTipDialog.descriptionPane = descPane;
                 }
-                if (item.type === "MapServer") {
-                    //Append service information to node, so it will have it
+                if (item.type === "MapServer" || item.type === "ImageServer" || item.type === "Feature Layer") {
                     popup.open({
                         popup: this._toolTipDialog,
                         around: node.domNode
                     });
-                    this._dialogStandby.show();
                     //If service info has not been retrieved for this node, go get it
-                    if (!node.info) {
+                    if (!node.serviceInfo) {
                         var jsonRequest = esri.request({
                             url: item.url + "?f=json",
                             content: { f: "json" },
@@ -164,29 +174,69 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "doj
                         // Use lang.hitch to have the callbacks run in the scope of this module
                         jsonRequest.then(
                             lang.hitch(this, function(jsonResponse) { //The response should be a JSON object in the dijit/tree format required
-                                node.info = jsonResponse;
-                                //dom.byId('addDTDDesc').innerHTML = jsonResponse.serviceDescription;
-                                this._dialogStandby.hide();
+                                //Append service information to node, so it will have it
+                                node.serviceInfo = jsonResponse;
+                                this._toolTipDialog.descriptionPane.set('content', '<p>' + jsonResponse.serviceDescription + '</p>');
                             }), lang.hitch(this, function(error) {
                                 alert("Could not load info for service" + " : " + error.message);
-                                this._dialogStandby.hide();
                             })
                         );
                     } else {
-                        dom.byId('addDTDDesc').innerHTML = node.info.serviceDescription;
-                        this._dialogStandby.hide();
+                        this._toolTipDialog.descriptionPane.set('content', '<p>' + node.serviceInfo.serviceDescription + '</p>');
                     }
-
-                   /* var layer = esri.layers.ArcGISDynamicMapServiceLayer(item.url);
-                    layer.title = item.name;
-                    this.map.addLayer(layer);*/
-                } else {
-                    alert("This layer type is not supported.")
-                }
+                } else if (item.type === "KML" || item.type === "WMS") { //Don't try and get descriptions. Just set to type
+                    if (!node.serviceInfo)
+                        node.serviceInfo = { serviceDescription: item.type }
+                    this._toolTipDialog.descriptionPane.set('content', '<p>' + node.serviceInfo.serviceDescription + '</p>');
+                    popup.open({
+                        popup: this._toolTipDialog,
+                        around: node.domNode
+                    });
+                } else
+                    alert("This layer type is not supported.");
             }
 
             , _addServiceToMap: function (item, node) {
-
+                try {
+                    if (item.type === "MapServer") {
+                        var layer;
+                        //Check if map service is cached, if so, check if wkid matches map's wkid. If so, add as tiled layer.
+                        if (node.serviceInfo && node.serviceInfo.singleFusedMapCache == true && node.serviceInfo.spatialReference.wkid == this.map.spatialReference.wkid) {
+                            layer = esri.layers.ArcGISTiledMapServiceLayer(item.url);
+                        } else { //Otherwise add as dynamic layer
+                            layer = esri.layers.ArcGISDynamicMapServiceLayer(item.url);
+                        }
+                        layer.title = item.name;
+                        layer.serviceInfo = node.serviceInfo;
+                        this.map.addLayer(layer);
+                    } else if (item.type === "ImageServer") {
+                        var layer = esri.layers.ArcGISImageServiceLayer(item.url);
+                        layer.title = item.name;
+                        layer.serviceInfo = node.serviceInfo;
+                        this.map.addLayer(layer);
+                    } else if (item.type === "Feature Layer") {
+                        var layer = esri.layers.FeatureLayer(item.url);
+                        layer.title = item.name;
+                        layer.serviceInfo = node.serviceInfo;
+                        layer.serviceInfo = node.serviceInfo;
+                        this.map.addLayer(layer);
+                    } else if (item.type === "KML") {
+                        var layer = esri.layers.KMLLayer(item.url);
+                        layer.title = item.name;
+                        layer.serviceInfo = node.serviceInfo;
+                        this.map.addLayer(layer);
+                    } else if (item.type === "WMS") {
+                        var layer = esri.layers.WMSLayer(item.url);
+                        layer.title = item.name;
+                        layer.serviceInfo = node.serviceInfo;
+                        this.map.addLayer(layer);
+                    } else {
+                        alert("This layer type is not supported.");
+                    }
+                } catch (ex) {
+                    alert("Service could not be loaded in map : " + ex.message);
+                }
+                this._paneStandby.hide();
             }
         });
 });
