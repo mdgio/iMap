@@ -30,7 +30,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
              * and defer loading of the actual module until if/when the user actually clicks the button.
              * This is the place to create new buttons for new widgets. See existing displayinterop below for the best sample.*/
             , CreateTools: function () {
-                if (this._AppConfig.displayprint === "true" || this._AppConfig.displayprint === true) {
+                if (this._AppConfig.displayprint === "true" || this._AppConfig.displayprint == true) {
                     require(["esri/dijit/Print"],
                         lang.hitch(this, function(PrintDijit) {
                             this._addPrint(PrintDijit);
@@ -39,7 +39,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                 }
 
                 //The measure tool with options in a floating pane
-                if (this._AppConfig.displaymeasure === 'true' || this._AppConfig.displaymeasure === true) {
+                if (this._AppConfig.displaymeasure === 'true' || this._AppConfig.displaymeasure == true) {
                     /*require(["esri/dijit/Measurement"],
                         lang.hitch(this, function(MeasurementDijit) {
                             this._addMeasurementWidget(MeasurementDijit);
@@ -61,7 +61,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                 }
 
                 //*** The basemap tool. An example of loading a DropDownButton, which needs it contents loading before startup.
-                if (this._AppConfig.displaybasemaps === "true" || this._AppConfig.displaybasemaps === true) {
+                if (this._AppConfig.displaybasemaps === "true" || this._AppConfig.displaybasemaps == true) {
                     //Get the basemap dijit- a dropdown button with the dropdown content
                     require(["../basemaps"],
                         lang.hitch(this, function(basemapDijit) {
@@ -79,7 +79,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
 
                 //*** This is the add shapefile tool, created as a module. Use this as a pattern for new tools.
                 // The _AppConfig parameter originates in app.js, and can be overridden by AGO if parameter is made configurable in config.js.
-                if (this._AppConfig.displayinterop === "true" || this._AppConfig.displayinterop === true) {
+                if (this._AppConfig.displayinterop === "true" || this._AppConfig.displayinterop == true) {
                     //*** Give button a unique btnId, set title, iconClass as appropriate
                     var btnId = 'tglbtnInterop';
                     var btnTitle = 'Data';
@@ -95,7 +95,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                 }
 
                 //*** This is the location tool (GPS), created as a module. Use this as a pattern for new tools, if no floating pane needed.
-                if (this._AppConfig.displaylocation === "true" || this._AppConfig.displaylocation === true) {
+                if (this._AppConfig.displaylocation === "true" || this._AppConfig.displaylocation == true) {
                     //*** Give button a unique btnId, set title, iconClass as appropriate
                     var btnId = 'tglbtnLocation';
                     var btnTitle = 'Location';

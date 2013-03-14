@@ -50,8 +50,8 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                 , FinalizeLayout: function(webMap, map) {
                     this._WebMap = webMap;
                     this._Map = map;
-                    var appTitle = this._AppConfig.title || this._WebMap.item.title;
-                    document.title = appTitle;
+                    this._AppConfig.title = this._AppConfig.title || this._WebMap.item.title;
+                    document.title = this._AppConfig.title;
                     this._AppConfig.owner = this._WebMap.item.owner;
 
                     //Overlay toolbar on map
@@ -70,7 +70,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                                 } else
                                     titleHtml = '<img border="0" alt="MD Logo" src="' +  this._AppConfig.titleLogoUrl + '">';
                             }
-                            titleHtml += "<div class='titleDiv'>" + appTitle + "</div>";
+                            titleHtml += "<div class='titleDiv'>" + this._AppConfig.title + "</div>";
                             dojo.create("div", {
                                 id: 'webmapTitle',
                                 innerHTML: titleHtml

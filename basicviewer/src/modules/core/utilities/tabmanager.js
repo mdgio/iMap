@@ -23,7 +23,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
             , CreateLeftPaneTabs: function () {
                 var leftTabCont = registry.byId('leftPane');
                 // Details panel- This pane gets created right away, since it is so simple and usually the start pane.
-                if ((this._AppConfig.displaydetails === 'true' || this._AppConfig.displaydetails === true) && this._AppConfig.description !== "") {
+                if ((this._AppConfig.displaydetails === 'true' || this._AppConfig.displaydetails == true) && this._AppConfig.description !== "") {
                     //*** Check if this pane was set to be the startup pane in app.js or AGO. Replace the param name in next line.
                     var selectedPane = (this._AppConfig.startupwidget === 'displaydetails') ? true : false;
                     var detailCp = new contentPane({
@@ -45,7 +45,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                 }
 
                 //*** Table of Contents- use as an example of lazy-loading a pane at runtime
-                if ((this._AppConfig.tablecontents === 'true' || this._AppConfig.tablecontents === true)) {
+                if ((this._AppConfig.tablecontents === 'true' || this._AppConfig.tablecontents == true)) {
                     //*** Check if this pane was set to be the startup pane in app.js or AGO. Replace the param name in next line.
                     var configParamName = 'tablecontents';
                     //*** Constructor params for the tab (which is a contentpane- http://dojotoolkit.org/reference-guide/1.8/dijit/layout/ContentPane.html).
@@ -67,7 +67,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                 }
 
                 // Editor Panel - not implemented yet
-                if (this._AppConfig.displayeditor == 'true' || this._AppConfig.displayeditor === true) {
+                if (this._AppConfig.displayeditor == 'true' || this._AppConfig.displayeditor == true) {
                     //do we have any editable layers - if not then disregard
                     var editLayers = this._hasEditableLayers(layers);
                     if (editLayers.length > 0) {

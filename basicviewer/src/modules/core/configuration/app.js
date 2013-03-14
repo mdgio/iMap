@@ -181,7 +181,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                             /*if (response.values.headerbanner !== undefined) {
                                 configOptions.headerbanner = response.values.headerbanner;
                             }*/
-                            if (response.values.displaytitle) {
+                            if (response.values.displaytitle != undefined) {
                                 configOptions.displaytitle = response.values.displaytitle;
                             }
                             if (response.values.theme) {
@@ -190,32 +190,32 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                             if (response.values.description) {
                                 configOptions.description = response.values.description;
                             }
-                            if (response.values.displaydetails) {
+                            if (response.values.displaydetails != undefined) {
                                 configOptions.displaydetails = response.values.displaydetails;
                             }
-                            if (response.values.tablecontents) {
+                            if (response.values.tablecontents != undefined) {
                                 configOptions.tablecontents = response.values.tablecontents;
                             }
-                            if (response.values.displayeditor) {
+/*                            if (response.values.displayeditor != undefined) {
                                 configOptions.displayeditor = response.values.displayeditor;
-                            }
+                            }*/
                             if (response.values.startupwidget) {
                                 configOptions.startupwidget = response.values.startupwidget;
                             }
-                            if (response.values.displayprint) {
+                            if (response.values.displayprint != undefined) {
                                 configOptions.displayprint = response.values.displayprint;
                             }
-                            if (response.values.displaytimeslider) {
+/*                            if (response.values.displaytimeslider != undefined) {
                                 configOptions.displaytimeslider = response.values.displaytimeslider;
-                            }
-                            if (response.values.displaybookmarks) {
+                            }*/
+/*                            if (response.values.displaybookmarks != undefined) {
                                 configOptions.displaybookmarks = response.values.displaybookmarks;
-                            }
-                            if (response.values.displaymeasure) {
+                            }*/
+/*                            if (response.values.displaymeasure != undefined) {
                                 configOptions.displaymeasure = response.values.displaymeasure;
-                            }
-                            if (response.values.displaylocation) {
-                                configOptions.displaymeasure = response.values.displaymeasure;
+                            }*/
+                            if (response.values.displaylocation != undefined) {
+                                configOptions.displaylocation = response.values.displaylocation;
                             }
                             /*if (response.values.displaylegend !== undefined) {
                                 configOptions.displaylegend = response.values.displaylegend;
@@ -223,25 +223,25 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                             /*if (response.values.displaylayerlist !== undefined) {
                                 configOptions.displaylayerlist = response.values.displaylayerlist;
                             }*/
-                            if (response.values.displaybasemaps) {
+                            if (response.values.displaybasemaps != undefined) {
                                 configOptions.displaybasemaps = response.values.displaybasemaps;
                             }
-                            if (response.values.displayshare) {
+/*                            if (response.values.displayshare != undefined) {
                                 configOptions.displayshare = response.values.displayshare;
-                            }
-                            if (response.values.displaysearch) {
+                            }*/
+                            if (response.values.displaysearch != undefined) {
                                 configOptions.displaysearch = response.values.displaysearch;
                             }
-                            if (response.values.displayslider) {
+/*                            if (response.values.displayslider) {
                                 configOptions.displayslider = response.values.displayslider;
-                            }
+                            }*/
                             /*if (response.values.displayelevation !== undefined) {
                                 configOptions.displayelevation = response.values.displayelevation;
                             }
                             if (response.values.showelevationdifference !== undefined) {
                                 configOptions.showelevationdifference === response.values.showelevationdifference;
                             }*/
-                            if (response.values.displayoverviewmap) {
+                            if (response.values.displayoverviewmap != undefined) {
                                 configOptions.displayoverviewmap = response.values.displayoverviewmap;
                             }
                             if (response.values.webmap) {
@@ -262,7 +262,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                             if (response.values.placefinderurl) {
                                 configOptions.placefinder.url = response.values.placefinderurl;
                             }
-                            if (response.values.embed) {
+                            if (response.values.embed != undefined) {
                                 configOptions.embed = response.values.embed;
                             }
                             if (response.values.customlogoimage) {
@@ -271,11 +271,11 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                             if (response.values.customlogolink) {
                                 configOptions.customlogo.link = response.values.customlogolink;
                             }
-                            if (response.values.basemapgrouptitle && response.values.basemapgroupowner) {
+                            /*if (response.values.basemapgrouptitle && response.values.basemapgroupowner) {
                                 configOptions.basemapgroup.title = response.values.basemapgrouptitle;
                                 configOptions.basemapgroup.owner = response.values.basemapgroupowner;
-                            }
-                            if (response.values.displayinterop)
+                            }*/
+                            if (response.values.displayinterop != undefined)
                                 configOptions.displayinterop = response.values.displayinterop;
 
                             this._checkForOverrides(urlObject, configOptions);

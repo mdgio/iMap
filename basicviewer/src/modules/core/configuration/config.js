@@ -7,23 +7,23 @@
  */
 {
     "values": {
-        "displaybasemaps": "true",
-            "tablecontents": "true",
-            "displaylegend": "true",
-            "displayshare": "true",
-            "displaymeasure": "false",
-            "displaylocation": "false",
-            "displayelevation": "false",
-            "showelevationdifference": "false",
-            "theme": "gray",
-            "displaydetails": "true",
+        "displaybasemaps": true,
+            "tablecontents": true,
+            "displayshare": false,
+            "displaymeasure": false,
+            "displaylocation": true,
+            "displayelevation": false,
+            "showelevationdifference": false,
+            "theme": "imap",
+            "displaydetails": true,
             "startupwidget": "displaydetails",
-            "displayeditor": "true",
-            "displayoverviewmap": "true",
-            "displaytimeslider": "true",
-            "displayprint": "false",
-            "displaysearch": "true",
-            "displaydraw": "false"
+            "displayeditor": false,
+            "displayoverviewmap": true,
+            "displaytimeslider": false,
+            "displayprint": true,
+            "displaysearch": true,
+            "displaydraw": false,
+            "embed": false
     },
     "configurationSettings": [{
         "category": "<b>Layout</b>",
@@ -122,6 +122,11 @@
             "fieldName": "leftpanewidth",
             "type": "string",
             "tooltip": "in pixels"
+        },{
+            "label": "Embed in Host Page",
+            "fieldName": "embed",
+            "type": "boolean",
+            "tooltip": ""
         }]
     }, {
         "category": "<b>Widgets</b>",

@@ -23,7 +23,7 @@
             "displaytimeslider": "true",
             "displayprint": "false",
             "displaysearch": "true",
-            "displaydraw": "false"
+            "displaydraw": "false",
     },
     "configurationSettings": [{
         "category": "<b>Layout</b>",
@@ -123,6 +123,7 @@
             "type": "string",
             "tooltip": "in pixels"
         }]
+
     }, {
         "category": "<b>Widgets</b>",
         "fields": [{
