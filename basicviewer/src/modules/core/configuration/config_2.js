@@ -126,7 +126,7 @@
     }, {
         "category": "<b>Widgets</b>",
         "fields": [{
-            "label": "Details",
+            "label": "Details *",
             "fieldName": "displaydetails",
             "type": "boolean",
             "tooltip": "Descriptions"
@@ -135,6 +135,11 @@
             "fieldName": "tablecontents",
             "type": "boolean",
             "tooltip": "Legend and Add Data"
+        }, {
+            "label": "Editor *",
+            "fieldName": "displayeditor",
+            "type": "boolean",
+            "tooltip": "Display editor if web map contains feature service layer"
         }, {
             "label": "Startup Widget:",
             "fieldName": "startupwidget",
@@ -146,14 +151,25 @@
                 "label": "Table of Contents",
                 "value": "tablecontents"
             }, {
+                "label": "Editor",
+                "value": "displayeditor"
+            }, {
                 "label": "None",
                 "value": "none"
             }],
             "tooltip": "Widget to show in left panel on load"
+        }, {
+            "value": "* These menu items will appear in the application when the web map has layers that require them.",
+            "type": "paragraph"
         }]
     }, {
         "category": "<b>Tools</b>",
         "fields": [{
+            "label": "Time Slider *",
+            "fieldName": "displaytimeslider",
+            "type": "boolean",
+            "tooltip": "Display time slider for time enabled web map"
+        }, {
             "label": "Print",
             "fieldName": "displayprint",
             "type": "boolean",
@@ -164,8 +180,23 @@
             "type": "boolean",
             "tooltip": ""
         }, {
+            "label": "Bookmarks",
+            "fieldName": "displaybookmarks",
+            "type": "boolean",
+            "tooltip": "Display the read-only bookmarks contained in the web map."
+        }, {
+            "label": "Measure",
+            "fieldName": "displaymeasure",
+            "type": "boolean",
+            "tooltip": ""
+        }, {
             "label": "Location",
             "fieldName": "displaylocation",
+            "type": "boolean",
+            "tooltip": ""
+        }, {
+            "label": "Share",
+            "fieldName": "displayshare",
             "type": "boolean",
             "tooltip": ""
         }, {
