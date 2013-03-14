@@ -50,7 +50,7 @@
         , "esri/dijit/Measurement", "esri/dijit/TimeSlider", "esri/dijit/editing/Editor-all", "esri/IdentityManager", "dojox/layout/FloatingPane"
         , "esri/dijit/Bookmarks", "esri/dijit/Attribution"*//*, "myModules/custommenu"*//*, "esri/dijit/Print"*//*, "apl/ElevationsChart/Pane"*//*, "dijit/MenuItem"*/]
     //The callback to run once Dojo and the required modules are ready.  References to the instantiated objects in the array can be exposed
-    // as parameters in the callback functhistion, but a parameter does not have to be inserted for each array item
+    // as parameters in the callback function, but a parameter does not have to be inserted for each array item
     , function(parser, /*$,*/ dom, ready, lang, require, environment, app, mapConfig, layout) {
        ready(function() {
             parser.parse();

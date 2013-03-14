@@ -23,7 +23,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
 
                 this._LeftToolDiv = dom.byId("webmap-toolbar-left");
                 this._CenterToolDiv = dom.byId("webmap-toolbar-center");
-                this._RightToolDiv = dom.byId("webmap-toolbar-right");
+                //this._RightToolDiv = dom.byId("webmap-toolbar-right");
             }
 
             /*** Function to handle loading the toolbar at the top of the map.  Many of the tools only create a button at startup

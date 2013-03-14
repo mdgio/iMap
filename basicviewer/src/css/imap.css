@@ -17,29 +17,41 @@ body {
    background:url(../../assets/imap/sidebar_header_active_bg.png) repeat-x #808080;
 }
 .dojoxFloatingPaneTitle{
-  background:url(../../assets/imap/toolbar_bg.png) repeat-x #282828;
+  background:url(../../assets/imap/toolbar_bg.png) repeat-x;
 }
 
 /* Change color of tab menu*/
 .claro .dijitTab{
-    background-color: #6d7d86;
+/*    background-color: #737171;
     background-image: none !important;
-    color: #ffffff;
+    color: #ffffff;*/
+    background: url(../../assets/imap/toolbar_bg.png) repeat-x #C0C0C0;
+    border: solid 1px #282828;
+    color: white;
 }
-.claro .dijitTablisContainer{
-    background-color: #6d7d86;
+.claro .dijitTabListContainer{
+    /*background-color: #737171;*/
+    background: url(../../assets/imap/toolbar_bg.png) repeat-x #C0C0C0;
+    border: solid 1px #282828;
+
+}
+
+.claro .dijitTabContainerTop-tabs .dijitTab {
+    background: url(../../assets/imap/toolbar_bg.png) repeat-x #C0C0C0;
+    border: solid 1px #282828;
 }
 
 .claro .dijitTabListContainer-top .dijitTabStripButtonDisabled{
-    background-color: #6d7d86;
+    background-color: #737171;
 }
 
 .claro .dijitTabListContainer-bottom .dijitTabStripButtonDisabled{
-    background-color: #6d7d86;
+    background-color: #737171;
+
 }
 
 .claro .dijitTabListContainer-top .dijitContentPane{
-    background-color: #6d7d86;
+    background-color: #737171;
 }
 
 .claro .dijitTabController{
@@ -47,8 +59,10 @@ body {
 }
 
 .claro .dijitTabContainerTop-tabs .dijitTabChecked {
-    background-color: #6d7d86;
-    background-image: none !important;
+    /*background-color: #737171;*/
+    background: url(../../assets/imap/toolbar_bg.png) repeat-x #C0C0C0;
+    border: solid 1px #282828;
+
 }
 .claro .dijitTabListContainer-top .tabStripButton{
     background-image: none !important;
@@ -63,7 +77,7 @@ body {
     background-color: #ececec;
 }
 .claro .dijitTabListContainer-top .tabStripButtonDisabled, .claro .dijitTabListContainer-bottom .tabStripButtonDisabled{
-    background-color: #6d7d86;
+    background-color: #737171;
 }
 
 
