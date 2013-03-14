@@ -4,10 +4,10 @@
  * connector (dojo/aspect) does not obtain the proper callback parameters.
  */
 define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "dojo/store/Memory", "dijit/tree/ObjectStoreModel", "dijit/Tree", "dijit/layout/ContentPane"
-    , "../../utilities/maphandler", "dojo/_base/lang", "dijit/TooltipDialog", "dijit/popup", "dojo/on", "dijit/form/Button", "dojox/widget/Standby"
-    , "dojo/dom-construct", "dojo/_base/connect"],
+    , "../utilities/maphandler", "dojo/_base/lang", "dijit/TooltipDialog", "dijit/popup", "dojo/on", "dijit/form/Button", "dojox/widget/Standby"
+    , "dojo/dom-construct", "dojo/_base/connect", "../utilities/environment"],
     function (declare, WidgetBase, dom, json, Memory, ObjectStoreModel, Tree, ContentPane, mapHandler, lang, TooltipDialog, popup, on, Button
-        , Standby, domConstruct, connect) {
+        , Standby, domConstruct, connect, environment) {
         return declare([WidgetBase, ContentPane], {
             //*** The ESRI map object
             map: null
@@ -22,6 +22,9 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "doj
             , _currentTree: null
             , _toolTipDialog: null
             , _paneStandby: null
+            //These two items are just track the currently selected node for adding to the map
+            , _selectedItem: null
+            , _selectedNode: null
 
             //The event handlers below are not needed, unless for custom code.  They are here for reference.
             , constructor: function(args) {
@@ -122,8 +125,15 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "doj
                             model: newTree.model,
                             onOpenClick: true,
                             onClick: lang.hitch(this, function (item, node, evt){ // When a node is clicked, add it to the map
-                                if (item.type) //make sure its a service node and not a folder node
+                                this._selectedItem = null;
+                                this._selectedNode = null;
+                                if (this._toolTipDialog)
+                                    this._toolTipDialog.descriptionPane.set('content', '<p></p>');
+                                if (item.type) { //make sure its a service node and not a folder node
+                                    this._selectedItem = item;
+                                    this._selectedNode = node;
                                     this._showServiceTooltip(item, node);
+                                }
                             })
                         });
                         this.addChild(newTree.tree);
@@ -136,8 +146,8 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "doj
             , _showServiceTooltip: function (item, node) {
                 if (!this._toolTipDialog) { //Create a single tooltipdialog to be re-used
                     this._toolTipDialog = new TooltipDialog({
-                        id: 'addDataTooltipDialog',
-                        class: "tipDialog"
+                        "id": 'addDataTooltipDialog',
+                        "class": "tipDialog"
                         /*, content: '<button id="btnAddDataTip" type="button">Add</button><button id="btnCloseDataTip" type="button">Close</button>'*/
                     });
                     this._toolTipDialog.startup();
@@ -148,7 +158,7 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "doj
                         , onClick: lang.hitch(this, function(){
                             popup.close(this._toolTipDialog);
                             this._paneStandby.show();
-                            this._addServiceToMap(item, node);
+                            this._addServiceToMap();
                         })
                     });
                     var closeBtn = new Button({
@@ -159,7 +169,7 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "doj
                         })
                     });
                     var descPane = new ContentPane({
-                        class: 'tipDialogCont'
+                        "class": 'tipDialogCont'
                     });
                     this._toolTipDialog.addChild(addBtn);
                     this._toolTipDialog.addChild(closeBtn);
@@ -182,15 +192,22 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "doj
                         // Use lang.hitch to have the callbacks run in the scope of this module
                         jsonRequest.then(
                             lang.hitch(this, function(jsonResponse) { //The response should be a JSON object in the dijit/tree format required
-                                //Append service information to node, so it will have it
+                                //Append service information to node, so it will have it. Also create links in the service description.
                                 node.serviceInfo = jsonResponse;
-                                this._toolTipDialog.descriptionPane.set('content', '<p>' + jsonResponse.serviceDescription + '</p>');
+                                if (node.serviceInfo.serviceDescription) {
+                                    node.serviceInfo.serviceDescription = environment.CreateLinksInString(node.serviceInfo.serviceDescription);
+                                    node.serviceInfo.hasCreatedLinks = true;
+                                } else if (node.serviceInfo.description) {
+                                    node.serviceInfo.description = environment.CreateLinksInString(node.serviceInfo.description);
+                                    node.serviceInfo.hasCreatedLinks = true;
+                                }
+                                this._toolTipDialog.descriptionPane.set('content', '<p>' + (node.serviceInfo.serviceDescription || node.serviceInfo.description) + '</p>');
                             }), lang.hitch(this, function(error) {
                                 alert("Could not load info for service" + " : " + error.message);
                             })
                         );
                     } else //Already have serviceinfo, so display it
-                        this._toolTipDialog.descriptionPane.set('content', '<p>' + node.serviceInfo.serviceDescription + '</p>');
+                        this._toolTipDialog.descriptionPane.set('content', '<p>' + (node.serviceInfo.serviceDescription || node.serviceInfo.description) + '</p>');
                 } else if (item.type === "KML" || item.type === "WMS") { //Don't try and get descriptions. Just set to type
                     if (!node.serviceInfo)
                         node.serviceInfo = { serviceDescription: item.type }
@@ -203,7 +220,9 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "doj
                     alert("This layer type is not supported.");
             }
 
-            , _addServiceToMap: function (item, node) {
+            , _addServiceToMap: function () {
+                var item = this._selectedItem;
+                var node = this._selectedNode;
                 try {
                     var layer;
                     if (item.type === "MapServer") {
