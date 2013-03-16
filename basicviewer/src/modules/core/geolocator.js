@@ -63,7 +63,7 @@ define(["dojo/_base/declare", "dojo/on", "dojo/_base/lang", "esri/dijit/Geocoder
                     //if (map.infoWindow != null)
                     //    map.infoWindow.hide();
                     //map.infoWindow = this._popup;
-                    if (response.results == 'undefined') {
+                    if (response.results && response.results.length > 0) {
                         dojo.forEach(response.results, lang.hitch(this, function(r) {
                             r.feature.attributes.name = r.name;
                             r.feature.setSymbol(this._symbol);

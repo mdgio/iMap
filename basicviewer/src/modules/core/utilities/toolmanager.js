@@ -22,8 +22,9 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                 this._WebMap = args.WebMap;
 
                 this._LeftToolDiv = dom.byId("webmap-toolbar-left");
-                this._CenterToolDiv = dom.byId("webmap-toolbar-center");
+                //this._CenterToolDiv = dom.byId("webmap-toolbar-center");
                 //this._RightToolDiv = dom.byId("webmap-toolbar-right");
+                this._ToolsDiv = dom.byId("tools");
             }
 
             /*** Function to handle loading the toolbar at the top of the map.  Many of the tools only create a button at startup
@@ -72,7 +73,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                                 AppConfig: this._AppConfig
                             });
                             //Button gets added to toolbar
-                            this._CenterToolDiv.appendChild(baseMapBtn.domNode);
+                            this._ToolsDiv.appendChild(baseMapBtn.domNode);
                         })
                     );
                 }
@@ -122,7 +123,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     id: btnId
                 });
                 //Button gets added to toolbar
-                this._CenterToolDiv.appendChild(theBtn.domNode);
+                this._ToolsDiv.appendChild(theBtn.domNode);
                 //On the first click, dynamically load the module from the server. Then remove the click handler. lang.hitch keeps the scope in this module
                 var toolClick = on(theBtn, "click", lang.hitch(this, function () {
                     toolClick.remove();
@@ -156,7 +157,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                 }, dojo.create('span'));
 
                 query('.esriPrint').addClass('esriPrint');
-                this._CenterToolDiv.appendChild(printer.printDomNode);
+                this._ToolsDiv.appendChild(printer.printDomNode);
                 printer.startup();
             }
 
@@ -204,7 +205,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                 on(toggleButton, "onClick", lang.hitch(this, function () {
                     this._toggleMeasure();
                 }));
-                this._CenterToolDiv.appendChild(toggleButton.domNode);
+                this._ToolsDiv.appendChild(toggleButton.domNode);
             }
 
             //Show/hide the measure widget when the measure button is clicked.
@@ -223,7 +224,6 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                         measure.setTool(measure.activeTool, false);
                     }
                 }
-
             }
         });
     }

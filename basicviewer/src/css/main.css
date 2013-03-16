@@ -145,11 +145,12 @@ body {
 }
 /*styles for the top toolbar and buttons*/
 #toolbarContainer{
-    overflow:hidden;
+    overflow: visible;
     font-variant: small-caps;
     font-size: 16px;
     font-weight: 900;
-    width:100% !important;
+    float: right;
+    /*width:100% !important;*/
     padding:0px !important;
     height:56px;
     background-color: rgba(255, 255, 255, 0);
@@ -160,12 +161,13 @@ body {
 /*override claro background and other props*/
 /*#toolbarContainer .dijitToolbar {*/
 #toolbarDij {
-    width:100% !important;
-    overflow:hidden;
+    /*width:100% !important;*/
+    overflow: visible;
     font-variant: small-caps;
     font-size: 16px;
     font-weight: 900;
     position: relative;
+    float: right;
     /*height:100%;*/
     height:56px;
     background-color: rgba(255, 255, 255, 0);
@@ -181,13 +183,11 @@ body {
 .claro .dijitToolbar .dijitToggleButtonChecked .dijitButtonNode {
     color:#333;
     border-style: solid;
-
 }
 
 .claro .dijitToolbar  .dijitButtonNode{
     padding: 5px;
     background: none !important;
-
 }
 
 
@@ -199,14 +199,20 @@ body {
 
 #webmap-toolbar-center {
     margin: 0 auto;
-    overflow:hidden;
+    overflow: hidden;
     display: table;
 }
 
 #webmap-toolbar-right {
     float: right;
-    width:275px;
-    display: inline-block;
+    width: 100%;
+    display: block;
+    overflow: visible;
+}
+
+#tools{
+    display: inline;
+    float: right;
 }
 
 /*Style for company logo added to the map*/
@@ -216,6 +222,7 @@ body {
     position:absolute;
     right:15px;
     z-index:98;
+    margin-bottom: 18px;
 }
 .logo img{
     border:none;
@@ -307,7 +314,7 @@ body {
     display:inline-block;
     height:48px;
     width:48px;
-    margin:4px -5px 4px 4px;
+    margin:4px -7px 4px 4px;
 }
 .esriPrintIcon{
     background-image:url(../../assets/toolbar/Print.PNG);
@@ -315,7 +322,7 @@ body {
     display:inline-block;
     height:48px;
     width:48px;
-    margin:4px -5px 4px 4px;
+    margin:4px -7px 4px 4px;
 }
 
 .esriPrint .dijitArrowButtonInner{
@@ -389,7 +396,7 @@ body {
     color: #000000;
 }
 /*styles for the share dropdown menu items*/
-.iconLink{
+.Link{
     text-decoration:none;
     border: 0 none;
     color:#333;
@@ -403,6 +410,12 @@ td.dijitMenuItemIconCell,td.dijitMenuItemLabel{
 
 /*Use a white arrow for the dropdown*/
 .claro .dijitArrowButtonInner {
+    background-image: url("../../assets/toolbar/ArrowButton.png");
+    height: 56px;
+    width: 19px;
+    background-position: center;
+}
+.claro .dijitDisabled .dijitArrowButtonInner {
     background-image: url("../../assets/toolbar/ArrowButton.png");
     height: 56px;
     width: 19px;
@@ -677,9 +690,11 @@ div#editDiv.templatePicker .grid  .selectedItem {
 #search {
     inline: block;
     float: right;
-    position: absolute;
+    position: relative;
     z-index: 70;
-    margin-left: 30px;
+    margin-left: 15px;
+    margin-right: 15px;
+    padding-top: 8px;
 }
 
 
