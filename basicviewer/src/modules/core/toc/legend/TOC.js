@@ -377,7 +377,7 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/_
                     }
                 }
                 if (nextTocNode == null && !restrictToGraphicsLyrs) {
-                    lyrFoundInMap = false;
+                    //lyrFoundInMap = false;
                     for (var j = this.map.layerIds.length - 1; j >= 0; j--) {
                         var mapLayerId = this.map.layerIds[j];
                         if (!lyrFoundInMap) {
