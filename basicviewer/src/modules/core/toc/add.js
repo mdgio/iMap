@@ -1,5 +1,6 @@
 /**
- * The Add Data dijit. Loads a JSON object of services and their URLs into a dijit tree. User can then add them to the map.
+ * The Add Data dijit. Loads a JSON object of services and their URLs into a dijit tree. User can then add them to the map. It is setup to allow
+ * the use of multiple trees of services to be swapped in/out.
  * Using dojo/_base/connect to connect to map event fxns. This is deprecated along with dojo.connect, but the seemingly appropriate
  * connector (dojo/aspect) does not obtain the proper callback parameters.
  */
@@ -20,9 +21,11 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "doj
             , _createdTrees: []
             // The current tree showing in pane. Same object as added to list above
             , _currentTree: null
+            //Available for parent to know if add data contents have been created
+            , ContentsCreated: false
             , _toolTipDialog: null
             , _paneStandby: null
-            //These two items are just track the currently selected node for adding to the map
+            //These two items just track the currently selected node for adding to the map
             , _selectedItem: null
             , _selectedNode: null
 
@@ -40,6 +43,7 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "doj
             }
             //The ContentPane has been created, but the actual contents are not created until the tab pane is clicked on, which calls this function
             , CreateContents: function () {
+                this.ContentsCreated = true;
                 //Show the first tree in the list on initial viewing
                 this._switchTree(0);
             }
@@ -71,15 +75,16 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "doj
                             break;
                         }
                     }
-                    if (presentInList) {
+                    if (presentInList) { //The desire tree has already been created, so add to contentpane to display
                         this.addChild(this._createdTrees[p].tree);
-                    } else {
+                        this._paneStandby.hide();
+                    } else { //Need to go out and get the JSON to populate a new tree.
                         this._createTree(p, this._layersJsonLoc[indexOfTree]);
                     }
                 } catch (ex) {
+                    this._paneStandby.hide();
                     console.log('_switchTree error: ' + ex.message);
                 }
-                this._paneStandby.hide();
             }
 
             // Create new tree of layers, including the model and store. Should only be used by _switchTree fxn.
@@ -101,8 +106,7 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "doj
                     handleAs: "json",
                     callbackParamName: "callback"
                 });
-                // Use lang.hitch to have the callbacks run in the scope of this module
-                jsonRequest.then(
+                jsonRequest.then( // Use lang.hitch to have the callbacks run in the scope of this module
                     lang.hitch(this, function(jsonResponse) { //The response should be a JSON object in the dijit/tree format required
                         var newTree = { index: index };
                         // set up the store to get the tree data
@@ -112,7 +116,7 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "doj
                                 return object.children || [];
                             }
                         });
-                        // set up the model, assigning iMapStore, and assigning method to identify leaf nodes of tree
+                        // set up the model, assigning store, and assigning method to identify leaf nodes of tree
                         newTree.model = new ObjectStoreModel({
                             store: newTree.store,
                             query: {id: 'root'},
@@ -124,10 +128,10 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "doj
                         newTree.tree = new Tree({
                             model: newTree.model,
                             onOpenClick: true,
-                            onClick: lang.hitch(this, function (item, node, evt){ // When a node is clicked, add it to the map
+                            onClick: lang.hitch(this, function (item, node, evt){ // When a node is clicked, open the tooltip
                                 this._selectedItem = null;
                                 this._selectedNode = null;
-                                if (this._toolTipDialog)
+                                if (this._toolTipDialog) //clear the old contents of the description
                                     this._toolTipDialog.descriptionPane.set('content', '<p></p>');
                                 if (item.type) { //make sure its a service node and not a folder node
                                     this._selectedItem = item;
@@ -137,25 +141,26 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "doj
                             })
                         });
                         this.addChild(newTree.tree);
+                        this._paneStandby.hide();
                     }), lang.hitch(this, function(error) {
                         alert("Unable to load list of services" + " : " + error.message);
+                        this._paneStandby.hide();
                     })
                 );
             }
 
             , _showServiceTooltip: function (item, node) {
-                if (!this._toolTipDialog) { //Create a single tooltipdialog to be re-used
+                if (!this._toolTipDialog) { //Create a single tooltipdialog to be re-used for all selected nodes
                     this._toolTipDialog = new TooltipDialog({
                         "id": 'addDataTooltipDialog',
                         "class": "tipDialog"
-                        /*, content: '<button id="btnAddDataTip" type="button">Add</button><button id="btnCloseDataTip" type="button">Close</button>'*/
                     });
                     this._toolTipDialog.startup();
                     var addBtn = new Button({
                         label: "Add"
                         , iconClass: "toolTipAddBtn"
                         , style: "margin: 0px 10px 0px 0px;"
-                        , onClick: lang.hitch(this, function(){
+                        , onClick: lang.hitch(this, function(){ //Close the popup and call the fxn that adds the service to the map
                             popup.close(this._toolTipDialog);
                             this._paneStandby.show();
                             this._addServiceToMap();
@@ -164,11 +169,11 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "doj
                     var closeBtn = new Button({
                         label: "Close"
                         , iconClass: "toolTipCloseBtn"
-                        , onClick: lang.hitch(this, function(){
+                        , onClick: lang.hitch(this, function(){ //Close the popup
                             popup.close(this._toolTipDialog);
                         })
                     });
-                    var descPane = new ContentPane({
+                    var descPane = new ContentPane({ //Service description will go in here
                         "class": 'tipDialogCont'
                     });
                     this._toolTipDialog.addChild(addBtn);
@@ -176,18 +181,20 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "doj
                     this._toolTipDialog.addChild(descPane);
                     this._toolTipDialog.descriptionPane = descPane;
                 }
+                //Now show the popup
                 if (item.type === "MapServer" || item.type === "ImageServer" || item.type === "Feature Layer") {
                     popup.open({
                         popup: this._toolTipDialog,
                         around: node.domNode
                     });
-                    //If service info has not been retrieved for this node, go get it
+                    //If selected node's serviceinfo has not been retrieved for this node, go get it
                     if (!node.serviceInfo) {
                         var jsonRequest = esri.request({
                             url: item.url + "?f=json",
                             content: { f: "json" },
                             handleAs: "json",
-                            callbackParamName: "callback"
+                            callbackParamName: "callback",
+                            timeout: 10000
                         });
                         // Use lang.hitch to have the callbacks run in the scope of this module
                         jsonRequest.then(
@@ -203,10 +210,10 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "doj
                                 }
                                 this._toolTipDialog.descriptionPane.set('content', '<p>' + (node.serviceInfo.serviceDescription || node.serviceInfo.description) + '</p>');
                             }), lang.hitch(this, function(error) {
-                                alert("Could not load info for service" + " : " + error.message);
+                                this._toolTipDialog.descriptionPane.set('content', '<p>Could not load description.</p>');
                             })
                         );
-                    } else //Already have serviceinfo, so display it
+                    } else //Already have serviceinfo for the selected node, so display it
                         this._toolTipDialog.descriptionPane.set('content', '<p>' + (node.serviceInfo.serviceDescription || node.serviceInfo.description) + '</p>');
                 } else if (item.type === "KML" || item.type === "WMS") { //Don't try and get descriptions. Just set to type
                     if (!node.serviceInfo)
@@ -247,6 +254,7 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "doj
                     layer.title = item.name;
                     //Take on the REST endpoint's serviceinfo JSON. Legend can then check for it and use it.
                     layer.serviceInfo = node.serviceInfo;
+                    //Make sure the layer loads, or show the error
                     connect.connect(this.map, "onLayerAddResult", lang.hitch(this, function (layer, error) {
                         if (error)
                             alert("Error occurred loading in map : " + error.message);
@@ -257,6 +265,11 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "doj
                     alert("Service could not be loaded in map : " + ex.message);
                     this._paneStandby.hide();
                 }
+            }
+
+            , ClosePopup: function () {
+                if (this._toolTipDialog)
+                    popup.close(this._toolTipDialog);
             }
         });
 });

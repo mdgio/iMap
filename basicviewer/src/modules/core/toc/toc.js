@@ -14,7 +14,7 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/o
 
             // The table of contents dijit
             _dijitToc: null,
-            _accordion: null,
+            _addDataPane: null,
             //The current user-selected layer- properties: tocNode, mapLayer
             _SelectedLayer: null,
             //The button bar for manipulating layers
@@ -33,6 +33,7 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/o
             postCreate: function () {
                 this.inherited(arguments);
                 //Create the content pane for the legend
+
                 var legendPane = new ContentPane({
                     title: "Legend",
                     style: "padding: 0px"
@@ -40,12 +41,13 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/o
                 domClass.add(legendPane.domNode, 'tocLegendPane');
 
                 //Create the accordion's 2nd pane for the add data section
-                var addDataPane = new addData({
+                this._addDataPane = new addData({
                     title:"Add Data"
+                    , id: 'addDataContPane'
                 });
                 //Add the panes to the accordion
                 this.addChild(legendPane);
-                this.addChild(addDataPane);
+                this.addChild(this._addDataPane);
                 //Create the actual legend "tree" and add to the first pane
                 this.initializeDijitToc(this.esriMap);
                 legendPane.addChild(this._dijitToc);
@@ -57,11 +59,16 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/o
             , startup: function () {
                 this.inherited(arguments);
                 //Subscribe to this accordion's selected pane change to populate add data tree the first time
-                var selectTopic = topic.subscribe(this.id + "-selectChild", lang.hitch(this, function (selectedPane) {
+                var selectTopic = topic.subscribe(this.id + "-selectChild", lang.hitch(this, function (selectedPane, old) {
+
+
                     if (selectedPane.title.indexOf("Add") >= 0) {
-                        selectTopic.remove();
-                        selectedPane.CreateContents();
-                    }
+                        //selectTopic.remove();
+                        if (!selectedPane.ContentsCreated)
+                            selectedPane.CreateContents();
+                        this.clearSelectedLayer();
+                    } else //If switching off the Add Data, then make sure the tooltip is closed
+                        this._addDataPane.ClosePopup();
                 }));
 
                 this._btnBar = new btnBar();
@@ -84,10 +91,45 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/o
                         this.removeSelected();
                     }
                 }));
-            },
+            }
+
+            /*** Use these fxns to re-order a layer in the map. Need to do here, instead of directly on the map because it is too difficult and inefficient
+             *      for TOC to track all layer re-orders using the map's onLayerReorder event. Pass in layer to re-order and new index. */
+            , MoveMapLayerDown: function (layer) {
+                //If the layer to move down is a graphics layer then it can't go below service layers, as the graphics layers always seem to sit on top
+                var isGraphicsLyr = false;
+                for (var i = 0; i < this.esriMap.graphicsLayerIds.length; i++) {
+                    var layerId = this.esriMap.graphicsLayerIds[i];
+                    if (layerId === layer.id) {
+                        isGraphicsLyr = true;
+                        break;
+                    }
+                }
+                var nextNodeInfo = this._dijitToc.FindNextTocNode(layer, isGraphicsLyr);
+                if (nextNodeInfo.nextIndexInToc != null && nextNodeInfo.nextIndexInToc >= 0) {
+                    this.esriMap.reorderLayer(layer, nextNodeInfo.nextIndexInMap);
+                    this._dijitToc.MoveRootNodeDown(nextNodeInfo.nextTocNode, nextNodeInfo.nextIndexInToc);
+                }
+            }
+            , MoveMapLayerUp: function (layer) {
+                //If the layer to move up is a service layer then it can't go above graphics layers
+                var isServiceLyr = false;
+                for (var i = 0; i < this.esriMap.layerIds.length; i++) {
+                    var layerId = this.esriMap.layerIds[i];
+                    if (layerId === layer.id) {
+                        isServiceLyr = true;
+                        break;
+                    }
+                }
+                var prevNodeInfo = this._dijitToc.FindPrevTocNode(layer, isServiceLyr);
+                if (prevNodeInfo.prevIndexInToc != null && prevNodeInfo.prevIndexInToc >= 0) {
+                    this.esriMap.reorderLayer(layer, prevNodeInfo.prevIndexInMap);
+                    this._dijitToc.MoveRootNodeUp(prevNodeInfo.prevTocNode, prevNodeInfo.prevIndexInToc);
+                }
+            }
 
             //data package contains the newly selected map layer and toc dom node
-            selectedLayerChanged: function (data) {
+            , selectedLayerChanged: function (data) {
                 this._SelectedLayer = null;
                 this._SelectedLayer = data;
                 this._btnBar.EnableButtons();
@@ -95,7 +137,8 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/o
 
             //Move a layer up in the map
             , moveSelectedUp: function () {
-                var selected = this._SelectedLayer.tocNode;
+                this.MoveMapLayerUp(this._SelectedLayer.mapLayer);
+                /*var selected = this._SelectedLayer.tocNode;
                 var previousOne;
                 var parent;
                 if (selected) {
@@ -112,12 +155,13 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/o
                             }
                         }
                     }
-                }
+                }*/
                 this._btnBar.EnableButtons();
             }
             //Move a layer down in the map
             , moveSelectedDown: function () {
-                var selected = this._SelectedLayer.tocNode;
+                this.MoveMapLayerDown(this._SelectedLayer.mapLayer);
+                /*var selected = this._SelectedLayer.tocNode;
                 if (selected) {
                     var parent = selected.parentNode;
                     var nextOne = selected.nextElementSibling;
@@ -125,9 +169,9 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/o
                         var twoDown = nextOne.nextElementSibling;
                         if (twoDown) {
                             parent.insertBefore(selected, twoDown);
-                        /* This was for moving to the bottom, but don't use as don't want below basemap
+                        *//* This was for moving to the bottom, but don't use as don't want below basemap
                         else
-                            parent.appendChild(selected);*/
+                            parent.appendChild(selected);*//*
                             //Find the index of the layer in the map and decrement by one
                             for (var i = 0; i < this.esriMap.layerIds.length - 1; i++) {
                                 var layerId = this.esriMap.layerIds[i];
@@ -138,51 +182,31 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/o
                             }
                         }
                     }
-                }
+                }*/
                 this._btnBar.EnableButtons();
             },
-            //Remove the selected node and map layer
+            //Remove the selected map layer
             removeSelected: function () {
                 var selected = this._SelectedLayer.tocNode;
                 if (selected) {
-                    selected.parentNode.removeChild(selected);
+                    //selected.parentNode.removeChild(selected);
+                    //TOC.js listens for map layers being removed and handles the TOC removal
                     this.esriMap.removeLayer(this._SelectedLayer.mapLayer);
                     this._SelectedLayer = null;
                 }
             },
-
-            AddNew: function () {
-                var parent = this.tocParent;
-                //var parent = document.getElementById("topdog");
-                var max = -1;
-                var current;
-                if (parent) {
-                    for (var i = 0; i < parent.children.length; i++) {
-                        current = parseInt(parent.children[i].id, 10);
-                        max = (current > max) ? current : max;
-                    }
-                    max++;
-                    var div = document.createElement("div");
-                    div.id = max;
-                    div.className = 'unselected';
-                    div.innerHTML = max;
-                    div.onclick = mFunc;
-
-                    parent.appendChild(div);
-                }
-            },
-            /*mFunc: function (e) {
-                var curId = (e.currentTarget) ? e.currentTarget.id : e.id;
-                var f = document.getElementById(curId);
-                if (selectedElement)
-                    selectedElement.className = 'unselected';
-                selectedElement= f;
-                f.className = 'selected';
-            },*/
-            //end test
+            //De-select any selected layer. Useful for when switching off Legend pane.
+            clearSelectedLayer: function () {
+                this._SelectedLayer = null;
+                this._btnBar.DisableButtons();
+                //De-select any selected layer nodes by querying inside the TOC to find any node with the selected CSS class
+                var nl = query(".dijitTreeRowHover", this._dijitToc.domNode);
+                if (nl.length > 0)
+                    domClass.remove(nl[0], "claro dijitTreeRowHover");
+            }
 
             // Create the toc dijit, if needed, otherwise do nothing.  If esriMap has already been set, do not need to pass in again.
-            initializeDijitToc: function(esriMap) {
+            , initializeDijitToc: function(esriMap) {
                 var tocIsCreated = false;
                 if (esriMap != null && (this.esriMap == null || this.esriMap != esriMap)) {
                     this.esriMap = esriMap;

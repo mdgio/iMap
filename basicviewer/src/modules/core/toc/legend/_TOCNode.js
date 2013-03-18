@@ -475,31 +475,13 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dijit/_TemplatedMixin", "dij
                     var t = evt.target;
                     if (t) {
                         //De-select any selected layer nodes by querying inside the TOC to find any node with the selected CSS class
-                        var nl = query(".selectedTocNode", this.rootLayerTOC.domNode.parentNode);
+                        var nl = query(".dijitTreeRowHover", this.rootLayerTOC.domNode.parentNode);
                         if (nl.length > 0)
-                            domClass.remove(nl[0], "selectedTocNode");
+                            domClass.remove(nl[0], "claro dijitTreeRowHover");
                         //Select the new node
-                        domClass.add(t, "selectedTocNode");
+                        domClass.add(t.parentNode.parentNode, "claro dijitTreeRowHover");
                         //Fire an event for toc.js to listen to, so it knows which layer is now selected
-                        //this.emit(this.rootLayerClick, { tocNode: this.rootLayerTOC.domNode, mapLayer: this.rootLayer });
                         topic.publish(this.rootLayerClick, { tocNode: this.rootLayerTOC.domNode, mapLayer: this.rootLayer });
-
-
-
-                        /*var serviceLayerDiv = dom.byId(t["parentElement"]["parentElement"]["parentElement"]["parentElement"]["id"]);
-                        //var treeRootDiv = registry.byId('dijit__WidgetBase_0');
-                        var tocDijit = registry.byId('dijit_layout_AccordionContainer_0');
-                        if (tocDijit.selectedElement) {
-                            var nl = query(".selectedTocNode");
-                            if (nl.length > 0)
-                                nl[0].className = '';
-                            //tocDijit.selectedElement["children"][0]["children"][0]["children"][2].className = 'unselectedTocNode';
-                            //serviceLayerDiv["children"][0]["children"][0]["children"][2]
-                        }
-                        tocDijit.selectedElement = null;
-                        tocDijit.selectedElement = serviceLayerDiv;
-                        //tocDijit.selectedElement.className = 'selectedTocNode';
-                        t.className = 'selectedTocNode';*/
                     }
                 }
             },

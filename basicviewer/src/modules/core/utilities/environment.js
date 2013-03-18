@@ -15,7 +15,7 @@ define(["dojo/_base/declare", "dojo/has", "dojo/window"],
                 var links = new Array();
                 if (urls) { //Replace raw URLS with anchor tags
                     for (var i = 0; i < urls.length; i++) {
-                        links[i] = '<a href="' + urls[i] + '" target="_blank">link</a>';
+                        links[i] = '&nbsp;<a href="' + urls[i] + '" target="_blank">link</a>';
                         stringToCheck = stringToCheck.replace(urls[i], links[i]);
                     }
                 }

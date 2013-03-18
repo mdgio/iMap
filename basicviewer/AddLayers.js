@@ -128,7 +128,7 @@
             "url": "http://204.145.182.27/arcgis/rest/services/Environment/",
             "children": [
                 {
-                    "name": "MD_State_ForestedBuffers",
+                    "name": "Forested Buffers",
                     "id": "MD_State_ForestedBuffers",
                     "url": "http://204.145.182.27/arcgis/rest/services/Environment/MD_State_ForestedBuffers/MapServer/",
                     "type": "MapServer"
@@ -205,7 +205,7 @@
             "children": [{
                     "name": "6 inch Imagery",
                     "id": "6inchimagery",
-                    "url": "http://mdimap.towson.edu/ArcGIS/rest/services/ImageryBaseMapsEarthCover/MD.State.SixInchImagery/ImageServer",
+                    "url": "http://www.mdimap.us/ArcGIS/rest/services/ImageryBaseMapsEarthCover/MD.State.SixInchImagery/ImageServer",
                     "type": "ImageServer"
                 }
             ]
@@ -318,43 +318,42 @@
             "url": "http://204.145.182.27/arcgis/rest/services/Transportation/",
             "children": [
                 {
-                    "name": "E85EthanolStateFuelFacilities",
+                    "name": "SHA Traffic Count Statistics",
+                    "id": "TrafficCountStatistics",
+                    "url": "http://204.145.182.27/arcgis/rest/services/Transportation/Transportation_Statistics/MapServer/0",
+                    "type": "Feature Layer"
+                },{
+                    "name": "E85 Ethanol State Fuel Facilities",
                     "id": "E85EthanolStateFuelFacilities",
                     "url": "http://204.145.182.27/arcgis/rest/services/Transportation/E85EthanolStateFuelFacilities/MapServer/",
                     "type": "MapServer"
                 },
                 {
-                    "name": "E85EthanolStateFuelFacilities_5MileRadius",
-                    "id": "E85EthanolStateFuelFacilities_5MileRadius",
-                    "url": "http://204.145.182.27/arcgis/rest/services/Transportation/E85EthanolStateFuelFacilities_5MileRadius/MapServer/",
-                    "type": "MapServer"
-                },
-                {
-                    "name": "E85EthanolStateVehicleLocations",
+                    "name": "E85 Ethanol State Vehicle Locations",
                     "id": "E85EthanolStateVehicleLocations",
                     "url": "http://204.145.182.27/arcgis/rest/services/Transportation/E85EthanolStateVehicleLocations/MapServer/",
                     "type": "MapServer"
                 },
                 {
-                    "name": "MD_State_MarylandGovernmentFuelSites",
+                    "name": "Maryland State Fuel Sites",
                     "id": "MD_State_MarylandGovernmentFuelSites",
                     "url": "http://204.145.182.27/arcgis/rest/services/Transportation/MD_State_MarylandGovernmentFuelSites/MapServer/",
                     "type": "MapServer"
                 },
                 {
-                    "name": "MD_State_MDTAAccidents",
+                    "name": "MDTA Accidents",
                     "id": "MD_State_MDTAAccidents",
                     "url": "http://204.145.182.27/arcgis/rest/services/Transportation/MD_State_MDTAAccidents/MapServer/",
                     "type": "MapServer"
                 },
                 {
-                    "name": "MD_State_MVALocations",
+                    "name": "MVA Locations",
                     "id": "MD_State_MVALocations",
                     "url": "http://204.145.182.27/arcgis/rest/services/Transportation/MD_State_MVALocations/MapServer/",
                     "type": "MapServer"
                 },
                 {
-                    "name": "Transportation_Facilities",
+                    "name": "Transportation Facilities",
                     "id": "Transportation_Facilities",
                     "url": "http://204.145.182.27/arcgis/rest/services/Transportation/Transportation_Facilities/MapServer/",
                     "type": "MapServer"
@@ -368,31 +367,31 @@
             "url": "http://204.145.182.27/arcgis/rest/services/UtilitiesCommunication/",
             "children": [
                 {
-                    "name": "BGE_DistributionLineOutages",
+                    "name": "BGE Distribution Line Outages",
                     "id": "BGE_DistributionLineOutages",
                     "url": "http://204.145.182.27/arcgis/rest/services/UtilitiesCommunication/BGE_DistributionLineOutages/MapServer/",
                     "type": "MapServer"
                 },
                 {
-                    "name": "BGE_PEPCO_ElectricServiceAreas",
+                    "name": "BGE PEPC Electric Service Areas",
                     "id": "BGE_PEPCO_ElectricServiceAreas",
                     "url": "http://204.145.182.27/arcgis/rest/services/UtilitiesCommunication/BGE_PEPCO_ElectricServiceAreas/MapServer/",
                     "type": "MapServer"
                 },
                 {
-                    "name": "MD_State_OMBNSites",
+                    "name": "OMBN Sites",
                     "id": "MD_State_OMBNSites",
                     "url": "http://204.145.182.27/arcgis/rest/services/UtilitiesCommunication/MD_State_OMBNSites/MapServer/",
                     "type": "MapServer"
                 },
                 {
-                    "name": "PEPCO_DistributionLineOutages",
+                    "name": "PEPCO Distribution Line Outages",
                     "id": "PEPCO_DistributionLineOutages",
                     "url": "http://204.145.182.27/arcgis/rest/services/UtilitiesCommunication/PEPCO_DistributionLineOutages/MapServer/",
                     "type": "MapServer"
                 },
                 {
-                    "name": "PEPCO_SubstationLossofSupply",
+                    "name": "PEPCO Substation Loss of Supply",
                     "id": "PEPCO_SubstationLossofSupply",
                     "url": "http://204.145.182.27/arcgis/rest/services/UtilitiesCommunication/PEPCO_SubstationLossofSupply/MapServer/",
                     "type": "MapServer"
@@ -405,57 +404,7 @@
             "id": "Weather",
             "url": "http://204.145.182.27/arcgis/rest/services/Weather/",
             "children": []
-        },{
-            "name": "KML",
-            "id": "KML",
-            "children": [
-                {
-                    "name": "Howard Segments",
-                    "id": "HowardSegs",
-                    "url": "http://www.roads.maryland.gov/KMLFILES/Howard_Segments.kmz",
-                    "type": "KML"
-                }, {
-                    "name": "Eco Areas",
-                    "id": "EcoAreas",
-                    "url": "http://204.145.182.27/arcgis/rest/services/Environment/MD_State_TargetedEcologicalAreas/MapServer/kml/mapImage.kmz",
-                    "type": "KML"
-                }
-            ]
-        },{
-            "name": "WMS",
-            "id": "WMS",
-            "children": [
-                {
-                    "name": "NAIP WMS",
-                    "id": "naipwms",
-                    "url": "http://mdimap.towson.edu/arcgis/services/ImageryBaseMapsEarthCover/MD.State.NAIPImagery/MapServer/WMSServer",
-                    "type": "WMS"
-                }
-            ]
-        },{
-            "name": "Feature Layers",
-            "id": "featurelayer",
-            "children": [
-                {
-                    "name": "Cap Budg Ind. Projs",
-                    "id": "capbudg",
-                    "url": "http://204.145.182.27/arcgis/rest/services/BusinessEconomy/MD_State_FY14CapitalBudget/MapServer/1",
-                    "type": "Feature Layer"
-                }
-            ]
-        },{
-            "name": "SampleWorldCities",
-            "id": "SampleWorldCities",
-            "url": "http://204.145.182.27/arcgis/rest/services/SampleWorldCities/MapServer/",
-            "type": "MapServer"
-        },
-        {
-            "name": "ZIP_Codes_Service_test",
-            "id": "ZIP_Codes_Service_test",
-            "url": "http://204.145.182.27/arcgis/rest/services/ZIP_Codes_Service_test/MapServer/",
-            "type": "MapServer"
         }
-
     ]
 }
 

@@ -3,12 +3,13 @@
             Add a zipped shapefile to the map.</p><p>Visit the
             <a target='_blank' href="http://help.arcgis.com/en/arcgisonline/help/#/About_shapefiles/010q000000m2000000">About Shapefiles</a> help topic for information and limitations.</p>
               <form enctype="multipart/form-data" method="post" id="uploadForm">
-              <div class="field">
-                  <!--<label class="file-upload">-->
-                      <!--<span><strong>Add File</strong></span>-->
-                      <input type="file" name="file" id="inFile" />
-                  <!--</label>-->
-              </div>
+                  Layer Name: <input id="txtInterop" type="text" name="LayerName" value=""><br>
+                  <div class="field">
+                      <!--<label class="file-upload">-->
+                          <!--<span><strong>Add File</strong></span>-->
+                          <input type="file" name="file" id="inFile" />
+                      <!--</label>-->
+                  </div>
               </form>
               <span class="file-upload-status" style="opacity:1;" id="upload-status">
               </span>

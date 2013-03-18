@@ -91,8 +91,6 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "./_RootLayerTOC", "xstyle/cs
 	                });
 	                this.map.addLayers(createdLayers);
 	            }
-	
-	
 	        },
 	        onLoad: function(){
 	

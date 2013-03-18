@@ -42,8 +42,12 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dijit/_TemplatedMixin", "doj
                 this._setState(false);
             }
 
-            , _setState: function (toWaiting) {
-                if (toWaiting) {
+            , DisableButtons: function () {
+                this._setState(true);
+            }
+
+            , _setState: function (toDisabled) {
+                if (toDisabled) {
                     domClass.replace(this.liLyrUpAP, "liLyrUpDis", "liLyrUp");
                     domClass.replace(this.liLyrDwnAP, "liLyrDwnDis", "liLyrDwn");
                     domClass.replace(this.liLyrRemAP, "liLyrRemDis", "liLyrRem");

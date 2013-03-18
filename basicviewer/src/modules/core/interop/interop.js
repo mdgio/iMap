@@ -28,14 +28,16 @@ define(["dojo/_base/declare", "dojo/aspect", "dojo/dom-construct", "dijit/_Widge
             // The ESRI map object to bind to the TOC. Set in constructor
             map: null,
             // The title for your panel
-            panelTitle: 'Data Interoperability',
+            panelTitle: 'Data Interoperability'
 
             //Custom property for this module, don't necessarily need in yours
             //URL for portal
-            portalUrl: 'http://www.arcgis.com',
+            , portalUrl: 'http://www.arcgis.com'
+            //The user-entered name for the layer in the legend
+            , _lyrName: null
 
             //*** Creates the floating pane. Should be included in your module and be re-usable without modification (if using floating pane)
-            constructor: function(args) {
+            , constructor: function(args) {
                 // safeMixin automatically sets the properties above that are passed in from the toolmanager.js
                 declare.safeMixin(this,args);
                 this.innerDivId = this.floaterDivId + 'inner';
@@ -130,7 +132,12 @@ define(["dojo/_base/declare", "dojo/aspect", "dojo/dom-construct", "dijit/_Widge
             }
 
             , _listening: function (evt) {
-                var fileName = evt.target.value.toLowerCase();
+                var fileName;
+                if (evt && evt.target)
+                    fileName = evt.target.value.toLowerCase();
+                else
+                    fileName = dom.byId('inFile').value;
+                this._lyrName = dom.byId('txtInterop').value;
                 if (has('ie')) { //filename is full path in IE so extract the file name
                     var arr = fileName.split("\\");
                     fileName = arr[arr.length - 1];
@@ -212,6 +219,8 @@ define(["dojo/_base/declare", "dojo/aspect", "dojo/dom-construct", "dijit/_Widge
                     var layer = new esri.layers.FeatureLayer(layer, {
                         infoTemplate: infoTemplate
                     });
+                    //Give the layer a title that the user supplied for the Legend
+                    layer.title = this._lyrName || layer.name;
                     //associate the feature with the popup on click to enable highlight and zoomto
                     //connect.connect(layer, 'onClick', lang.hitch(this, function(evt){
                     /*aspect.after(layer, 'onClick', lang.hitch(this, function(evt){

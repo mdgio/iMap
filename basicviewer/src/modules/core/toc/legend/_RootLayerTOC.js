@@ -2,20 +2,23 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "./_TOCNode"],
     function(declare, WidgetBase, _TOCNode) {
         return declare([WidgetBase], {
         	_currentIndent: 0,
+            //The actual layer object in the map
 	        rootLayer: null,
+            //The TOC tree
 	        toc: null,
+
 	        constructor: function(params, srcNodeRef) {
 	            this.rootLayer = params.rootLayer;
 	            this.toc = params.toc;
 	            this.info = params.info || {};
 	        },
-	        // extenstion point called by framework
+	        // extension point called by framework
 	        postCreate: function() {
 	            this._getLayerInfos();
 	        },
 	        // retrieve sublayer/legend data
 	        _getLayerInfos: function() {
-	
+	            //Only getting sub-layers for AGS map services
 	            if ((this.rootLayer instanceof (esri.layers.ArcGISDynamicMapServiceLayer) ||
 	                this.rootLayer instanceof (esri.layers.ArcGISTiledMapServiceLayer))) {
 	                if (this.info.title === undefined) {

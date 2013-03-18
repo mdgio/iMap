@@ -20,18 +20,7 @@ body {
     width: 100%;
     height: 100%;
 }
-/*.notembed{
-    display: block;
-    height:100%;
-    width:100%;
-    margin:0px;
-    padding:0px;
-    overflow: hidden;
-}
-.notembed #header{
-    padding:0px;
-    overflow:hidden;
-}*/
+
 #header #bottomPane{
     margin:0px;
     padding:0px;
@@ -176,6 +165,12 @@ body {
     padding: 0px !important;
     border-width: 0px;
 }
+
+/* Make tree labels bigger */
+.claro .dijitTreeLabel {
+    font-size: 12pt;
+}
+
 /*Measure toggle button*/
 .claro .dijitToolbar .dijitButtonNode:hover {
     color: rgba(255, 255, 255, 0);
@@ -697,11 +692,18 @@ div#editDiv.templatePicker .grid  .selectedItem {
     padding-top: 8px;
 }
 
-
 .claro .dijitButtonText{
     display: none !important;
 }
 
 .esriGeocoderContainer{
     margin-top: 10px;
+}
+
+/*Make the splitter wider for touch*/
+.claro .dijitSplitterV, .claro .dijitGutterV {
+    width: 8px;
+}
+.claro .dijitSplitterV .dijitSplitterThumb {
+    left: 4px;
 }
