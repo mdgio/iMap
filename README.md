@@ -15,4 +15,4 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 
 To view the terms visit: http://www.gnu.org/licenses/.
 
-If the project is not being utilized for approved State of Maryland purposes, all Maryland State-specific branding (e.g. logos, images, text, links, etc.) should be removed.
+If the project is not being utilized for approved State of Maryland purposes, all Maryland State-specific branding (e.g. logos, images, text, links, etc.) must be removed.
