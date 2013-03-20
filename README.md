@@ -1,7 +1,7 @@
 iMap
 ====
 
-Maryland iMap applications
+Maryland iMap Applications
 
 See Wiki for instructions.
 
