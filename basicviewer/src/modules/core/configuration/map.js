@@ -21,7 +21,7 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/on", "dojo/Evented", "../
 
                 , configure: function (appConfig) {
                     this._AppConfig = appConfig;
-                    this._setDefaults();
+                    //this._setDefaults();
 
                     if (this._AppConfig.webmap) { //*** Obtain webmap from AGO
                         //http://www.arcgis.com/sharing/content/items/407170546ac14125911c5cee18e8ffb4/data?f=json
@@ -60,7 +60,7 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/on", "dojo/Evented", "../
                     }
                 }
                 
-                // Setup up default parameters for the map using the app config settings
+                /*// Setup up default parameters for the map using the app config settings
                 , _setDefaults: function () {
                     if (this._AppConfig.geometryserviceurl && location.protocol === "https:")
                         this._AppConfig.geometryserviceurl = this._AppConfig.geometryserviceurl.replace('http:', 'https:');
@@ -75,7 +75,7 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/on", "dojo/Evented", "../
                     }
                     esri.config.defaults.io.proxyUrl = this._AppConfig.proxyurl;
                     esri.config.defaults.io.alwaysUseProxy = false;
-                }
+                }*/
 
                 // Take the Web Map for the application and check for customizations based on the override inputs
                 , _CheckForWebMapOverrides: function () {

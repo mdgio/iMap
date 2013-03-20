@@ -5,7 +5,7 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dijit/_TemplatedMixin", "doj
         return declare([WidgetBase, TemplatedMixin],{
             //*** Properties needed for this style of module
             // The template HTML fragment (as a string, created in dojo/text definition above)
-            templateString: '<ul id="navlist"><li id="liLyrUp" class="liLyrUpDis" data-dojo-attach-point="liLyrUpAP"><a href="#" data-dojo-attach-event="onclick:_clickUp"></a></li><li id="liLyrDwn" class="liLyrDwnDis" data-dojo-attach-point="liLyrDwnAP"><a href="#" data-dojo-attach-event="onclick:_clickDown"></a></li><li id="liLyrRem" class="liLyrRemDis" data-dojo-attach-point="liLyrRemAP"><a href="#" data-dojo-attach-event="onclick:_clickRemove"></a></li></ul>'
+            templateString: '<ul id="navlist"><li id="liLyrUp" class="liLyrUpDis" data-dojo-attach-point="liLyrUpAP"><a data-dojo-attach-event="onclick:_clickUp"></a></li><li id="liLyrDwn" class="liLyrDwnDis" data-dojo-attach-point="liLyrDwnAP"><a data-dojo-attach-event="onclick:_clickDown"></a></li><li id="liLyrRem" class="liLyrRemDis" data-dojo-attach-point="liLyrRemAP"><a data-dojo-attach-event="onclick:_clickRemove"></a></li></ul>'
             // The CSS class to be applied to the root node in our template
             //, baseClass: "tocBtnBar"
             , baseClass: "navlist"
@@ -27,7 +27,7 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dijit/_TemplatedMixin", "doj
                     this._setState(true);
                     this.emit(this.eventName, { btn: 'd' });
                 }
-                evt["returnValue"] = false;
+                //evt["returnValue"] = false;
             }
 
             , _clickRemove: function(evt) {
