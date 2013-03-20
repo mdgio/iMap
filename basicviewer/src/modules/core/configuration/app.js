@@ -14,7 +14,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     appid: "",
                     //The ID for a web map from ArcGIS Online (AGO)
                     //If not going to specify a Web Map in AGO, then use empty quotes ("") here
-                    webmap: "d1201eea7afb4ed49f08a310e9803f2f", //  3182b7b31f10425ba0884fccc1916682 d1201eea7afb4ed49f08a310e9803f2f
+                    webmap: "3182b7b31f10425ba0884fccc1916682", //  3182b7b31f10425ba0884fccc1916682 d1201eea7afb4ed49f08a310e9803f2f
                     // The URL to an ArcGIS Web Map- if not using ArcGIS.com.
                     // Can be relative to index.html. For example, if in basicviewer root- "webmap.js"
                     // If both webmap and webmapurl are empty, then a map must be programmatically defined in map.js
@@ -149,6 +149,8 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                         "countryCode":""
                     }
                 };
+
+                this._setDefaults(configOptions);
 
                 var urlObject = esri.urlToObject(document.location.href);
 
@@ -290,7 +292,24 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     this._checkForOverrides(urlObject, configOptions);
             }
 
-            //override configuration settings if any url parameters are set
+            // Setup up default parameters for the map using the app config settings
+            , _setDefaults: function (configOptions) {
+                if (configOptions.geometryserviceurl && location.protocol === "https:")
+                    configOptions.geometryserviceurl = configOptions.geometryserviceurl.replace('http:', 'https:');
+                esri.config.defaults.geometryService = new esri.tasks.GeometryService(configOptions.geometryserviceurl);
+
+                if (!configOptions.sharingurl)
+                    configOptions.sharingurl = location.protocol + '//' + location.host + "/sharing/content/items";
+                esri.arcgis.utils.arcgisUrl = configOptions.sharingurl;
+
+                if(!configOptions.proxyurl){
+                    configOptions.proxyurl = location.protocol + '//' + location.host + "/sharing/proxy";
+                }
+                esri.config.defaults.io.proxyUrl = configOptions.proxyurl;
+                esri.config.defaults.io.alwaysUseProxy = false;
+            }
+
+            // Override configuration settings if any url parameters are set. Not
             , _checkForOverrides: function (urlObject, configOptions) {
                 if (urlObject.query) {
                     // If the map is being shared by another, then alterations to the default webmap will be in the JSON
