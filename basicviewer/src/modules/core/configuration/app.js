@@ -121,7 +121,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     displaysearch: true,
                     displayscalebar: true,
                     //Drawing toolbar
-                    displayinterop: true,
+                    displayinterop: !(environment.TouchEnabled),
 
                     //*** General Settings ***
                     //i18n.viewer.main.scaleBarUnits,
