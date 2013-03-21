@@ -83,7 +83,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     //Optional tools - set to false to hide the tool
                     displaytimeslider: true,
                     //Print options - Default is to not display on mobile devices, but can be overriden manually or in AGO
-                    displayprint: !(environment.TouchEnabled && environment.WindowWidth < 1200),
+                    displayprint: !(environment.TouchEnabled),
                     printtask: "http://utility.arcgisonline.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task",
                     //Set the label in the nls file for your browsers language
                     printlayouts: [{
