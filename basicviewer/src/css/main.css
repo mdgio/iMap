@@ -223,6 +223,25 @@ body {
     border:none;
 }
 
+.claro .dijitTreeExpando{
+    background-image: url(../../assets/treeExpandImages.png);
+    height: 24px;
+    width: 24px;
+    background-position: 28px 2px;
+}
+
+.claro .dijitTreeExpandoClosed{
+    background-position: 1px 2px;
+}
+
+ .claro .dijitTreeExpandoLeaf, .dj_ie6 .claro .dijitTreeExpandoLeaf{
+     background-image: none;
+ }
+
+.claro .dijitTreeRowHover .dijitTreeExpandoClosed{
+    background-position: 3px 2px;
+}
+
 .claro .dijitButton .dijitButtonNode{
     border: none;
     padding: 0;
