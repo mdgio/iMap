@@ -27,7 +27,7 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dijit/_TemplatedMixin", "doj
                     this._setState(true);
                     this.emit(this.eventName, { btn: 'd' });
                 }
-                //evt["returnValue"] = false;
+                evt["returnValue"] = false;
             }
 
             , _clickRemove: function(evt) {

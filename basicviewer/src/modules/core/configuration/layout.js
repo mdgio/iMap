@@ -2,14 +2,15 @@
  This class is run at startup and handles the layout and creation of non-map elements in the page.
  */
 define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "dojo/Evented", "dijit/registry", "require", "dojo/dom", "dijit/layout/ContentPane"
-    , "dojox/widget/Standby", "../utilities/tabmanager", "../utilities/toolmanager", "dijit/layout/BorderContainer"],
-    function(declare, environment, lang, Evented, registry, require, dom, contentPane, Standby, TabManager, ToolManager){
+    , "dojox/widget/Standby", "../utilities/tabmanager", "../utilities/toolmanager", "dijit/form/Button", "dojo/dom-style", "dijit/layout/BorderContainer"],
+    function(declare, environment, lang, Evented, registry, require, dom, contentPane, Standby, TabManager, ToolManager, Button, domStyle){
         return declare([Evented],
             {
                 _AppConfig: null
                 , _WebMap: null
                 , _Map: null
                 , _MainBordCont: null
+                , _leftPaneToggler: null
 
                 //Layout the regions of the Dojo container based on app configs.
                 //This way the map can be sized properly when first created.
@@ -58,6 +59,13 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     //var placeholder = dom.byId('toolbarContainer');
                     var placeholder = dom.byId('toolbarDij');
                     dom.byId('map_root').appendChild(placeholder, { style: {height: '48px'}});
+
+                    var lPaneToggleBtn = new Button({
+                        label: "Show/Hide"
+                        , onClick: lang.hitch(this, function(){
+                            this._ShowHidePane('l');
+                        })
+                    }, 'btnLpaneToggle');
 
                     if (!this._AppConfig.embed) {
                         //add a title and logo, if applicable
@@ -162,35 +170,20 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     if (show){
                         esri.show(dom.byId('leftPane'));
                     }
-            }
-
-                , _ShowLeftOrRightPanel: function (direction) {
-                    var targetDivId = direction.toLowerCase() + "Pane";
-                    var targetDiv = dom.byId(targetDivId);
-                    var targetPaneWidth = dojo.style(targetDiv, "width");
-                    if (targetPaneWidth === 0) {
-                        dojo.style(targetDiv, "width", configOptions[targetDivId.toLowerCase() + "width"] + "px");
-                        dijit.byId("mainWindow").resize();
-                    }
                 }
 
-                , HideLeftOrRightPanel: function (direction) {
-                    //close the left panel when x button is clicked
-                    direction = direction.toLowerCase();
-                    var targetDivId = direction + "Pane";
-                    var targetDiv = dom.byId(targetDivId);
-                    var targetPaneWidth = dojo.style(targetDiv, "width");
-                    if (targetPaneWidth === 0) {
-                        targetPaneWidth = configOptions[targetDivId.toLowerCase() + "width"];
-                    }
-                    dojo.style(targetDiv, "width", "0px");
-                    dijit.byId('mainWindow').resize();
-                    resizeMap();
-                    //uncheck the edit, detail and legend buttons
-                    if (direction === 'left') {
-                        setTimeout(function () {
-                            toggleToolbarButtons('');
-                        }, 100);
+                , _ShowHidePane: function (side) {
+                    var thePane;
+                    if (side.toLowerCase() === "l")
+                        thePane = dom.byId('leftPane');
+                    else
+                        thePane = dom.byId('rightPane');
+                    if (domStyle.get(thePane, 'display') === 'none') {
+                        esri.show(thePane);
+                        this._MainBordCont.resize();
+                    } else {
+                        esri.hide(thePane);
+                        this._MainBordCont.resize();
                     }
                 }
             }

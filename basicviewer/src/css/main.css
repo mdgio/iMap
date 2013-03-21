@@ -222,6 +222,7 @@ body {
 .logo img{
     border:none;
 }
+
 /*Styles for the toolbar buttons*/
 .esriBasemapIcon {
     background-image: url(../../assets/toolbar/Basemaps.PNG);
