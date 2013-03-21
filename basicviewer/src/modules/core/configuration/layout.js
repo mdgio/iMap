@@ -180,17 +180,16 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
 
                 , _ShowHidePane: function (side) {
                     var thePane;
+                    var dijitPane;
                     if (side.toLowerCase() === "l")
                         thePane = dom.byId('leftPane');
                     else
                         thePane = dom.byId('rightPane');
-                    if (domStyle.get(thePane, 'display') === 'none') {
+                    if (domStyle.get(thePane, 'display') === 'none')
                         esri.show(thePane);
-                        this._MainBordCont.resize();
-                    } else {
+                     else
                         esri.hide(thePane);
-                        this._MainBordCont.resize();
-                    }
+                    this._MainBordCont.resize();
                 }
             }
         )
