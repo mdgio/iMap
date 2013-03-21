@@ -44,7 +44,7 @@
     , ["dojo/parser", /*"jquery",*/ "dojo/dom", "dojo/ready", "dojo/_base/lang", "require"
         , "modules/core/utilities/environment", "modules/core/configuration/app", "modules/core/configuration/map", "modules/core/configuration/layout"
         , "dijit/layout/BorderContainer", "dijit/layout/TabContainer", "dijit/Toolbar", "dojo/parser", "dojox/layout/FloatingPane", "dijit/MenuItem"
-        , "esri/arcgis/utils"
+        , "esri/arcgis/utils", "esri/IdentityManager"
         /*, "dijit/layout/StackContainer", "modules/core/toc/toc",*/
         /*"dojo/i18n!localize/template"*/ /* , "esri/dijit/Scalebar", "esri/tasks/locator", "esri/tasks/geometry", "esri/dijit/BasemapGallery", "esri/dijit/OverviewMap"
         , "esri/dijit/Measurement", "esri/dijit/TimeSlider", "esri/dijit/editing/Editor-all", "esri/IdentityManager", "dojox/layout/FloatingPane"
