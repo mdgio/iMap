@@ -60,8 +60,12 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     var placeholder = dom.byId('toolbarDij');
                     dom.byId('map_root').appendChild(placeholder, { style: {height: '48px'}});
 
+                    //set left pane toggle button
                     var lPaneToggleBtn = new Button({
-                        label: "Show/Hide"
+                        label: "Show/Hide",
+                        class: "PaneToggle",
+                        iconClass: "PaneToggleImage",
+                        showLabel: false
                         , onClick: lang.hitch(this, function(){
                             this._ShowHidePane('l');
                         })
@@ -160,6 +164,8 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     //Set the toolbar
                     var toolManager = new ToolManager({ AppConfig: this._AppConfig, WebMap: this._WebMap });
                     toolManager.CreateTools();
+
+
                 }
 
                 , _LayoutLeftPanel: function (show) {

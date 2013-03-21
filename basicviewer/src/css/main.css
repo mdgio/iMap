@@ -223,6 +223,27 @@ body {
     border:none;
 }
 
+.claro .dijitButton .dijitButtonNode{
+    border: none;
+    padding: 0;
+}
+
+.PaneToggle{
+    top:47.5%;
+    left:-2px;
+    height:35px;
+    width:15px;
+    cursor:pointer;
+    position:absolute;
+    z-index:98;
+}
+.PaneToggleImage{
+    background-image: url(../../assets/toolbar/PaneToggle.png);
+    background-repeat:no-repeat;
+    display:inline-block;
+    height:35px;
+    width:15px;
+}
 /*Styles for the toolbar buttons*/
 .esriBasemapIcon {
     background-image: url(../../assets/toolbar/Basemaps.PNG);
