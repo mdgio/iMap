@@ -45,10 +45,7 @@
         , "modules/core/utilities/environment", "modules/core/configuration/app", "modules/core/configuration/map", "modules/core/configuration/layout"
         , "dijit/layout/BorderContainer", "dijit/layout/TabContainer", "dijit/Toolbar", "dojo/parser", "dojox/layout/FloatingPane", "dijit/MenuItem"
         , "esri/arcgis/utils", "esri/IdentityManager"
-        /*, "dijit/layout/StackContainer", "modules/core/toc/toc",*/
-        /*"dojo/i18n!localize/template"*/ /* , "esri/dijit/Scalebar", "esri/tasks/locator", "esri/tasks/geometry", "esri/dijit/BasemapGallery", "esri/dijit/OverviewMap"
-        , "esri/dijit/Measurement", "esri/dijit/TimeSlider", "esri/dijit/editing/Editor-all", "esri/IdentityManager", "dojox/layout/FloatingPane"
-        , "esri/dijit/Bookmarks", "esri/dijit/Attribution"*//*, "myModules/custommenu"*//*, "esri/dijit/Print"*//*, "apl/ElevationsChart/Pane"*//*, "dijit/MenuItem"*/]
+        /*"dojo/i18n!localize/template"*, "esri/dijit/TimeSlider", "esri/dijit/editing/Editor-all", "esri/dijit/Bookmarks"*/ ]
     //The callback to run once Dojo and the required modules are ready.  References to the instantiated objects in the array can be exposed
     // as parameters in the callback function, but a parameter does not have to be inserted for each array item
     , function(parser, /*$,*/ dom, ready, lang, require, environment, app, mapConfig, layout) {
