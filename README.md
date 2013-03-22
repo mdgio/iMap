@@ -5,7 +5,7 @@ Maryland iMap Applications
 
 See Wiki for instructions.
 
-## Draft License
+## License
 
 This project utilizes code licensed under the terms of the GNU General Public License and therefore is licensed under GPL v2 or later.
 
