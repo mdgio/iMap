@@ -67,7 +67,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                 }
 
                 // Editor Panel - not implemented yet
-                if (this._AppConfig.displayeditor == 'true' || this._AppConfig.displayeditor == true) {
+                /*if (this._AppConfig.displayeditor == 'true' || this._AppConfig.displayeditor == true) {
                     //do we have any editable layers - if not then disregard
                     var editLayers = this._hasEditableLayers(layers);
                     if (editLayers.length > 0) {
@@ -106,18 +106,8 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
 
                             }
                         }));
-
-                            /*if (selectedPane) { // Get the toc widget and load immediately
-                                //hide or show the editor
-                                if (label === 'editPanel') {
-                                    createEditor();
-                                } else {
-                                    destroyEditor();
-                                }
-                                addEditor(editLayers);
-                            }*/
                     }
-                }
+                }*/
             }
 
             //*** This function should be pretty re-useable for creating a tab content pane, which your widget will be added to. See Table of Contents for use.
@@ -160,8 +150,8 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                 }));
             }
 
-            //Determine if the webmap has any editable layers
-            , _hasEditableLayers: function (layers) {
+            //Determine if the webmap has any editable layers - not implemented
+            /*, _hasEditableLayers: function (layers) {
                 var layerInfos = [];
                 dojo.forEach(layers, function (mapLayer, index) {
                     if (mapLayer.layerObject) {
@@ -175,7 +165,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     }
                 });
                 return layerInfos;
-            }
+            }*/
         });
     }
 );

@@ -399,12 +399,6 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dijit/_TemplatedMixin", "dij
 	                        }
 	                        dojo.forEach(renderer.infos, function(info) {
 	                            if (info.visible) {
-	                                /*var seg = '(' + renderer.attributeField;
-	                                 if (info.value) {
-	                                 seg += '=' + q+info.value+q;
-	                                 }
-	                                 seg += ')';
-	                                 def.push(seg)*/
 	                                def.push(q + info.value + q);
 	                            }
 	

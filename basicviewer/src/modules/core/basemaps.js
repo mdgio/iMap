@@ -29,66 +29,6 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/_base/lang", "dojo/topi
                     this._addBasemapGallery();
             }
 
-/*  Tentatively not implementing the skinny gallery, would have to troubleshoot custommenu
-            //BASEMAP GALLERY
-            , _addBasemapGalleryMenu: function () {
-                //This option is used for embedded maps so the gallery fits well with apps of smaller sizes.
-                var basemapGroup = null;
-                if (this.AppConfig.basemapgroup.title && this.AppConfig.basemapgroup.owner) {
-                    basemapGroup = {
-                        "owner": this.AppConfig.basemapgroup.owner,
-                        "title": this.AppConfig.basemapgroup.title
-                    }
-                }
-
-                var ht = this.map.height / 2;
-                var cp = new ContentPane({
-                    id: 'basemapGallery',
-                    style: "height:" + ht + "px;width:190px;"
-                });
-
-                var basemapMenu = new Menu({
-                    id: 'basemapMenu'
-                });
-
-                //if a bing maps key is provided - display bing maps too.
-                var basemapGallery = new BasemapGallery({
-                    showArcGISBasemaps: true,
-                    basemapsGroup: basemapGroup,
-                    bingMapsKey: this.AppConfig.bingmapskey,
-                    map: map
-                });
-                cp.set('content', basemapMenu.domNode);
-
-                //Use aspect after, instead of dojo/on, since onLoad is a function
-                aspect.after(basemapGallery, 'onLoad', lang.hitch(this, function () {
-                    for(var i = 0; i < basemapGallery.basemaps.length; i++) {
-                        var basemap = basemapGallery.basemaps[i];
-                        //Add a menu item for each basemap, when the menu items are selected
-                        registry.byId('basemapMenu').addChild(new custommenu({
-                            label: basemap.title,
-                            icon: basemap.thumbnailUrl,
-                            onClick: function () {
-                                basemapGallery.select(basemap.id);
-                            }
-                        }));
-                    };
-                }));
-
-                cp.set('content', basemapGallery.domNode);
-                //Set this dropdownbutton's drop down content
-                this.dropDown = cp;
-
-                aspect.after(basemapGallery, "onSelectionChange", lang.hitch(this, function () {
-                    //close the basemap window when an item is selected
-                    //destroy and recreate the overview map  - so the basemap layer is modified.
-                    topic.publish('basemapchanged');
-                    registry.byId('basemapBtn').closeDropDown();
-                }));
-
-                //basemapGallery.startup();
-            }*/
-
             //Add the basemap gallery widget to the application.
             , _addBasemapGallery: function () {
                 //if a basemap group was specified listen for the callback and modify the query

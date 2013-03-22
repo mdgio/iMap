@@ -1,21 +1,10 @@
-/**
- * Created with JetBrains WebStorm.
- * User: SSporik
- * Date: 2/16/13
- * Time: 2:47 PM
- * To change this template use File | Settings | File Templates.
- */
+/** A map drawing toolbar - not integrated yet */
 define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dijit/_TemplatedMixin", "dijit/_WidgetsInTemplateMixin", "dojo/on", "dijit/registry", "dojo/ready", "dojo/parser",
-    "dojo/text!./templates/draw.html", "dojo/dom-style", "dojo/_base/fx", "dojo/_base/lang", "dojo/dom", "dojox/layout/FloatingPane", "dojo/query", "../utilities/maphandler", "dojo/has", "dojo/json"
-    , "xstyle/css!./css/draw.css"],
+    "dojo/text!./templates/draw.html", "dojo/dom-style", "dojo/_base/fx", "dojo/_base/lang", "dojo/dom", "dojox/layout/FloatingPane", "dojo/query", "../utilities/maphandler", "dojo/has", "dojo/json"],
     function(declare, domConstruct, WidgetBase, TemplatedMixin, WidgetsInTemplateMixin, on, registry, ready, parser, template, domsty, fxer, language, dom, floatingPane, query, mapHandler, has, JSON){
         return declare([WidgetBase, TemplatedMixin, WidgetsInTemplateMixin],{
-            //declare([WidgetBase, TemplatedMixin], {
-
             // The template HTML fragment (as a string, created in dojo/text definition above)
             templateString: template,
-            // The CSS class to be applied to the root node in our template
-            /*baseClass: "draw",*/
             //Give a unique ID for the floating panel. Populated from constructor in toolmanager.js
             floaterDivId: null,
             //Give a unique ID for the toolbar button associated with this module. Populated from constructor in toolmanager.js
@@ -196,7 +185,6 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dijit/
                             a = 1;
                             break;
                     }
-
                     //parse the rgba value to keep the "r" "g" "b" and change the "a"
                     var match = /rgba?\((\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*(,\s*\d+[\.\d+]*)*\)/g.exec(newColor);
                     //reset the dojo.color rgba value with the transparency included
@@ -224,7 +212,5 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dijit/
                         globalGraphic = graphic;
                     });
                 }
-
         });
-
     });

@@ -7,9 +7,7 @@ body {
   background-color:#EEE;
 }
 /*override claro background and other props*/
-/*#toolbarContainer .dijitToolbar {
-  background:url(../../assets/gray/toolbar_bg.png) repeat-x #545454;
-}*/
+
 /*Measure toggle button*/
 .claro .dijitToolbar .dijitButtonNode:hover {
   background:url(../../assets/gray/sidebar_header_active_bg.png) repeat-x #CEE1EC;

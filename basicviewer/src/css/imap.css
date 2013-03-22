@@ -6,9 +6,7 @@ body {
   background-color:#e9eef2;
 }
 /*override claro background and other props*/
-/*#toolbarContainer .dijitToolbar {
-  background:url(../../assets/imap/toolbar_bg.png) repeat-x #282828;
-}*/
+
 /*Measure toggle button*/
 .claro .dijitToolbar .dijitButtonNode:hover {
   background:url(../../assets/imap/sidebar_header_active_bg.png) repeat-x #808080;
@@ -22,9 +20,6 @@ body {
 
 /* Change color of tab menu*/
 .claro .dijitTab{
-/*    background-color: #737171;
-    background-image: none !important;
-    color: #ffffff;*/
     background: url(../../assets/imap/toolbar_bg.png) repeat-x #C0C0C0;
     border: solid 1px #282828;
     color: white;
@@ -59,10 +54,8 @@ body {
 }
 
 .claro .dijitTabContainerTop-tabs .dijitTabChecked {
-    /*background-color: #737171;*/
     background: url(../../assets/imap/toolbar_bg.png) repeat-x #C0C0C0;
     border: solid 1px #282828;
-
 }
 .claro .dijitTabListContainer-top .tabStripButton{
     background-image: none !important;

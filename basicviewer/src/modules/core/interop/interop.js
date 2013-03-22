@@ -221,12 +221,6 @@ define(["dojo/_base/declare", "dojo/aspect", "dojo/dom-construct", "dijit/_Widge
                     });
                     //Give the layer a title that the user supplied for the Legend
                     layer.title = this._lyrName || layer.name;
-                    //associate the feature with the popup on click to enable highlight and zoomto
-                    //connect.connect(layer, 'onClick', lang.hitch(this, function(evt){
-                    /*aspect.after(layer, 'onClick', lang.hitch(this, function(evt){
-                        if (evt)
-                            this.map.infoWindow.setFeatures([evt.graphic]);
-                    }));*/
                     //change default symbol if desired. Comment this out and the layer will draw with the default symbology
                     this._changeRenderer(layer);
                     fullExtent = fullExtent ? fullExtent.union(layer.fullExtent) : layer.fullExtent;

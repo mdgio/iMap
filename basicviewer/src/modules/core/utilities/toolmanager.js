@@ -1,5 +1,5 @@
 /**
- Contains the handler for creating toolbar buttons and loading their widgets.
+ Contains the handler for creating toolbar buttons and loading their widgets. See examples below for how to use.
  */
 define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "dojo/Evented", "dijit/registry", "require", "dojo/dom", "dijit/layout/ContentPane"
     , "dojox/widget/Standby", "../utilities/maphandler", "dojo/_base/array", "dojo/query"
@@ -22,8 +22,6 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                 this._WebMap = args.WebMap;
 
                 this._LeftToolDiv = dom.byId("webmap-toolbar-left");
-                //this._CenterToolDiv = dom.byId("webmap-toolbar-center");
-                //this._RightToolDiv = dom.byId("webmap-toolbar-right");
                 this._ToolsDiv = dom.byId("tools");
             }
 
@@ -39,14 +37,8 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     );
                 }
 
-                //The measure tool with options in a floating pane
+                //The measure tool with options in a floating pane - there is a bug in measure with the floating pane
                 if (this._AppConfig.displaymeasure === 'true' || this._AppConfig.displaymeasure == true) {
-                    /*require(["esri/dijit/Measurement"],
-                        lang.hitch(this, function(MeasurementDijit) {
-                            this._addMeasurementWidget(MeasurementDijit);
-                        })
-                    );*/
-
                     //*** Give button a unique btnId, set title, iconClass as appropriate
                     var btnId = 'tglbtnMeasure';
                     var btnTitle = 'Measure';
@@ -54,7 +46,6 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     //*** Constructor parameters object you want passed into your module
                     //*** Provide a unique ID for the parent div of the floating panel (if applicable)
                     var widgetParams = { floaterDivId: 'floaterMeas' };
-                    //var parentDivId = 'floaterIO';//floaterDivId
                     //*** The relative path to your module
                     var modulePath = "../measure";
 
@@ -88,7 +79,6 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     //*** Constructor parameters object you want passed into your module
                     //*** Provide a unique ID for the parent div of the floating panel (if applicable)
                     var widgetParams = { floaterDivId: 'floaterIO' };
-                    //var parentDivId = 'floaterIO';//floaterDivId
                     //*** The relative path to your module
                     var modulePath = "../interop/interop";
 
@@ -159,71 +149,6 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                 query('.esriPrint').addClass('esriPrint');
                 this._ToolsDiv.appendChild(printer.printDomNode);
                 printer.startup();
-            }
-
-            , _addMeasurementWidget: function (MeasurementDijit) {
-                var fp = new floatingPane({
-                    title: 'Measure', //i18n.tools.measure.title,
-                    resizable: false,
-                    dockable: false,
-                    closable: false,
-                    style: "position:absolute;top:0;left:50px;width:245px;height:175px;z-index:100;visibility:hidden;",
-                    id: 'measurePane'
-                }, dom.byId('floater'));
-                fp.startup();
-
-                var titlePane = query('.dojoxFloatingPaneTitle')[0];
-                //add close button to title pane
-                /*var closeDiv = domConstruct.create('div', {
-                    id: "closeBtn",
-                    innerHTML: esri.substitute({
-                        close_title: 'Close Panel', //i18n.panel.close.title,
-                        close_alt: 'Close' //i18n.panel.close.label
-                    }, '<a alt=${close_alt} title=${close_title} href="JavaScript:toggleMeasure();"><img  src="images/close.png"/></a>')
-                }, titlePane);*/
-                var closeDiv = domConstruct.create('div', {
-                    id: "measureCloseBtn",
-                    innerHTML: esri.substitute({
-                        close_title: 'Close Panel', //i18n.panel.close.title,
-                        close_alt: 'Close' //i18n.panel.close.label
-                    }, '<a alt=${close_alt} title=${close_title} href="http://www.google.com"><img  src="assets/close.png"/></a>')
-                }, titlePane);
-
-                measure = new MeasurementDijit({
-                    map: mapHandler.map,
-                    id: 'measureTool'
-                }, 'measureDiv');
-
-                measure.startup();
-
-                var toggleButton = new ToggleButton({
-                    //label: i18n.tools.measure.label,
-                    title: 'Measure', //i18n.tools.measure.title,
-                    id: "measureToggleButton",
-                    iconClass: "esriMeasureIcon"
-                });
-                on(toggleButton, "onClick", lang.hitch(this, function () {
-                    this._toggleMeasure();
-                }));
-                this._ToolsDiv.appendChild(toggleButton.domNode);
-            }
-
-            //Show/hide the measure widget when the measure button is clicked.
-            , _toggleMeasure: function () {
-                if (dom.byId('floater').style.visibility === 'hidden') {
-                    registry.byId('floater').show();
-                    mapHandler.DisableMapPopups(); //disable map popups otherwise they interfere with measure clicks
-                } else {
-                    registry.byId('floater').hide();
-                    mapHandler.EnableMapPopups(); //enable map popup windows
-                    registry.byId('measureToggleButton').set('checked', false); //uncheck the measure toggle button
-                    //deactivate the tool and clear the results
-                    var measure = registry.byId('measureTool');
-                    measure.clearResult();
-                    if (measure.activeTool) {
-                        measure.setTool(measure.activeTool, false);
-                    }
-                }
             }
         });
     }

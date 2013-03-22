@@ -16,7 +16,7 @@ body {
     color:#333;
 }
 /* Set the Dojo BorderContainers required attributes */
-#bc /*#leftPane*/ {
+#bc {
     width: 100%;
     height: 100%;
 }
@@ -30,10 +30,6 @@ body {
     vertical-align: middle;
     display:none;
 }
-
-/*#header {
-    height: 80px;
-}*/
 
 .titleDiv {
     margin-left: 20px;
@@ -54,7 +50,6 @@ body {
     color: #FFFFFD;
     font-size:32px;
     max-width:72%;
-    /*float:left;*/
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -63,17 +58,6 @@ body {
     margin:2px 0px;
     position: relative;
 }
-/*The main window is the box that contains the map, tools and left panel.*/
-/*#mainWindow{
-    position: relative;
-    border:solid 0px #999;
-    -webkit-border-radius: 0px;
-    -moz-border-radius: 0px;
-    border-radius: 0px;
-    -moz-box-shadow: 0 0 0px #888;
-    -webkit-box-shadow: 0 0 0px #888;
-    box-shadow: 0 0 0px #888;
-}*/
 
 #map {
     padding:0px;
@@ -92,33 +76,21 @@ body {
     width: 100%;
 }
 
-
 /*Left pane contains a stack container with legend and webmap details*/
 #leftPane {
     padding:0px;
     margin:0px;
     border-right:solid 1px #999;
-    /*width: 250px;*/
     display:none;
 }
 #leftPane #rightPane a{
     color:#336699;
-    /*display:none;*/
 }
 
 /*Right pane contains TOC*/
 #rightPane {
     padding:0px;
-    /*width:0px;*/
     border-left:solid 1px #999;
-}
-
-/*.dijitContentPane{
-    overflow:hidden;
-}*/
-
-#legendPanel{
-    /*width:100%;*/
 }
 #detailsPanel span,#legendPanel span{
     padding:0px;
@@ -139,7 +111,6 @@ body {
     font-size: 16px;
     font-weight: 900;
     float: right;
-    /*width:100% !important;*/
     padding:0px !important;
     height:56px;
     background-color: rgba(255, 255, 255, 0);
@@ -148,16 +119,13 @@ body {
     position: relative;
 }
 /*override claro background and other props*/
-/*#toolbarContainer .dijitToolbar {*/
 #toolbarDij {
-    /*width:100% !important;*/
     overflow: visible;
     font-variant: small-caps;
     font-size: 16px;
     font-weight: 900;
     position: relative;
     float: right;
-    /*height:100%;*/
     height:56px;
     background-color: rgba(255, 255, 255, 0);
     background-image: none !important;
@@ -184,7 +152,6 @@ body {
     padding: 5px;
     background: none !important;
 }
-
 
 /*The top toolbar is split into three sections. */
 #webmap-toolbar-left {
@@ -364,15 +331,6 @@ body {
 .esriPrint .dijitArrowButtonInner{
     background-position: right;
 }
-/*.esriPrint .dijitReset .dijitInline .dijitButtonText{
-    display:inline;
-    color:white;
-    background-color: black;
-}
-
-.esriPrint .dijitReset .dijitInline .dijitIcon .dijitNoIcon {
-    display: none;
-}*/
 .esriPrint{
     display:inline-block;
     padding:0px;
@@ -380,7 +338,6 @@ body {
 }
 .claro .dijitComboButton:hover{
     color:#333;
-    /*background-color: #E2EBF2;*/
 }
 .esriLoadingIcon{
     background-image:url(../../assets/loading_black.gif);
@@ -457,10 +414,6 @@ td.dijitMenuItemIconCell,td.dijitMenuItemLabel{
     width: 19px;
     background-position: center;
 }
-/*Use a white arrow for the basemap, bookmarks and share dropdown buttons*/
-/*#basemapBtn_label + span, #shareButton_label + span, #bookmarkButton_label + span,#layerBtn_label  + span{
-  background-position:-53px 53%;
-}*/
 /*Styles for the links to Esri and ArcGIS.com*/
 #nav {
     float:right;
@@ -512,15 +465,6 @@ td.dijitMenuItemIconCell,td.dijitMenuItemLabel{
 }
 
 /*CSS Styles for the measurement widget floating panel*/
-/*#floater {
-    overflow:hidden;
-    background-color:#fff;
-    border: solid 1px #999;
-    border-radius:3px;
-    -moz-border-radius:3px;
-    -webkit-border-radius: 3px;
-    padding:0px !important;
-}*/
 .dojoxFloatingPaneContent{
     font-family:Verdana,Arial,Helvetica,sans-serif;
     font-size:8pt;
@@ -558,19 +502,12 @@ td.dijitMenuItemIconCell,td.dijitMenuItemLabel{
 #measureDiv{
     padding:0px !important;
 }
-/*#measureTool{
-    width:214px;
-}*/
-
 
 /*remove the botttom border from the measurement tools result label*/
 .resultLabel{
     border-bottom:none !important;
     font-family:"helvetica neue", helvetica, arial, sans-serif;
 }
-
-
-
 /*slider customizations*/
 .esriSimpleSliderVertical .esriSimpleSliderIncrementButton ,.esriSimpleSliderVertical .esriSimpleSliderDecrementButton  {
     -webkit-border-radius: 4px;

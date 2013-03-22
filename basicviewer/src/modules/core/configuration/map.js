@@ -18,10 +18,8 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/on", "dojo/Evented", "../
                 , _clickHandler: null
 
                 //Pass in the application configuration, which can contain a web map id
-
                 , configure: function (appConfig) {
                     this._AppConfig = appConfig;
-                    //this._setDefaults();
 
                     if (this._AppConfig.webmap) { //*** Obtain webmap from AGO
                         //http://www.arcgis.com/sharing/content/items/407170546ac14125911c5cee18e8ffb4/data?f=json
@@ -59,25 +57,9 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/on", "dojo/Evented", "../
                         this._CheckForWebMapOverrides();
                     }
                 }
-                
-                /*// Setup up default parameters for the map using the app config settings
-                , _setDefaults: function () {
-                    if (this._AppConfig.geometryserviceurl && location.protocol === "https:")
-                        this._AppConfig.geometryserviceurl = this._AppConfig.geometryserviceurl.replace('http:', 'https:');
-                    esri.config.defaults.geometryService = new esri.tasks.GeometryService(this._AppConfig.geometryserviceurl);
-
-                    if (!this._AppConfig.sharingurl)
-                        this._AppConfig.sharingurl = location.protocol + '//' + location.host + "/sharing/content/items";
-                    esri.arcgis.utils.arcgisUrl = this._AppConfig.sharingurl;
-                    
-                    if(!this._AppConfig.proxyurl){
-                        this._AppConfig.proxyurl = location.protocol + '//' + location.host + "/sharing/proxy";
-                    }
-                    esri.config.defaults.io.proxyUrl = this._AppConfig.proxyurl;
-                    esri.config.defaults.io.alwaysUseProxy = false;
-                }*/
 
                 // Take the Web Map for the application and check for customizations based on the override inputs
+                // Overrides are not implemented yet
                 , _CheckForWebMapOverrides: function () {
                     //Check for user or shared overrides to the defined webmap
                     if (this._WebMap && this._AppConfig.webmapoverride) {
@@ -99,7 +81,6 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/on", "dojo/Evented", "../
                         var localCustomizations = localStorage.getItem(this._WebMapId);
                         if (localCustomizations) {
                             //Convert string to JSON object (might want to convert to singleton dojo store for later mods)
-
                             this._WebMapOverrides = webMapov;
                             this._ReconcileWebMapOverrides();
                         } else
@@ -110,7 +91,6 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/on", "dojo/Evented", "../
                 }
 
                 , _ReconcileWebMapOverrides: function () { // Apply the customizations to the webmap object
-
                     //mapHandler.CustomizedWebMap = ;
                     this._RaiseConfiguredEvent();
                 }
@@ -193,7 +173,7 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/on", "dojo/Evented", "../
                     // Set the singleton instance of the map handler, so other modules can require maphandler and have direct access to the map
                     mapHandler.map = this._Map;
 
-                    //constrain the extent
+                    //constrain the extent - not tested
                     if (this._AppConfig.constrainmapextent === 'true' || this._AppConfig.constrainmapextent === true) {
                         var webmapExtent = this._Map.extent.expand(1.5);
                         var basemapExtent = this._Map.getLayer(this._Map.layerIds[0]).fullExtent.expand(1.5);

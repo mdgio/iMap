@@ -26,9 +26,6 @@
                     style="overflow: hidden;">
               <!--Title dyanmically generated -->
               <div id="nav">
-                  <!--<div align="right">
-                      <script type="text/javascript">showStatewideNavigation("white");</script>
-                  </div>-->
                   <!-- links are dynamically generated-->
                   <ul>
                       <li id="link1List"></li>
@@ -45,15 +42,10 @@
             <!-- Map Section -->
 
             <div id="map" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"center", gutters:"false"'>
-                <!--<div id="search"></div>-->
               <!-- Toolbar (Search and Tool Buttons)-->
               <!--<div id="toolbarContainer" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"top", gutters:"false", region:"left"'>-->
                   <div id="toolbarDij" data-dojo-type="dijit/Toolbar">
-                      <!--<div id="webmap-toolbar-left" >-->
-                          <!--Toolbar buttons (Legend, Details, Edit) created dynamically-->
-                      <!--</div>-->
                       <div id="webmap-toolbar-right">
-                          <!--<input name="btnShowHide" type="image" src="images/expand.png" height="20px" width="20px" style="display: inline-block; margin-left:5px" onclick="changeMapSize()"></input>-->
                           <!--create the search tool-->
                           <div id="search"></div>
                           <div id="tools"></div>
@@ -68,25 +60,17 @@
                   <!--If a logo is specified in config section then the logo will be added
                   to the map in layout.js (configured in app.js) -->
               </div>
-              <!--Floating window that contains the measure dijit-->
-              <!--<div id="floater">
-                  <div id="measureDiv"></div>
-              </div>-->
               <!--Floating window contains the time slider-->
               <div id="timeFloater" style='display:none;'></div>
               <div id="btnLpaneToggle" class="PaneToggle"></div>
             </div>
             <!--end Map section-->
 
-
             <!--Right Panel-->
-            <!--<div data-dojo-type="dijit/layout/ContentPane" id="rightPane" data-dojo-props="gutters:false,region:'right'">-->
-              <!--<div id="tocWidg" data-dojo-type="widgets/core/toc/toc"></div>-->
-            <!--</div>-->
+            <!--<div data-dojo-type="dijit/layout/ContentPane" id="rightPane" data-dojo-props="gutters:false,region:'right'">
+                </div>-->
             <!--End Right Panel-->
-            <!--</div>-->
 
-            <!--</div>-->
             <div id="bottomPane" dojotype="dijit/layout/ContentPane" region="bottom" gutters="false">
             </div>
             <!-- End Main Content section-->

@@ -1,13 +1,11 @@
-/**
- */
+/** The buttons to move up, down, and remove layers in the map */
 define(["dojo/_base/declare", "dijit/_WidgetBase", "dijit/_TemplatedMixin", "dojo/dom-class", "dojo/Evented"],
     function(declare, WidgetBase, TemplatedMixin, domClass){
         return declare([WidgetBase, TemplatedMixin],{
             //*** Properties needed for this style of module
             // The template HTML fragment (as a string, created in dojo/text definition above)
+            // Button click events are wired up in data-dojo-attach-event
             templateString: '<ul id="navlist"><li id="liLyrUp" class="liLyrUpDis" data-dojo-attach-point="liLyrUpAP"><a data-dojo-attach-event="onclick:_clickUp"></a></li><li id="liLyrDwn" class="liLyrDwnDis" data-dojo-attach-point="liLyrDwnAP"><a data-dojo-attach-event="onclick:_clickDown"></a></li><li id="liLyrRem" class="liLyrRemDis" data-dojo-attach-point="liLyrRemAP"><a data-dojo-attach-event="onclick:_clickRemove"></a></li></ul>'
-            // The CSS class to be applied to the root node in our template
-            //, baseClass: "tocBtnBar"
             , baseClass: "navlist"
             , BtnsEnabled: false
             //*** Emitted event to let toc know a button was clicked

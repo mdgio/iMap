@@ -240,9 +240,26 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "doj
                             layer = esri.layers.ArcGISDynamicMapServiceLayer(item.url);
                     } else if (item.type === "ImageServer")
                         layer = esri.layers.ArcGISImageServiceLayer(item.url);
-                    else if (item.type === "Feature Layer")
+                    else if (item.type === "Feature Layer") {
+                        //Create a popup template for the feature layer - not implemented
+                        /*var strContent;
+                        if (node.serviceInfo) {
+                            var contArray = ['<table>'];
+                            for (var s = 0; s < node.serviceInfo.fields.length; s++) {
+                                var name = node.serviceInfo.fields[s].name;
+                                if (name === 'objectid' || name === 'shape')
+                                    continue;
+                                var alias = node.serviceInfo.fields[s].alias;
+                                contArray.push('<tr valign="top"><td class="attrName">' + alias + '</td><td class="attrValue">${' + name + '}</td></tr>');
+                            }
+                            contArray.push('</table>');
+                            strContent = contArray.join('');
+                        } else
+                            strContent = "${*}";
+                        var infoTemplate = new esri.InfoTemplate("Details", strContent);
+                        layer = esri.layers.FeatureLayer(item.url, { infoTemplate: infoTemplate });*/
                         layer = esri.layers.FeatureLayer(item.url);
-                    else if (item.type === "KML")
+                    } else if (item.type === "KML")
                         layer = esri.layers.KMLLayer(item.url);
                     else if (item.type === "WMS")
                         layer = esri.layers.WMSLayer(item.url);
@@ -254,7 +271,7 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "doj
                     layer.title = item.name;
                     //Take on the REST endpoint's serviceinfo JSON. Legend can then check for it and use it.
                     layer.serviceInfo = node.serviceInfo;
-                    //Make sure the layer loads, or show the error
+                    //Make sure the layer loads, or show the error, should be converted to layer's load event
                     connect.connect(this.map, "onLayerAddResult", lang.hitch(this, function (layer, error) {
                         if (error)
                             alert("Error occurred loading in map : " + error.message);

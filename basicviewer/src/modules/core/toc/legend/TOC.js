@@ -2,7 +2,6 @@
  * Using dojo/_base/connect to connect to map event fxns. This is deprecated along with dojo.connect, but the seemingly appropriate
  * connector (dojo/aspect) does not obtain the proper callback parameters.
  */
-
 define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/_base/lang", "./_RootLayerTOC"
     , "dojo/on", "dojo/_base/connect", "dojo/Evented", "xstyle/css!./css/TOC.css" ],
     function(declare, domConstruct, WidgetBase, lang, _RootLayerTOC, on, connect) {
@@ -56,8 +55,6 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/_
 	                throw new Error('no map defined in params for TOC');
 	            }
 	            dojo.mixin(this, params);
-
-
 	        },
 	        // extension point
 	        postCreate: function() {
@@ -89,42 +86,6 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/_
                     }
                 }));
 
-                /*connect.connect(this.map, "onLayerReorder", lang.hitch(this, function (layer, index) {
-                    //Change the position of the layer if present in the TOC
-                    var indexInToc = null;
-                    for (var i = 0; i < this._rootLayerTOCs.length; i++) {
-                        var rootLayerToc = this._rootLayerTOCs[i];
-                        if (layer.id === rootLayerToc.rootLayer.id) {
-
-                            break;
-                        }
-                    }
-                }));*/
-
-                /*connect.connect(this.map, "onBasemapChange", lang.hitch(this, function () {
-
-                }));
-
-                connect.connect(this.map, "onBasemapChange", lang.hitch(this, function () {
-
-                }));*/
-
-                /*dojo.connect(this.map, 'onLayerAdd', this, function(layer) {
-                 this.layerInfos.push({
-                 layer: layer
-                 });
-                 this.refresh();
-                 });*/
-                /*dojo.connect(this.map, 'onLayerRemove', this, function(layer) {
-                 for (var i = 0; i < this.layerInfos.length; i++) {
-                 if (this.layerInfos[i] == layer) {
-                 this.layerInfos.splice(i, 1);
-                 break;
-                 }
-                 }
-                 this.refresh();
-                 });*/
-
                 //Inspect the currently loaded layers to see how to handle in the TOC
                 if (!this.layerInfos) {
                     this.layerInfos = [];
@@ -137,77 +98,18 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/_
                     for (var r = this.map.graphicsLayerIds.length - 1; r >= 0; r--) {
                         var rootGraphicLayer = this.map.getLayer(this.map.graphicsLayerIds[r]);
                         this._handleLayerForToc(rootGraphicLayer);
-
-                        /*if (this._doesGrLyrHaveSvcLyr(rootGraphicLayer.id)) // don't add to TOC, since just for popups
-                            continue;
-                        if (!this.webMap) {
-                            // these properties defined in BasemapControl widget.
-                            // since the basemap control add/remove them frequently, it's better not to show.
-                            if (!rootGraphicLayer._isBaseMap && !rootGraphicLayer._isReference) {
-                                this.layerInfos.push({
-                                    layer: rootGraphicLayer
-                                });
-                            }
-                        } else { //Add the graphics layer to the TOC
-                            var layerTitle = this._getRootLayerTitle(rootGraphicLayer);
-                            this.layerInfos.push({
-                                layer: rootGraphicLayer
-                                , title: layerTitle
-                            });
-                        }*/
                     }
 
                     // Loop through the service layers of the map (map, image, wms). Create entry in list.
                     for (var i = this.map.layerIds.length - 1; i >= 0; i--) {
                         var rootLayer = this.map.getLayer(this.map.layerIds[i]);
                         this._handleLayerForToc(rootLayer);
-                        /*if (!this.webMap) {
-                            this.layerInfos.push({
-                                layer: rootLayer
-                            });
-                        } else { //Only create root entries for the operational layers, not the basemap layer(s)
-                            for (var p = this.webMap.itemData.operationalLayers.length - 1; p >= 0; p--) {
-                                var opLayer = this.webMap.itemData.operationalLayers[p];
-                                if (rootLayer.id === opLayer.id) {
-                                    //Don't show a legend for the root layer, if Hide in Legend was set in web map
-                                    var noLegend = false;
-                                    if (!opLayer.showLegend)
-                                        noLegend = true;
-                                    this.layerInfos.push({
-                                        layer: rootLayer,
-                                        title: opLayer.title,
-                                        noLegend: noLegend
-                                    });
-                                    break;
-                                }
-                            }
-                        }*/
                     }
 
                 }
-
-	            // do we have any layerInfos without rootLayer created?
-	            /*var createdLayers = [];
-	            dojo.forEach(this.layerInfos, function(layerInfo) {
-	                if (!layerInfo.layer) {
-                    layerInfo.layer = this._createRootLayer(layerInfo);
-                    createdLayers.push(layerInfo.layer);
-                }
-	            }, this);
-	            if (createdLayers.length == 0) {
-	                this._createTOC();
-	            } else {
-	                var c = dojo.connect(this.map, 'onLayersAddResult', this, function(results) {
-	                    dojo.disconnect(c);
-	                    this._createTOC();
-	                });
-	                this.map.addLayers(createdLayers);
-	            }*/
-
                 if (!this._zoomHandler) {
                     this._zoomHandler = dojo.connect(this.map, "onZoomEnd", this, "_adjustToState");
                 }
-                //this._createTOC();
 	        }
 
             // The handler that checks if a map layer should be included in TOC. If so, handles inserting and updating _rootLayerTOCs list
@@ -244,84 +146,6 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/_
                 }
             }
 
-
-            /*When popups are configured on a map service's layer(s) it also adds a feature layer(s) to use for the popup. Check if this is the case.
-                Although, KMLLayers seem to add a layer to both the layerIds and the graphicsLayerIds, and the graphics one seems to be the one to keep.
-            */
-            /*, _doesGrLyrHaveSvcLyr: function (grLyrId) {
-                //The feat. lyr. id seems to be "<service layers's id>_<layer id>"
-                var svcLyrIdToCheck = grLyrId.substring(0, grLyrId.lastIndexOf('_'));
-                *//*If the TOC is created on startup could have case where service layer has not been added yet, so check the webmap
-                    Also, can more easily check if the layer is KML, in which case you want to keep it *//*
-                for (var j = 0; j < this.webMap.itemData.operationalLayers.length; j++) {
-                    var opLayer = this.webMap.itemData.operationalLayers[j];
-                    if (grLyrId === opLayer.id) //It's probably an independent feature layer
-                        return false;
-                    else if (svcLyrIdToCheck === opLayer.id) { //There is an operational service layer, so the graphics layer is tied to a popup on a map service's layer
-                        if (opLayer.type && opLayer.type.toLowerCase() !== 'kml')
-                            return true;
-                        else  //Unless its KML- then the graphics layer for KML is the one to keep
-                            return false;
-                    }
-                }
-                for (var i = 0; i < this.map.layerIds.length; i++) { //Now check the map's layerids (important if added after creating web map
-                    if (svcLyrIdToCheck === this.map.layerIds[i] && grLyrId.toLowerCase().indexOf('kml_') != 0)
-                        return true;
-                }
-                return false;
-            }*/
-
-            /*, _getRootLayerTitle: function (rootLayer) {
-                //Other modules, such as add.js and interop.js append a title to the layer object, so check this first
-                if (rootLayer.title && rootLayer.title.length > 0)
-                    return rootLayer.title;
-                //Check web map for title
-                for (var s = this.webMap.itemData.operationalLayers.length - 1; s >= 0; s--) {
-                    var opLayer = this.webMap.itemData.operationalLayers[s];
-                    if (rootLayer.id === opLayer.id)
-                        return opLayer.title;
-                }
-                if (rootLayer.name) // a property seems to be set on some layers
-                 return rootLayer.name;
-                return rootLayer.id;
-            }*/
-
-	        /*onLoad: function(){
-
-	        },*/
-	        /*, _createRootLayer: function(lay) {
-	            var rootLayer = null;
-	            var type = lay.type || 'ArcGISDynamic';
-	            switch (type) {
-	                case 'ArcGISDynamic':
-	                    rootLayer = new esri.layers.ArcGISDynamicMapServiceLayer(lay.url, lay);
-	                    break;
-	            }
-	            return rootLayer;
-	        },*/
-	        /*, _createTOC: function() {
-	            dojo.empty(this.domNode);
-	            for (var i = 0, c = this.layerInfos.length; i < c; i++) {*/
-	                /*// attach a title to rootLayer layer itself
-	                var rootLayer = this.layerInfos[i].layer;
-	                var svcTOC = new _RootLayerTOC({
-	                    rootLayer: rootLayer,
-	                    info: this.layerInfos[i],
-	                    toc: this
-	                });
-
-	                this._rootLayerTOCs.push(svcTOC);
-                    //Insert the actual dom node into window, might have to track order better
-                    svcTOC.placeAt(this.domNode);*/
-
-            /*        this._insertRootLayer(this.layerInfos[i]);
-	            }
-	            if (!this._zoomHandler) {
-	                this._zoomHandler = dojo.connect(this.map, "onZoomEnd", this, "_adjustToState");
-	            }
-	
-	        }*/
-
             , _insertRootLayer: function (layerInfo) {
                     //create the TOC item for a main layer
                     var rootLayer = layerInfo.layer;
@@ -330,7 +154,6 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/_
                         info: layerInfo,
                         toc: this
                     });
-
                     //Now find the corresponding next node in the TOC
                     var nextLayer = this.FindNextTocNode(rootLayer, false);
                     //Add to the list of TOC nodes
@@ -338,13 +161,11 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/_
                         this._rootLayerTOCs.splice(nextLayer.nextIndexInToc, 0, svcTOC);
                     } else
                         this._rootLayerTOCs.push(svcTOC);
-                    //this._rootLayerTOCs.push(svcTOC);
                     //Insert the actual dom node into window
                     if (nextLayer.nextTocNode)
                         domConstruct.place(svcTOC.domNode, nextLayer.nextTocNode.domNode, 'before');
                     else
                         domConstruct.place(svcTOC.domNode, this.domNode);
-                    //svcTOC.placeAt(this.domNode);
             }
 
             /*Find the next (lower in the overlay order) layer in the map that is present in the TOC
@@ -492,12 +313,6 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/_
 	                widget._adjustToState();
 	            });
 	        }
-	        /**
-	         * Refresh the TOC to reflect
-	         */
-	        /*, refresh: function() {
-	            this._createTOC();
-	        }*/
 	        , destroy: function() {
 	            dojo.disconnect(this._zoomHandler);
 	            this._zoomHandler = null;

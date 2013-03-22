@@ -14,7 +14,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     appid: "",
                     //The ID for a web map from ArcGIS Online (AGO)
                     //If not going to specify a Web Map in AGO, then use empty quotes ("") here
-                    webmap: "d1201eea7afb4ed49f08a310e9803f2f", //  3182b7b31f10425ba0884fccc1916682 d1201eea7afb4ed49f08a310e9803f2f
+                    webmap: "d1201eea7afb4ed49f08a310e9803f2f",
                     // The URL to an ArcGIS Web Map- if not using ArcGIS.com.
                     // Can be relative to index.html. For example, if in basicviewer root- "webmap.js"
                     // If both webmap and webmapurl are empty, then a map must be programmatically defined in map.js
@@ -49,8 +49,6 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     //rightpanewidth: 280,
                     //The height (px) of the Header (where title, logo, and links are located)
                     headerHeight: "40",
-                    //URL to banner image, if non specified then defaults to iMap banner image.
-                    //headerbanner: "assets/imap/imapBanner2.jpg",
                     //Set link text and url parameters if you want to display clickable links in the upper right-corner
                     //of the application.
                     //ArcGIS.com. Enter link values for the link1 and link2 and text to add links. For example
@@ -70,11 +68,12 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     embed: (environment.IframeEmbedded || environment.WindowHeight < 600)
 
                     //*** Widgets ***
-                    //Set startupwidget to one of variable names to show on startup. To hide on startup, set startupwidget to 'none'
+                    //Set startupwidget to one of variable names to show on startup.
+                    // To hide on startup, set startupwidget to 'none'
                     , displaydetails: true,
                     tablecontents: true,
                     displayeditor: false,
-                    startupwidget: 'none',
+                    startupwidget: 'displaydetails',
                     ////When editing you need to specify a proxyurl (see below) if the service is on a different domain
                     //Specify a proxy url if you will be editing, using the elevation profile or have secure services or web maps that are not shared with everyone.
                     proxyurl: "proxy.ashx",
@@ -125,11 +124,6 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
 
                     //*** General Settings ***
                     //i18n.viewer.main.scaleBarUnits,
-                    //The elevation tool uses the  measurement tool to draw the lines. So if this is set
-                    //to true then displaymeasure needs to be true too.
-                    //displayelevation: true,
-                    //This option is used when the elevation chart is displayed to control what is displayed when users mouse over or touch the chart. When true, elevation gain/loss will be shown from the first location to the location under the cursor/finger.
-                    //showelevationdifference: false,
 
                     //If the webmap uses Bing Maps data, you will need to provide your Bing Maps Key
                     bingmapskey: "",
@@ -181,9 +175,6 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                             if (response.values.headerHeight) {
                                 configOptions.headerHeight = response.values.headerHeight;
                             }
-                            /*if (response.values.headerbanner !== undefined) {
-                                configOptions.headerbanner = response.values.headerbanner;
-                            }*/
                             if (response.values.displaytitle != undefined) {
                                 configOptions.displaytitle = response.values.displaytitle;
                             }
@@ -199,7 +190,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                             if (response.values.tablecontents != undefined) {
                                 configOptions.tablecontents = response.values.tablecontents;
                             }
-/*                            if (response.values.displayeditor != undefined) {
+                            /*if (response.values.displayeditor != undefined) {
                                 configOptions.displayeditor = response.values.displayeditor;
                             }*/
                             if (response.values.startupwidget) {
@@ -237,12 +228,6 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                             }
 /*                            if (response.values.displayslider) {
                                 configOptions.displayslider = response.values.displayslider;
-                            }*/
-                            /*if (response.values.displayelevation !== undefined) {
-                                configOptions.displayelevation = response.values.displayelevation;
-                            }
-                            if (response.values.showelevationdifference !== undefined) {
-                                configOptions.showelevationdifference === response.values.showelevationdifference;
                             }*/
                             if (response.values.displayoverviewmap != undefined) {
                                 configOptions.displayoverviewmap = response.values.displayoverviewmap;

@@ -56,7 +56,6 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     this._AppConfig.owner = this._WebMap.item.owner;
 
                     //Overlay toolbar on map
-                    //var placeholder = dom.byId('toolbarContainer');
                     var placeholder = dom.byId('toolbarDij');
                     dom.byId('map_root').appendChild(placeholder, { style: {height: '48px'}});
 
@@ -164,8 +163,6 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     //Set the toolbar
                     var toolManager = new ToolManager({ AppConfig: this._AppConfig, WebMap: this._WebMap });
                     toolManager.CreateTools();
-
-
                 }
 
                 , _LayoutLeftPanel: function (show) {

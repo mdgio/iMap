@@ -1,5 +1,5 @@
 /**
- Contains the ESRI Editor dijit for feature layers.
+ Contains the ESRI Editor dijit for feature layers. Note implemented.
  */
 define(["dojo/_base/declare", "dojo/on", "dojo/_base/lang", "utilities/maphandler"],
     function(declare, on, lang, mapHandler){
