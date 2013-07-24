@@ -241,10 +241,11 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "doj
                     } else if (item.type === "ImageServer")
                         layer = esri.layers.ArcGISImageServiceLayer(item.url);
                     else if (item.type === "Feature Layer") {
-                        //Create a popup template for the feature layer - not implemented
-                        /*var strContent;
-                        if (node.serviceInfo) {
-                            var contArray = ['<table>'];
+                       //Create a popup template for the feature layer - not implemented
+                        var strContent;
+    					//Creates a table of attributes for popup
+						if (node.serviceInfo){
+							var contArray = ['<table>'];
                             for (var s = 0; s < node.serviceInfo.fields.length; s++) {
                                 var name = node.serviceInfo.fields[s].name;
                                 if (name === 'objectid' || name === 'shape')
@@ -254,11 +255,17 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "doj
                             }
                             contArray.push('</table>');
                             strContent = contArray.join('');
-                        } else
-                            strContent = "${*}";
-                        var infoTemplate = new esri.InfoTemplate("Details", strContent);
-                        layer = esri.layers.FeatureLayer(item.url, { infoTemplate: infoTemplate });*/
-                        layer = esri.layers.FeatureLayer(item.url);
+							
+							//Checks to see if a field named popup exists.  If so uses it instead of table created above
+							for (var s = 0; s < node.serviceInfo.fields.length; s++) {
+								var name = node.serviceInfo.fields[s].name;
+								if (name === 'popup')
+									strContent = "${popup}";
+							}
+						}
+						var infoTemplate = new esri.InfoTemplate("Attributes", strContent);
+                        layer = esri.layers.FeatureLayer(item.url, { infoTemplate: infoTemplate,  outFields: ["*"] });
+                        
                     } else if (item.type === "KML")
                         layer = esri.layers.KMLLayer(item.url);
                     else if (item.type === "WMS")
