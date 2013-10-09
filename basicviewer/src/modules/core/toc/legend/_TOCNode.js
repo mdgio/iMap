@@ -107,6 +107,11 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dijit/_TemplatedMixin", "dij
 	        _createRootLayerNode: function(rootLayer) {
 	            dojo.addClass(this.rowNode, 'agsjsTOCRootLayer');
 	            dojo.addClass(this.labelNode, 'agsjsTOCRootLayerLabel');
+				
+                if (rootLayer.type != undefined && rootLayer.type == "Feature Layer") {
+                    this.rootLayerTOC.info.noLegend = false;
+                    this.rootLayerTOC.info.FL = true;
+                };				
 	
 	            var title = this.rootLayerTOC.info.title;
 	            if (title === '') {
@@ -136,11 +141,13 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dijit/_TemplatedMixin", "dij
 	                    this.slider.setValue(op * 100);
 	                });
 	            }
-	            if (!this.rootLayerTOC.info.noLegend) {
-	                this._createChildrenNodes(rootLayer._tocInfos, 'layer');
-	            } else {
-	                dojo.style(this.iconNode, 'visibility', 'hidden');
-	            }
+                if (!this.rootLayerTOC.info.noLegend && this.rootLayerTOC.info.FL == undefined) {
+                    this._createChildrenNodes(rootLayer._tocInfos, 'layer');
+                } else if (!this.rootLayerTOC.info.noLegend && this.rootLayerTOC.info.FL) {
+                    this._createLayerNode(this.rootLayerTOC.info.layer)
+                } else {
+                    dojo.style(this.iconNode, 'visibility', 'hidden');
+                }
 	            this.labelNode.innerHTML = title;
 	            dojo.attr(this.rowNode, 'title', title);
 	        },

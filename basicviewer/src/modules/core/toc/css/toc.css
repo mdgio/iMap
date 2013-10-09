@@ -44,17 +44,32 @@
 .navlist li{margin:0;padding:0;list-style:none;position:absolute;top:0;}
 .navlist li, .navlist a{height:30px;display:block;}
 
-#liLyrUp{left:5px;width:30px;}
-.liLyrUp{background:url('btnbar_img.gif') 0 0;cursor:pointer;}
-#liLyrUp a:hover{background: url('btnbar_img.gif') 0 -31px;}
-.liLyrUpDis{background:url('btnbar_img.gif') 0 -62px;cursor:wait;}
+#liLyrUp{left:5px;width:30px; background-image:url('btnbar_img2.gif');
+    border: 1px solid #183809;
+    border-radius: 7px;}
+.liLyrUp{background-position:0 0;cursor:pointer; background-color: #eef6ff;box-shadow: #a9cff2 -2px -2px 3px inset;}
+.liLyrUp:hover{background-color: #cde7ff;}
+.liLyrUpDis
+{
+    background-position: 0 -31px;
+    cursor:wait;
+    box-shadow: none;
+    background-color: transparent;}
 
-#liLyrDwn{left:40px;width:30px;}
-.liLyrDwn{background:url('btnbar_img.gif') -31px 0;cursor:pointer;}
-#liLyrDwn a:hover{background: url('btnbar_img.gif') -31px -31px;}
-.liLyrDwnDis{background:url('btnbar_img.gif') -31px -62px;cursor:wait;}
+#liLyrDwn{left:40px;width:30px;background-image:url('btnbar_img2.gif');
+    border: 1px solid #183809;
+    border-radius: 7px;}
+.liLyrDwn{background-position: -31px 0;cursor:pointer;background-color: #eef6ff;box-shadow: #a9cff2 -2px -2px 3px inset;}
+.liLyrDwn:hover{background-color: #cde7ff;}
+.liLyrDwnDis{background-position: -31px -31px;
+    cursor:wait;
+    box-shadow: none;
+    background-color: transparent;}
 
-#liLyrRem{left:75px;width:30px;cursor:pointer;}
-.liLyrRem{background:url('btnbar_img.gif') -62px 0;cursor:pointer;}
-#liLyrRem a:hover{background: url('btnbar_img.gif') -62px -31px;}
-.liLyrRemDis{background:url('btnbar_img.gif') -62px -62px;cursor:wait;}
+#liLyrRem{left:75px;width:30px;background-image:url('btnbar_img2.gif');border: 1px solid #183809;
+    border-radius: 7px;}
+.liLyrRem{background-position: -62px 0;cursor:pointer;background-color: #bd4a34;box-shadow: #854134 -2px -2px 3px inset;}
+.liLyrRem:hover{background-color: #801804;}
+.liLyrRemDis{background-position: -62px -31px;cursor:wait;
+    box-shadow: none;
+    background-color: transparent;}
