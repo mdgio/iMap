@@ -21,6 +21,73 @@ body {
   background:url(../../assets/black/toolbar_bg.png) repeat-x #6788a2;
 }
 
+/* Background color for regular buttons*/
+#tools .dijitIcon
+{
+    box-shadow: 3px 3px 2px darkgray, #282828 -2px -2px 3px inset;
+    background-color: #363636;
+    border: 1px solid #181818;
+    border-radius: 5px 5px 5px 5px;
+}
+/* Background color for dropdown left side button*/
+#tools .dijitComboButton .dijitIcon, #tools .dijitDownArrowButton .dijitIcon{
+    box-shadow: 0px 3px 2px darkgray, #282828 0px -2px 3px inset;
+    background-color: #363636;
+    border: 1px solid #181818;
+    border-radius: 5px 0px 0px 5px;
+}
+/* Background color for dropdown right side button*/
+#tools .dijitArrowButtonInner
+{
+    height: 48px;
+    background-color: #363636;
+    border: 1px solid #181818;
+    border-left: none;
+    border-radius: 0px 5px 5px 0px;
+    box-shadow: 3px 3px 1px darkgray,  #282828 -2px 0px 3px inset;
+}
+
+/* Buttons on hover*/
+#tools .dijitToggleButtonHover .dijitIcon
+{
+    box-shadow: #282828 2px 2px 3px inset;     
+} 
+/* Buttons on checked*/
+#tools .dijitToggleButtonChecked .dijitIcon
+{
+    background-color: #878787;
+    box-shadow: #282828 2px 2px 3px inset; 
+} 
+.PaneToggleImage{
+    background-image: none;
+    background-color: #363636;
+    border: 1px solid #181818;
+    border-left: none;
+    border-radius: 0px 5px 5px 0px;
+    box-shadow: 3px 3px 1px darkgray;
+}
+
+/* Buttons on hover*/
+#tools .dijitToggleButtonHover .dijitIcon
+{
+    box-shadow: #6C6C6C 2px 2px 3px inset;     
+} 
+/* Buttons on checked*/
+#tools .dijitToggleButtonChecked .dijitIcon
+{
+    background-color: #878787;
+    box-shadow: #6C6C6C 2px 2px 3px inset; 
+} 
+.PaneToggleImage{
+    background-image: none;
+    background-color: #B4B4B4;
+    border: 1px solid #515151;
+    border-left: none;
+    border-radius: 0px 5px 5px 0px;
+    box-shadow: 3px 3px 1px darkgray;
+}
+
+
 /* Change color of tab menu*/
 .claro .dijitTab{
     background-color: #1E2227;

@@ -678,6 +678,22 @@ div#editDiv.templatePicker .grid  .selectedItem {
     margin-top: 10px;
 }
 
+/* Adjust styles for Add Data folders and layers */
+.mapFolderOpen
+{
+  background:transparent url(../../assets/folder-images.png) no-repeat scroll 0%;     
+  background-size: 100% 100%;
+  width: 16px;
+  height: 16px;
+}
+.mapLeaf
+{
+  background:transparent url(../../assets/Layers-icon.png) no-repeat scroll 0%;  
+  background-size: 100% 100%;
+  width: 16px;
+  height: 16px;   
+}
+
 /*Make the splitter wider for touch*/
 .claro .dijitSplitterV, .claro .dijitGutterV {
     width: 8px;

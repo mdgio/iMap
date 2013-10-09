@@ -20,13 +20,19 @@ define(["dojo/_base/declare", "dojo/on"],
 
             //Some tools, such as measurement and draw need to toggle on/off popups, so a popup doesn't appear when drawing on the map.
             , EnableMapPopups: function () {
-                if (this._clickListener)
-                    this._clickHandler = on(this.map, "onClick", this._clickListener);
+                //                if (this._clickListener)
+                //                    this._clickHandler = on(this.map, "onClick", this._clickListener);
+                if (this._clickListener) {
+                    this._clickHandler = this.map.on("click", this._clickListener);
+                    console.log("Popups should be enabled");
+                };
+
             }
 
             , DisableMapPopups: function () {
-                if (this._clickHandler)
-                    this._clickHandler.remove();
+                if (this._clickHandler) {
+                    dojo.disconnect(this._clickHandler);
+                }
             }
 
             // Takes the Web Map configuration object (including any overrides) from map.js and creates the MapLayerStore object.
