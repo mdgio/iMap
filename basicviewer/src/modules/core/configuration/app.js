@@ -72,6 +72,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     // To hide on startup, set startupwidget to 'none'
                     , displaydetails: true,
                     tablecontents: true,
+                    adddata: true,
                     displayeditor: false,
                     startupwidget: 'displaydetails',
                     ////When editing you need to specify a proxyurl (see below) if the service is on a different domain
@@ -142,7 +143,8 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     placefinder: {
                         "url": "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer",
                         "countryCode":""
-                    }
+                    },
+                    displaypointtransp: false
                 };
 
                 this._setDefaults(configOptions);
@@ -189,6 +191,9 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                             }
                             if (response.values.tablecontents != undefined) {
                                 configOptions.tablecontents = response.values.tablecontents;
+                            }
+							if (response.values.adddata != undefined) {
+                                configOptions.adddata = response.values.adddata;
                             }
                             /*if (response.values.displayeditor != undefined) {
                                 configOptions.displayeditor = response.values.displayeditor;
@@ -258,6 +263,9 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                             }
                             if (response.values.customlogolink) {
                                 configOptions.customlogo.link = response.values.customlogolink;
+                            }
+                            if (response.values.displaypointtransp) {
+                                configOptions.displaypointtransp = response.values.displaypointtransp;
                             }
                             /*if (response.values.basemapgrouptitle && response.values.basemapgroupowner) {
                                 configOptions.basemapgroup.title = response.values.basemapgrouptitle;
