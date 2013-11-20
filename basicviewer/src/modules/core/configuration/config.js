@@ -9,6 +9,7 @@
     "values": {
         "displaybasemaps": true,
             "tablecontents": true,
+            "adddata": true,
             "displayshare": false,
             "displaymeasure": false,
             "displaylocation": true,
@@ -24,6 +25,7 @@
             "displaysearch": true,
             "displaydraw": false,
             "embed": false
+            "displaypointtransp": false
     },
     "configurationSettings": [{
         "category": "<b>Layout</b>",
@@ -127,6 +129,11 @@
             "fieldName": "embed",
             "type": "boolean",
             "tooltip": ""
+        },{
+            "label": "Show Transparency Slider for Point/Line layers",
+            "fieldName": "displaypointtransp",
+            "type": "boolean",
+            "tooltip": ""
         }]
     }, {
         "category": "<b>Widgets</b>",
@@ -139,7 +146,12 @@
             "label": "Table of Contents",
             "fieldName": "tablecontents",
             "type": "boolean",
-            "tooltip": "Legend and Add Data"
+            "tooltip": "Legend"
+        },{
+            "label": "Add Data",
+            "fieldName": "adddata",
+            "type": "boolean",
+            "tooltip": "Add Data"
         }, {
             "label": "Startup Widget:",
             "fieldName": "startupwidget",
@@ -150,6 +162,9 @@
             }, {
                 "label": "Table of Contents",
                 "value": "tablecontents"
+            }, {
+                "label": "Add Data",
+                "value": "adddata"
             }, {
                 "label": "None",
                 "value": "none"

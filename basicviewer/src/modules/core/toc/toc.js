@@ -12,6 +12,8 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/o
             //*** The ESRI Web Map object to be used by the TOC to set properties such as title, visiblity, etc.
             webMap: null,
 
+            appConfig: null,
+
             // The table of contents dijit
             _dijitToc: null,
             _addDataPane: null,
@@ -178,6 +180,7 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/o
                     this._dijitToc.destroyRecursive();this._dijitToc = new legendToc({
                         map: this.esriMap
                         , webMap: this.webMap
+                        , displayPointT: this.appConfig.displaypointtransp
                 });
             }
         });
