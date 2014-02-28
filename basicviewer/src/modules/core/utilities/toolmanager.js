@@ -22,6 +22,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                 this._WebMap = args.WebMap;
 
                 this._LeftToolDiv = dom.byId("webmap-toolbar-left");
+				this._RightToolDiv = dom.byId("webmap-toolbar-right");
                 this._ToolsDiv = dom.byId("tools");
             }
 
@@ -37,7 +38,22 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     );
                 }
 
-                //The measure tool with options in a floating pane - there is a bug in measure with the floating pane
+                //This is the draw tool with options in a floating pane - 
+                if (this._AppConfig.displaydraw === 'true' || this._AppConfig.displaydraw == true) {
+                    //*** Give button a unique btnId, set title, iconClass as appropriate
+                    var btnId = 'tglbtnDraw';
+                    var btnTitle = 'Draw';
+                    var btnIconClass = 'esriDrawIcon';
+                    //*** Constructor parameters object you want passed into your module
+                    //*** Provide a unique ID for the parent div of the floating panel (if applicable)
+                    var widgetParams = { floaterDivId: 'floaterDraw' };
+                    //*** The relative path to your module
+                    var modulePath = "../draw/draw";
+
+                    this._CreateToolButton(widgetParams, btnId, btnTitle, btnIconClass, modulePath, true);
+                }
+				
+				 //*** This is the measure tool with options in a floating pane - there is a bug in measure with the floating pane
                 if (this._AppConfig.displaymeasure === 'true' || this._AppConfig.displaymeasure == true) {
                     //*** Give button a unique btnId, set title, iconClass as appropriate
                     var btnId = 'tglbtnMeasure';
@@ -68,6 +84,46 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                         })
                     );
                 }
+				//*** The display send link tool. An example of loading a DropDownButton, which needs it contents loading before startup.
+                    if (this._AppConfig.displaySend === "true" || this._AppConfig.displaySend == true) {
+                        //Get the basemap dijit- a dropdown button with the dropdown content
+                        require(["../generateLink"],
+                        lang.hitch(this, function (webmapDijit) {
+                            var webMapBtn = new webmapDijit({
+                                id: "genLinkBtn",
+                                iconClass: "esriLinkIcon",
+                                title: "Generate Link",
+                                AppConfig: this._AppConfig
+                            });
+                            //Button gets added to toolbar
+                            this._ToolsDiv.appendChild(webMapBtn.domNode);
+                        })
+						);
+                    }
+					
+					if (this._AppConfig.zoomtocounty === "true" || this._AppConfig.zoomtocounty === true) {
+						//a dropdown button with the dropdown content
+						require(["../zoomtofeature"],
+                        lang.hitch(this, function (zoomDijit) {
+                            var zoomToBtn = new zoomDijit({
+                                id: "selectZoom",
+                                title: "County",
+                                value: "Zoom to County",
+                                service: "http://www.mdimap.us/ArcGIS/rest/services/Boundaries/MD.State.Counties/MapServer/",  
+                                // alternative:  http://www.mdimap.us/ArcGIS/rest/services/Boundaries/MD.State.PoliticalBoundaries/MapServer/  layer: 5,  field: "COUNTY"
+								zoomFeature: "County",
+                                layer: 0,
+                                field: "NAME",
+                                AppConfig: this._AppConfig
+                            });
+							
+							//Button gets added to toolbar
+                            this._RightToolDiv.appendChild(zoomToBtn.domNode);
+                        })
+						);
+					};
+					
+				
 
                 //*** This is the add shapefile tool, created as a module. Use this as a pattern for new tools.
                 // The _AppConfig parameter originates in app.js, and can be overridden by AGO if parameter is made configurable in config.js.
@@ -149,6 +205,11 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                 query('.esriPrint').addClass('esriPrint');
                 this._ToolsDiv.appendChild(printer.printDomNode);
                 printer.startup();
+				
+				
+				on(printer, "error", function () {
+					alert ("There was an error while printing.  Please try again later.");
+					});
             }
         });
     }

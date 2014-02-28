@@ -102,16 +102,19 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/on", "dojo/Evented", "../
                 //The function which finally creates the map object using the webmap object
                 , CreateMap: function () {
                     //create the map and enable/disable map options like slider, wraparound, esri logo etc
+
                     if (this._AppConfig.displayslider === 'true' || this._AppConfig.displayslider === true) {
                         this._AppConfig.displaySlider = true;
                     } else {
                         this._AppConfig.displaySlider;
                     }
+						
                     if (this._AppConfig.constrainmapextent === 'true' || this._AppConfig.constrainmapextent === true) {
                         this._AppConfig.constrainmapextent = true;
                     } else {
                         this._AppConfig.constrainmapextent = false;
                     }
+					
                     if (environment.TouchEnabled) {
                         require(["esri/dijit/PopupMobile"], lang.hitch(this, function(popupMob) {
                             //create a mobile popup
@@ -123,18 +126,22 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/on", "dojo/Evented", "../
                 }
 
                 , _createMap: function (mobilePop) {
+					
+						
                     var options = {
                         slider: this._AppConfig.displaySlider,
                         sliderStyle:'small',
-                        nav: false,
+						nav: false,
                         wrapAround180: !this._AppConfig.constrainmapextent,
                         showAttribution:true, //set wraparound to false if the extent is limited.
                         logo: !this._AppConfig.customlogo.image //hide esri logo if custom logo is provided
                     };
                     if (mobilePop) //Set the popup to the mobile dijit, if applicable
                         options.infoWindow = mobilePop;
+						
                     if (!this._WebMap) { //*** Create a map, add layers, etc. using the standard API methods here:
                         this._Map = new esri.Map('map', options);
+												
                         if (this._Map.loaded)
                             this._FinishMapElements();
                         else
@@ -212,8 +219,21 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/on", "dojo/Evented", "../
                             })
                         );
                     }
-                    this._RaiseMapLoaded();
-                }
+                    
+					if (this._AppConfig.displayhome === "true" || this._AppConfig.displayhome === true) {
+						//add Home Button
+					    require(["esri/dijit/HomeButton"],
+                            lang.hitch(this, function(HomeButton) {
+								var home = new HomeButton({
+									map: this._Map
+								}, "HomeButton");
+								home.startup();
+							})
+                        );  
+                    }
+
+					this._RaiseMapLoaded();
+	            }
 
                 , _RaiseMapLoaded: function () { //Let main module know map is loaded
                     this.emit('maploaded', this._Map);

@@ -131,7 +131,7 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/_
                         layerIdToTest = layer.id.substring(0, layer.id.lastIndexOf('_'));
                     for (var t = 0; t < this.webMap.itemData.operationalLayers.length; t++) {
                         var opLayer = this.webMap.itemData.operationalLayers[t];
-                       	if (layerIdToTest === opLayer.id || (opLayer.featureCollection && layerIdToTest.indexOf(opLayer.id)> -1)) {
+                        if (layerIdToTest === opLayer.id || (opLayer.featureCollection && layerIdToTest.indexOf(opLayer.id)> -1)) {
                             createTocNode = true;
                             nodeTitle = opLayer.title;
                             break;

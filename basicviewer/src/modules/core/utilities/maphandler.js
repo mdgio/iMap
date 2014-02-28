@@ -13,6 +13,8 @@ define(["dojo/_base/declare", "dojo/on"],
             , OriginalWebMap: null
             //The web map object after local or shared customizations have been applied. This is the startup configuration in map.js.
             , CustomizedWebMap: null
+			
+            , mapClickFunc: null
             //Get the "final" web map. If customizations had been applied, then return that web map. Otherwise return the original.
             , getWebMap: function () {
                 return this.CustomizedWebMap || this.OriginalWebMap;

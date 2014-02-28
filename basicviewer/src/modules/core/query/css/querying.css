@@ -1,0 +1,112 @@
+﻿#queryBtn, .resetBtns
+{
+    height: 18px;
+    background-color: #363636;
+    border: 1px solid #181818;
+    border-left: none;
+    border-radius: 5px;
+    box-shadow: 3px 3px 1px darkgray, #282828 -2px 0px 3px inset;
+    text-align: center;
+    color: #fff;
+    font-weight: bolder;
+    padding: 5px;
+    display: inline;
+    margin: 10px;
+    cursor: pointer;
+}
+
+#queryBtn:hover, .resetBtns:hover
+{
+    box-shadow: #282300 2px 2px 3px inset;    
+}
+
+#queryBtn.btnSelected
+{
+    background-color: #878787;
+    box-shadow: #282828 2px 2px 3px inset;   
+}
+
+#btnDiv
+{
+    margin-top: 15px;
+    width: 100%;
+    text-align: center;
+}
+
+#querySection
+{
+    margin-top:20px;
+	width: 99%;
+    margin: 0 auto;
+}
+
+/* Spatial select buttons to mimic toggle buttons*/
+.drawBtn
+{
+    float: left;
+    padding: 5px;
+    background-color: #fff;
+    margin: 0px;
+    border: solid thin #000;
+    cursor: pointer;
+}
+.btnStart
+{
+    border-radius: 5px 0px 0px 5px;
+}
+.btnEnd
+{
+    border-radius: 0px 5px 5px 0px;    
+}
+#spatialQueryDiv
+{
+    margin-top: 20px;
+	
+}
+
+#spatialBtnDiv
+{
+    width: 50%;
+    margin: 0 auto;
+	padding-top: 25px;
+}
+
+#floatingPane {
+	padding-left: 0px;
+	padding-top: 0px;
+}
+
+#subContainer
+{
+	/* overflow: auto;
+	 background-color: red;   
+	 color: grey;  */
+	margin: 5px 5px 50px 5px;
+}
+
+#infoContainer
+{	
+	/* for testing */
+	/* background-color: yellow;  
+	 color: black; 
+	 width: 100%;
+	 overflow: auto; 
+	  height:500px;  */	
+}
+
+#grid
+{
+	/* background-color: yellow;
+	color: black;
+	height:500px; 	
+	width: 100%;
+	font-size:90%;*/
+	overflow: auto; 
+	/* width: 900px;	
+	height:300px; */
+	
+	
+	
+}
+
+

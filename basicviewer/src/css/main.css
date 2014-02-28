@@ -31,6 +31,14 @@ body {
     display:none;
 }
 
+#HomeButton {
+      position: absolute;
+      top: 116px;
+      left: 19px;
+      z-index: 50;
+}
+
+
 .titleDiv {
     margin-left: 20px;
     position: absolute;
@@ -170,12 +178,45 @@ body {
     width: 100%;
     display: block;
     overflow: visible;
-}
+}	
 
 #tools{
     display: inline;
     float: right;
 }
+
+
+/* style for bookmarks "zoom to county" */
+#bookmarks-wrapper {
+        position: absolute;
+        z-index: 40;
+        top: 15px;
+        right: 30px;
+        background: transparent;
+        font-size: 12pt;
+        color: #444;
+}
+
+#widget_selectZoom {
+       width: 220px;
+	   height: 22px;
+       margin-top: 20px;
+       float:right;
+       margin-right: 20px;
+	  
+}
+
+.dijitComboBoxMenu .dijitMenuItem {
+ color: #000000;
+ height: 5px; 
+}
+
+.dijitComboBoxMenu .dijitMenuItemHover {
+ font-weight:bold;
+}
+
+
+
 
 /*Style for company logo added to the map*/
 .logo{
@@ -303,14 +344,42 @@ body {
     width: 48px;
     margin: 4px 0 4px 4px;
 }
+/*
 .esriLinkIcon{
-    background-image: url(../../assets/toolbar/Share.PNG);
+    background-image: url(../../assets/toolbar/Link.PNG);
     background-repeat: no-repeat;
     display: inline-block;
     height: 48px;
     width: 48px;
     margin: 4px 0 4px 4px;
 }
+*/
+.esriLinkIcon {
+    background-image: url(../../assets/toolbar/link.png);
+    background-repeat: no-repeat;
+    display: inline-block;
+    height: 48px;
+    width: 48px;
+    margin: 4px 0 4px 4px;
+    box-shadow: 3px 3px 2px darkgray, #577639 -2px -2px 3px inset;
+    background-color: #698A49;
+    border: 1px solid #183809;
+    border-radius: 4px 0px 4px 4px;
+}
+.esriLinkingIcon
+{
+    /*background-image: url(../../assets/link.png);*/
+    background-repeat: no-repeat;
+    display: inline-block;
+    height: 48px;
+    width: 48px;
+    margin: 4px 0 4px 4px;
+    box-shadow: 3px 3px 2px darkgray, #577639 -2px -2px 3px inset;
+    background-color: #698A49;
+    border: 1px solid #183809;
+    border-radius: 4px 0px 4px 4px;    
+}
+
 .esriPrint .dijitComboButton .dijitIcon{
     background-image:url(../../assets/toolbar/Print.PNG);
     background-repeat:no-repeat;
@@ -331,11 +400,26 @@ body {
 .esriPrint .dijitArrowButtonInner{
     background-position: right;
 }
+
 .esriPrint{
     display:inline-block;
     padding:0px;
 
 }
+
+/*style for the print link*/
+
+.esriPrintout{
+    color: #000000;
+	background-color: #FFFFFF;
+	padding: 10px 4px 12px 4px;
+	border:solid;
+    /* display:inline-block;
+    height:48px;
+    width:58px;
+    margin:4px -7px 4px 4px; */
+}
+
 .claro .dijitComboButton:hover{
     color:#333;
 }
@@ -384,10 +468,7 @@ body {
     height: 16px;
     padding-right:2px;
 }
-/*style for the print link*/
-.esriPrintout{
-    color: #000000;
-}
+
 /*styles for the share dropdown menu items*/
 .Link{
     text-decoration:none;
@@ -470,14 +551,16 @@ td.dijitMenuItemIconCell,td.dijitMenuItemLabel{
     font-size:8pt;
     font-weight:bold;
     padding-bottom:4px;
+	padding-left:4px;
 }
+
 .dojoxFloatingPaneTitle{
     color:#fff;
     font-family:Verdana,Arial,Helvetica,sans-serif;
     font-size:12pt;
     font-weight:bold;
     width:100%;
-    padding-left:8px;
+    padding-left:0px;
 }
 
 /*Styles for the time slider floating window*/

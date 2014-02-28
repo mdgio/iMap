@@ -14,14 +14,17 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     appid: "",
                     //The ID for a web map from ArcGIS Online (AGO)
                     //If not going to specify a Web Map in AGO, then use empty quotes ("") here
-                    webmap: "d1201eea7afb4ed49f08a310e9803f2f",
+					webmap: "d1201eea7afb4ed49f08a310e9803f2f",      //"blank" map
+                    //webmap: "252fb36ac7404043a0f3d2022958b5d0",    //veterans services
+                    //webmap: "c545bf8fde0a46c2aa52a10e9118750a",  //growthprint
+                    //webmap: "9ed1f1fefd9e4cf89379af66ad33c768",  //DFIRM
                     // The URL to an ArcGIS Web Map- if not using ArcGIS.com.
                     // Can be relative to index.html. For example, if in basicviewer root- "webmap.js"
                     // If both webmap and webmapurl are empty, then a map must be programmatically defined in map.js
                     webmapurl: "webmap.js",
                     //Enter a description for the application. This description will appear in the left pane
                     //if no description is entered, the webmap description (if populated) will be used.
-                    description: "This is the development version of iMap, for use as a template.",
+                    description: "This is the development version of iMap, for use as a template.<br><br><a href='http://staging.geodata.md.gov/imap_beta_info.html'><b>Link to iMap Beta Changes, Known Bugs, To Do<b/></a>",
                     //specify an owner for the app - used by the print option. The default value will be the web map's owner
                     owner: '',
 
@@ -85,6 +88,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     //Print options - Default is to not display on mobile devices, but can be overriden manually or in AGO
                     displayprint: !(environment.TouchEnabled),
                     printtask: "http://utility.arcgisonline.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task",
+					//printtask: "http://staging.geodata.md.gov/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task",
                     //Set the label in the nls file for your browsers language
                     printlayouts: [{
                         layout: 'Letter ANSI A Landscape',
@@ -104,10 +108,12 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                         format: 'PNG32'
                     }],
                     displaybasemaps: true,
-                    displaybookmarks: true,
-                    displaymeasure: false,
+                    displaybookmarks: false,
+					zoomtocounty: true,
+					displaydraw: true,
+                    displaymeasure: true,
                     displaylocation: true,
-                    displayshare: true,//if enabled enter bitly key and login below.
+                    displayshare: false,//if enabled enter bitly key and login below.
                     //The application allows users to share the map with social networking sites like twitter
                     //and facebook. The url for the application can be quite long so shorten it using bit.ly.
                     //You will need to provide your own bitly key and login.
@@ -117,11 +123,15 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     },
                     //set to false to hide the zoom slider on the map
                     displayslider: true,
+					//set to false to hide the home button on the map
+					displayhome: true,
                     displayoverviewmap: true,
                     displaysearch: true,
                     displayscalebar: true,
                     //Drawing toolbar
                     displayinterop: !(environment.TouchEnabled),
+					
+					displayquery: false,
 
                     //*** General Settings ***
                     //i18n.viewer.main.scaleBarUnits,
@@ -137,12 +147,18 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                         owner: ''
                     },
                     //Enter the URL to a Geometry Service
-                    geometryserviceurl: "http://utility.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer",
+                    //geometryserviceurl: "http://utility.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer",
+					geometryserviceurl: "http://mdimap.us/ArcGIS/rest/services/GeometryService/Geometry/GeometryServer",
+					
                     //Specify the url and options for the locator service. If using the world geocoding service you can specify the country code and whether or not the
                     //search should be  restricted to the current extent. View the geocode.arcgis.com documentation for details http://geocode.arcgis.com/arcgis/geocoding.html#multifield
+					//ESRI's geocoder  "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer"
+					//Maryland's geocoder  "http://mdimap.us/ArcGIS/rest/services/GeocodeServices/MD.State.MDCascadingLocatorWithZIPCodes/GeocodeServer",
+					
                     placefinder: {
-                        "url": "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer",
+					    "url": "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer",
                         "countryCode":""
+						
                     },
                     displaypointtransp: false
                 };
@@ -189,6 +205,9 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                             if (response.values.displaydetails != undefined) {
                                 configOptions.displaydetails = response.values.displaydetails;
                             }
+							if (response.values.displayquery != undefined) {
+                                configOptions.displayquery = response.values.displayquery;
+                            }
                             if (response.values.tablecontents != undefined) {
                                 configOptions.tablecontents = response.values.tablecontents;
                             }
@@ -204,36 +223,54 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                             if (response.values.displayprint != undefined) {
                                 configOptions.displayprint = response.values.displayprint;
                             }
-/*                            if (response.values.displaytimeslider != undefined) {
+							/*
+                            if (response.values.displaytimeslider != undefined) {
                                 configOptions.displaytimeslider = response.values.displaytimeslider;
-                            }*/
-/*                            if (response.values.displaybookmarks != undefined) {
+                            }
+							
+                            if (response.values.displaybookmarks != undefined) {
                                 configOptions.displaybookmarks = response.values.displaybookmarks;
-                            }*/
-/*                            if (response.values.displaymeasure != undefined) {
+                            }
+							*/
+							 if (response.values.zoomtocounty != undefined) {
+                                configOptions.zoomtocounty = response.values.zoomtocounty;
+							}
+							
+                            if (response.values.displaymeasure != undefined) {
                                 configOptions.displaymeasure = response.values.displaymeasure;
-                            }*/
+                            }
+							if (response.values.displaydraw != undefined) {
+                                configOptions.displaydraw = response.values.displaydraw;
+                            }
                             if (response.values.displaylocation != undefined) {
                                 configOptions.displaylocation = response.values.displaylocation;
                             }
-                            /*if (response.values.displaylegend !== undefined) {
+                            /*
+							if (response.values.displaylegend !== undefined) {
                                 configOptions.displaylegend = response.values.displaylegend;
-                            }*/
-                            /*if (response.values.displaylayerlist !== undefined) {
+                            }
+							*/
+                            /*
+							if (response.values.displaylayerlist !== undefined) {
                                 configOptions.displaylayerlist = response.values.displaylayerlist;
                             }*/
                             if (response.values.displaybasemaps != undefined) {
                                 configOptions.displaybasemaps = response.values.displaybasemaps;
                             }
-/*                            if (response.values.displayshare != undefined) {
+                            /*
+							if (response.values.displayshare != undefined) {
                                 configOptions.displayshare = response.values.displayshare;
-                            }*/
+                            } */
                             if (response.values.displaysearch != undefined) {
                                 configOptions.displaysearch = response.values.displaysearch;
                             }
-/*                            if (response.values.displayslider) {
+							/*
+							if (response.values.displayslider) {
                                 configOptions.displayslider = response.values.displayslider;
                             }*/
+							/* if (response.values.displayhome) {
+                                configOptions.displayhome = response.values.displayhome;
+                            } */
                             if (response.values.displayoverviewmap != undefined) {
                                 configOptions.displayoverviewmap = response.values.displayoverviewmap;
                             }

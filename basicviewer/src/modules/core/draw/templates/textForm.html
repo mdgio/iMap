@@ -1,0 +1,51 @@
+<div id="textForm">
+	  <div dojoType="dijit.layout.ContentPane" selected="true" title="Symbol Properties">
+                                  Enter Text:
+                                  <input dojotype="dijit.form.TextBox" value="Text" id="tsText" />
+                                  <br /><br />Color :  <br />
+                                   <div dojoType="dijit.ColorPalette" id="tsColor"  ></div>
+                                  <br /><br />
+                                  <input id="tsKern" dojotype="dijit.form.CheckBox" checked="checked" type="checkbox"/>
+                                  <label for="tsKern">Kerning</label>
+                                  <br /> <br />XOffset : <br />
+                                  <input dojoType="dijit.form.NumberSpinner" value="0" 
+                                             constraints="{min:-20,max:20}" id="xoffset" />
+                                   <br />YOffset :<br />
+                                  <input dojoType="dijit.form.NumberSpinner" value="0" 
+                                             constraints="{min:-20,max:20}" id="yoffset" />
+                                  <br />
+                                  Alignment:
+                                  <select id="tsAlign" dojoType="dijit.form.ComboBox" autocomplete="false" value="ALIGN_START">
+                                     <option selected="selected">ALIGN_START</option>
+                                     <option >ALIGN_MIDDLE</option>
+                                     <option>ALIGN_END</option>
+                                  </select>
+                                  <br />Angle :<br />
+                                  <input dojoType="dijit.form.NumberSpinner" value="0" 
+                                             constraints="{min:-360,max:360}" id="tsAngle" />
+                     </div>
+                     <div dojoType="dijit.layout.ContentPane" title="Font Properties">
+                                  Weight :<br />
+                                  <select id="tsWeight" dojoType="dijit.form.ComboBox" 
+                                               autocomplete="false" value="WEIGHT_NORMAL">
+                                     <option selected="selected">WEIGHT_NORMAL</option>
+                                      <option>WEIGHT_BOLD</option>
+                                      <option>WEIGHT_BOLDER</option>
+                                      <option>WEIGHT_LIGHTER</option>
+                                  </select>
+                                  <br /> Size : <br />
+                                  <select id="tsSize" dojoType="dijit.form.ComboBox" autocomplete="false" value="14pt">
+                                    <option>10pt</option>
+                                    <option>12pt</option>
+                                    <option selected="selected">14pt</option>
+                                    <option>16pt</option>
+                                    <option>18pt</option>
+                                    <option>20pt</option>
+                                    <option>22pt</option>
+                                    <option>24pt</option>
+                                    <option>26pt</option>
+                                    <option>28pt</option>
+                                    <option>30pt</option>
+                                  </select>
+                    </div>
+</div>
