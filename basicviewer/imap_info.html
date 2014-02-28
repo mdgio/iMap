@@ -1,0 +1,74 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"> 
+
+<html> 
+  <head> 
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/> 
+    <title>iMap Template Development</title> 
+	</head>
+	<body>
+		<p>Back to iMap Template <a href="http://staging.geodata.md.gov/imap/index.html">http://staging.geodata.md.gov/imap/index.html</a></p>
+		<p>Email John Bocan: <a href="mailto:John.Bocan@Maryland.gov">John.Bocan@Maryland.gov</a></p>
+		
+		<b>Sample ArcGIS Online Webmaps Using the Template:</b><br>
+			<ul>
+				<li>Growth Print <a href="http://staging.geodata.md.gov/imap/index.html?webmap=c545bf8fde0a46c2aa52a10e9118750a">http://staging.geodata.md.gov/imap/index.html?webmap=c545bf8fde0a46c2aa52a10e9118750a</a></li>
+				<li>Veterans' Services <a href="http://staging.geodata.md.gov/imap/index.html?webmap=252fb36ac7404043a0f3d2022958b5d0">http://staging.geodata.md.gov/imap/index.html?webmap=252fb36ac7404043a0f3d2022958b5d0</a></li>
+				<li>DFIRM <a href="http://staging.geodata.md.gov/imap/index.html?webmap=9ed1f1fefd9e4cf89379af66ad33c768">http://staging.geodata.md.gov/imap/index.html?webmap=9ed1f1fefd9e4cf89379af66ad33c768</a></li>
+				<li>MD DNR Focal Areas <a href="http://staging.geodata.md.gov/imap/index.html?webmap=6b9258dbf1504a8c8eac8971c996002d">http://staging.geodata.md.gov/imap/index.html?webmap=6b9258dbf1504a8c8eac8971c996002d</a></li>
+				<li>National Weather Service Warnings and Alerts <a href="http://staging.geodata.md.gov/imap/index.html?webmap=a03a49082c1c4e869c6349d9cdccf2a3">http://staging.geodata.md.gov/imap/index.html?webmap=a03a49082c1c4e869c6349d9cdccf2a3</a></li>
+				<li>US 1862 (ESRI) <a href="http://staging.geodata.md.gov/imap/index.html?webmap=77de694c30574243b14c132b3cc3414e">http://staging.geodata.md.gov/imap/index.html?webmap=77de694c30574243b14c132b3cc3414e</a></li>
+			</ul>
+				
+				
+				
+				
+				
+				
+				
+		<h1>Change Log</h1>
+			<b>as of 2/28/2014</b><br>
+			<ul>
+				<li>Added "Zoom to County" ability via zoom-to-feature tool </li>
+				<li>Added "Home Button" for user to return to map's initial extent</li>
+				
+				<li>Added Query ability for a provided ArcGIS Online (AGOL) webmap via URL or "hard coded" within app.js</li>
+				<li>Added Query Tool and floating pane for Query Results</li>
+				<li>Added ability to download query results into comma separated value (.CSV) file from the Floating Pane</li>
+				<li>Ability to sort query results in floating pane</li>
+				<li>Added more comments in code</li>
+				<li>Added Measure Tools</li>
+				<li>Added Drawing Tools</li>
+			</ul>
+			<hr />
+		<h1>Known Bugs</h1>
+			<b>Item/Tool | Bug</b><br>
+			<ul>
+				<li>Query |	The "Circle" spatial select does not work in IE (version 10 tested)</li>
+				<li>Print |	Print tool doesn't always work--any browser;  either 404 or 500 error</li>
+				<li>Drawing, Measure |	Having both the Drawing and Measure tools open at the same time may casue some interference with each other</li>
+				<li>Print |	Print Tool doesn't show a user that the tool is working or "in process", esp for some webmaps that take longer than others </li>
+				<li>TOC, Legend |	Some webmaps may not display legend graphics in the Table of Contents</li>
+				<li>Print |	Print Tool button may jump place within toolset display during a interactive session</li>				
+			</ul>
+			<hr />	
+		<h1>To Do</h1>
+			<b>Tool/Item |	Ability |	Status | Date</b><br>
+			<ul>
+				<li>Left Pane |	Remove Results tab |	done	
+				
+				<li>Query	| Sort all columns on Floating Pane grid |	done	</li>
+				<li>Query |	Automatically incorporate layers from webmap services via Add Data tab in Query Tool layers when selected, and then dissolve when unselected from Add Data	</li>	
+				<li>Query |	Add spinning or progress GIF to show query results are "in process" before Floating Pane appears	</li>	
+				<li>Query |	Ability to zoom to a queried feature in Floating Pane via the select "button" on the grid	</li>	
+				<li>Query |	Download actual "Excel" file (XLSX) instead of or in addition to the CSV file		</li>
+				<li>Print |	Add spinning GIF to show "Printing" is in progress		</li>
+				<li>Print |	Have Print tool open up a new window with printed results instead of the word "Print out"		</li>
+				<li>Drawing	| Add "Text" Label and "Edit" drawn features tools to Drawing Tools (enables users to write and place labels and to  adjust one's drawings, respectively)	</li>	
+				<li>Template |	Clean old commented out code</li>		
+				<li>Template |	Continue to improve commenting where needed		</li>
+			</ul>
+		</body>
+</html>
+				
+	
+	

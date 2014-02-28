@@ -21,12 +21,12 @@
             "startupwidget": "displaydetails",
             "displayeditor": false,
             "displayoverviewmap": true,
-			"displayquery": false,
+			"displayquery": true,
             "displaytimeslider": false,
             "displayprint": true,
             "displaysearch": true,
 			"zoomtocounty": true,
-            "embed": false
+            "embed": false,
             "displaypointtransp": false
     },
     "configurationSettings": [{

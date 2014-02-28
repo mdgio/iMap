@@ -24,7 +24,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     webmapurl: "webmap.js",
                     //Enter a description for the application. This description will appear in the left pane
                     //if no description is entered, the webmap description (if populated) will be used.
-                    description: "This is the development version of iMap, for use as a template.<br><br><a href='http://staging.geodata.md.gov/imap_beta_info.html'><b>Link to iMap Beta Changes, Known Bugs, To Do<b/></a>",
+                    description: "This is the development version of iMap, for use as a template.<br><br><a href='http://staging.geodata.md.gov/imap_info.html'><b>Link to iMap Template Changes, Known Bugs, To Do<b/></a>",
                     //specify an owner for the app - used by the print option. The default value will be the web map's owner
                     owner: '',
 
@@ -131,7 +131,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     //Drawing toolbar
                     displayinterop: !(environment.TouchEnabled),
 					
-					displayquery: false,
+					displayquery: true,
 
                     //*** General Settings ***
                     //i18n.viewer.main.scaleBarUnits,
