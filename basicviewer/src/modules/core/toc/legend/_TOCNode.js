@@ -200,6 +200,21 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dijit/_TemplatedMixin", "dij
 	                                value: "*"
 	                            }].concat(rends);
 	                        }
+	                        //the array of legend items might have duplicates, remove these by matching by url (not sure what URL this is, but seems to be unique per symbol)
+					var tempArray = new Array();
+					tempArray[0] = rends[0];
+					for (var i = 0; i < rends.length; i++) {
+						var flag = true;
+						for (var j = 0; j < tempArray.length; j++) {
+							if (tempArray[j].url == rends[i].url) {
+								flag = false;
+							}
+						} //for loop
+						if (flag == true)
+							tempArray.push(rends[i]);
+					} //for loop
+					rends = tempArray;			
+	                        
 	                        this._createChildrenNodes(rends, 'legend');
 	                    }
 	                } else if (layer.legends && !this.rootLayerTOC.info.noLegend) {
