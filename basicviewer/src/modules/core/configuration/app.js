@@ -15,6 +15,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     //The ID for a web map from ArcGIS Online (AGO)
                     //If not going to specify a Web Map in AGO, then use empty quotes ("") here
 					webmap: "d1201eea7afb4ed49f08a310e9803f2f",      //"blank" map
+					//Some sample web maps to try:
                     //webmap: "252fb36ac7404043a0f3d2022958b5d0",    //veterans services
                     //webmap: "c545bf8fde0a46c2aa52a10e9118750a",  //growthprint
                     //webmap: "9ed1f1fefd9e4cf89379af66ad33c768",  //DFIRM
@@ -24,7 +25,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     webmapurl: "webmap.js",
                     //Enter a description for the application. This description will appear in the left pane
                     //if no description is entered, the webmap description (if populated) will be used.
-                    description: "This is the development version of iMap, for use as a template.<br><br><a href='http://staging.geodata.md.gov/imap_info.html'><b>Link to iMap Template Changes, Known Bugs, To Do<b/></a>",
+                    description: "The Maryland iMap Template.  Updated 7/3/2014.  <br>Change this description in app.js or add one via your map on ArcGIS Online.<br><br><a href='http://imap.maryland.gov/Pages/template-server.aspx' target='_blank'>Help Documents</a><br><br><a href='Changes.txt' target='_blank'>Change Log<a> (text)",
                     //specify an owner for the app - used by the print option. The default value will be the web map's owner
                     owner: '',
 
@@ -44,7 +45,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     //Example customLogoImage: "http://serverapi.arcgisonline.com/jsapi/arcgis/2.4compact/images/map/logo-med.png"
                     customlogo: {
                         image: 'assets/mdimaplogo.png',
-                        link: 'http://mdimap.towson.edu/portal/'
+                        link: 'http://imap.maryland.gov/Pages/default.aspx'
                     },
                     //specify the width of the panel that holds the editor, legend, details
                     leftpanewidth: '350',
@@ -68,16 +69,24 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     //will not be able to pan/zoom outside the initial extent.
                     constrainmapextent: false,
                     //embed means the margins will be collapsed to just include the map no title or links, default is to embed if in iframe
-                    embed: (environment.IframeEmbedded || environment.WindowHeight < 600)
+                    embed: (environment.IframeEmbedded || environment.WindowHeight < 600),
 
                     //*** Widgets ***
-                    //Set startupwidget to one of variable names to show on startup.
-                    // To hide on startup, set startupwidget to 'none'
-                    , displaydetails: true,
-                    tablecontents: true,
-                    adddata: true,
-                    displayeditor: false,
+                    //Set startupwidget to one of variable names from the tabs to show on startup.  'displaydetails' is given by default.
+                    // To hide on startup, set startupwidget to 'none'.  To hide a tab, set variable to false.
                     startupwidget: 'displaydetails',
+					//The TABS in the left panel of the template.  
+					//Tab for map details either provided by map on ArcGIS Online or via the "description" variable above.                   
+					displaydetails: true,
+					//Tab for Table of Contents/Legend 
+                    tablecontents: true,  
+                    //Tab for the Query Tools                  
+                    displayquery: true,
+                    //Tab for Add Data - the ability to add provided REST services via AddLayers.js
+                    adddata: true,
+                    //Tab for the editor - still in development 
+                    displayeditor: false,
+                    
                     ////When editing you need to specify a proxyurl (see below) if the service is on a different domain
                     //Specify a proxy url if you will be editing, using the elevation profile or have secure services or web maps that are not shared with everyone.
                     proxyurl: "proxy.ashx",
@@ -87,8 +96,11 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     displaytimeslider: true,
                     //Print options - Default is to not display on mobile devices, but can be overriden manually or in AGO
                     displayprint: !(environment.TouchEnabled),
-                    printtask: "http://utility.arcgisonline.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task",
-					//printtask: "http://staging.geodata.md.gov/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task",
+                    
+                    //Use either the Maryland print service or the ESRI print service for the printtask
+                    printtask: "http://geodata.md.gov/imap/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task",
+                    //printtask: "http://utility.arcgisonline.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task",
+					
                     //Set the label in the nls file for your browsers language
                     printlayouts: [{
                         layout: 'Letter ANSI A Landscape',
@@ -131,7 +143,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     //Drawing toolbar
                     displayinterop: !(environment.TouchEnabled),
 					
-					displayquery: true,
+					
 
                     //*** General Settings ***
                     //i18n.viewer.main.scaleBarUnits,
@@ -148,7 +160,8 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     },
                     //Enter the URL to a Geometry Service
                     //geometryserviceurl: "http://utility.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer",
-					geometryserviceurl: "http://mdimap.us/ArcGIS/rest/services/GeometryService/Geometry/GeometryServer",
+                    //geometryserviceurl: "http://mdimap.us/ArcGIS/rest/services/GeometryService/Geometry/GeometryServer",
+					geometryserviceurl: "http://geodata.md.gov/imap/rest/services/Utilities/Geometry/GeometryServer",
 					
                     //Specify the url and options for the locator service. If using the world geocoding service you can specify the country code and whether or not the
                     //search should be  restricted to the current extent. View the geocode.arcgis.com documentation for details http://geocode.arcgis.com/arcgis/geocoding.html#multifield
@@ -356,6 +369,6 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                 //Raise event letting calling module know configuration is complete
                 this.emit('appconfigured', configOptions);
             }
-        })
+       });
     }
 );

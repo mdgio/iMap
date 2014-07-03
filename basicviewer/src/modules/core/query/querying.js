@@ -71,7 +71,7 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "dij
                             layerName = mapvariable.id;
                         }
                         //if not, create a title out of the ID
-                        layerName = layerName.replace(/_/g, " ")
+                        layerName = layerName.replace(/_/g, " ");
                         //push layer id, url, name and type
                         layers.push({ id: mapvariable.id, name: layerName, url: mapvariable.url, type: mapvariable.type });
                         mapServices.push(mapvariable.url);
@@ -285,7 +285,7 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "dij
 
             , _addInFieldMath: function (field) {
                 dojo.empty('fieldMath');
-                var eqlabel = dojo.create('p', { innerHTML: "=" });
+                var eqlabel = dojo.create('p', { innerHTML: "is like" });  //innerHTML: "="
                 dojo.place(eqlabel, "fieldMath", "last");
                 var intText = dojo.create('input', { id: "fieldValue" });
                 dojo.place(intText, "fieldMath", "last");
@@ -309,7 +309,10 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "dij
                     };
                     var queryTask = new esri.tasks.QueryTask(qTaskURL);
                     var query = new esri.tasks.Query();
-                    query.where = this._fieldCbo.value + " = '" + dojo.byId('fieldValue').value + "'";
+                    //use this query for the user to find values based on exact input
+                    //query.where = this._fieldCbo.value + " = '" + dojo.byId('fieldValue').value + "'";
+                    //uset this query for the user to find values based on exact or similar input --very useful
+                    query.where = this._fieldCbo.value + " like '%" + dojo.byId('fieldValue').value + "%'";
                     query.outFields = ["*"];
                     query.returnGeometry = true;
                     query.outSpatialReference = this.map.spatialReference;
@@ -335,7 +338,7 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "dij
                         case "esriGeometryPolygon":
                             symbol = new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_SOLID, new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_DASHDOT, new dojo.Color([255, 0, 0]), 3), new dojo.Color([255, 255, 0, 0.50]));
                             break;
-                    }
+                    } 
 
 
                     if ((symbol != null) && (!dijit.byId('grid'))) {
@@ -539,8 +542,6 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "dij
                             dockable: false,
 							closable: true,
 							style: "position:absolute;top:25%;left:-25%;width:600px;height:300px;visibility:hidden;z-index:100",
-                            //style: "position:absolute;bottom:0px;left:0px;width:900px;height:50%;z-index:100;visibility:hidden;",  //width:700px;height:150px;
-							//style: "position:absolute;bottom:0px;left:0px;width:900px;height:50%;z-index:100;visibility:hidden;",  //width:700px;height:150px;
                             id: "floatingPane"
                         }, dom.byId("floatingPane"));
                         fpI.startup();
@@ -551,7 +552,9 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "dij
 					
 					}	// end if (symbol != null)
               
-				}
+				} else {
+                   	 alert('No values found');
+                }
 
             }  // end _resultsHandler:
 			

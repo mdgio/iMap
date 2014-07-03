@@ -56,6 +56,14 @@ body {
 {
     box-shadow: #9E7733 2px 2px 3px inset;     
 } 
+
+.HomeButton .home  {
+	background-color: #D38C14;
+    border: 1px solid #895907;
+    border-radius: 5px 5px 5px 5px;
+}
+
+
 /* Buttons on checked*/
 #tools .dijitToggleButtonChecked .dijitIcon
 {
@@ -158,4 +166,71 @@ body {
 }
 .esriBookmarkItem:hover{
   background-color:#CEE1EC;
+}
+
+ box-shadow: 3px 3px 2px darkgray, #9E7733 -2px -2px 3px inset;
+    background-color: #D38C14;
+    border: 1px solid #895907;
+    
+#footer a{
+    color:#C0C0C0;
+}
+
+
+/*Use a white arrow for the dropdown*/
+.claro .dijitArrowButtonInner {
+    background-image: url("../../assets/toolbar/ArrowButton.png");
+    height:48px;
+    background-color: #D38C14;
+    border: 1px solid #895907;
+    border-left: none;
+    border-radius: 0px 5px 5px 0px;
+    box-shadow: 3px 3px 2px darkgray, #9E7733 -2px -2px 3px inset;
+ 
+}
+.claro .dijitDisabled .dijitArrowButtonInner {
+    background-image: url("../../assets/toolbar/ArrowButton.png");
+    background-image:none;
+    height:48px;
+    background-color: #D38C14;
+    border: 1px solid #895907;
+    border-left: none;
+    border-radius: 0px 5px 5px 0px;
+    box-shadow: 3px 3px 2px darkgray, #9E7733 -2px -2px 3px inset;
+
+}
+
+/*Used in Measure Tool text results ".dijitContentPane result"  */
+.claro #dijit_layout_ContentPane_2 {
+	background-color:#E6E6E6;
+	border: solid;
+	margin-left:auto;
+	margin-right:auto;
+	text-align: center;
+	padding-left: 0px;
+	
+}
+
+.dijitButtonHover .esriLinkIcon, .dijitToggleButtonChecked .esriLocationIcon, .dijitToggleButtonHover .esriLocationIcon, .dijitHover .dijitArrowButtonInner, .esriPrint .dijitHover .dijitIcon, .dijitToggleButtonChecked .esriMeasureIcon, .dijitToggleButtonHover .esriMeasureIcon , .dijitHover .esriBasemapIcon
+{
+    box-shadow: #FFFFFF 2px 2px 3px inset;  
+}
+
+/*updating the measurement widget */
+.esriMeasurement .dijitArrowButtonInner 
+{
+    height: 20px;   
+}
+
+.esriMeasurement .esriToggleButton .dijitButtonText
+{
+    display:inline-block !important;
+    font-size: 14px !important; 
+    color: #fff;
+    background-color: #D38C14;
+    border: 1px solid #895907;
+    border-left: none;
+    height: 20px;
+    border-radius: 5px 0px 0px 5px;
+    box-shadow: 3px 3px 2px darkgray, #9E7733 -2px -2px 3px inset;
 }
