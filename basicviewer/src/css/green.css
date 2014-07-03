@@ -23,6 +23,9 @@ body {
     border: 1px solid #2D5110;
     border-radius: 5px 5px 5px 5px;
 }
+
+
+
 /* Background color for dropdown left side button*/
 #tools .dijitComboButton .dijitIcon, #tools .dijitDownArrowButton .dijitIcon{
     box-shadow: 0px 3px 2px darkgray, #465D32 0px -2px 3px inset;
@@ -100,7 +103,7 @@ body {
 .claro .dijitTabStripSlideRightIcon{
     background-position: -124px 50%;
 }
-.claro .dijitTabContainerTop-dijitContentPane, .claro .dijitTabContainerLeft-dijitContentPane, .claro .dijitTabContainerBottom-dijitContentPane, .claro .dijitTabContainerRight-dijitContentPane, .claro .dijitAccordionContainer-dijitContentPane{
+.claro .dijitTabContainerTop-dijitContentPane, .claro .dijitTabContainerLeft-dijitContentPane, .claro .dijitTabContainerBottom-dijitContentPane, .claro .dijitTabContainerRight-dijitContentPane, .claro .dijitAccordionContainer-dijitContentPane {
     background-color: rgba(227, 255, 215, 0.80);
 }
 .claro .dijitTabListContainer-top .tabStripButtonDisabled, .claro .dijitTabListContainer-bottom .tabStripButtonDisabled{
@@ -138,6 +141,17 @@ body {
   background:url(../../assets/green/toolbar_bg.png) repeat-x #4a6f1c;
   border:solid 1px #4a6f1c;
 }
+
+/* overrides the ESRI home button style.  It is similar to "#tools .dijitIcon" style here   */
+.HomeButton .home  
+{
+    background-color: #527C30;
+    border: 1px solid #2D5110;
+    border-radius: 5px 5px 5px 5px;
+}
+
+
+
  /*Identity Manager Dialog*/
 .claro .dijitDialogTitleBar {
   background:url(../../assets/green/toolbar_bg.png) repeat-x #545454;
@@ -156,4 +170,67 @@ body {
 .esriBookmarkItem:hover{
   background-color:#b5d19a;
 }
+
+#footer a{
+    color:#C0C0C0;
+}
+
+/*Use a white arrow for the dropdown*/
+.claro .dijitArrowButtonInner {
+    background-image: url("../../assets/toolbar/ArrowButton.png");
+    height:48px;
+    background-color: #527C30;
+    border: 1px solid #2D5110;
+    border-left: none;
+    border-radius: 0px 5px 5px 0px;
+    box-shadow: 3px 3px 2px darkgray, #465D32 -2px -2px 3px inset;
+ 
+}
+.claro .dijitDisabled .dijitArrowButtonInner {
+    background-image: url("../../assets/toolbar/ArrowButton.png");
+    background-image:none;
+    height:48px;
+    background-color: #527C30;
+    border: 1px solid #2D5110;
+    border-left: none;
+    border-radius: 0px 5px 5px 0px;
+    box-shadow: 3px 3px 2px darkgray, #465D32 -2px -2px 3px inset;
+
+}
+
+/*Used in Measure Tool text results ".dijitContentPane result"  */
+.claro #dijit_layout_ContentPane_2 {
+	background-color:#E6E6E6;
+	border: solid;
+	margin-left:auto;
+	margin-right:auto;
+	text-align: center;
+	padding-left: 0px;
+	
+}
+
+.dijitButtonHover .esriLinkIcon, .dijitToggleButtonChecked .esriLocationIcon, .dijitToggleButtonHover .esriLocationIcon, .dijitHover .dijitArrowButtonInner, .esriPrint .dijitHover .dijitIcon, .dijitToggleButtonChecked .esriMeasureIcon, .dijitToggleButtonHover .esriMeasureIcon , .dijitHover .esriBasemapIcon
+{
+    box-shadow: #FFFFFF 2px 2px 3px inset;  
+}
+
+/*updating the measurement widget */
+.esriMeasurement .dijitArrowButtonInner 
+{
+    height: 20px;   
+}
+
+.esriMeasurement .esriToggleButton .dijitButtonText
+{
+    display:inline-block !important;
+    font-size: 14px !important; 
+    color: #fff;
+    background-color: #527C30;
+    border: 1px solid #2D5110;
+    border-left: none;
+    height: 20px;
+    border-radius: 5px 0px 0px 5px;
+    box-shadow: 3px 3px 2px darkgray, #465D32 -2px -2px 3px inset;
+}
+
 

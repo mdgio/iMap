@@ -47,7 +47,7 @@ body {
 }
 
 /* Buttons on hover*/
-#tools .dijitToggleButtonHover .dijitIcon
+#tools .dijitToggleButtonHover .dijitIcon 
 {
     box-shadow: #485F72 2px 2px 3px inset;     
 } 
@@ -142,6 +142,14 @@ body {
   border:solid 1px #6788a2;
 }
 
+/* overrides the ESRI home button style.  It is similar to "#tools .dijitIcon" style here   */
+.HomeButton .home 
+{
+    background-color: #4e7698;
+    border: 1px solid #194163;
+    border-radius: 5px 5px 5px 5px;
+}
+
  /*Identity Manager Dialog*/
 .claro .dijitDialogTitleBar {
   background:url(../../assets/blue/toolbar_bg.png) repeat-x #545454;
@@ -160,3 +168,67 @@ body {
 .esriBookmarkItem:hover{
   background-color:#CEE1EC;
 }
+
+#footer a{
+    color:#C0C0C0;
+}
+
+
+/*Use a white arrow for the dropdown*/
+.claro .dijitArrowButtonInner {
+    background-image: url("../../assets/toolbar/ArrowButton.png");
+    height:48px;
+    background-color: #4e7698;
+    border: 1px solid #194163;
+    border-left: none;
+    border-radius: 0px 5px 5px 0px;
+    box-shadow: 3px 3px 2px darkgray, #485F72 -2px -2px 3px inset;
+ 
+}
+.claro .dijitDisabled .dijitArrowButtonInner {
+    background-image: url("../../assets/toolbar/ArrowButton.png");
+    background-image:none;
+    height:48px;
+    background-color: #4e7698;
+    border: 1px solid #194163;
+    border-left: none;
+    border-radius: 0px 5px 5px 0px;
+    box-shadow: 3px 3px 2px darkgray, #485F72 -2px -2px 3px inset;
+
+}
+
+/*Used in Measure Tool text results ".dijitContentPane result"  */
+.claro #dijit_layout_ContentPane_2 {
+	background-color:#E6E6E6;
+	border: solid;
+	margin-left:auto;
+	margin-right:auto;
+	text-align: center;
+	padding-left: 0px;
+	
+}
+
+.dijitButtonHover .esriLinkIcon, .dijitToggleButtonChecked .esriLocationIcon, .dijitToggleButtonHover .esriLocationIcon, .dijitHover .dijitArrowButtonInner, .esriPrint .dijitHover .dijitIcon, .dijitToggleButtonChecked .esriMeasureIcon, .dijitToggleButtonHover .esriMeasureIcon , .dijitHover .esriBasemapIcon
+{
+    box-shadow: #FFFFFF 2px 2px 3px inset;  
+}
+
+/*updating the measurement widget */
+.esriMeasurement .dijitArrowButtonInner 
+{
+    height: 20px;   
+}
+
+.esriMeasurement .esriToggleButton .dijitButtonText
+{
+    display:inline-block !important;
+    font-size: 14px !important; 
+    color: #fff;
+    background-color: #4e7698;
+    border: 1px solid #194163;
+    border-left: none;
+    height: 20px;
+    border-radius: 5px 0px 0px 5px;
+    box-shadow: 3px 3px 2px darkgray, #485F72 -2px -2px 3px inset;
+}
+

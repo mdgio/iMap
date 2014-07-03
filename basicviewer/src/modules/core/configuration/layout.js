@@ -190,6 +190,6 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     this._MainBordCont.resize();
                 }
             }
-        )
+        );
     }
 );

@@ -8,21 +8,22 @@
         <link rel="shortcut icon" href="assets/favicon.ico">
         <!--<link rel="stylesheet" href="src/libs/jquery/css/ui-lightness/jquery-ui-1.9.2.custom.css" /> -->
 	   
-        <link rel="stylesheet" type="text/css" href="http://js.arcgis.com/3.8/js/dojo/dijit/themes/claro/claro.css">
-        <link rel="stylesheet" type="text/css" href="http://js.arcgis.com/3.8/js/dojo/dijit/themes/claro/document.css">
-		<link rel="stylesheet" type="text/css" href="http://js.arcgis.com/3.8/js/dojo/dojox/layout/resources/FloatingPane.css"> 
-        <link rel="stylesheet" type="text/css" href="http://js.arcgis.com/3.8/js/dojo/dojox/layout/resources/ResizeHandle.css">
-		<link rel="stylesheet" type="text/css" href="http://js.arcgis.com/3.8/js/dojo/dojox/widget/TitleGroup/TitleGroup.css">
-		<link rel="stylesheet" href="http://js.arcgis.com/3.8/js/dojo/dojox/grid/enhanced/resources/EnhancedGrid_rtl.css">
-		<link rel="stylesheet" href="http://js.arcgis.com/3.8/js/dojo/dojox/grid/enhanced/resources/EnhancedGrid.css">
+	    	   
+        <link rel="stylesheet" type="text/css" href="http://js.arcgis.com/3.9/js/dojo/dijit/themes/claro/claro.css">
+        <link rel="stylesheet" type="text/css" href="http://js.arcgis.com/3.9/js/dojo/dijit/themes/claro/document.css">
+        <link rel="stylesheet" type="text/css" href="http://js.arcgis.com/3.9/js/dojo/dojox/layout/resources/FloatingPane.css">
+        <link rel="stylesheet" type="text/css" href="http://js.arcgis.com/3.9/js/dojo/dojox/layout/resources/ResizeHandle.css">
+		<link rel="stylesheet" type="text/css" href="http://js.arcgis.com/3.9/js/dojo/dojox/widget/TitleGroup/TitleGroup.css">
+		<link rel="stylesheet" type="text/css" href="http://js.arcgis.com/3.9/js/dojo/dojox/grid/enhanced/resources/EnhancedGrid_rtl.css">
+		<link rel="stylesheet" type="text/css" href="http://js.arcgis.com/3.9/js/dojo/dojox/grid/enhanced/resources/EnhancedGrid.css">
 		<!-- <link rel="stylesheet" href="http://js.arcgis.com/3.8/js/dojo/dojox/grid/resources/claroGrid.css"> -->
-        <link rel="stylesheet" type="text/css" href="http://js.arcgis.com/3.8/js/esri/css/esri.css">
+        <link rel="stylesheet" type="text/css" href="http://js.arcgis.com/3.9/js/esri/css/esri.css">
         <link rel="stylesheet" type="text/css" href="src/css/main.css">
         <!--[if IE]>
           <link rel="stylesheet" type="text/css" href="src/css/ie.css" />
         <![endif]-->
         <!--<script type="text/javascript" src="http://serverapi.arcgisonline.com/jsapi/arcgis/3.3/"></script>-->
-        <script src="//js.arcgis.com/3.8/"></script>
+        <script src="//js.arcgis.com/3.9/"></script>
         <script type="text/javascript" src="src/main.js"></script>
     </head>
     <body class="claro">
@@ -34,9 +35,9 @@
               <div id="nav">
                   <!-- links are dynamically generated-->
                   <ul>
-                      <li id="link1List"></li>
+                      <li id="link1List"> </li>
                       <li id="linkSeparator">|</li>
-                      <li id="link2List"></li>
+                      <li id="link2List"> </li>
                   </ul>
               </div>
 			  
@@ -50,16 +51,20 @@
 
             <div id="map" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"center", gutters:"false"'>
 				<!-- The zoom to Home or initial extent button -->
-				<div id="HomeButton"></div>
+				<div id="HomeButton" > </div>
 
               <!-- Toolbar (Search and Tool Buttons)-->
               <!--<div id="toolbarContainer" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"top", gutters:"false", region:"left"'>-->
                   <div id="toolbarDij" data-dojo-type="dijit/Toolbar">
                       <div id="webmap-toolbar-right">
                           <!--create the search tool-->
-                          <div id="search"></div>
-						  <div id="tools"></div>
+                          
 						  
+						  <div id="tools"> </div>
+						  <div id="gotoPlaces">    
+						  	<div id="search" > </div><br/>
+						  	
+						  </div>
 	                   </div>
                       <div id="webmap-toolbar-center">
                           <!--Basemap,measure,share,time and layer list tools added if enabled-->
@@ -72,8 +77,8 @@
                   to the map in layout.js (configured in app.js) -->
               </div>
               <!--Floating window contains the time slider-->
-              <div id="timeFloater" style='display:none;'></div>
-              <div id="btnLpaneToggle" class="PaneToggle"></div>
+              <div id="timeFloater" style='display:none;'> </div>
+              <div id="btnLpaneToggle" class="PaneToggle"> </div>
 			
             </div>
             <!--end Map section-->
