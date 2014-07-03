@@ -6,15 +6,14 @@ body {
   background-color:#e9eef2;
 }
 /*override claro background and other props*/
+
 /*Measure toggle button*/
 .claro .dijitToolbar .dijitButtonNode:hover {
   background:url(../../assets/imap/sidebar_header_active_bg.png) repeat-x #808080;
 }
-
 .claro .dijitToolbar .dijitToggleButtonChecked .dijitButtonNode {
    background:url(../../assets/imap/sidebar_header_active_bg.png) repeat-x #808080;
 }
-
 .dojoxFloatingPaneTitle{
   background:url(../../assets/imap/toolbar_bg.png) repeat-x;
 }
@@ -46,7 +45,7 @@ body {
 }
 
 /* Buttons on hover*/
-#tools .dijitToggleButtonHover .dijitIcon 
+#tools .dijitToggleButtonHover .dijitIcon
 {
     box-shadow: #282828 2px 2px 3px inset;     
 } 
@@ -126,7 +125,6 @@ body {
 }
 
 
-
 .esriPopup .titlePane{
   background-color:#808080;
   border-style:none;
@@ -155,16 +153,7 @@ body {
 .esriSimpleSliderVertical .esriSimpleSliderIncrementButton ,.esriSimpleSliderVertical .esriSimpleSliderDecrementButton  {
   background:url(../../assets/imap/toolbar_bg.png) repeat-x #282828;
   border:solid 1px #282828;
-} 
-
-/* overrides the ESRI home button style.  It is similar to "#tools .dijitIcon" style here   */
-.HomeButton .home 
-{
-     background-color: #808080;
-    border: 1px solid #181818;
-    border-radius: 5px 5px 5px 5px;
 }
-
 
  /*Identity Manager Dialog*/
 .claro .dijitDialogTitleBar {
@@ -184,8 +173,6 @@ body {
 .esriBookmarkItem:hover{
   background-color:#808080;
 }
-
-
 #footer a{
     color:#C0C0C0;
 }
@@ -228,12 +215,18 @@ body {
 {
     box-shadow: #FFFFFF 2px 2px 3px inset;  
 }
-
 /*updating the measurement widget */
 .esriMeasurement .dijitArrowButtonInner 
 {
     height: 20px;   
 }
+
+
+#floaterDraw #floaterMeas #floaterIO
+{
+    padding: 0px;
+} 
+
 .esriMeasurement .esriToggleButton .dijitButtonText
 {
     display:inline-block !important;

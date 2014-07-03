@@ -35,7 +35,7 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/_base/lang", "dojo/topi
                 function processArray(featureSet) {
 
                     dojo.forEach(featureSet.features, function (feature) {
-                        var results = tempStore.query({ name: feature.attributes[searchField] });
+                        var results = tempStore.query({ name: feature.attributes[searchField] })
                         if (results.length < 1) {
                             tempStore.add({ name: feature.attributes[searchField], id: feature.attributes[searchField], zoom: args.zoomFeature });
                         }
@@ -90,7 +90,7 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/_base/lang", "dojo/topi
 								symbol = new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color([255, 0, 0]), 1);
 			                    break;
                             case "polygon":
-								symbol = new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_SOLID, new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color([0, 0, 255, 0.75]), 3), new dojo.Color([125, 125, 125, 0.20]));
+								symbol = new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_SOLID, new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color([0, 0, 255, 0.75]), 3), new dojo.Color([125, 125, 125, 0.20]))
                                	break;
                             case "point":
                                 symbol = esri.symbol.PictureMarkerSymbol({
@@ -113,18 +113,16 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/_base/lang", "dojo/topi
 						map.graphics.add(graphic);
 						
 						//clears the graphic after 3 seconds (3000)
-						setTimeout(function(){map.graphics.clear(graphic);
-							},3000);
+						setTimeout(function(){map.graphics.clear(graphic);},3000);
 														
 										
-                        //zooms to the extent,  for zooming to counties, the "else" statement primarily gets the work
-                       
+                        //zooms to the extent
                         if (results[0].feature.geometry.type == "point") {
                             var pt = results[0].feature.geometry;
                             map.centerAndZoom(pt, 15);//15
-                        }   else {
+                        } else {
                             featureExtent = results[0].feature.geometry.getExtent();
-			                map.setExtent(featureExtent.expand(1.50)); //.75
+			                map.setExtent(featureExtent).expand(.75);
                         }
 						
 						

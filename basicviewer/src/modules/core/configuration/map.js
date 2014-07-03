@@ -239,6 +239,6 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/on", "dojo/Evented", "../
                     this.emit('maploaded', this._Map);
                 }
             }
-        );
+        )
     }
 );

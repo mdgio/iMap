@@ -37,7 +37,8 @@ public class proxy : IHttpHandler {
             else
                 uri += "?token=" + token;
         }
-                  System.Net.HttpWebRequest req = (System.Net.HttpWebRequest)System.Net.HttpWebRequest.Create(uri);
+            
+        System.Net.HttpWebRequest req = (System.Net.HttpWebRequest)System.Net.HttpWebRequest.Create(uri);
         req.Method = context.Request.HttpMethod;
         req.ServicePoint.Expect100Continue = false;
         req.Referer = context.Request.Headers["referer"];

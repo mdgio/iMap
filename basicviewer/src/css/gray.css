@@ -1,14 +1,13 @@
+
 /*The image specified for the body is used to apply the gradient background to the entire page*/
 body {
   background:url(../../assets/gray/body_bg.png) repeat-x #666;
 }
-
 #leftPane {
   background-color:#EEE;
 }
-
-
 /*override claro background and other props*/
+
 /*Measure toggle button*/
 .claro .dijitToolbar .dijitButtonNode:hover {
   background:url(../../assets/gray/sidebar_header_active_bg.png) repeat-x #CEE1EC;
@@ -31,23 +30,11 @@ body {
   background:url(../../assets/gray/toolbar_bg.png) repeat-x #545454;
 }
 
-
 /*slider background*/
 .esriSimpleSliderVertical .esriSimpleSliderIncrementButton ,.esriSimpleSliderVertical .esriSimpleSliderDecrementButton  {
   background:url(../../assets/gray/toolbar_bg.png) repeat-x #545454;
   border:solid 1px #545454;
 }
-
-/* overrides the ESRI home button style.  It is similar to "#tools .dijitIcon" style here   */
-.HomeButton .home  
-{
-    background-color: #B4B4B4;
-    border: 1px solid #515151;
-    border-radius: 5px 5px 5px 5px;
-}
-
-
-
 /*Identity Manager Dialog*/
 .claro .dijitDialogTitleBar {
   background:url(../../assets/gray/toolbar_bg.png) repeat-x #545454;
@@ -71,15 +58,6 @@ body {
     border: 1px solid #515151;
     border-radius: 5px 5px 5px 5px;
 }
-
-/* overrides the ESRI home button style */
-.HomeButton .home  
-{
-    background-color: #B4B4B4;
-    border: 1px solid #515151;
-    border-radius: 5px 5px 5px 5px;
-}
-
 /* Background color for dropdown left side button*/
 #tools .dijitComboButton .dijitIcon, #tools .dijitDownArrowButton .dijitIcon{
     box-shadow: 0px 3px 2px darkgray, #6C6C6C 0px -2px 3px inset;
@@ -178,66 +156,3 @@ body {
 .esriBookmarkItem:hover{
   background-color:#CEE1EC;
 }
-
-#footer a{
-    color:#C0C0C0;
-}
-
-/*Use a white arrow for the dropdown*/
-.claro .dijitArrowButtonInner {
-    background-image: url("../../assets/toolbar/ArrowButton.png");
-    height:48px;
-    bbackground-color: #545454;  /*#B4B4B4;*/
-    border: 1px solid #515151;
-    border-left: none;
-    border-radius: 0px 5px 5px 0px;
-    box-shadow: 3px 3px 2px darkgray, #6C6C6C -2px -2px 3px inset;
- 
-}
-.claro .dijitDisabled .dijitArrowButtonInner {
-    background-image: url("../../assets/toolbar/ArrowButton.png");
-    background-image:none;
-    height:48px;
-    background-color: #B4B4B4;
-    border: 1px solid #515151;
-    border-left: none;
-    border-radius: 0px 5px 5px 0px;
-    box-shadow: 3px 3px 2px darkgray, #6C6C6C -2px -2px 3px inset;
-
-}
-
-/*Used in Measure Tool text results ".dijitContentPane result"  */
-.claro #dijit_layout_ContentPane_2 {
-	background-color: #E6E6E6;
-	border: solid;
-	margin-left:auto;
-	margin-right:auto;
-	text-align: center;
-	padding-left: 0px;
-	
-}
-
-.dijitButtonHover .esriLinkIcon, .dijitToggleButtonChecked .esriLocationIcon, .dijitToggleButtonHover .esriLocationIcon, .dijitHover .dijitArrowButtonInner, .esriPrint .dijitHover .dijitIcon, .dijitToggleButtonChecked .esriMeasureIcon, .dijitToggleButtonHover .esriMeasureIcon , .dijitHover .esriBasemapIcon
-{
-    box-shadow: #FFFFFF 2px 2px 3px inset;  
-}
-
-/*updating the measurement widget */
-.esriMeasurement .dijitArrowButtonInner 
-{
-    height: 20px;   
-}
-
-.esriMeasurement .esriToggleButton .dijitButtonText
-{
-    display:inline-block !important;
-    font-size: 14px !important; 
-    color: #fff;
-    background-color: #B4B4B4;
-    border: 1px solid #515151;
-    border-left: none;
-    height: 20px;
-    border-radius: 5px 0px 0px 5px;
-    box-shadow: 3px 3px 2px darkgray, #6C6C6C -2px -2px 3px inset;
-}
-

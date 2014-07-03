@@ -69,9 +69,9 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                
 
                 //*** Querying - use as an example of lazy-loading a pane at runtime
-                if ((this._AppConfig.displayquery === 'true' || this._AppConfig.displayquery == true)) {
+                if ((this._AppConfig.adddata === 'true' || this._AppConfig.adddata == true)) {
                     //*** Check if this pane was set to be the startup pane in app.js or AGO. Replace the param name in next line.
-                    var configParamName = 'displayquery'; //querying';
+                    var configParamName = 'querying';
                     //*** Constructor params for the tab (which is a contentpane- http://dojotoolkit.org/reference-guide/1.8/dijit/layout/ContentPane.html).
                     //*** Give the tab's content pane a unique id.
                     //*** and title to display in the tab

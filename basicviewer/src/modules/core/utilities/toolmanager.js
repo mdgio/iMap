@@ -15,7 +15,6 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
             , _LeftToolDiv: null
             , _CenterToolDiv: null
             , _RightToolDiv: null
-      
             //mapHandler contains a reference to the actual arcgis map object and helper fxns
 
             , constructor: function(args) {
@@ -25,7 +24,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                 this._LeftToolDiv = dom.byId("webmap-toolbar-left");
 				this._RightToolDiv = dom.byId("webmap-toolbar-right");
                 this._ToolsDiv = dom.byId("tools");
-              }
+            }
 
             /*** Function to handle loading the toolbar at the top of the map.  Many of the tools only create a button at startup
              * and defer loading of the actual module until if/when the user actually clicks the button.
@@ -110,11 +109,11 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                                 id: "selectZoom",
                                 title: "County",
                                 value: "Zoom to County",
-                                service: "http://geodata.md.gov/imap/rest/services/Boundaries/MD_PhysicalBoundaries/MapServer/",  
+                                service: "http://www.mdimap.us/ArcGIS/rest/services/Boundaries/MD.State.Counties/MapServer/",  
                                 // alternative:  http://www.mdimap.us/ArcGIS/rest/services/Boundaries/MD.State.PoliticalBoundaries/MapServer/  layer: 5,  field: "COUNTY"
-								zoomFeature: "county",
-                                layer: 1,
-                                field: "county",
+								zoomFeature: "County",
+                                layer: 0,
+                                field: "NAME",
                                 AppConfig: this._AppConfig
                             });
 							

@@ -226,5 +226,5 @@
             "type": "boolean",
             "tooltip": "Zoom to a county"
 		}]
-    }];
+    }]
 }
