@@ -27,7 +27,7 @@ def main(argv=None):
     # Ask for server name & port
     # serverName = raw_input("Enter server name: ")
     serverName = ""
-	# if HTTPS is used, serverPort = 443
+	# if HTTPS is used, serverPort = 443   
     serverPort = 80
     alias = ""
 

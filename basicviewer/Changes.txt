@@ -1,5 +1,9 @@
 MD iMap Template Change Log
 
+7/9/2014
+* new comments in ArcGISservicestoJSON.py
+* new Addlayer.js file for Add Data tab.  All new REST services: no dead ones!
+
 7/3/2014
 * CSS corrections to allow for color changes to Home Button and recently added tools when themes are changed.  (Themes:  imap, gray, blue, green, purple, orange)
 * Placement adjustments to Search and Zoom to County tools to allow better map viewing on smaller form factor screens.
