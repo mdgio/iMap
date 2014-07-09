@@ -1,516 +1,415 @@
 /* This is the place to define the layers you want available to users in the Contents > Add Layers pane.
-You can start with the script in AGStoJSON (sibling to basicviewer folder) to crawl your ArcGIS Server and output a JSON object. And/or you can edit
-the file manually. Services can be from anywhere and different servers. Only AGS map, image, and feature layer services, and WMS are supported at this time.
-KML can be added, however it has not been fully implemented in the Legend tree.
+    You can start with the script in AGStoJSON (sibling to basicviewer folder) to crawl your ArcGIS Server and output a JSON object. And/or you can edit
+    the file manually. Services can be from anywhere and different servers. Only AGS map, image, and feature layer services, and WMS are supported at this time.
+    KML can be added, however it has not been fully implemented in the Legend tree.
  */
 {
-    "name": "geodata.md.gov", 
-    "id": "root", 
+    "name": "iMap",
+    "id": "root",
     "children": [
         {
-            "name": "Agriculture", 
-            "id": "Agriculture", 
-            "url": "http://geodata.md.gov/imap/rest/services/Agriculture/", 
+            "name": "AdministrativeBoundaries",
+            "id": "AdministrativeBoundaries",
+            "url": "http://204.145.182.27/arcgis/rest/services/AdministrativeBoundaries/",
             "children": [
                 {
-                    "name": "MD_PermanentlyPreservedAgLands", 
-                    "id": "MD_PermanentlyPreservedAgLands", 
-                    "url": "http://geodata.md.gov/imap/rest/services/Agriculture/MD_PermanentlyPreservedAgLands/MapServer/", 
+                    "name": "BaltimoreCityCouncilDistricts",
+                    "id": "BaltimoreCityCouncilDistricts",
+                    "url": "http://204.145.182.27/arcgis/rest/services/AdministrativeBoundaries/BaltimoreCityCouncilDistricts/MapServer/",
+                    "type": "MapServer"
+                },
+                {
+                    "name": "LegislativeBoundaries",
+                    "id": "LegislativeBoundaries",
+                    "url": "http://204.145.182.27/arcgis/rest/services/AdministrativeBoundaries/LegislativeBoundaries/MapServer/",
+                    "type": "MapServer"
+                },
+                {
+                    "name": "MD_State_CensusBlockGroups2010",
+                    "id": "MD_State_CensusBlockGroups2010",
+                    "url": "http://204.145.182.27/arcgis/rest/services/AdministrativeBoundaries/MD_State_CensusBlockGroups2010/MapServer/",
+                    "type": "MapServer"
+                },
+                {
+                    "name": "MD_State_CensusTracts2010",
+                    "id": "MD_State_CensusTracts2010",
+                    "url": "http://204.145.182.27/arcgis/rest/services/AdministrativeBoundaries/MD_State_CensusTracts2010/MapServer/",
+                    "type": "MapServer"
+                },
+                {
+                    "name": "MD_State_CountyBoundaries",
+                    "id": "MD_State_CountyBoundaries",
+                    "url": "http://204.145.182.27/arcgis/rest/services/AdministrativeBoundaries/MD_State_CountyBoundaries/MapServer/",
+                    "type": "MapServer"
+                },
+                {
+                    "name": "MD_State_Municipalities",
+                    "id": "MD_State_Municipalities",
+                    "url": "http://204.145.182.27/arcgis/rest/services/AdministrativeBoundaries/MD_State_Municipalities/MapServer/",
                     "type": "MapServer"
                 }
+
             ]
-        }, 
+        },
         {
-            "name": "Biota", 
-            "id": "Biota", 
-            "url": "http://geodata.md.gov/imap/rest/services/Biota/", 
+            "name": "Agriculture",
+            "id": "Agriculture",
+            "url": "http://204.145.182.27/arcgis/rest/services/Agriculture/",
             "children": [
                 {
-                    "name": "MD_Finfish", 
-                    "id": "MD_Finfish", 
-                    "url": "http://geodata.md.gov/imap/rest/services/Biota/MD_Finfish/MapServer/", 
+                    "name": "MD_State_AgPrintPriorityParcels",
+                    "id": "MD_State_AgPrintPriorityParcels",
+                    "url": "http://204.145.182.27/arcgis/rest/services/Agriculture/MD_State_AgPrintPriorityParcels/MapServer/",
                     "type": "MapServer"
-                }, 
+                },
                 {
-                    "name": "MD_GreenInfrastructureHubsCorridors", 
-                    "id": "MD_GreenInfrastructureHubsCorridors", 
-                    "url": "http://geodata.md.gov/imap/rest/services/Biota/MD_GreenInfrastructureHubsCorridors/MapServer/", 
+                    "name": "MD_State_AgPrintTargetedArea",
+                    "id": "MD_State_AgPrintTargetedArea",
+                    "url": "http://204.145.182.27/arcgis/rest/services/Agriculture/MD_State_AgPrintTargetedArea/MapServer/",
                     "type": "MapServer"
-                }, 
+                },
                 {
-                    "name": "MD_LivingResources", 
-                    "id": "MD_LivingResources", 
-                    "url": "http://geodata.md.gov/imap/rest/services/Biota/MD_LivingResources/MapServer/", 
+                    "name": "MD_State_MDALicensesAndPermitsIssued",
+                    "id": "MD_State_MDALicensesAndPermitsIssued",
+                    "url": "http://204.145.182.27/arcgis/rest/services/Agriculture/MD_State_MDALicensesAndPermitsIssued/MapServer/",
                     "type": "MapServer"
-                }, 
+                },
                 {
-                    "name": "MD_Shellfish", 
-                    "id": "MD_Shellfish", 
-                    "url": "http://geodata.md.gov/imap/rest/services/Biota/MD_Shellfish/MapServer/", 
-                    "type": "MapServer"
-                }, 
-                {
-                    "name": "MD_SubmergedAquaticVegetation", 
-                    "id": "MD_SubmergedAquaticVegetation", 
-                    "url": "http://geodata.md.gov/imap/rest/services/Biota/MD_SubmergedAquaticVegetation/MapServer/", 
+                    "name": "MD_State_PermPreservedAgLand",
+                    "id": "MD_State_PermPreservedAgLand",
+                    "url": "http://204.145.182.27/arcgis/rest/services/Agriculture/MD_State_PermPreservedAgLand/MapServer/",
                     "type": "MapServer"
                 }
+
             ]
-        }, 
+        },
         {
-            "name": "Boundaries", 
-            "id": "Boundaries", 
-            "url": "http://geodata.md.gov/imap/rest/services/Boundaries/", 
+            "name": "Biota",
+            "id": "Biota",
+            "url": "http://204.145.182.27/arcgis/rest/services/Biota/",
+            "children": [
+
+            ]
+        },
+        {
+            "name": "BusinessEconomy",
+            "id": "BusinessEconomy",
+            "url": "http://204.145.182.27/arcgis/rest/services/BusinessEconomy/",
             "children": [
                 {
-                    "name": "MD_ElectionBoundaries", 
-                    "id": "MD_ElectionBoundaries", 
-                    "url": "http://geodata.md.gov/imap/rest/services/Boundaries/MD_ElectionBoundaries/MapServer/", 
+                    "name": "MD_State_FY13NewRetainedJobs",
+                    "id": "MD_State_FY13NewRetainedJobs",
+                    "url": "http://204.145.182.27/arcgis/rest/services/BusinessEconomy/MD_State_FY13NewRetainedJobs/MapServer/",
                     "type": "MapServer"
-                }, 
+                },
                 {
-                    "name": "MD_PhysicalBoundaries", 
-                    "id": "MD_PhysicalBoundaries", 
-                    "url": "http://geodata.md.gov/imap/rest/services/Boundaries/MD_PhysicalBoundaries/MapServer/", 
-                    "type": "MapServer"
-                }, 
-                {
-                    "name": "MD_PoliticalBoundaries", 
-                    "id": "MD_PoliticalBoundaries", 
-                    "url": "http://geodata.md.gov/imap/rest/services/Boundaries/MD_PoliticalBoundaries/MapServer/", 
+                    "name": "MD_State_FY14CapitalBudget",
+                    "id": "MD_State_FY14CapitalBudget",
+                    "url": "http://204.145.182.27/arcgis/rest/services/BusinessEconomy/MD_State_FY14CapitalBudget/MapServer/",
                     "type": "MapServer"
                 }
+
             ]
-        }, 
+        },
         {
-            "name": "BusinessEconomy", 
-            "id": "BusinessEconomy", 
-            "url": "http://geodata.md.gov/imap/rest/services/BusinessEconomy/", 
+            "name": "Demographic",
+            "id": "Demographic",
+            "url": "http://204.145.182.27/arcgis/rest/services/Demographic/",
+            "children": [
+
+            ]
+        },
+        {
+            "name": "Elevation",
+            "id": "Elevation",
+            "url": "http://204.145.182.27/arcgis/rest/services/Elevation/",
+            "children": [
+
+            ]
+        },
+        {
+            "name": "Environment",
+            "id": "Environment",
+            "url": "http://204.145.182.27/arcgis/rest/services/Environment/",
             "children": [
                 {
-                    "name": "MD_EARNGrantRecipients", 
-                    "id": "MD_EARNGrantRecipients", 
-                    "url": "http://geodata.md.gov/imap/rest/services/BusinessEconomy/MD_EARNGrantRecipients/MapServer/", 
+                    "name": "Forested Buffers",
+                    "id": "MD_State_ForestedBuffers",
+                    "url": "http://204.145.182.27/arcgis/rest/services/Environment/MD_State_ForestedBuffers/MapServer/",
                     "type": "MapServer"
-                }, 
+                },
                 {
-                    "name": "MD_IncentiveZones", 
-                    "id": "MD_IncentiveZones", 
-                    "url": "http://geodata.md.gov/imap/rest/services/BusinessEconomy/MD_IncentiveZones/MapServer/", 
+                    "name": "MD_State_ProtectedLands",
+                    "id": "MD_State_ProtectedLands",
+                    "url": "http://204.145.182.27/arcgis/rest/services/Environment/MD_State_ProtectedLands/MapServer/",
+                    "type": "MapServer"
+                },
+                {
+                    "name": "MD_State_StreamHealth",
+                    "id": "MD_State_StreamHealth",
+                    "url": "http://204.145.182.27/arcgis/rest/services/Environment/MD_State_StreamHealth/MapServer/",
+                    "type": "MapServer"
+                },
+                {
+                    "name": "MD_State_TargetedEcologicalAreas",
+                    "id": "MD_State_TargetedEcologicalAreas",
+                    "url": "http://204.145.182.27/arcgis/rest/services/Environment/MD_State_TargetedEcologicalAreas/MapServer/",
                     "type": "MapServer"
                 }
+
             ]
-        }, 
+        },
         {
-            "name": "Demographics", 
-            "id": "Demographics", 
-            "url": "http://geodata.md.gov/imap/rest/services/Demographics/", 
+            "name": "GeoscientificInformation",
+            "id": "GeoscientificInformation",
+            "url": "http://204.145.182.27/arcgis/rest/services/GeoscientificInformation/",
             "children": [
                 {
-                    "name": "MD_AmericanCommunitySurvey", 
-                    "id": "MD_AmericanCommunitySurvey", 
-                    "url": "http://geodata.md.gov/imap/rest/services/Demographics/MD_AmericanCommunitySurvey/MapServer/", 
-                    "type": "MapServer"
-                }, 
-                {
-                    "name": "MD_CensusBoundaries", 
-                    "id": "MD_CensusBoundaries", 
-                    "url": "http://geodata.md.gov/imap/rest/services/Demographics/MD_CensusBoundaries/MapServer/", 
-                    "type": "MapServer"
-                }, 
-                {
-                    "name": "MD_CensusData", 
-                    "id": "MD_CensusData", 
-                    "url": "http://geodata.md.gov/imap/rest/services/Demographics/MD_CensusData/MapServer/", 
-                    "type": "MapServer"
-                }, 
-                {
-                    "name": "MD_CensusDesignatedAreas", 
-                    "id": "MD_CensusDesignatedAreas", 
-                    "url": "http://geodata.md.gov/imap/rest/services/Demographics/MD_CensusDesignatedAreas/MapServer/", 
+                    "name": "MD_State_ImperviousSurfaces",
+                    "id": "MD_State_ImperviousSurfaces",
+                    "url": "http://204.145.182.27/arcgis/rest/services/GeoscientificInformation/MD_State_ImperviousSurfaces/MapServer/",
                     "type": "MapServer"
                 }
+
             ]
-        }, 
+        },
         {
-            "name": "Elevation", 
-            "id": "Elevation", 
-            "url": "http://geodata.md.gov/imap/rest/services/Elevation/", 
+            "name": "Health",
+            "id": "Health",
+            "url": "http://204.145.182.27/arcgis/rest/services/Health/",
+            "children": [
+
+            ]
+        },
+        {
+            "name": "Historic",
+            "id": "Historic",
+            "url": "http://204.145.182.27/arcgis/rest/services/Historic/",
+            "children": [
+
+            ]
+        },
+        {
+            "name": "Hydrology",
+            "id": "Hydrology",
+            "url": "http://204.145.182.27/arcgis/rest/services/Hydrology/",
             "children": [
                 {
-                    "name": "MD_Bathymetry", 
-                    "id": "MD_Bathymetry", 
-                    "url": "http://geodata.md.gov/imap/rest/services/Elevation/MD_Bathymetry/MapServer/", 
+                    "name": "MD_State_Waterbodies",
+                    "id": "MD_State_Waterbodies",
+                    "url": "http://204.145.182.27/arcgis/rest/services/Hydrology/MD_State_Waterbodies/MapServer/",
                     "type": "MapServer"
                 }
+
             ]
-        }, 
+        },
         {
-            "name": "Environment", 
-            "id": "Environment", 
-            "url": "http://geodata.md.gov/imap/rest/services/Environment/", 
+            "name": "ImageryBasemapsEarthCover",
+            "id": "ImageryBasemapsEarthCover",
+            "url": "http://204.145.182.27/arcgis/rest/services/ImageryBasemapsEarthCover/",
+            "children": [{
+                    "name": "6 inch Imagery",
+                    "id": "6inchimagery",
+                    "url": "http://www.mdimap.us/ArcGIS/rest/services/ImageryBaseMapsEarthCover/MD.State.SixInchImagery/ImageServer",
+                    "type": "ImageServer"
+                }
+            ]
+        },
+        {
+            "name": "Location",
+            "id": "Location",
+            "url": "http://204.145.182.27/arcgis/rest/services/Location/",
+            "children": [
+
+            ]
+        },
+        {
+            "name": "Military",
+            "id": "Military",
+            "url": "http://204.145.182.27/arcgis/rest/services/Military/",
             "children": [
                 {
-                    "name": "MD_CriticalAreas", 
-                    "id": "MD_CriticalAreas", 
-                    "url": "http://geodata.md.gov/imap/rest/services/Environment/MD_CriticalAreas/MapServer/", 
-                    "type": "MapServer"
-                }, 
-                {
-                    "name": "MD_FocalAreas", 
-                    "id": "MD_FocalAreas", 
-                    "url": "http://geodata.md.gov/imap/rest/services/Environment/MD_FocalAreas/MapServer/", 
-                    "type": "MapServer"
-                }, 
-                {
-                    "name": "MD_ForestedBuffers", 
-                    "id": "MD_ForestedBuffers", 
-                    "url": "http://geodata.md.gov/imap/rest/services/Environment/MD_ForestedBuffers/MapServer/", 
-                    "type": "MapServer"
-                }, 
-                {
-                    "name": "MD_NPDESFacilities", 
-                    "id": "MD_NPDESFacilities", 
-                    "url": "http://geodata.md.gov/imap/rest/services/Environment/MD_NPDESFacilities/MapServer/", 
-                    "type": "MapServer"
-                }, 
-                {
-                    "name": "MD_ProtectedLands", 
-                    "id": "MD_ProtectedLands", 
-                    "url": "http://geodata.md.gov/imap/rest/services/Environment/MD_ProtectedLands/MapServer/", 
-                    "type": "MapServer"
-                }, 
-                {
-                    "name": "MD_SaltMarsh", 
-                    "id": "MD_SaltMarsh", 
-                    "url": "http://geodata.md.gov/imap/rest/services/Environment/MD_SaltMarsh/MapServer/", 
+                    "name": "MD_State_MDARNG_MJOC",
+                    "id": "MD_State_MDARNG_MJOC",
+                    "url": "http://204.145.182.27/arcgis/rest/services/Military/MD_State_MDARNG_MJOC/MapServer/",
                     "type": "MapServer"
                 }
+
             ]
-        }, 
+        },
         {
-            "name": "GeocodeServices", 
-            "id": "GeocodeServices", 
-            "url": "http://geodata.md.gov/imap/rest/services/GeocodeServices/", 
+            "name": "PlanningCadastre",
+            "id": "PlanningCadastre",
+            "url": "http://204.145.182.27/arcgis/rest/services/PlanningCadastre/",
+            "children": [
+                {
+                    "name": "MD_State_CommunityLegacyAreas",
+                    "id": "MD_State_CommunityLegacyAreas",
+                    "url": "http://204.145.182.27/arcgis/rest/services/PlanningCadastre/MD_State_CommunityLegacyAreas/MapServer/",
+                    "type": "MapServer"
+                },
+                {
+                    "name": "MD_State_GrowthPrint",
+                    "id": "MD_State_GrowthPrint",
+                    "url": "http://204.145.182.27/arcgis/rest/services/PlanningCadastre/MD_State_GrowthPrint/MapServer/",
+                    "type": "MapServer"
+                },
+                {
+                    "name": "MD_State_MainStreetAreas",
+                    "id": "MD_State_MainStreetAreas",
+                    "url": "http://204.145.182.27/arcgis/rest/services/PlanningCadastre/MD_State_MainStreetAreas/MapServer/",
+                    "type": "MapServer"
+                },
+                {
+                    "name": "MD_State_MapleStreetAreas",
+                    "id": "MD_State_MapleStreetAreas",
+                    "url": "http://204.145.182.27/arcgis/rest/services/PlanningCadastre/MD_State_MapleStreetAreas/MapServer/",
+                    "type": "MapServer"
+                },
+                {
+                    "name": "MD_State_ParcelBoundaries",
+                    "id": "MD_State_ParcelBoundaries",
+                    "url": "http://204.145.182.27/arcgis/rest/services/PlanningCadastre/MD_State_ParcelBoundaries/MapServer/",
+                    "type": "MapServer"
+                }
+
+            ]
+        },
+        {
+            "name": "PublicSafety",
+            "id": "PublicSafety",
+            "url": "http://204.145.182.27/arcgis/rest/services/PublicSafety/",
+            "children": [
+
+            ]
+        },
+        {
+            "name": "Society",
+            "id": "Society",
+            "url": "http://204.145.182.27/arcgis/rest/services/Society/",
+            "children": [
+                {
+                    "name": "MD_State_DesignatedNeigborhoods",
+                    "id": "MD_State_DesignatedNeigborhoods",
+                    "url": "http://204.145.182.27/arcgis/rest/services/Society/MD_State_DesignatedNeigborhoods/MapServer/",
+                    "type": "MapServer"
+                },
+                {
+                    "name": "MD_State_InventoryOfHistoricProperties",
+                    "id": "MD_State_InventoryOfHistoricProperties",
+                    "url": "http://204.145.182.27/arcgis/rest/services/Society/MD_State_InventoryOfHistoricProperties/MapServer/",
+                    "type": "MapServer"
+                },
+                {
+                    "name": "MD_State_NationalRegisterOfHistoricPlaces",
+                    "id": "MD_State_NationalRegisterOfHistoricPlaces",
+                    "url": "http://204.145.182.27/arcgis/rest/services/Society/MD_State_NationalRegisterOfHistoricPlaces/MapServer/",
+                    "type": "MapServer"
+                }
+
+            ]
+        },
+        {
+            "name": "Structure",
+            "id": "Structure",
+            "url": "http://204.145.182.27/arcgis/rest/services/Structure/",
+            "children": [
+
+            ]
+        },
+        {
+            "name": "Transportation",
+            "id": "Transportation",
+            "url": "http://204.145.182.27/arcgis/rest/services/Transportation/",
+            "children": [
+                {
+                    "name": "SHA Traffic Count Statistics",
+                    "id": "TrafficCountStatistics",
+                    "url": "http://204.145.182.27/arcgis/rest/services/Transportation/Transportation_Statistics/MapServer/0",
+                    "type": "Feature Layer"
+                },{
+                    "name": "E85 Ethanol State Fuel Facilities",
+                    "id": "E85EthanolStateFuelFacilities",
+                    "url": "http://204.145.182.27/arcgis/rest/services/Transportation/E85EthanolStateFuelFacilities/MapServer/",
+                    "type": "MapServer"
+                },
+                {
+                    "name": "E85 Ethanol State Vehicle Locations",
+                    "id": "E85EthanolStateVehicleLocations",
+                    "url": "http://204.145.182.27/arcgis/rest/services/Transportation/E85EthanolStateVehicleLocations/MapServer/",
+                    "type": "MapServer"
+                },
+                {
+                    "name": "Maryland State Fuel Sites",
+                    "id": "MD_State_MarylandGovernmentFuelSites",
+                    "url": "http://204.145.182.27/arcgis/rest/services/Transportation/MD_State_MarylandGovernmentFuelSites/MapServer/",
+                    "type": "MapServer"
+                },
+                {
+                    "name": "MDTA Accidents",
+                    "id": "MD_State_MDTAAccidents",
+                    "url": "http://204.145.182.27/arcgis/rest/services/Transportation/MD_State_MDTAAccidents/MapServer/",
+                    "type": "MapServer"
+                },
+                {
+                    "name": "MVA Locations",
+                    "id": "MD_State_MVALocations",
+                    "url": "http://204.145.182.27/arcgis/rest/services/Transportation/MD_State_MVALocations/MapServer/",
+                    "type": "MapServer"
+                },
+                {
+                    "name": "Transportation Facilities",
+                    "id": "Transportation_Facilities",
+                    "url": "http://204.145.182.27/arcgis/rest/services/Transportation/Transportation_Facilities/MapServer/",
+                    "type": "MapServer"
+                }
+
+            ]
+        },
+        {
+            "name": "UtilitiesCommunication",
+            "id": "UtilitiesCommunication",
+            "url": "http://204.145.182.27/arcgis/rest/services/UtilitiesCommunication/",
+            "children": [
+                {
+                    "name": "BGE Distribution Line Outages",
+                    "id": "BGE_DistributionLineOutages",
+                    "url": "http://204.145.182.27/arcgis/rest/services/UtilitiesCommunication/BGE_DistributionLineOutages/MapServer/",
+                    "type": "MapServer"
+                },
+                {
+                    "name": "BGE PEPC Electric Service Areas",
+                    "id": "BGE_PEPCO_ElectricServiceAreas",
+                    "url": "http://204.145.182.27/arcgis/rest/services/UtilitiesCommunication/BGE_PEPCO_ElectricServiceAreas/MapServer/",
+                    "type": "MapServer"
+                },
+                {
+                    "name": "OMBN Sites",
+                    "id": "MD_State_OMBNSites",
+                    "url": "http://204.145.182.27/arcgis/rest/services/UtilitiesCommunication/MD_State_OMBNSites/MapServer/",
+                    "type": "MapServer"
+                },
+                {
+                    "name": "PEPCO Distribution Line Outages",
+                    "id": "PEPCO_DistributionLineOutages",
+                    "url": "http://204.145.182.27/arcgis/rest/services/UtilitiesCommunication/PEPCO_DistributionLineOutages/MapServer/",
+                    "type": "MapServer"
+                },
+                {
+                    "name": "PEPCO Substation Loss of Supply",
+                    "id": "PEPCO_SubstationLossofSupply",
+                    "url": "http://204.145.182.27/arcgis/rest/services/UtilitiesCommunication/PEPCO_SubstationLossofSupply/MapServer/",
+                    "type": "MapServer"
+                }
+
+            ]
+        },
+        {
+            "name": "Weather",
+            "id": "Weather",
+            "url": "http://204.145.182.27/arcgis/rest/services/Weather/",
             "children": []
-        }, 
-        {
-            "name": "GeoprocessingServices", 
-            "id": "GeoprocessingServices", 
-            "url": "http://geodata.md.gov/imap/rest/services/GeoprocessingServices/", 
-            "children": []
-        }, 
-        {
-            "name": "Geoscientific", 
-            "id": "Geoscientific", 
-            "url": "http://geodata.md.gov/imap/rest/services/Geoscientific/", 
-            "children": [
-                {
-                    "name": "MD_BaySoils", 
-                    "id": "MD_BaySoils", 
-                    "url": "http://geodata.md.gov/imap/rest/services/Geoscientific/MD_BaySoils/MapServer/", 
-                    "type": "MapServer"
-                }, 
-                {
-                    "name": "MD_Geology", 
-                    "id": "MD_Geology", 
-                    "url": "http://geodata.md.gov/imap/rest/services/Geoscientific/MD_Geology/MapServer/", 
-                    "type": "MapServer"
-                }, 
-                {
-                    "name": "MD_LittloralDriftMaps", 
-                    "id": "MD_LittloralDriftMaps", 
-                    "url": "http://geodata.md.gov/imap/rest/services/Geoscientific/MD_LittloralDriftMaps/MapServer/", 
-                    "type": "MapServer"
-                }, 
-                {
-                    "name": "MD_OceanEcology", 
-                    "id": "MD_OceanEcology", 
-                    "url": "http://geodata.md.gov/imap/rest/services/Geoscientific/MD_OceanEcology/MapServer/", 
-                    "type": "MapServer"
-                }, 
-                {
-                    "name": "MD_OceanShoal", 
-                    "id": "MD_OceanShoal", 
-                    "url": "http://geodata.md.gov/imap/rest/services/Geoscientific/MD_OceanShoal/MapServer/", 
-                    "type": "MapServer"
-                }
-            ]
-        }, 
-        {
-            "name": "Health", 
-            "id": "Health", 
-            "url": "http://geodata.md.gov/imap/rest/services/Health/", 
-            "children": [
-                {
-                    "name": "MD_AllCauseMortalityRate", 
-                    "id": "MD_AllCauseMortalityRate", 
-                    "url": "http://geodata.md.gov/imap/rest/services/Health/MD_AllCauseMortalityRate/MapServer/", 
-                    "type": "MapServer"
-                }, 
-                {
-                    "name": "MD_LowBirthRateInfants", 
-                    "id": "MD_LowBirthRateInfants", 
-                    "url": "http://geodata.md.gov/imap/rest/services/Health/MD_LowBirthRateInfants/MapServer/", 
-                    "type": "MapServer"
-                }
-            ]
-        }, 
-        {
-            "name": "Historic", 
-            "id": "Historic", 
-            "url": "http://geodata.md.gov/imap/rest/services/Historic/", 
-            "children": [
-                {
-                    "name": "MD_InventoryHistoricProperties", 
-                    "id": "MD_InventoryHistoricProperties", 
-                    "url": "http://geodata.md.gov/imap/rest/services/Historic/MD_InventoryHistoricProperties/MapServer/", 
-                    "type": "MapServer"
-                }, 
-                {
-                    "name": "MD_MHTPreservationEasements", 
-                    "id": "MD_MHTPreservationEasements", 
-                    "url": "http://geodata.md.gov/imap/rest/services/Historic/MD_MHTPreservationEasements/MapServer/", 
-                    "type": "MapServer"
-                }, 
-                {
-                    "name": "MD_NationalRegisterHistoricPlaces", 
-                    "id": "MD_NationalRegisterHistoricPlaces", 
-                    "url": "http://geodata.md.gov/imap/rest/services/Historic/MD_NationalRegisterHistoricPlaces/MapServer/", 
-                    "type": "MapServer"
-                }
-            ]
-        }, 
-        {
-            "name": "Hydrology", 
-            "id": "Hydrology", 
-            "url": "http://geodata.md.gov/imap/rest/services/Hydrology/", 
-            "children": [
-                {
-                    "name": "MD_Gauges", 
-                    "id": "MD_Gauges", 
-                    "url": "http://geodata.md.gov/imap/rest/services/Hydrology/MD_Gauges/MapServer/", 
-                    "type": "MapServer"
-                }, 
-                {
-                    "name": "MD_HighQualityWaters", 
-                    "id": "MD_HighQualityWaters", 
-                    "url": "http://geodata.md.gov/imap/rest/services/Hydrology/MD_HighQualityWaters/MapServer/", 
-                    "type": "MapServer"
-                }, 
-                {
-                    "name": "MD_ShorelineChanges", 
-                    "id": "MD_ShorelineChanges", 
-                    "url": "http://geodata.md.gov/imap/rest/services/Hydrology/MD_ShorelineChanges/MapServer/", 
-                    "type": "MapServer"
-                }, 
-                {
-                    "name": "MD_ShorelineInventory", 
-                    "id": "MD_ShorelineInventory", 
-                    "url": "http://geodata.md.gov/imap/rest/services/Hydrology/MD_ShorelineInventory/MapServer/", 
-                    "type": "MapServer"
-                }, 
-                {
-                    "name": "MD_Waterbodies", 
-                    "id": "MD_Waterbodies", 
-                    "url": "http://geodata.md.gov/imap/rest/services/Hydrology/MD_Waterbodies/MapServer/", 
-                    "type": "MapServer"
-                }, 
-                {
-                    "name": "MD_Watersheds", 
-                    "id": "MD_Watersheds", 
-                    "url": "http://geodata.md.gov/imap/rest/services/Hydrology/MD_Watersheds/MapServer/", 
-                    "type": "MapServer"
-                }, 
-                {
-                    "name": "MD_Wetlands", 
-                    "id": "MD_Wetlands", 
-                    "url": "http://geodata.md.gov/imap/rest/services/Hydrology/MD_Wetlands/MapServer/", 
-                    "type": "MapServer"
-                }
-            ]
-        }, 
-        {
-            "name": "Imagery", 
-            "id": "Imagery", 
-            "url": "http://geodata.md.gov/imap/rest/services/Imagery/", 
-            "children": [
-                {
-                    "name": "MD_SixInchCIRImagery", 
-                    "id": "MD_SixInchCIRImagery", 
-                    "url": "http://geodata.md.gov/imap/rest/services/Imagery/MD_SixInchCIRImagery/MapServer/", 
-                    "type": "MapServer"
-                }, 
-                {
-                    "name": "MD_SixInchImagery", 
-                    "id": "MD_SixInchImagery", 
-                    "url": "http://geodata.md.gov/imap/rest/services/Imagery/MD_SixInchImagery/MapServer/", 
-                    "type": "MapServer"
-                }
-            ]
-        }, 
-        {
-            "name": "Location", 
-            "id": "Location", 
-            "url": "http://geodata.md.gov/imap/rest/services/Location/", 
-            "children": [
-                {
-                    "name": "MD_USGSTopoGrids", 
-                    "id": "MD_USGSTopoGrids", 
-                    "url": "http://geodata.md.gov/imap/rest/services/Location/MD_USGSTopoGrids/MapServer/", 
-                    "type": "MapServer"
-                }
-            ]
-        }, 
-        {
-            "name": "Military", 
-            "id": "Military", 
-            "url": "http://geodata.md.gov/imap/rest/services/Military/", 
-            "children": []
-        }, 
-        {
-            "name": "PlanningCadastre", 
-            "id": "PlanningCadastre", 
-            "url": "http://geodata.md.gov/imap/rest/services/PlanningCadastre/", 
-            "children": [
-                {
-                    "name": "MD_LandUseLandCover", 
-                    "id": "MD_LandUseLandCover", 
-                    "url": "http://geodata.md.gov/imap/rest/services/PlanningCadastre/MD_LandUseLandCover/MapServer/", 
-                    "type": "MapServer"
-                }, 
-                {
-                    "name": "MD_PropertyData", 
-                    "id": "MD_PropertyData", 
-                    "url": "http://geodata.md.gov/imap/rest/services/PlanningCadastre/MD_PropertyData/MapServer/", 
-                    "type": "MapServer"
-                }
-            ]
-        }, 
-        {
-            "name": "PublicSafety", 
-            "id": "PublicSafety", 
-            "url": "http://geodata.md.gov/imap/rest/services/PublicSafety/", 
-            "children": [
-                {
-                    "name": "MD_VeryHighRiskCensusTracts", 
-                    "id": "MD_VeryHighRiskCensusTracts", 
-                    "url": "http://geodata.md.gov/imap/rest/services/PublicSafety/MD_VeryHighRiskCensusTracts/MapServer/", 
-                    "type": "MapServer"
-                }
-            ]
-        }, 
-        {
-            "name": "Society", 
-            "id": "Society", 
-            "url": "http://geodata.md.gov/imap/rest/services/Society/", 
-            "children": []
-        }, 
-        {
-            "name": "Structure", 
-            "id": "Structure", 
-            "url": "http://geodata.md.gov/imap/rest/services/Structure/", 
-            "children": [
-                {
-                    "name": "MD_CommunitySupport", 
-                    "id": "MD_CommunitySupport", 
-                    "url": "http://geodata.md.gov/imap/rest/services/Structure/MD_CommunitySupport/MapServer/", 
-                    "type": "MapServer"
-                }
-            ]
-        }, 
-        {
-            "name": "Transportation", 
-            "id": "Transportation", 
-            "url": "http://geodata.md.gov/imap/rest/services/Transportation/", 
-            "children": [
-                {
-                    "name": "MD_RoadCenterlines", 
-                    "id": "MD_RoadCenterlines", 
-                    "url": "http://geodata.md.gov/imap/rest/services/Transportation/MD_RoadCenterlines/MapServer/", 
-                    "type": "MapServer"
-                }, 
-                {
-                    "name": "MD_Transit", 
-                    "id": "MD_Transit", 
-                    "url": "http://geodata.md.gov/imap/rest/services/Transportation/MD_Transit/MapServer/", 
-                    "type": "MapServer"
-                }, 
-                {
-                    "name": "MD_WelcomeandVisitorCenters", 
-                    "id": "MD_WelcomeandVisitorCenters", 
-                    "url": "http://geodata.md.gov/imap/rest/services/Transportation/MD_WelcomeandVisitorCenters/MapServer/", 
-                    "type": "MapServer"
-                }
-            ]
-        }, 
-        {
-            "name": "UtilityTelecom", 
-            "id": "UtilityTelecom", 
-            "url": "http://geodata.md.gov/imap/rest/services/UtilityTelecom/", 
-            "children": [
-                {
-                    "name": "MD_BroadbandProviderPerCensusBlock", 
-                    "id": "MD_BroadbandProviderPerCensusBlock", 
-                    "url": "http://geodata.md.gov/imap/rest/services/UtilityTelecom/MD_BroadbandProviderPerCensusBlock/MapServer/", 
-                    "type": "MapServer"
-                }, 
-                {
-                    "name": "MD_BroadbandServiceAreas", 
-                    "id": "MD_BroadbandServiceAreas", 
-                    "url": "http://geodata.md.gov/imap/rest/services/UtilityTelecom/MD_BroadbandServiceAreas/MapServer/", 
-                    "type": "MapServer"
-                }, 
-                {
-                    "name": "MD_BroadbandSpeedTest", 
-                    "id": "MD_BroadbandSpeedTest", 
-                    "url": "http://geodata.md.gov/imap/rest/services/UtilityTelecom/MD_BroadbandSpeedTest/MapServer/", 
-                    "type": "MapServer"
-                }, 
-                {
-                    "name": "MD_CommunityAnchorInstitutions", 
-                    "id": "MD_CommunityAnchorInstitutions", 
-                    "url": "http://geodata.md.gov/imap/rest/services/UtilityTelecom/MD_CommunityAnchorInstitutions/MapServer/", 
-                    "type": "MapServer"
-                }, 
-                {
-                    "name": "MD_OffshoreWindEnergyPlanning", 
-                    "id": "MD_OffshoreWindEnergyPlanning", 
-                    "url": "http://geodata.md.gov/imap/rest/services/UtilityTelecom/MD_OffshoreWindEnergyPlanning/MapServer/", 
-                    "type": "MapServer"
-                }
-            ]
-        }, 
-        {
-            "name": "Weather", 
-            "id": "Weather", 
-            "url": "http://geodata.md.gov/imap/rest/services/Weather/", 
-            "children": [
-                {
-                    "name": "MD_SeaLevelAffectingMarshesModel", 
-                    "id": "MD_SeaLevelAffectingMarshesModel", 
-                    "url": "http://geodata.md.gov/imap/rest/services/Weather/MD_SeaLevelAffectingMarshesModel/MapServer/", 
-                    "type": "MapServer"
-                }, 
-                {
-                    "name": "MD_SeaLevelRiseVulnerability", 
-                    "id": "MD_SeaLevelRiseVulnerability", 
-                    "url": "http://geodata.md.gov/imap/rest/services/Weather/MD_SeaLevelRiseVulnerability/MapServer/", 
-                    "type": "MapServer"
-                }, 
-                {
-                    "name": "MD_SeaLevelRiseWetlandAdaptationAreas", 
-                    "id": "MD_SeaLevelRiseWetlandAdaptationAreas", 
-                    "url": "http://geodata.md.gov/imap/rest/services/Weather/MD_SeaLevelRiseWetlandAdaptationAreas/MapServer/", 
-                    "type": "MapServer"
-                }
-            ]
-        }, 
-        {
-            "name": "SampleWorldCities", 
-            "id": "SampleWorldCities", 
-            "url": "http://geodata.md.gov/imap/rest/services/SampleWorldCities/MapServer/", 
-            "type": "MapServer"
         }
     ]
 }
+
