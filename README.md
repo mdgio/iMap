@@ -3,7 +3,14 @@ iMap
 
 Maryland iMap Applications
 
-See Wiki for instructions.
+View the template:  http://geodata.md.gov/imaptemplate/
+
+Sample projects using the template:  http://imap.maryland.gov/Pages/template-examples.aspx
+
+
+
+
+See Wiki for instructions.  Also, view further information here: http://imap.maryland.gov/Pages/template.aspx
 
 ## License
 
