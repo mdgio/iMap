@@ -10,7 +10,7 @@ Sample projects using the template:  http://imap.maryland.gov/Pages/template-exa
 
 
 
-See Wiki for instructions.  Also, view further information here: http://imap.maryland.gov/Pages/template.aspx
+See the Wiki here for instructions.  Also, view further information from MD iMap: http://imap.maryland.gov/Pages/template.aspx
 
 ## License
 
