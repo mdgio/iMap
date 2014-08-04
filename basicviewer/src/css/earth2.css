@@ -1,115 +1,111 @@
+
 /*The image specified for the body is used to apply the gradient background to the entire page*/
 body {
-  background:url(../../assets/purple/body_bg.png) repeat-x #593E7F;
+  background:url(../../assets/earth2/body_bg_flip.png) repeat-x #4B3C00;
 }
 #leftPane {
-  background-color:#f5f1f8;
+  background-color:#7B630A;
 }
 
 #leftPane_splitter:hover {
     background-color: red;
 }
+
 /* for buttons on title bar in Content Tab */
 .claro .liLyrUpDis, .claro .liLyrDwnDis, .claro .liLyrRemDis {
-    background-color: #c1bacb;
+    background-color: #D9C780;
 }
 
 /*override claro background and other props*/
 /*Measure toggle button*/
 .claro .dijitToolbar .dijitButtonNode:hover {
-  background:url(../../assets/purple/sidebar_header_active_bg.png) repeat-x #c1bacb;
+  background:url(../../assets/earth2/sidebar_header_active_bg.png) repeat-x #FFF7D7;
 }
-
 .claro .dijitToolbar .dijitToggleButtonChecked .dijitButtonNode {
-   background:url(../../assets/purple/sidebar_header_active_bg.png) repeat-x #c1bacb;
-}
-
-/*Attribute Inspector button styling (delete buttons)*/
-.esriAttributeInspector div.atiButtons span.dijit span.dijitReset{
-  background:url(../../assets/purple/toolbar_bg.png) repeat-x #593e7f;
-  color:#fff;
-  border: none;
-}
-.esriAttributeInspector div.atiButtons span.dijit span.dijitReset:hover{
-  background:url(../../assets/purple/sidebar_header_active_bg.png) repeat-x #c1bacb;
-  color:#000;
+   background:url(../../assets/earth2/sidebar_header_active_bg.png) repeat-x #FFF7D7;
 }
 
 /* Background color for regular buttons*/
 #tools .dijitIcon
 {
-    box-shadow: 3px 3px 2px darkgray, #4A3B5F -2px -2px 3px inset;
-    background-color: #593E7F;
-    border: 1px solid #2E1453;
+    box-shadow: 3px 3px 2px darkgray, #7B630A -2px -2px 3px inset;
+    background-color: #7B630A;
+    border: 1px solid #4B3C00;
     border-radius: 5px 5px 5px 5px;
 }
+
+
+
 /* Background color for dropdown left side button*/
 #tools .dijitComboButton .dijitIcon, #tools .dijitDownArrowButton .dijitIcon{
-    box-shadow: 0px 3px 2px darkgray, #4A3B5F 0px -2px 3px inset;
-    background-color: #593E7F;
-    border: 1px solid #2E1453;
+    box-shadow: 0px 3px 2px darkgray, #7B630A 0px -2px 3px inset;
+    background-color: #7B630A;
+    border: 1px solid #4B3C00;
     border-radius: 5px 0px 0px 5px;
 }
 /* Background color for dropdown right side button*/
 #tools .dijitArrowButtonInner
 {
     height: 48px;
-    background-color: #593E7F;
-    border: 1px solid #2E1453;
+    background-color: #7B630A;
+    border: 1px solid #4B3C00;
     border-left: none;
     border-radius: 0px 5px 5px 0px;
-    box-shadow: 3px 3px 1px darkgray,  #282828 -2px 0px 3px inset;
+    box-shadow: 3px 3px 1px darkgray,  #7B630A -2px 0px 3px inset;
 }
 
 /* Buttons on hover*/
 #tools .dijitToggleButtonHover .dijitIcon
 {
-    box-shadow: #4A3B5F 2px 2px 3px inset;     
+    box-shadow: #7B630A 2px 2px 3px inset;     
 } 
 /* Buttons on checked*/
 #tools .dijitToggleButtonChecked .dijitIcon
 {
-    background-color: #9476BF;
-    box-shadow: #4A3B5F 2px 2px 3px inset; 
+    background-color: #D9C780;
+    box-shadow: #7B630A 2px 2px 3px inset; 
 } 
 .PaneToggleImage{
     background-image: none;
-    background-color: #593E7F;
-    border: 1px solid #2E1453;
+    background-color: #7B630A;
+    border: 1px solid #4B3C00;
     border-left: none;
     border-radius: 0px 5px 5px 0px;
     box-shadow: 3px 3px 1px darkgray;
 }
+
 /* Change color of tab menu*/
 .claro .dijitTab{
-    background-color: #61438C;
+    background-color: #7B630A;
     background-image: none !important;
-    color: #ffffff;
+    color: #FFF7D7;
+    border: 1px solid #4B3C00;
 }
 .claro .dijitTablisContainer{
-    background-color: #61438C;
+    background-color: rgba(217, 199, 128, 0.80);
 }
 
 .claro .dijitTabListContainer-top .dijitTabStripButtonDisabled{
-    background-color: #61438C;
+    background-color: rgba(217, 199, 128, 0.80);
 }
 
 .claro .dijitTabListContainer-bottom .dijitTabStripButtonDisabled{
-    background-color: #61438C;
+    background-color: rgba(217, 199, 128, 0.80);
 }
 
 .claro .dijitTabListContainer-top .dijitContentPane{
-    background-color: #f5eeff;
+    background-color: rgba(217, 199, 128, 0.80);
 }
-
 /* behind the tabs */
 .claro .dijitTabController{
-    background-color: #61438C;
+    background-color: #AA9239;
 }
 
 .claro .dijitTabContainerTop-tabs .dijitTabChecked {
-    background-color: #b09bcb;
+    background-color: #FFF7D7; /*rgba( 255, 247, 215, 0.80); */
     background-image: none !important;
+    font-weight:bold;
+    color: #4B3C00;
 }
 .claro .dijitTabListContainer-top .tabStripButton{
     background-image: none !important;
@@ -121,70 +117,76 @@ body {
     background-position: -124px 50%;
 }
 .claro .dijitTabContainerTop-dijitContentPane, .claro .dijitTabContainerLeft-dijitContentPane, .claro .dijitTabContainerBottom-dijitContentPane, .claro .dijitTabContainerRight-dijitContentPane, .claro .dijitAccordionContainer-dijitContentPane {
-    background-color: #f2ebfc;
+    background-color: rgba(255, 247, 215, 0.80);
 }
 .claro .dijitTabListContainer-top .tabStripButtonDisabled, .claro .dijitTabListContainer-bottom .tabStripButtonDisabled{
-    background-color: #c1bacb;
+    background-color: rgba(217, 199, 128, 0.80);
 }
 
 .claro .dijitAccordionTitle {
-  background:url(../../assets/purple/toolbar_bg.png) repeat-x #593E7F;
+  background:url(../../assets/earth2/toolbar_bg.png) repeat-x #7B630A;
 }  
 .claro .dijitAccordionText {
    color: #FFFFFF;
 }
 .claro .dijitTreeRow:hover {
-    background:url(../../assets/purple/toolbar_bg.png) repeat-x #593E7F;
+    background:url(../../assets/earth2/toolbar_bg.png) repeat-x #7B630A;
     color: #FFFFFF;
 }
 
-
-
+/*Attribute Inspector button styling (delete buttons)*/
+.esriAttributeInspector div.atiButtons span.dijit span.dijitReset{
+  background:url(../../assets/earth2/toolbar_bg.png) repeat-x #7B630A;
+  color:#fff;
+  border: none;
+}
+.esriAttributeInspector div.atiButtons span.dijit span.dijitReset:hover{
+  background:url(../../assets/earth2/sidebar_header_active_bg.png) repeat-x #FFF7D7;
+  color:#000;
+}
 .dojoxFloatingPaneTitle{
-  background:url(../../assets/purple/toolbar_bg.png) repeat-x #593e7f;
+  background:url(../../assets/earth2/toolbar_bg.png) repeat-x #7B630A;
 }
 
 .esriPopup .titlePane{
-  background-color:#4e2071;
+  background-color: #AA9239;
   border-style:none;
 }
-
 .esriPopup .titleButton,
 .esriPopup .pointer,
 .esriPopup .outerPointer,
 .esriPopup .esriViewPopup .gallery .mediaHandle,
-.esriPopup .esriViewPopup .gallery .mediaIcon {
-  /* background: url(../../assets/purple/popup.png) no-repeat scroll 0 0 transparent; */
+.esriPopup .esriViewPopup .gallery .mediaIcon{
+  /* background: url(../../assets/earth1-1/popup.png) no-repeat scroll 0 0 transparent;  */
 }
-
 
 /*slider background*/
 .esriSimpleSliderVertical .esriSimpleSliderIncrementButton ,.esriSimpleSliderVertical .esriSimpleSliderDecrementButton  {
-  background:url(../../assets/purple/toolbar_bg.png) repeat-x #593e7f;
-  border:solid 1px #593e7f;
+  background:url(../../assets/earth2/toolbar_bg.png) repeat-x #7B630A;
+  border:solid 1px #4B3C00;
 }
 
 /* overrides the ESRI home button style.  It is similar to "#tools .dijitIcon" style here   */
-.HomeButton .home 
+.HomeButton .home  
 {
-    background-color: #593E7F;
-    border: 1px solid #2E1453;
+	background-color: #7B630A;
+    border: 1px solid #4B3C00;
     border-radius: 5px 5px 5px 5px;
 }
 
 .HomeButton .home:hover  
 {
-    background-color: #c1bacb;
-    border: 1px solid #2E1453;
+	background-color: #D9C780;
+    border: 1px solid #4B3C00;
     border-radius: 5px 5px 5px 5px;
 }
 
 
  /*Identity Manager Dialog*/
 .claro .dijitDialogTitleBar {
-  background:url(../../assets/purple/toolbar_bg.png) repeat-x #545454;
+  background:url(../../assets/earth2/toolbar_bg.png) repeat-x #545454;
   color:#fff;
-  border: solid 1px #593e7f;
+  border: solid 1px #4a6f1c;
 }
 .claro .dijitDialog {
     border: 1px solid #808080;
@@ -192,11 +194,11 @@ body {
 
 .claro .dijitDialogPaneActionBar .dijitButtonNode{
   background-image:none;
-  border: solid 1px #593e7f;
-  background:url(../../assets/purple/sidebar_header_active_bg.png) repeat-x #CEE1EC;
+  border: solid 1px #4a6f1c;
+  background:url(../../assets/earth2/sidebar_header_active_bg.png) repeat-x #CEE1EC;
 }
 .esriBookmarkItem:hover{
-  background-color:#c1bacb;
+  background-color:#FFF7D7;
 }
 
 #footer a{
@@ -207,22 +209,22 @@ body {
 .claro .dijitArrowButtonInner {
     background-image: url("../../assets/toolbar/ArrowButton.png");
     height:48px;
-    background-color: #593E7F;
-     border: 1px solid #2E1453;
+    background-color: #7B630A;
+    border: 1px solid #4B3C00;
     border-left: none;
     border-radius: 0px 5px 5px 0px;
-    box-shadow: 3px 3px 1px darkgray,  #282828 -2px 0px 3px inset;
+    box-shadow: 3px 3px 2px darkgray, #7B630A -2px -2px 3px inset;
  
 }
 .claro .dijitDisabled .dijitArrowButtonInner {
     background-image: url("../../assets/toolbar/ArrowButton.png");
     background-image:none;
     height:48px;
-    background-color: #593E7F;
-    border: 1px solid #2E1453;
+    background-color: #7B630A;
+    border: 1px solid #4B3C00;
     border-left: none;
     border-radius: 0px 5px 5px 0px;
-    box-shadow: 3px 3px 1px darkgray,  #282828 -2px 0px 3px inset;
+    box-shadow: 3px 3px 2px darkgray, #7B630A -2px -2px 3px inset;
 
 }
 
@@ -237,7 +239,7 @@ body {
 	
 }
 
-.dijitButtonHover .esriLinkIcon, .dijitToggleButtonChecked .esriLocationIcon, .dijitToggleButtonHover .esriLocationIcon, .dijitHover .dijitArrowButtonInner, .esriPrint .dijitHover .dijitIcon, .dijitToggleButtonChecked .esriMeasureIcon, .dijitToggleButtonHover .esriMeasureIcon , .dijitHover .esriBasemapIcon
+.dijitButtonHover .esriLinkIcon, .dijitToggleButtonChecked .esriLocationIcon, .dijitToggleButtonHover .esriLocationIcon, .dijitHover .dijitArrowButtonInner, .esriPrint .dijitHover .dijitIcon, .dijitToggleButtonChecked .esriMeasureIcon, .dijitToggleButtonHover .esriMeasureIcon, .dijitHover .esriBasemapIcon
 {
     box-shadow: #FFFFFF 2px 2px 3px inset;  
 }
@@ -253,10 +255,12 @@ body {
     display:inline-block !important;
     font-size: 14px !important; 
     color: #fff;
-    background-color: #593E7F;
-    border: 1px solid #2E1453;
+    background-color: #7B630A;
+    border: 1px solid #4B3C00;
     border-left: none;
     height: 20px;
     border-radius: 5px 0px 0px 5px;
-    box-shadow: 3px 3px 1px darkgray,  #282828 -2px 0px 3px inset;
+    box-shadow: 3px 3px 2px darkgray, #7B630A -2px -2px 3px inset;
 }
+
+

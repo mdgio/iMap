@@ -1,11 +1,21 @@
 
 /*The image specified for the body is used to apply the gradient background to the entire page*/
 body {
-  background:url(../../assets/orange/body_bg.png) repeat-x #ffcd76;
+  background:url(../../assets/orange/body_bg.png) repeat-x #D38C14;
 }
 #leftPane {
   background-color:#fff9de;
 }
+
+#leftPane_splitter:hover {
+    background-color: red;
+}
+
+/* for buttons on title bar in Content Tab */
+.claro .liLyrUpDis, .claro .liLyrDwnDis, .claro .liLyrRemDis {
+    background-color: #FFCD76;
+}
+
 /*override claro background and other props*/
 /*Measure toggle button*/
 .claro .dijitToolbar .dijitButtonNode:hover {
@@ -57,12 +67,6 @@ body {
     box-shadow: #9E7733 2px 2px 3px inset;     
 } 
 
-.HomeButton .home  {
-	background-color: #D38C14;
-    border: 1px solid #895907;
-    border-radius: 5px 5px 5px 5px;
-}
-
 
 /* Buttons on checked*/
 #tools .dijitToggleButtonChecked .dijitIcon
@@ -83,7 +87,7 @@ body {
 .claro .dijitTab{
     background-color: #FFCD76;
     background-image: none !important;
-    color: #ffffff;
+    color: #000000;
 }
 .claro .dijitTablisContainer{
     background-color: #FFCD76;
@@ -108,6 +112,7 @@ body {
 .claro .dijitTabContainerTop-tabs .dijitTabChecked {
     background-color: #ffc444;
     background-image: none !important;
+    font-weight:bold;
 }
 .claro .dijitTabListContainer-top .tabStripButton{
     background-image: none !important;
@@ -118,16 +123,21 @@ body {
 .claro .dijitTabStripSlideRightIcon{
     background-position: -124px 50%;
 }
-.claro .dijitTabContainerTop-dijitContentPane, .claro .dijitTabContainerLeft-dijitContentPane, .claro .dijitTabContainerBottom-dijitContentPane, .claro .dijitTabContainerRight-dijitContentPane, .claro .dijitAccordionContainer-dijitContentPane{
-    background-color: #fff9f0;
+
+.claro .dijitAccordionTitle {
+  background:url(../../assets/orange/toolbar_bg.png) repeat-x #D38C14;
+}  
+.claro .dijitAccordionText {
+   color: #000000;
 }
-.claro .dijitTabListContainer-top .tabStripButtonDisabled, .claro .dijitTabListContainer-bottom .tabStripButtonDisabled{
-    background-color: #FFCD76;
+.claro .dijitTreeRow:hover {
+    background:url(../../assets/orange/toolbar_bg.png) repeat-x #D38C14;
+    color: #000000;
 }
 
 
 .dojoxFloatingPaneTitle{
-  background:url(../../assets/orange/toolbar_bg.png) repeat-x #545454;
+  background:url(../../assets/orange/toolbar_bg.png) repeat-x #D38C14;
 }
 
 .esriPopup .titlePane{
@@ -139,7 +149,7 @@ body {
 .esriPopup .outerPointer,
 .esriPopup .esriViewPopup .gallery .mediaHandle,
 .esriPopup .esriViewPopup .gallery .mediaIcon{
-  background: url(../../assets/orange/popup.png) no-repeat scroll 0 0 transparent;
+ /*  background: url(../../assets/orange/popup.png) no-repeat scroll 0 0 transparent;  */
 }
 
 
@@ -148,6 +158,20 @@ body {
   background:url(../../assets/orange/toolbar_bg.png) repeat-x #545454;
   border:solid 1px #545454;
 }
+
+.HomeButton .home  {
+    background-color: #D38C14;
+    border: 1px solid #895907;
+    border-radius: 5px 5px 5px 5px;
+}
+
+.HomeButton .home:hover  
+{
+    background-color: #E9AF4B;
+    border: 1px solid #895907;
+    border-radius: 5px 5px 5px 5px;
+}
+
 
 /*Identity Manager Dialog*/
 .claro .dijitDialogTitleBar {

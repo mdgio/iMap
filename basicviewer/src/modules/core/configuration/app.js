@@ -14,8 +14,9 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     appid: "",
                     //The ID for a web map from ArcGIS Online (AGO)
                     //If not going to specify a Web Map in AGO, then use empty quotes ("") here
-					webmap: "d1201eea7afb4ed49f08a310e9803f2f",      //"blank" map
-					//Some sample web maps to try:
+                 
+					webmap: "d1201eea7afb4ed49f08a310e9803f2f",      //"blank" default map; an OpenStreetMap basemap
+					//Some sample web maps to try for testing:
                     //webmap: "252fb36ac7404043a0f3d2022958b5d0",    //veterans services
                     //webmap: "c545bf8fde0a46c2aa52a10e9118750a",  //growthprint
                     //webmap: "9ed1f1fefd9e4cf89379af66ad33c768",  //DFIRM
@@ -25,12 +26,22 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     webmapurl: "webmap.js",
                     //Enter a description for the application. This description will appear in the left pane
                     //if no description is entered, the webmap description (if populated) will be used.
-                    description: "The Maryland iMap Template.  Updated 7/3/2014.  <br>Change this description in app.js or add one via your map on ArcGIS Online.<br><br><a href='http://imap.maryland.gov/Pages/template-server.aspx' target='_blank'>Help Documents</a><br><br><a href='Changes.txt' target='_blank'>Change Log<a> (text)",
+                    description: "The Maryland iMap Template.  Updated 8/4/2014.  <br>Change this description in app.js or add one via your map on ArcGIS Online.<br><br><a href='http://imap.maryland.gov/Pages/template-server.aspx' target='_blank'>Help Documents</a><br><br><a href='Changes.txt' target='_blank'>Change Log<a> (text)",
                     //specify an owner for the app - used by the print option. The default value will be the web map's owner
                     owner: '',
 
-                    //*** Layout ***
-                    //Specify a color theme for the app. Valid options are gray,blue,purple,green and orange
+                    //*** Layout ***                    
+                    /* Specify a color theme for the iMap application. Valid options are:
+                    	"imap" (default)
+                    	"gray",
+                    	"blue",
+                    	"purple",
+                    	"black" (similar to but darker than"imap"),
+                    	"green",
+                    	"orange",
+                        "earth1" (darker browns, like chocolates),
+                        "earth2" (lighter browns, like mustards)             
+                     */
                     theme: "imap",
                     //set to true to display the title
                     displaytitle: true,

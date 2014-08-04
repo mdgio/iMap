@@ -1,11 +1,20 @@
 
 /*The image specified for the body is used to apply the gradient background to the entire page*/
 body {
-  background:url(../../assets/blue/body_bg.png) repeat-x #97a7b8;
+  background:url(../../assets/blue/body_bg.png) repeat-x #4E7698;
 }
 #leftPane {
   background-color:#e9eef2;
 }
+
+#leftPane_splitter:hover {
+    background-color: red;
+}
+/* for buttons on title bar in Content Tab */
+.claro .liLyrUpDis, .claro .liLyrDwnDis, .claro .liLyrRemDis {
+    background-color: #cee1ec;
+}
+
 /*override claro background and other props*/
 /*Measure toggle button*/
 .claro .dijitToolbar .dijitButtonNode:hover {
@@ -88,6 +97,7 @@ body {
     background-color: #7DA4BC;
 }
 
+/* behind the tabs */
 .claro .dijitTabController{
     background-color: #4E7698;
 }
@@ -122,7 +132,7 @@ body {
 .esriPopup .outerPointer,
 .esriPopup .esriViewPopup .gallery .mediaHandle,
 .esriPopup .esriViewPopup .gallery .mediaIcon{
-  background: url(../../assets/blue/popup.png) no-repeat scroll 0 0 transparent;
+  /* background: url(../../assets/blue/popup.png) no-repeat scroll 0 0 transparent; */
 }
 
 /*Attribute Inspector button styling (delete buttons)*/
@@ -149,6 +159,14 @@ body {
     border: 1px solid #194163;
     border-radius: 5px 5px 5px 5px;
 }
+
+.HomeButton .home:hover  
+{
+	background-color: #7DA4BC;
+    border: 1px solid #194163;
+    border-radius: 5px 5px 5px 5px;
+}
+
 
  /*Identity Manager Dialog*/
 .claro .dijitDialogTitleBar {

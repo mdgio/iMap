@@ -285,7 +285,7 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "dij
 
             , _addInFieldMath: function (field) {
                 dojo.empty('fieldMath');
-                var eqlabel = dojo.create('p', { innerHTML: "is like" });  //innerHTML: "="
+                var eqlabel = dojo.create('p', { innerHTML: "Type in a value to match possible values in the field that you selected above.  For example, if the field is &quot;City&quot;, you might type in &quot;Annapolis&quot; or even &quot;anna&quot;." });  //innerHTML: "="
                 dojo.place(eqlabel, "fieldMath", "last");
                 var intText = dojo.create('input', { id: "fieldValue" });
                 dojo.place(intText, "fieldMath", "last");
@@ -312,7 +312,7 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "dij
                     //use this query for the user to find values based on exact input
                     //query.where = this._fieldCbo.value + " = '" + dojo.byId('fieldValue').value + "'";
                     //uset this query for the user to find values based on exact or similar input --very useful
-                    query.where = this._fieldCbo.value + " like '%" + dojo.byId('fieldValue').value + "%'";
+                    query.where = this._fieldCbo.value.toUpperCase() + " like '%" + dojo.byId('fieldValue').value.toUpperCase() + "%'";
                     query.outFields = ["*"];
                     query.returnGeometry = true;
                     query.outSpatialReference = this.map.spatialReference;

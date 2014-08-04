@@ -3,8 +3,19 @@ body {
   background:url(../../assets/imap/body_bg.png) repeat-x #C0C0C0;
 }
 #leftPane {
-  background-color:#e9eef2;
+  background-color:#e9eef2;  
 }
+
+#leftPane_splitter:hover {
+    background-color: red;
+}
+
+/* for buttons on title bar in Content Tab */
+.claro .liLyrUpDis, .claro .liLyrDwnDis, .claro .liLyrRemDis {
+    background-color: #C0C0C0;
+    box-shadow: 3px 3px 2px darkgray, #282828 -2px -2px 3px inset;
+}
+
 /*override claro background and other props*/
 /*Measure toggle button*/
 .claro .dijitToolbar .dijitButtonNode:hover {
@@ -101,6 +112,7 @@ body {
     background-color: #737171;
 }
 
+/* behind the tabs */
 .claro .dijitTabController{
     background-color: #3C3A3A;
 }
@@ -108,6 +120,7 @@ body {
 .claro .dijitTabContainerTop-tabs .dijitTabChecked {
     background: url(../../assets/imap/toolbar_bg.png) repeat-x #C0C0C0;
     border: solid 1px #282828;
+    font-weight:bold;
 }
 .claro .dijitTabListContainer-top .tabStripButton{
     background-image: none !important;
@@ -125,10 +138,21 @@ body {
     background-color: #737171;
 }
 
+.claro .dijitAccordionTitle {
+  background:url(../../assets/imap/toolbar_bg.png) repeat-x #C0C0C0;
+}  
+.claro .dijitAccordionText {
+   color: #000000;
+   font-weight: bold;
+}
+.claro .dijitTreeRow:hover {
+    background:url(../../assets/imap/toolbar_bg.png) repeat-x #C0C0C0;
+    color: #FFFFFF;
+}
 
 
 .esriPopup .titlePane{
-  background-color:#808080;
+  background-color: #363636;
   border-style:none;
 }
 
@@ -137,8 +161,9 @@ body {
 .esriPopup .outerPointer,
 .esriPopup .esriViewPopup .gallery .mediaHandle,
 .esriPopup .esriViewPopup .gallery .mediaIcon{
-  background: url(../../assets/imap/popup.png) no-repeat scroll 0 0 transparent;
+ /* background: url(../../assets/imap/toolbar_bg.png) no-repeat scroll 0 0 transparent; */
 }
+
 
 /*Attribute Inspector button styling (delete buttons)*/
 .esriAttributeInspector div.atiButtons span.dijit span.dijitReset{
@@ -152,25 +177,33 @@ body {
 }
 
 /*slider background*/
-.esriSimpleSliderVertical .esriSimpleSliderIncrementButton ,.esriSimpleSliderVertical .esriSimpleSliderDecrementButton  {
+.esriSimpleSliderVertical .esriSimpleSliderIncrementButton, .esriSimpleSliderVertical .esriSimpleSliderDecrementButton  {
   background:url(../../assets/imap/toolbar_bg.png) repeat-x #282828;
   border:solid 1px #282828;
+  
 } 
 
 /* overrides the ESRI home button style.  It is similar to "#tools .dijitIcon" style here   */
 .HomeButton .home 
 {
-     background-color: #808080;
+    background-color: #808080;
+    border: 1px solid #181818;
+    /* border-radius: 5px 5px 5px 5px; */
+    
+}
+
+.HomeButton .home:hover  
+{
+	background-color: #C0C0C0;
     border: 1px solid #181818;
     border-radius: 5px 5px 5px 5px;
 }
-
 
  /*Identity Manager Dialog*/
 .claro .dijitDialogTitleBar {
   background:url(../../assets/imap/toolbar_bg.png) repeat-x #545454;
   color:#fff;
-  border: solid 1px #282828;
+  border: solid 1px #282828;  
 }
 .claro .dijitDialog {
     border: 1px solid #808080;

@@ -1,13 +1,20 @@
 /*The image specified for the body is used to apply the gradient background to the entire page*/
 body {
-  background:url(../../assets/gray/body_bg.png) repeat-x #666;
+  background:url(../../assets/gray/body_bg.png) repeat-x #B4B4B4;
 }
 
 #leftPane {
   background-color:#EEE;
 }
 
+#leftPane_splitter:hover {
+    background-color: red;
+}
 
+/* for buttons on title bar in Content Tab */
+.claro .liLyrUpDis, .claro .liLyrDwnDis, .claro .liLyrRemDis {
+    background-color: #B4B4B4;
+}
 /*override claro background and other props*/
 /*Measure toggle button*/
 .claro .dijitToolbar .dijitButtonNode:hover {
@@ -46,6 +53,12 @@ body {
     border-radius: 5px 5px 5px 5px;
 }
 
+.HomeButton .home:hover  
+{
+	background-color: #CCCCCC;
+    border: 1px solid #515151;
+    border-radius: 5px 5px 5px 5px;
+}
 
 
 /*Identity Manager Dialog*/
@@ -72,13 +85,6 @@ body {
     border-radius: 5px 5px 5px 5px;
 }
 
-/* overrides the ESRI home button style */
-.HomeButton .home  
-{
-    background-color: #B4B4B4;
-    border: 1px solid #515151;
-    border-radius: 5px 5px 5px 5px;
-}
 
 /* Background color for dropdown left side button*/
 #tools .dijitComboButton .dijitIcon, #tools .dijitDownArrowButton .dijitIcon{
@@ -148,6 +154,7 @@ body {
 .claro .dijitTabContainerTop-tabs .dijitTabChecked {
     background-color: #e1e1e1;
     background-image: none !important;
+    font-weight:bold;
 }
 .claro .dijitTabListContainer-top .tabStripButton{
     background-image: none !important;
@@ -165,6 +172,23 @@ body {
     background-color: #EEE;
 }
 
+.claro .dijitAccordionTitle {
+  background:url(../../assets/gray/toolbar_bg.png) repeat-x #B4B4B4;
+}  
+.claro .dijitAccordionText {
+   color: #000000;
+}
+.claro .dijitTreeRow:hover {
+    background:url(../../assets/gray/toolbar_bg.png) repeat-x #B4B4B4;
+    color: #FFFFFF;
+}
+
+.esriPopup .titlePane{
+  background-color: #B4B4B4;
+  border-style:none;
+}
+
+/*
 .esriPopup .pointer.top {
   background-position: 0 -580px;
 }
@@ -175,6 +199,8 @@ body {
 .esriPopup .pointer.topRight {
   right: 0px; top: -43px; background-position: 0 -652px; width: 51px; height: 43px;
 }
+
+*/
 .esriBookmarkItem:hover{
   background-color:#CEE1EC;
 }

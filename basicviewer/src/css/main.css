@@ -144,11 +144,7 @@ body {
     border-width: 0px;
 }
 
-#gotoPlaces {
-	
-	
-	
-}
+
 
 /* Make tree labels bigger */
 .claro .dijitTreeLabel {
@@ -707,6 +703,7 @@ div#map_zoom_slider.esriSimpleSlider.esriSimpleSliderVertical.esriSimpleSliderTL
     font-family:"helvetica neue",helvetica,arial,sans-serif;
 }
 
+
 .esriPopup .pointer.top {
     background-position: 0 -616px;
 }
@@ -717,6 +714,9 @@ div#map_zoom_slider.esriSimpleSlider.esriSimpleSliderVertical.esriSimpleSliderTL
 .esriPopup .pointer.topRight {
     right: 0px; top: -43px; background-position: 0 -707px; width: 51px; height: 45px;
 }
+
+
+
 /*Define styles for the close button on the measure window panel*/
 #closeBtn{
     position:absolute;
