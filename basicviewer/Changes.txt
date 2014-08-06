@@ -1,5 +1,9 @@
 MD iMap Template Change Log
 
+8/6/2014
+* Changes to config.js to include the new themes (earth1, earth2, black) in configuration panel when configuring a web app in ArcGIS Online.
+* Added text back in to querying.html for user instruction for field entry.
+
 8/4/2014
 * Update to ArcGIS JS API 3.10  (Check out how the measure tool operates now in 3.10!)
 * Popup improvements
@@ -12,8 +16,8 @@ MD iMap Template Change Log
 	** "earth2" --lighter browns, like mustards
 	** "black" --simililar to "imap" but darker
 * Query tool improvements:
-	** better phrasing to instruct user on how to enter a value for a selected field
-	** making any user input to convert to upper case and compare to an upper case so to ensure non case sensitive attribute queries. 
+	** Better phrasing to instruct user on how to enter a value for a selected field
+	** Enforcing any user input to convert to upper case and then compare to an upper case value so to ensure non case sensitive attribute queries. 
 * More or improved in-code commentary
 * CSS improvements
     ** Better consistent deployment of CSS theme in HTM framework

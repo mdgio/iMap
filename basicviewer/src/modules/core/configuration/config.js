@@ -53,6 +53,15 @@
             }, {
                 "value": "purple",
                 "label": "Purple"
+            }, {
+                "value": "earth1",
+                "label": "Earth1 (Darker Browns)"
+                }, {
+                "value": "earth2",
+                "label": "Earth2 (Lighter Browns)"
+                }, {
+                "value": "black",
+                "label": "Black"
             }],
             "tooltip": "Theme to use"
         }, {
