@@ -1,5 +1,8 @@
 MD iMap Template Change Log
 
+8/7/2014	
+* Further refinement for the Query Tool (querying.js)
+
 8/6/2014
 * Changes to config.js to include the new themes (earth1, earth2, black) in configuration panel when configuring a web app in ArcGIS Online.
 * Added text back in to querying.html for user instruction for field entry.

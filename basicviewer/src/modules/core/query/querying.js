@@ -312,7 +312,9 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "dij
                     //use this query for the user to find values based on exact input
                     //query.where = this._fieldCbo.value + " = '" + dojo.byId('fieldValue').value + "'";
                     //uset this query for the user to find values based on exact or similar input --very useful
-                    query.where = this._fieldCbo.value.toUpperCase() + " like '%" + dojo.byId('fieldValue').value.toUpperCase() + "%'";
+                    //query.where = this._fieldCbo.value.toUpperCase() + " like '%" + dojo.byId('fieldValue').value.toUpperCase() + "%'";
+                    query.where = "UPPER(\"" + this._fieldCbo.value + "\")" + " like \'%" + dojo.byId('fieldValue').value.toUpperCase() + "%\'";
+					//query.where = this._fieldCbo.value + " like '%" + dojo.byId('fieldValue').value + "%'";
                     query.outFields = ["*"];
                     query.returnGeometry = true;
                     query.outSpatialReference = this.map.spatialReference;
@@ -571,6 +573,7 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "dij
                 dojo.byId('fieldValue').value = "";
                 //reset the service list to select
                 $('#serviceCbo').val('0');
+                $('#serviceCbo').prop('selectedIndex', 0);
                 //clear out the results layer
                 var resultsLayer = this.map.getLayer('resultsLayer');
                 resultsLayer.clear();
