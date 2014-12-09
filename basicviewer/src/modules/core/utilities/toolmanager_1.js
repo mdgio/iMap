@@ -204,31 +204,13 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                 }, dojo.create('span'));
 
                 query('.esriPrint').addClass('esriPrint');
-                
-                //var standby = new Standby({target: "webmap_toolbar_right"});
-                var standby = new Standby({target: "map"});
-                
                 this._ToolsDiv.appendChild(printer.printDomNode);
-                document.body.appendChild(standby.domNode);
                 printer.startup();
-				standby.startup();
 				
-				printer.on("error", function () {
+				
+				on(printer, "error", function () {
 					alert ("There was an error while printing.  Please try again later.");
-					standby.hide(); 
 					});
-					
-				
-				printer.on('print-start',function(){
-  					console.log('The print operation has started');
-  					standby.show();
-				});
-				
-				printer.on('print-complete',function(){
-  					console.log('The print operation has finished');
-  					standby.hide(); 
-				});
-				
             }
         });
     }

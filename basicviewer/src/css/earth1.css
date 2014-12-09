@@ -1,38 +1,28 @@
 
 /*The image specified for the body is used to apply the gradient background to the entire page*/
 body {
-  background:url(../../assets/earth1/body_bg.png) repeat-x #D9C780;
+  background:url(../../assets/earth1-1/body_bg.png) repeat-x #D9C780;
 }
 #leftPane {
   background-color: #7B630A;
 }
-
-#leftPane_splitter:hover {
-    background-color: red;
-}
-
-/* for buttons on title bar in Content Tab */
-.claro .liLyrUpDis, .claro .liLyrDwnDis, .claro .liLyrRemDis {
-    background-color: rgba(217, 199, 128, 0.80);
-}
-
 /*override claro background and other props*/
 /*Measure toggle button*/
 .claro .dijitToolbar .dijitButtonNode:hover {
-  background:url(../../assets/earth1/sidebar_header_active_bg.png) repeat-x #FFF7D7;
+  background:url(../../assets/earth1-1/sidebar_header_active_bg.png) repeat-x #FFF7D7;
 }
 .claro .dijitToolbar .dijitToggleButtonChecked .dijitButtonNode {
-   background:url(../../assets/earth1/sidebar_header_active_bg.png) repeat-x #FFF7D7;
+   background:url(../../assets/earth1-1/sidebar_header_active_bg.png) repeat-x #FFF7D7;
 }
 
 /*Attribute Inspector button styling (delete buttons)*/
 .esriAttributeInspector div.atiButtons span.dijit span.dijitReset{
-  background:url(../../assets/earth1/toolbar_bg.png) repeat-x #7B630A;
+  background:url(../../assets/earth1-1/toolbar_bg.png) repeat-x #7B630A;
   color:#fff;
   border: none;
 }
 .esriAttributeInspector div.atiButtons span.dijit span.dijitReset:hover{
-  background:url(../../assets/earth1/sidebar_header_active_bg.png) repeat-x #FFF7D7;
+  background:url(../../assets/earth1-1/sidebar_header_active_bg.png) repeat-x #FFF7D7;
   color:#000;
 }
 
@@ -44,7 +34,6 @@ body {
     border: 1px solid #4B3C00;
     border-radius: 5px 5px 5px 5px;
 }
-
 
 /* Background color for dropdown left side button*/
 #tools .dijitComboButton .dijitIcon, #tools .dijitDownArrowButton .dijitIcon{
@@ -133,20 +122,9 @@ body {
     background-color: rgba(217, 199, 128, 0.80);
 }
 
-.claro .dijitAccordionTitle {
-  background:url(../../assets/earth1/toolbar_bg.png) repeat-x #4B3C00;
-}  
-.claro .dijitAccordionText {
-   color: #FFFFFF;
-}
-.claro .dijitTreeRow:hover {
-    background:url(../../assets/earth1/toolbar_bg.png) repeat-x #4B3C00;
-    color: #FFFFFF;
-}
-
 
 .dojoxFloatingPaneTitle{
-  background:url(../../assets/earth1/toolbar_bg.png) repeat-x #7B630A;
+  background:url(../../assets/earth1-1/toolbar_bg.png) repeat-x #7B630A;
 }
 
 .esriPopup .titlePane{
@@ -163,7 +141,7 @@ body {
 
 /*slider background*/
 .esriSimpleSliderVertical .esriSimpleSliderIncrementButton ,.esriSimpleSliderVertical .esriSimpleSliderDecrementButton  {
-  background:url(../../assets/earth1/toolbar_bg.png) repeat-x #7B630A;
+  background:url(../../assets/earth1-1/toolbar_bg.png) repeat-x #7B630A;
   border:solid 1px #4B3C00;
 }
 
@@ -185,7 +163,7 @@ body {
 
  /*Identity Manager Dialog*/
 .claro .dijitDialogTitleBar {
-  background:url(../../assets/earth1/toolbar_bg.png) repeat-x #545454;
+  background:url(../../assets/earth1-1/toolbar_bg.png) repeat-x #545454;
   color:#fff;
   border: solid 1px #4a6f1c;
 }
@@ -196,7 +174,7 @@ body {
 .claro .dijitDialogPaneActionBar .dijitButtonNode{
   background-image:none;
   border: solid 1px #4a6f1c;
-  background:url(../../assets/earth1/sidebar_header_active_bg.png) repeat-x #CEE1EC;
+  background:url(../../assets/earth1-1/sidebar_header_active_bg.png) repeat-x #CEE1EC;
 }
 .esriBookmarkItem:hover{
   background-color:#FFF7D7;
@@ -229,17 +207,6 @@ body {
 
 }
 
-/*Used in Measure Tool text results ".dijitContentPane result"  */
-.claro #dijit_layout_ContentPane_2 {
-	background-color:#E6E6E6;
-	border: solid;
-	margin-left:auto;
-	margin-right:auto;
-	text-align: center;
-	padding-left: 0px;
-	
-}
-
 .dijitButtonHover .esriLinkIcon, .dijitToggleButtonChecked .esriLocationIcon, .dijitToggleButtonHover .esriLocationIcon, .dijitHover .dijitArrowButtonInner, .esriPrint .dijitHover .dijitIcon, .dijitToggleButtonChecked .esriMeasureIcon, .dijitToggleButtonHover .esriMeasureIcon, .dijitHover .esriBasemapIcon
 {
     box-shadow: #FFFFFF 2px 2px 3px inset;  
@@ -263,5 +230,3 @@ body {
     border-radius: 5px 0px 0px 5px;
     box-shadow: 3px 3px 2px darkgray, #7B630A -2px -2px 3px inset;
 }
-
-

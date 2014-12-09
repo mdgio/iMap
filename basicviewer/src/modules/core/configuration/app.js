@@ -110,7 +110,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     
                     //Use either the Maryland print service or the ESRI print service for the printtask
                     printtask: "http://geodata.md.gov/imap/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task",
-                    //printtask: "http://utility.arcgisonline.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task",
+                    //printtask: "http://sampleserver6.arcgisonline.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task",  //printtask: "http://utility.arcgisonline.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task",
 					
                     //Set the label in the nls file for your browsers language
                     printlayouts: [{
@@ -180,7 +180,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
 					//Maryland's geocoder  "http://mdimap.us/ArcGIS/rest/services/GeocodeServices/MD.State.MDCascadingLocatorWithZIPCodes/GeocodeServer",
 					
                     placefinder: {
-					    "url": "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer",
+					    "url": "http://geodata.md.gov/imap/rest/services/GeocodeServices/MD_CompositeLocatorWithEsri/GeocodeServer",
                         "countryCode":""
 						
                     },

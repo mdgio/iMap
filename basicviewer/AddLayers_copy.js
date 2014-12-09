@@ -199,6 +199,16 @@ KML can be added, however it has not been fully implemented in the Legend tree.
 				}
 			]
 		}, {
+			"name" : "GeocodeServices",
+			"id" : "GeocodeServices",
+			"url" : "http://geodata.md.gov/imap/rest/services/GeocodeServices/",
+			"children" : []
+		}, {
+			"name" : "GeoprocessingServices",
+			"id" : "GeoprocessingServices",
+			"url" : "http://geodata.md.gov/imap/rest/services/GeoprocessingServices/",
+			"children" : []
+		}, {
 			"name" : "Geoscientific",
 			"id" : "Geoscientific",
 			"url" : "http://geodata.md.gov/imap/rest/services/Geoscientific/",
@@ -347,6 +357,11 @@ KML can be added, however it has not been fully implemented in the Legend tree.
 					"url" : "http://geodata.md.gov/imap/rest/services/Imagery/MD_SixInchCIRImagery/MapServer/",
 					"type" : "MapServer"
 				}, {
+					"name" : "MD_SixInchImagery (Image Server)",
+					"id" : "MD_SixInchImagery",
+					"url" : "/imap/admin/services/Imagery/MD_SixInchImagery/ImageServer/status",
+					"type" : "ImageServer"
+				}, {
 					"name" : "MD_SixInchImagery",
 					"id" : "MD_SixInchImagery",
 					"url" : "http://geodata.md.gov/imap/rest/services/Imagery/MD_SixInchImagery/MapServer/",
@@ -365,11 +380,11 @@ KML can be added, however it has not been fully implemented in the Legend tree.
 				}
 			]
 		}, {
-			"name": "Military", 
-			"id": "Military", 
-			"url": "http://geodata.md.gov/imap/rest/services/Military/", 
-			"children": [] 
-		}, { 
+			"name" : "Military",
+			"id" : "Military",
+			"url" : "http://geodata.md.gov/imap/rest/services/Military/",
+			"children" : []
+		}, {
 			"name" : "PlanningCadastre",
 			"id" : "PlanningCadastre",
 			"url" : "http://geodata.md.gov/imap/rest/services/PlanningCadastre/",
@@ -551,5 +566,5 @@ KML can be added, however it has not been fully implemented in the Legend tree.
 					"type" : "MapServer"
 				}
 			]
-		}, ]
+		} ]
 }

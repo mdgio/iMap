@@ -7,10 +7,6 @@
 # Created:     12/02/2013
 # Copyright:   (c) SSporik 2013
 # Licence:     <your licence>
-# Notes:  (1) If your AGS manager uses primarily HTTPS, serverPort will be 443 and 
-#              HTTPConnection used below should be changed to HTTPSConnection
-#         (2) If your AGS server doesn't use "arcgis" in the URL, make adjustments
-#             accordingly in URL references below.
 #-------------------------------------------------------------------------------
 import httplib, urllib, json
 import sys
@@ -27,7 +23,6 @@ def main(argv=None):
     # Ask for server name & port
     # serverName = raw_input("Enter server name: ")
     serverName = ""
-	# if HTTPS is used, serverPort = 443   
     serverPort = 80
     alias = ""
 
@@ -234,7 +229,7 @@ def main(argv=None):
 
                             imageServiceURL =  "http://" + serverName + statusUrl.replace("admin", "rest").replace("status", "")
 
-                            ln = "{\"name\": \"" + displayName + "\", \"id\": \"" + displayName + "\", \"url\": \"" + statusUrl + "\", \"type\": \"" + str(item["type"]) + "\" }"
+                            ln = "{\"name\": \"" + displayName + "\", \"id\": \"" + displayName + "\", \"url\": \"" + imageServiceURL + "\", \"type\": \"" + str(item["type"]) + "\" }"
                             if i != 0:
                                 ln = "," + ln
                             print ln

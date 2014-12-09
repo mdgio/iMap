@@ -246,17 +246,6 @@ body {
 
 }
 
-/*Used in Measure Tool text results ".dijitContentPane result"  */
-.claro #dijit_layout_ContentPane_2 {
-	background-color:#E6E6E6;
-	border: solid;
-	margin-left:auto;
-	margin-right:auto;
-	text-align: center;
-	padding-left: 0px;
-	
-}
-
 .dijitButtonHover .esriLinkIcon, .dijitToggleButtonChecked .esriLocationIcon, .dijitToggleButtonHover .esriLocationIcon, .dijitHover .dijitArrowButtonInner, .esriPrint .dijitHover .dijitIcon, .dijitToggleButtonChecked .esriMeasureIcon, .dijitToggleButtonHover .esriMeasureIcon , .dijitHover .esriBasemapIcon
 {
     box-shadow: #FFFFFF 2px 2px 3px inset;  

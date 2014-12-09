@@ -1,0 +1,50 @@
+.dojoxFloatingPaneTitle {
+    padding-left: 10px;
+}
+
+.dojoxFloatingPaneCanvas {
+    padding-right: 10px;
+}
+#floaterMeas{
+    padding: 0px !important;
+    background-color:#fff;
+	border: solid thin #808080;
+    -webkit-box-shadow: 3px 3px 2px #808080;
+	-moz-box-shadow: 3px 3px 2px #808080;
+	box-shadow: 3px 3px 2px #808080;
+}
+
+/* Used in Measure Tool text results ".dijitContentPane results"  */
+.claro #dijit_layout_ContentPane_1, #dijit_layout_ContentPane_2 {
+    background-color:#E6E6E6;
+    border: solid;
+    margin-left:0px;
+    margin-right:auto;
+    text-align: center;
+    padding-left: 0px;
+}
+
+
+/* table.esriMeasurementResultTable */
+."dijitContentPane resultTable esriMeasurementTableContainer"
+{
+    width: 180px;
+    margin-left: auto;
+    margin-right: auto;
+     text-align: center;
+}
+
+
+
+/* for a better looking results box  */
+/*
+.claro #dijit_layout_ContentPane{
+background-color:#E6E6E6;
+border: solid;
+margin-left:auto;
+margin-right:auto;
+text-align: center;
+padding-left: 0px;
+
+}
+*/

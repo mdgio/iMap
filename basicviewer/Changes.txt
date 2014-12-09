@@ -1,4 +1,13 @@
-MD iMap Template Change Log
+MD iMap Template Changes
+
+10/29/2014
+* Added means to show progress when using print tool.  "Spinning gif" added to map container--hides when print task is complete or found in error.
+* Current issue with MD iMap 2.0 print service.  Changed print service from MD Geodata to one of the default ESRI ones.
+* Updated map and image services from MD iMap 2.0 in Add Data tab (AddLayers.js file).
+* Fixed bug in ArcGISservicestoJSON.py script in AGStoJSON that prevented proper URL rendering of AGS image services.
+* Moved Measure tool styling from other CSS files to measure.css file.
+* Corrected bugs and made improvements to measure tool "results box" styling in measure.css.
+* Added revision date in lower left gutter of template to show when template was updated.
 
 8/7/2014	
 * Further refinement for the Query Tool (querying.js)
@@ -23,7 +32,7 @@ MD iMap Template Change Log
 	** Enforcing any user input to convert to upper case and then compare to an upper case value so to ensure non case sensitive attribute queries. 
 * More or improved in-code commentary
 * CSS improvements
-    ** Better consistent deployment of CSS theme in HTM framework
+    ** Better consistent deployment of CSS theme in HTML framework
     ** Addition of "red" color for hover event over slider bar between map and left pane to alert user of ability to move the slider between the left and map panes.
 
 7/3/2014

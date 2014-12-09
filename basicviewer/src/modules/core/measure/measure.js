@@ -5,8 +5,8 @@
  *  in order to work with modules, dojo/aspect after() or before() functions should be used.
  */
 define(["dojo/_base/declare", "dijit/_WidgetBase", "dijit/_TemplatedMixin", "dijit/_WidgetsInTemplateMixin", "dojo/aspect", "dojo/dom-construct", "dojo/on", "dijit/registry", "dojo/ready", "dojo/parser"
-    , "dojo/_base/fx", "dojo/_base/lang", "dojo/dom", "dojox/layout/FloatingPane", "dojo/query", "./utilities/maphandler", "dojo/has", "dojo/json", "dojo/_base/Color", "dojo/dnd/move", "dojo/dom-style"
-    , "esri/dijit/Measurement", "xstyle/css!./measure.css"],
+    , "dojo/_base/fx", "dojo/_base/lang", "dojo/dom", "dojox/layout/FloatingPane", "dojo/query", "../utilities/maphandler", "dojo/has", "dojo/json", "dojo/_base/Color", "dojo/dnd/move", "dojo/dom-style"
+    , "esri/dijit/Measurement", "xstyle/css!./css/measure.css"],
     function (declare, WidgetBase, TemplatedMixin, WidgetsInTemplateMixin, aspect, domConstruct, on, registry, ready, parser, fxer, lang
             , dom, floatingPane, query, mapHandler, has, JSON, Color, move, domstyle, MeasurementDijit) {
         return declare([WidgetBase], {
