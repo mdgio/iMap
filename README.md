@@ -1,4 +1,4 @@
-iMap
+iMAP
 ====
 
 Maryland iMAP Applications
