@@ -1,7 +1,7 @@
 iMap
 ====
 
-Maryland iMap Applications
+Maryland iMAP Applications
 
 View the template:  http://geodata.md.gov/imaptemplate/
 
