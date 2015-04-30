@@ -1,8 +1,11 @@
 /** A map drawing toolbar - not integrated yet */
-define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dijit/_TemplatedMixin", "dijit/_WidgetsInTemplateMixin", "dojo/on", "dijit/registry", "dojo/ready", "dojo/parser",
-    "dojo/text!./templates/draw.html", "dojo/dom-style", "dojo/_base/fx", "dojo/_base/lang", "dojo/dom", "dojox/layout/FloatingPane", "dojo/query", "../utilities/maphandler", "dojo/has", "dojo/json"],
-    function(declare, domConstruct, WidgetBase, TemplatedMixin, WidgetsInTemplateMixin, on, registry, ready, parser, template, domsty, fxer, language, dom, floatingPane, query, mapHandler, has, JSON){
-        return declare([WidgetBase, TemplatedMixin, WidgetsInTemplateMixin],{
+define(["dojo/_base/declare", "dojo/_base/Color", "dojo/_base/lang", "dojo/dom-construct", "dijit/_WidgetBase", "dijit/_TemplatedMixin", "dijit/_WidgetsInTemplateMixin", "dojo/on", "dijit/registry", "dojo/aspect", "dojo/ready", "dojo/parser",
+    "dojo/text!./templates/draw.html", "dojo/dnd/move", "dojo/dom-style", "dojo/_base/fx", "dojo/dom", "dojox/layout/FloatingPane", "dojo/query", "../utilities/maphandler", "dojo/has", "dojo/json",
+	"esri/toolbars/draw", "esri/graphic", "esri/symbols/SimpleMarkerSymbol", "esri/symbols/SimpleLineSymbol", "esri/symbols/SimpleFillSymbol", "xstyle/css!./css/draw.css"],
+    function (declare, Color, lang, domConstruct, WidgetBase, TemplatedMixin, WidgetsInTemplateMixin, on, registry, aspect, ready, parser,
+    template, move, domstyle, fxer, dom, floatingPane, query, mapHandler, has, JSON,
+	Draw, Graphic, SimpleMarkerSymbol, SimpleLineSymbol, SimpleFillSymbol) {
+        return declare([WidgetBase], {
             // The template HTML fragment (as a string, created in dojo/text definition above)
             templateString: template,
             //Give a unique ID for the floating panel. Populated from constructor in toolmanager.js
@@ -17,7 +20,7 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dijit/
             map: null,
             // The table of contents dijit
             drawingToolbar: null,
-
+			
             symbol: null,
 
             geomTask: null,
@@ -30,187 +33,318 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dijit/
             //_dijitToc: null,
             panelTitle: 'Drawing & Markup',
 
-        //*** Creates the floating pane. Should be included in your module and be re-usable without modification (if using floating pane)
-        constructor: function(args){
-            // safeMixin automatically sets the properties above that are passed in from the toolmanager.js
-            declare.safeMixin(this,args);
-            this.innerDivID = this.floaterDivID + 'inner';
-            // mapHandler is a singleton object that you can require above and use to get a reference to the map.
-            this.map = mapHandler.map;
-            //Create the div containers for the floating pane as a child of the map's div
-            domConstruct.create('div', { id: this.floaterDivId }, 'map');
-            domConstruct.create('div', { id: this.innerDivId }, this.floaterDivId);
+            _drawDij: null,
+            infoHolder: null,
+			
+			//*** Creates the floating pane. Should be included in your module and be re-usable without modification (if using floating pane)
+            constructor: function (args) {
+                // safeMixin automatically sets the properties above that are passed in from the toolmanager.js
+                declare.safeMixin(this, args);
+                this.innerDivId = this.floaterDivID + 'inner';
+                // mapHandler is a singleton object that you can require above and use to get a reference to the map.
+                this.map = mapHandler.map;
+                //Create the div containers for the floating pane as a child of the map's div
+                domConstruct.create('div', { id: this.floaterDivId, style: { padding: "0px"} }, 'map');
+                domConstruct.create('div', { id: this.innerDivId }, this.floaterDivId);
 
-            //create Floating Pane to house the Drawing Tools
+                var ConstrainedFloatingPane = declare([WidgetBase, TemplatedMixin, WidgetsInTemplateMixin, floatingPane], {
 
-           var fpI = new dojo.layout.FloatingPane({
-               title: 'Drawing & Markup',
-               resizable: false,
-               dockable: false,
-               closable: false,
-               style: "position:absolute;top:0;left:50px;width:245px;height:265px;z-index:100;visibility:hidden;",
-               id: this.floaterDivId
-           }, dom.byId(this.floaterDivId));
-            fpI.startup();
+					postCreate: function () {
+                        this.inherited(arguments);
+                        this.moveable = new move.constrainedMoveable(
+										this.domNode, {
+										    handle: this.focusNode,
+										    constraints: function () {
+										        //var coordsBody = dojo.coords(dojo.body());
+										        // or
+										        var coordsWindow = {
+										            l: 0,
+										            t: 0,
+										            w: window.innerWidth,
+										            h: window.innerHeight
+										        };
 
-            //Create a title bar for Floating Pane
-            var titlePane = query('#floaterDraw .dojoxFloatingPaneTitle')[0];
-            //Add close button to title pane
-            var closeDiv = domConstruct.create('div', {
-                id: "closeBtn",
-                innerHTML: esri.substitute({
-                    close_title: "Close Draw", //i18n.panel.close.title,
-                    close_alt: "Close Draw" // i18n.panel.close.label
-                }, '<a alt=${close_alt} title=${close_title} href="JavaScript:dijit.registry.byId(\'' + this.floaterDivId + '\').parentModule.ToggleTool();"><img  src="../toc/images/close.png"/></a>')
-            }, titlePane);
-            //Set the content of the Floating Pane to the template HTML.
-            dom.byId(this.innerDivId).innerHTML = template;
-            // On tool button click = toggle the floating pane
-            on(registry.byId(this.buttonDivId), "click", lang.hitch(this, function (){
+										        return coordsWindow;
+										    },
+										    within: true
+										}
+									);
+                    }
+                });
+
+                //Create Floating Pane to house the Drawing Tools.  The parentModule property is created to obtain a reference to this module in close button click.
+                var fpI = new ConstrainedFloatingPane({
+                    title: 'Drawing & Markup',
+                    parentModule: this,
+                    resizable: false,
+                    dockable: false,
+                    closable: false,
+                    style: "position:absolute;top:20px;left:20px;width:380px;height:200px;z-index:100;visibility:hidden;overflow:hidden;",
+                    id: this.floaterDivId,
+                    parseOnLoad: false
+                }, dom.byId(this.floaterDivId));
+				
+			    //Create a title bar for Floating Pane
+                var titlePane = query('#floaterDraw .dojoxFloatingPaneTitle')[0];
+				
+                //Add close button to title pane
+                var closeDiv = domConstruct.create('div', {
+                    id: "closeBtn",
+                    innerHTML: esri.substitute({
+                        close_title: "Close Draw", //i18n.panel.close.title,
+                        close_alt: "Close Draw" // i18n.panel.close.label
+                    }, '<a alt=${close_alt} title=${close_title} href="JavaScript:dijit.registry.byId(\'' + this.floaterDivId + '\').parentModule.ToggleTool();"><img src="assets/close.png"/></a>')
+                }, titlePane);
+                //Set the content of the Floating Pane to the template HTML.
+                dom.byId(this.innerDivId).innerHTML = template;
+                
+				// On tool button click = toggle the floating pane
+				fpI.startup();
+				
+			    this.drawingToolbar = new Draw(mapHandler.map, {});
+                this.drawingToolbar.on("draw-end", this.addGraphic);
+
+                //			fpI.addChild(draw);
+                //			fpI.startup();
+                //	
+				
+                    
+				on(dojo.byId("draw_point"), "click", lang.hitch(this, function () {
+                    this.drawingToolbar.activate("point");
+				}));
+				
+				on(dojo.byId("draw_multipoint"), "click", lang.hitch(this, function () {
+                    this.drawingToolbar.activate("multipoint");
+                }));
+       
+				on(dojo.byId("draw_line"), "click", lang.hitch(this, function () {
+                    this.drawingToolbar.activate("line");
+                }));
+				on(dojo.byId("draw_polyline"), "click", lang.hitch(this, function () {
+                    this.drawingToolbar.activate("polyline");
+                }));
+				on(dojo.byId("draw_freehand_polyline"), "click", lang.hitch(this, function () {
+                    this.drawingToolbar.activate("freehandpolyline");
+                }));
+				on(dojo.byId("draw_polygon"), "click", lang.hitch(this, function () {
+                    this.drawingToolbar.activate("polygon");
+                }));
+				on(dojo.byId("draw_freehand_polygon"), "click", lang.hitch(this, function () {
+                    this.drawingToolbar.activate("freehandpolygon");
+                }));
+				on(dojo.byId("draw_arrow"), "click", lang.hitch(this, function () {
+                    this.drawingToolbar.activate("arrow");
+                }));
+				on(dojo.byId("draw_triangle"), "click", lang.hitch(this, function () {
+                    this.drawingToolbar.activate("triangle");
+                }));
+				on(dojo.byId("draw_circle"), "click", lang.hitch(this, function () {
+                    this.drawingToolbar.activate("circle");
+                }));
+				on(dojo.byId("draw_ellipse"), "click", lang.hitch(this, function () {
+                    this.drawingToolbar.activate("ellipse");
+                }));
+				/* on(dojo.byId("edit"), "click", lang.hitch(this, function () {
+                    this.createEdit(); 
+                })); */
+				on(dojo.byId("clear_all"), "click", lang.hitch(this, function () {
+                    this.map.graphics.clear();
+					
+                }));
+				/*  on(dojo.byId("add_text"), "click", lang.hitch(this, function () {
+                    this.openTextForm();
+					this.drawingToolbar.activate("point");
+                })); */
+				
+				on(registry.byId(this.buttonDivId), "click", lang.hitch(this, function () {
+                    this.ToggleTool();
+                }));
+                //Open it
                 this.ToggleTool();
-            }));
-            //Open it
-            this.ToggleTool();
-        }
-           //*** This gets called by the Close (x) button in the floating pane created above. Re-use in your widget.
-           , ToggleTool: function () {
-                if (dojo.byId(this.floaterDivId).style.visibility === 'hidden') {
-                    dijit.byId(this.floaterDivId).show();
-                } else {
-                    dijit.byId(this.floaterDivId).hide();
-                    dijit.byId(this.buttonDivId).set('checked', false); //uncheck the toggle button
-                }
             }
 
+        , addGraphic: function (evt) {
+            //create a random color for the symbols
+              var r = Math.floor(Math.random() * 255);
+              var g = Math.floor(Math.random() * 255);
+              var b = Math.floor(Math.random() * 255);
+
+              var type = evt.geometry.type;
+              var symbol; 
+          
+              if (type === "point" || type === "multipoint") {
+                symbol = new SimpleMarkerSymbol(
+                  SimpleMarkerSymbol.STYLE_CIRCLE, 
+                  20, new SimpleLineSymbol(
+                    SimpleLineSymbol.STYLE_SOLID, 
+                    new Color([r, g, b, 0.5]), 10), 
+                    new Color([r, g, b, 0.9])
+					);
+              } else
+			  if (type === "line" || type === "polyline") {
+				symbol = new SimpleLineSymbol(
+					SimpleLineSymbol.STYLE_DASH, 
+					new Color([255, 0, 0]),	2
+				);
+			  }	/* else
+			  if (type === "freehand_polyline") {
+				symbol = new SimpleLineSymbol(
+					SimpleLineSymbol.STYLE_DASH, 
+					new Color([255, 255, 0]),
+					2
+				);
+			  }	 */
+			  if (type === "polygon") {
+				symbol = new SimpleFillSymbol(
+					SimpleFillSymbol.STYLE_SOLID, 
+					new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
+					new dojo.Color([0, 0, 0]), 2), 
+					new dojo.Color([255, 255, 0, 0.25])
+				);
+              }	
+			  
+			  var graphic = new Graphic(evt.geometry, symbol);
+              mapHandler.map.graphics.add(graphic);
+            }
+
+            //*** This gets called by the Close (x) button in the floating pane created above. Re-use in your widget.
+           , ToggleTool: function () {
+               if (dom.byId(this.floaterDivId).style.visibility === 'hidden') {
+                   //TODO: find better fix for dancing floating pane
+                   //must reset top and left style properties to keep floating pane from dancing across page on multiple re-open.
+                   domstyle.set(this.floaterDivId, "top", "0px");
+                   domstyle.set(this.floaterDivId, "left", "0px");
+                   registry.byId(this.floaterDivId).show();
+                   //this._drawDij.setTool("location", true);
+					this.drawingToolbar.activate();
+                   mapHandler.DisableMapPopups();
+               } else {
+                   registry.byId(this.floaterDivId).hide();
+                   registry.byId(this.buttonDivId).set('checked', false); //uncheck the toggle button
+					//enable map popup windows
+					this.drawingToolbar.deactivate();
+				   //this._drawDij.setTool("location", false);
+                   //                    mapHandler._clickHandler = mapHandler.map.on("click", mapHandler._clickListener);
+                   //                    console.log("Popups should be enabled");
+                   //enable map popup windows
+				 //  this.drawingToolbar.deactivate();
+                   mapHandler.EnableMapPopups();
+         
+               }
+           }
+
             /* A standard module event handler. In the postcreate and startup handlers,
-             * you can assume the module has been created.  You don't need to add a handler function if you are not writing code in it.
-             */
+            * you can assume the module has been created.  You don't need to add a handler function if you are not writing code in it.
+            */
            , startup: function () {
                var Form = dom.byId('DrawingTools');
 
            }
 
-           , _createDrawingTooblbar: function(){
-                    // get pointer to the esri drawing toolbar widget
-                    this.drawingToolbar = new esri.toolbars.Draw(this.map);
-                    // add the event for finishing a graphic
-                    dojoOn(this.toolbar, "onDrawEnd", lang.hitch(this, function (){
-                        this.addToMap();
-                    }));
+           , _createDrawingTooblbar: function () {
+               // get pointer to the esri drawing toolbar widget
+               this.drawingToolbar = new esri.toolbars.Draw(this.map);
+               // add the event for finishing a graphic
+               dojoOn(this.toolbar, "onDrawEnd", lang.hitch(this, function () {
+                   this.addToMap();
+               }));
 
-                    // create the color picker floating pane
-                    var fpColor = new floatingPane({
-                        title: "Change Graphic Color",
-                        resizable: false,
-                        dockable: false,
-                        closable: false,
-                        style: "position:absolute;top:0;left:50px;width:310px;height:200px;z-index:100;visibility:hidden;",
-                        id: 'colorForm'
-                    }, dom.byId('colorForm'));
-                    fpColor.startup();
+               // create the color picker floating pane
+               var fpColor = new floatingPane({
+                   title: "Change Graphic Color",
+                   resizable: false,
+                   dockable: false,
+                   closable: false,
+                   style: "position:absolute;top:0;left:50px;width:310px;height:200px;z-index:100;visibility:hidden;",
+                   id: 'colorForm'
+               }, dom.byId('colorForm'));
+               fpColor.startup();
 
-                }
+           }  // end_createDrawingToolbar
 
-           , _addToMap: function() {
-                    this.drawingToolbar.deactivate();
-                    this.map.showZoomSlider();
-                    switch (geometry.type) {
-                        case "point":
-                            var symbol = new esri.symbol.SimpleMarkerSymbol(esri.symbol.SimpleMarkerSymbol.STYLE_SQUARE, 10, new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color([255,0,0]), 1), new dojo.Color([0,255,0,0.25]));
-                            break;
-                        case "polyline":
-                            var symbol = new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_DASH, new dojo.Color([255,0,0]), 1);
-                            break;
-                        case "polygon":
-                            var symbol = new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_SOLID, new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_DASHDOT, new dojo.Color([255,0,0]), 2), new dojo.Color([255,255,0,0.25]));
-                            break;
-                        case "extent":
-                            var symbol = new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_SOLID, new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_DASHDOT, new dojo.Color([255,0,0]), 2), new dojo.Color([255,255,0,0.25]));
-                            break;
-                        case "multipoint":
-                            var symbol = new esri.symbol.SimpleMarkerSymbol(esri.symbol.SimpleMarkerSymbol.STYLE_DIAMOND, 20, new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color([0,0,0]), 1), new dojo.Color([255,255,0,0.5]));
-                            break;
-                    }
-                    var graphic = new esri.Graphic(geometry, symbol);
-                    map.graphics.add(graphic);
-                }
+           , _addToMap: function () {
+               this.drawingToolbar.deactivate();
+               this.map.showZoomSlider();
+               switch (geometry.type) {
+                   case "point":
+                       var symbol = new esri.symbol.SimpleMarkerSymbol(esri.symbol.SimpleMarkerSymbol.STYLE_SQUARE, 10, new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color([255, 0, 0]), 1), new dojo.Color([0, 255, 0, 0.25]));
+                       break;
+                   case "polyline":
+                       var symbol = new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_DASH, new dojo.Color([255, 0, 0]), 1);
+                       break;
+                   case "polygon":
+                       var symbol = new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_SOLID, new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_DASHDOT, new dojo.Color([255, 0, 0]), 2), new dojo.Color([255, 255, 0, 0.25]));
+                       break;
+                   case "extent":
+                       var symbol = new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_SOLID, new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_DASHDOT, new dojo.Color([255, 0, 0]), 2), new dojo.Color([255, 255, 0, 0.25]));
+                       break;
+                   case "multipoint":
+                       var symbol = new esri.symbol.SimpleMarkerSymbol(esri.symbol.SimpleMarkerSymbol.STYLE_DIAMOND, 20, new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color([0, 0, 0]), 1), new dojo.Color([255, 255, 0, 0.5]));
+                       break;
+               }
+               var graphic = new esri.Graphic(geometry, symbol);
+               map.graphics.add(graphic);
+           }
 
-           , _activateToolbar: function(graphic) {
-                    var tool = 0;
+           , _activateToolbar: function (graphic) {
+               var tool = 0;
 
-                    tool = tool | esri.toolbars.Edit.MOVE;
-                    tool = tool | esri.toolbars.Edit.EDIT_VERTICES;
-                    tool = tool | esri.toolbars.Edit.SCALE;
-                    tool = tool | esri.toolbars.Edit.ROTATE;
+               tool = tool | esri.toolbars.Edit.MOVE;
+               tool = tool | esri.toolbars.Edit.EDIT_VERTICES;
+               tool = tool | esri.toolbars.Edit.SCALE;
+               tool = tool | esri.toolbars.Edit.ROTATE;
 
-                    var options = {
-                        allowAddVertices: "True",
-                        allowDeleteVertices: "True",
-                        uniformScaling: "True"
-                    };
-                    //save graphic object from this click event to be used by the color picker setColor() function.
-                    globalGraphic = graphic;
-                    //activate edit tool to show editable vertices and graphics.
-                    editToolbar.activate(tool, graphic, options);
-                }
+               var options = {
+                   allowAddVertices: "True",
+                   allowDeleteVertices: "True",
+                   uniformScaling: "True"
+               };
+               //save graphic object from this click event to be used by the color picker setColor() function.
+               globalGraphic = graphic;
+               //activate edit tool to show editable vertices and graphics.
+               editToolbar.activate(tool, graphic, options);
+           } //end _activateToolbar
 
-           ,  _setColor:  function(selectedColor) {
-                //if the color picker floating pane is visible, change the rgba value of the graphic
-                if (dojo.byId('colorForm').style.visibility != 'hidden'){
-                    //get the hex value from the form and convert to rgba
-                    var newColor = dojo.colorFromHex(selectedColor);
-                    //create variable for transparency
-                    var a;
-                    //create an esri fill symbol
-                    var newFill;
-                    //use geometry type of graphic to set the symbol fill type and transparency
-                    var geom = globalGraphic.geometry;
-                    switch(geom.type){
-                        case 'polygon':
-                            newFill = new esri.symbol.SimpleFillSymbol();
-                            a = 0.25;
-                            break;
-                        case 'point':
-                            if (globalGraphic.symbol.type == "textsymbol"){
-                                newFill = globalGraphic.symbol;
-                                a = 1;
-                            }else{
-                                newFill = new esri.symbol.SimpleMarkerSymbol();
-                                a = 1;
-                            }
-                            break;
-                        case 'polyline':
-                            newFill = new esri.symbol.SimpleLineSymbol();
-                            newFill.setStyle(esri.symbol.SimpleLineSymbol.STYLE_DASH);
-                            a = 1;
-                            break;
-                    }
-                    //parse the rgba value to keep the "r" "g" "b" and change the "a"
-                    var match = /rgba?\((\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*(,\s*\d+[\.\d+]*)*\)/g.exec(newColor);
-                    //reset the dojo.color rgba value with the transparency included
-                    var fillColor = "rgba(" + [match[1],match[2],match[3],a].join(',') +")";
-                    newFill.setColor(fillColor)
-                    globalGraphic.setSymbol(newFill);
-                }
-            }
+           , _setColor: function (selectedColor) {
+               //if the color picker floating pane is visible, change the rgba value of the graphic
+               if (dojo.byId('colorForm').style.visibility != 'hidden') {
+                   //get the hex value from the form and convert to rgba
+                   var newColor = dojo.colorFromHex(selectedColor);
+                   //create variable for transparency
+                   var a;
+                   //create an esri fill symbol
+                   var newFill;
+                   //use geometry type of graphic to set the symbol fill type and transparency
+                   var geom = globalGraphic.geometry;
+                   switch (geom.type) {
+                       case 'polygon':
+                           newFill = new esri.symbol.SimpleFillSymbol();
+                           a = 0.25;
+                           break;
+                       case 'point':
+                           if (globalGraphic.symbol.type == "textsymbol") {
+                               newFill = globalGraphic.symbol;
+                               a = 1;
+                           } else {
+                               newFill = new esri.symbol.SimpleMarkerSymbol();
+                               a = 1;
+                           }
+                           break;
+                       case 'polyline':
+                           newFill = new esri.symbol.SimpleLineSymbol();
+                           newFill.setStyle(esri.symbol.SimpleLineSymbol.STYLE_DASH);
+                           a = 1;
+                           break;
+                   }
+                   //parse the rgba value to keep the "r" "g" "b" and change the "a"
+                   var match = /rgba?\((\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*(,\s*\d+[\.\d+]*)*\)/g.exec(newColor);
+                   //reset the dojo.color rgba value with the transparency included
+                   var fillColor = "rgba(" + [match[1], match[2], match[3], a].join(',') + ")";
+                   newFill.setColor(fillColor)
+                   globalGraphic.setSymbol(newFill);
+               }
+           }  //end setColor
 
-           ,  _openTextForm: function() {
-                    var fp = floatingPane({
-                        title: "Add Text to Map",
-                        resizable: false,
-                        dockable: false,
-                        closable: false,
-                        style: "position:absolute;top:0;left:50px;width:350px;height:150px;z-index:100;visibility:hidden;",
-                        id: 'textForm'
-                    }, dom.byId('textForm'));
-                    fp.startup();
-
-                    registry.byId('textForm').show();
-
-                    on(map.graphics, "onGraphicAdd", function(graphic) {
-                        //dojo.stopEvent(graphic);
-                        globalGraphic = graphic;
-                    });
-                }
+           
         });
     });

@@ -229,7 +229,7 @@ def main(argv=None):
 
                             imageServiceURL =  "http://" + serverName + statusUrl.replace("admin", "rest").replace("status", "")
 
-                            ln = "{\"name\": \"" + displayName + "\", \"id\": \"" + displayName + "\", \"url\": \"" + statusUrl + "\", \"type\": \"" + str(item["type"]) + "\" }"
+                            ln = "{\"name\": \"" + displayName + "\", \"id\": \"" + displayName + "\", \"url\": \"" + imageServiceURL + "\", \"type\": \"" + str(item["type"]) + "\" }"
                             if i != 0:
                                 ln = "," + ln
                             print ln

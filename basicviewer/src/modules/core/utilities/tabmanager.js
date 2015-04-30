@@ -59,6 +59,52 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     //*** The relative path to your module file
                     var modulePath = "../toc/toc";
                     //*** If your widget requires specific constructor parameters to be passed in, you can set the object here.
+                    var constructorParams = { esriMap: this._Map, webMap: mapHandler.getWebMap(), appConfig: this._AppConfig };
+                    //*** Does your widget's parent need to be resized after it's startup in order to layout properly? Default to false.
+                    var resizeAfterStartup = true;
+
+                    this._CreateTabPane(leftTabCont, configParamName, tabParams, modulePath, constructorParams, resizeAfterStartup);
+                }
+
+               
+
+                //*** Querying - use as an example of lazy-loading a pane at runtime
+                if ((this._AppConfig.displayquery === 'true' || this._AppConfig.displayquery == true)) {
+                    //*** Check if this pane was set to be the startup pane in app.js or AGO. Replace the param name in next line.
+                    var configParamName = 'displayquery'; //querying';
+                    //*** Constructor params for the tab (which is a contentpane- http://dojotoolkit.org/reference-guide/1.8/dijit/layout/ContentPane.html).
+                    //*** Give the tab's content pane a unique id.
+                    //*** and title to display in the tab
+                    var tabParams = {
+                        title: 'Query', //i18n.tools.details.title,
+                        id: 'queryPanel',
+                        style: "padding: 0px"
+                    };
+                    //*** The relative path to your module file
+                    var modulePath = "../query/queryTab";
+                    //*** If your widget requires specific constructor parameters to be passed in, you can set the object here.
+                    var constructorParams = { esriMap: this._Map, webMap: mapHandler.getWebMap() };
+                    //*** Does your widget's parent need to be resized after it's startup in order to layout properly? Default to false.
+                    var resizeAfterStartup = true;
+
+                    this._CreateTabPane(leftTabCont, configParamName, tabParams, modulePath, constructorParams, resizeAfterStartup);
+                }
+
+                //*** Table of Contents- use as an example of lazy-loading a pane at runtime
+                if ((this._AppConfig.adddata === 'true' || this._AppConfig.adddata == true)) {
+                    //*** Check if this pane was set to be the startup pane in app.js or AGO. Replace the param name in next line.
+                    var configParamName = 'adddata';
+                    //*** Constructor params for the tab (which is a contentpane- http://dojotoolkit.org/reference-guide/1.8/dijit/layout/ContentPane.html).
+                    //*** Give the tab's content pane a unique id.
+                    //*** and title to display in the tab
+                    var tabParams = {
+                        title: 'Add Data', //i18n.tools.details.title,
+                        id: 'addPanel',
+                        style: "padding: 0px"
+                    };
+                    //*** The relative path to your module file
+                    var modulePath = "../toc/addData";
+                    //*** If your widget requires specific constructor parameters to be passed in, you can set the object here.
                     var constructorParams = { esriMap: this._Map, webMap: mapHandler.getWebMap() };
                     //*** Does your widget's parent need to be resized after it's startup in order to layout properly? Default to false.
                     var resizeAfterStartup = true;

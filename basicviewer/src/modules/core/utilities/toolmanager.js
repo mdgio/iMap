@@ -15,6 +15,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
             , _LeftToolDiv: null
             , _CenterToolDiv: null
             , _RightToolDiv: null
+      
             //mapHandler contains a reference to the actual arcgis map object and helper fxns
 
             , constructor: function(args) {
@@ -22,8 +23,9 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                 this._WebMap = args.WebMap;
 
                 this._LeftToolDiv = dom.byId("webmap-toolbar-left");
+				this._RightToolDiv = dom.byId("webmap-toolbar-right");
                 this._ToolsDiv = dom.byId("tools");
-            }
+              }
 
             /*** Function to handle loading the toolbar at the top of the map.  Many of the tools only create a button at startup
              * and defer loading of the actual module until if/when the user actually clicks the button.
@@ -37,7 +39,22 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     );
                 }
 
-                //The measure tool with options in a floating pane - there is a bug in measure with the floating pane
+                //This is the draw tool with options in a floating pane - 
+                if (this._AppConfig.displaydraw === 'true' || this._AppConfig.displaydraw == true) {
+                    //*** Give button a unique btnId, set title, iconClass as appropriate
+                    var btnId = 'tglbtnDraw';
+                    var btnTitle = 'Draw';
+                    var btnIconClass = 'esriDrawIcon';
+                    //*** Constructor parameters object you want passed into your module
+                    //*** Provide a unique ID for the parent div of the floating panel (if applicable)
+                    var widgetParams = { floaterDivId: 'floaterDraw' };
+                    //*** The relative path to your module
+                    var modulePath = "../draw/draw";
+
+                    this._CreateToolButton(widgetParams, btnId, btnTitle, btnIconClass, modulePath, true);
+                }
+				
+				 //*** This is the measure tool with options in a floating pane - there is a bug in measure with the floating pane
                 if (this._AppConfig.displaymeasure === 'true' || this._AppConfig.displaymeasure == true) {
                     //*** Give button a unique btnId, set title, iconClass as appropriate
                     var btnId = 'tglbtnMeasure';
@@ -47,7 +64,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     //*** Provide a unique ID for the parent div of the floating panel (if applicable)
                     var widgetParams = { floaterDivId: 'floaterMeas' };
                     //*** The relative path to your module
-                    var modulePath = "../measure";
+                    var modulePath = "../measure/measure";
 
                     this._CreateToolButton(widgetParams, btnId, btnTitle, btnIconClass, modulePath, true);
                 }
@@ -68,6 +85,46 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                         })
                     );
                 }
+				//*** The display send link tool. An example of loading a DropDownButton, which needs it contents loading before startup.
+                    if (this._AppConfig.displaySend === "true" || this._AppConfig.displaySend == true) {
+                        //Get the basemap dijit- a dropdown button with the dropdown content
+                        require(["../generateLink"],
+                        lang.hitch(this, function (webmapDijit) {
+                            var webMapBtn = new webmapDijit({
+                                id: "genLinkBtn",
+                                iconClass: "esriLinkIcon",
+                                title: "Generate Link",
+                                AppConfig: this._AppConfig
+                            });
+                            //Button gets added to toolbar
+                            this._ToolsDiv.appendChild(webMapBtn.domNode);
+                        })
+						);
+                    }
+					
+					if (this._AppConfig.zoomtocounty === "true" || this._AppConfig.zoomtocounty === true) {
+						//a dropdown button with the dropdown content
+						require(["../zoomtofeature"],
+                        lang.hitch(this, function (zoomDijit) {
+                            var zoomToBtn = new zoomDijit({
+                                id: "selectZoom",
+                                title: "County",
+                                value: "Zoom to County",
+                                service: "http://geodata.md.gov/imap/rest/services/Boundaries/MD_PhysicalBoundaries/MapServer/",  
+                                // alternative:  http://www.mdimap.us/ArcGIS/rest/services/Boundaries/MD.State.PoliticalBoundaries/MapServer/  layer: 5,  field: "COUNTY"
+								zoomFeature: "county",
+                                layer: 1,
+                                field: "county",
+                                AppConfig: this._AppConfig
+                            });
+							
+							//Button gets added to toolbar
+                            this._RightToolDiv.appendChild(zoomToBtn.domNode);
+                        })
+						);
+					};
+					
+				
 
                 //*** This is the add shapefile tool, created as a module. Use this as a pattern for new tools.
                 // The _AppConfig parameter originates in app.js, and can be overridden by AGO if parameter is made configurable in config.js.
@@ -147,8 +204,31 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                 }, dojo.create('span'));
 
                 query('.esriPrint').addClass('esriPrint');
+                
+                //var standby = new Standby({target: "webmap_toolbar_right"});
+                var standby = new Standby({target: "map"});
+                
                 this._ToolsDiv.appendChild(printer.printDomNode);
+                document.body.appendChild(standby.domNode);
                 printer.startup();
+				standby.startup();
+				
+				printer.on("error", function () {
+					alert ("There was an error while printing.  Please try again later.");
+					standby.hide(); 
+					});
+					
+				
+				printer.on('print-start',function(){
+  					console.log('The print operation has started');
+  					standby.show();
+				});
+				
+				printer.on('print-complete',function(){
+  					console.log('The print operation has finished');
+  					standby.hide(); 
+				});
+				
             }
         });
     }

@@ -12,6 +12,8 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/o
             //*** The ESRI Web Map object to be used by the TOC to set properties such as title, visiblity, etc.
             webMap: null,
 
+            appConfig: null,
+
             // The table of contents dijit
             _dijitToc: null,
             _addDataPane: null,
@@ -35,16 +37,12 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/o
                     title: "Legend",
                     style: "padding: 0px"
                 });
+                legendPane.title.innerHTML = "<p class='myAcordClass'>Legend</p>",
                 domClass.add(legendPane.domNode, 'tocLegendPane');
 
-                //Create the accordion's 2nd pane for the add data section
-                this._addDataPane = new addData({
-                    title:"Add Data"
-                    , id: 'addDataContPane'
-                });
                 //Add the panes to the accordion
                 this.addChild(legendPane);
-                this.addChild(this._addDataPane);
+
                 //Create the actual legend "tree" and add to the first pane
                 this.initializeDijitToc(this.esriMap);
                 legendPane.addChild(this._dijitToc);
@@ -182,6 +180,7 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/o
                     this._dijitToc.destroyRecursive();this._dijitToc = new legendToc({
                         map: this.esriMap
                         , webMap: this.webMap
+                        , displayPointT: this.appConfig.displaypointtransp
                 });
             }
         });

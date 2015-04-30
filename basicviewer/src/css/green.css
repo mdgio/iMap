@@ -1,11 +1,21 @@
 
 /*The image specified for the body is used to apply the gradient background to the entire page*/
 body {
-  background:url(../../assets/green/body_bg.png) repeat-x #666666;
+  background:url(../../assets/green/body_bg.png) repeat-x #527C30;
 }
 #leftPane {
   background-color:#ecf4e9;
 }
+
+#leftPane_splitter:hover {
+    background-color: red;
+}
+
+/* for buttons on title bar in Content Tab */
+.claro .liLyrUpDis, .claro .liLyrDwnDis, .claro .liLyrRemDis {
+    background-color: #b5d19a;
+}
+
 /*override claro background and other props*/
 /*Measure toggle button*/
 .claro .dijitToolbar .dijitButtonNode:hover {
@@ -13,6 +23,52 @@ body {
 }
 .claro .dijitToolbar .dijitToggleButtonChecked .dijitButtonNode {
    background:url(../../assets/green/sidebar_header_active_bg.png) repeat-x #b5d19a;
+}
+
+/* Background color for regular buttons*/
+#tools .dijitIcon
+{
+    box-shadow: 3px 3px 2px darkgray, #465D32 -2px -2px 3px inset;
+    background-color: #527C30;
+    border: 1px solid #2D5110;
+    border-radius: 5px 5px 5px 5px;
+}
+/* Background color for dropdown left side button*/
+#tools .dijitComboButton .dijitIcon, #tools .dijitDownArrowButton .dijitIcon{
+    box-shadow: 0px 3px 2px darkgray, #465D32 0px -2px 3px inset;
+    background-color: #527C30;
+    border: 1px solid #2D5110;
+    border-radius: 5px 0px 0px 5px;
+}
+/* Background color for dropdown right side button*/
+#tools .dijitArrowButtonInner
+{
+    height: 48px;
+    background-color: #527C30;
+    border: 1px solid #2D5110;
+    border-left: none;
+    border-radius: 0px 5px 5px 0px;
+    box-shadow: 3px 3px 1px darkgray,  #465D32 -2px 0px 3px inset;
+}
+
+/* Buttons on hover*/
+#tools .dijitToggleButtonHover .dijitIcon
+{
+    box-shadow: #465D32 2px 2px 3px inset;     
+} 
+/* Buttons on checked*/
+#tools .dijitToggleButtonChecked .dijitIcon
+{
+    background-color: #8EBE66;
+    box-shadow: #465D32 2px 2px 3px inset; 
+} 
+.PaneToggleImage{
+    background-image: none;
+    background-color: #527C30;
+    border: 1px solid #2D5110;
+    border-left: none;
+    border-radius: 0px 5px 5px 0px;
+    box-shadow: 3px 3px 1px darkgray;
 }
 
 /* Change color of tab menu*/
@@ -44,6 +100,7 @@ body {
 .claro .dijitTabContainerTop-tabs .dijitTabChecked {
     background-color: rgba(166, 215, 161, 0.80);
     background-image: none !important;
+    font-weight:bold;
 }
 .claro .dijitTabListContainer-top .tabStripButton{
     background-image: none !important;
@@ -60,6 +117,20 @@ body {
 .claro .dijitTabListContainer-top .tabStripButtonDisabled, .claro .dijitTabListContainer-bottom .tabStripButtonDisabled{
     background-color: rgba(166, 215, 161, 0.80);
 }
+
+.claro .dijitAccordionTitle {
+  background:url(../../assetsgreen/toolbar_bg.png) repeat-x #527C30;
+}  
+.claro .dijitAccordionText {
+   color: #FFFFFF;
+}
+.claro .dijitTreeRow:hover {
+    background:url(../../assets/green/toolbar_bg.png) repeat-x #527C30;
+    color: #FFFFFF;
+}
+
+
+
 
 /*Attribute Inspector button styling (delete buttons)*/
 .esriAttributeInspector div.atiButtons span.dijit span.dijitReset{
@@ -84,7 +155,7 @@ body {
 .esriPopup .outerPointer,
 .esriPopup .esriViewPopup .gallery .mediaHandle,
 .esriPopup .esriViewPopup .gallery .mediaIcon{
-  background: url(../../assets/green/popup.png) no-repeat scroll 0 0 transparent;
+  /* background: url(../../assets/green/popup.png) no-repeat scroll 0 0 transparent; */
 }
 
 /*slider background*/
@@ -92,6 +163,26 @@ body {
   background:url(../../assets/green/toolbar_bg.png) repeat-x #4a6f1c;
   border:solid 1px #4a6f1c;
 }
+
+/* overrides the ESRI home button style.  It is similar to "#tools .dijitIcon" style here   */
+.HomeButton .home  
+{
+    background-color: #527C30;
+    border: 1px solid #465D32;  
+    border-radius: 5px 5px 5px 5px;
+}
+
+.HomeButton .home:hover  
+{
+    background-color: #8EBE66;
+    border: 1px solid #465D32;
+    border-radius: 5px 5px 5px 5px;
+}
+
+
+
+
+
  /*Identity Manager Dialog*/
 .claro .dijitDialogTitleBar {
   background:url(../../assets/green/toolbar_bg.png) repeat-x #545454;

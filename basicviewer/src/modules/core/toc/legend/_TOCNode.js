@@ -49,7 +49,7 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dijit/_TemplatedMixin", "dij
 	                    node: this.containerNode,
 	                    showFunc: dojo.fx.wipeIn,
 	                    hideFunc: dojo.fx.wipeOut
-	                })
+	                });
 	            }
 	
 	
@@ -107,6 +107,11 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dijit/_TemplatedMixin", "dij
 	        _createRootLayerNode: function(rootLayer) {
 	            dojo.addClass(this.rowNode, 'agsjsTOCRootLayer');
 	            dojo.addClass(this.labelNode, 'agsjsTOCRootLayerLabel');
+				
+                if (rootLayer.type != undefined && rootLayer.type == "Feature Layer") {
+                    this.rootLayerTOC.info.noLegend = false;
+                    this.rootLayerTOC.info.FL = true;
+                };				
 	
 	            var title = this.rootLayerTOC.info.title;
 	            if (title === '') {
@@ -136,11 +141,13 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dijit/_TemplatedMixin", "dij
 	                    this.slider.setValue(op * 100);
 	                });
 	            }
-	            if (!this.rootLayerTOC.info.noLegend) {
-	                this._createChildrenNodes(rootLayer._tocInfos, 'layer');
-	            } else {
-	                dojo.style(this.iconNode, 'visibility', 'hidden');
-	            }
+                if (!this.rootLayerTOC.info.noLegend && this.rootLayerTOC.info.FL == undefined) {
+                    this._createChildrenNodes(rootLayer._tocInfos, 'layer');
+                } else if (!this.rootLayerTOC.info.noLegend && this.rootLayerTOC.info.FL) {
+                    this._createLayerNode(this.rootLayerTOC.info.layer);
+                } else {
+                    dojo.style(this.iconNode, 'visibility', 'hidden');
+                }
 	            this.labelNode.innerHTML = title;
 	            dojo.attr(this.rowNode, 'title', title);
 	        },
@@ -193,6 +200,22 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dijit/_TemplatedMixin", "dij
 	                                value: "*"
 	                            }].concat(rends);
 	                        }
+	                        //the array of legend items might have duplicates, remove these by matching by url (not sure what URL this is, but seems to be unique per symbol)
+	                        //However URL does not work in Internet Explorer.  Changed tempArray[j].URL == rends[i].URL to  tempArray[j].label == rends[i].label
+					var tempArray = new Array();
+					tempArray[0] = rends[0];
+					for (var i = 0; i < rends.length; i++) {
+						var flag = true;
+						for (var j = 0; j < tempArray.length; j++) {
+							if (tempArray[j].label == rends[i].label) {
+								flag = false;
+							}
+						} //for loop
+						if (flag == true)
+							tempArray.push(rends[i]);
+					} //for loop
+					rends = tempArray;			
+	                        
 	                        this._createChildrenNodes(rends, 'legend');
 	                    }
 	                } else if (layer.legends && !this.rootLayerTOC.info.noLegend) {

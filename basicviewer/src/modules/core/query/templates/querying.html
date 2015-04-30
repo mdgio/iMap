@@ -1,0 +1,42 @@
+﻿<div id="queryingDiv">
+    <div id="serviceDiv">
+        <p style="margin-bottom: 0">Services:</p>
+        <select id="serviceCbo"> </select>
+     </div>
+    <div id="layerDiv" style="display:none">
+        <p style="margin-bottom: 0">Layers:</p>
+        <select id="layerCbo"> </select>
+     </div>
+     <div id="querySection">
+         <div id="queryChoice" style="display:none"><br>
+			<input id="stringQ" type="radio" name="queryType" value="stringQuery"> Query by Attributes &nbsp; - or - &nbsp; 
+			<input id="spatialQ" type="radio" name="queryType" value="spatialQuery"> Spatial Select<br>
+		</div>
+		<div id="stringQueryDiv" style="display:none">
+			<div id="fieldDiv" style="display:none">
+				<p style="margin-bottom: 0">Fields:</p>
+				<select id="fieldCbo"> </select>
+				<div id="fieldMath">
+				    <!--Same text as in querying.js -->
+					<p>Type in a value to match possible values in the field that you selected above.  For example, if the field is &quot;City&quot;, you might type in &quot;Annapolis&quot; or even &quot;anna&quot;. </p>
+					<input id="fieldValue">
+				</div>
+				<div id="btnDiv">
+					<div id="queryBtn" class="">Query</div>
+					<div id="clearBtn" class="resetBtns">Reset</div>
+				</div>
+			</div>    
+        </div>
+         
+         <div id="spatialQueryDiv" style="display:none">
+             <div id="Circle" class="drawBtn btnStart">Circle</div>
+             <div id="Extent" class="drawBtn">Rectangle</div>
+             <div id="Polygon" class="drawBtn">Polygon</div>
+             <div id="FreehandPolygon" class="drawBtn btnEnd">Freehand</div> <br>
+             <div id="spatialBtnDiv"> 
+                <div id="spatialReset" class="resetBtns">Reset</div>
+             </div>
+         </div>
+
+     </div>
+</div>

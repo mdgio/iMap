@@ -11,6 +11,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                 , _Map: null
                 , _MainBordCont: null
                 , _leftPaneToggler: null
+			
 
                 //Layout the regions of the Dojo container based on app configs.
                 //This way the map can be sized properly when first created.
@@ -145,8 +146,8 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                             })
                         );
                     }
-
-                    if (this._AppConfig.displayoverviewmap === 'true' || this._AppConfig.displayoverviewmap === true) {
+					
+					if (this._AppConfig.displayoverviewmap === 'true' || this._AppConfig.displayoverviewmap === true) {
                         //Create the overview map
                         require(["../ovmap"],
                             lang.hitch(this, function(overviewmap) {
@@ -189,6 +190,6 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     this._MainBordCont.resize();
                 }
             }
-        )
+        );
     }
 );

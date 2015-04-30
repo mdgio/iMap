@@ -1,17 +1,38 @@
-<div id="DrawingTools">
-    <button data-dojo-type="dijit.form.Button" data-dojo-props="onClick:function(){toolbar.activate(esri.toolbars.Draw.POINT);map.hideZoomSlider();}">Point</button>
-    <button data-dojo-type="dijit.form.Button" data-dojo-props="onClick:function(){toolbar.activate(esri.toolbars.Draw.MULTI_POINT);map.hideZoomSlider();}">Multipoint</button>
-    <button data-dojo-type="dijit.form.Button" data-dojo-props="onClick:function(){toolbar.activate(esri.toolbars.Draw.LINE);map.hideZoomSlider();}">Line</button>
-    <button data-dojo-type="dijit.form.Button" data-dojo-props="onClick:function(){toolbar.activate(esri.toolbars.Draw.POLYLINE);map.hideZoomSlider();}">Polyline</button>
-    <button data-dojo-type="dijit.form.Button" data-dojo-props="onClick:function(){toolbar.activate(esri.toolbars.Draw.POLYGON);map.hideZoomSlider();}">Polygon</button>
-    <button data-dojo-type="dijit.form.Button" data-dojo-props="onClick:function(){toolbar.activate(esri.toolbars.Draw.FREEHAND_POLYLINE);map.hideZoomSlider();}">Freehand Polyline</button>
-    <button data-dojo-type="dijit.form.Button" data-dojo-props="onClick:function(){toolbar.activate(esri.toolbars.Draw.FREEHAND_POLYGON);map.hideZoomSlider();}">Freehand Polygon</button>
-    <!--The Arrow,Triangle,Circle and Ellipse types all draw with the polygon symbol-->
-    <button data-dojo-type="dijit.form.Button" data-dojo-props="onClick:function(){toolbar.activate(esri.toolbars.Draw.ARROW);map.hideZoomSlider();}">Arrow</button>
-    <button data-dojo-type="dijit.form.Button" data-dojo-props="onClick:function(){toolbar.activate(esri.toolbars.Draw.TRIANGLE);map.hideZoomSlider();}">Triangle</button>
-    <button data-dojo-type="dijit.form.Button" data-dojo-props="onClick:function(){toolbar.activate(esri.toolbars.Draw.CIRCLE);map.hideZoomSlider();}">Circle</button>
-    <button data-dojo-type="dijit.form.Button" data-dojo-props="onClick:function(){toolbar.activate(esri.toolbars.Draw.ELLIPSE);map.hideZoomSlider();}">Ellipse</button>
-    <button data-dojo-type="dijit.form.Button" data-dojo-props="onClick:function(){createEdit();map.hideZoomSlider();}">Edit</button>
-    <button data-dojo-type="dijit.form.Button" data-dojo-props="onClick:function(){map.graphics.clear();}">Clear All</button>
-    <button data-dojo-type="dijit.form.Button" data-dojo-props="onClick:function(){openTextForm();toolbar.activate(esri.toolbars.Draw.POINT);map.hideZoomSlider();}">Add Text</button>
+<div id="DrawingTools" data-dojo-type="dojox.widget.TitleGroup">
+	<!-- <div data-dojo-type="dijit.TitlePane" open="false" id="Draw_Points" title="Draw Points"  style="background-color:yellow;"> -->
+
+	Draw Points: 
+	<span  style="padding-left:5px;">
+		<button data-dojo-type="dijit.form.Button" id="draw_point">Point</button>
+		<button data-dojo-type="dijit.form.Button" id="draw_multipoint" data-dojo-props="onClick:function(){toolbar.activate(esri.toolbars.Draw.MULTI_POINT);map.hideZoomSlider();}">Multi Points</button><br />
+	</span>
+	<!-- </div> -->
+	Draw Lines: 
+	<span  style="padding-left: 13px;">
+		<button data-dojo-type="dijit.form.Button" id="draw_line" data-dojo-props="onClick:function(){toolbar.activate(esri.toolbars.Draw.LINE);map.hideZoomSlider();}">Line</button>
+		<button data-dojo-type="dijit.form.Button" id="draw_polyline" data-dojo-props="onClick:function(){toolbar.activate(esri.toolbars.Draw.POLYLINE);map.hideZoomSlider();}">Polyline</button>
+		<button data-dojo-type="dijit.form.Button" id="draw_freehand_polyline" data-dojo-props="onClick:function(){toolbar.activate(esri.toolbars.Draw.FREEHAND_POLYLINE);map.hideZoomSlider();}">Freehand Polyline</button><br />
+	</span>
+	Draw Polygons: 
+	<span  style="padding-left:5px;">
+		<button data-dojo-type="dijit.form.Button" id="draw_polygon"  data-dojo-props="onClick:function(){toolbar.activate(esri.toolbars.Draw.POLYGON);map.hideZoomSlider();}">Polygon</button>
+		<button data-dojo-type="dijit.form.Button" id="draw_freehand_polygon" data-dojo-props="onClick:function(){toolbar.activate(esri.toolbars.Draw.FREEHAND_POLYGON);map.hideZoomSlider();}">Freehand Polygon</button><br />
+	</span>
+	<span  style="padding-left:108px;">
+		<!--The Arrow,Triangle,Circle and Ellipse types all draw with the polygon symbol-->
+		<button data-dojo-type="dijit.form.Button" id="draw_arrow" data-dojo-props="onClick:function(){toolbar.activate(esri.toolbars.Draw.ARROW);map.hideZoomSlider();}">Arrow</button>
+		<button data-dojo-type="dijit.form.Button" id="draw_triangle" data-dojo-props="onClick:function(){toolbar.activate(esri.toolbars.Draw.TRIANGLE);map.hideZoomSlider();}">Triangle</button>
+		<button data-dojo-type="dijit.form.Button" id="draw_circle" data-dojo-props="onClick:function(){toolbar.activate(esri.toolbars.Draw.CIRCLE);map.hideZoomSlider();}">Circle</button>
+		<button data-dojo-type="dijit.form.Button" id="draw_ellipse" data-dojo-props="onClick:function(){toolbar.activate(esri.toolbars.Draw.ELLIPSE);map.hideZoomSlider();}">Ellipse</button><br />
+	</span>
+	<!-- 
+	Edit (both in development):
+	<span  style="padding-left:10px;">
+	<button data-dojo-type="dijit.form.Button" id="edit" data-dojo-props="onClick:function(){createEdit();map.hideZoomSlider();}">Edit</button>
+		<button data-dojo-type="dijit.form.Button" id="add_text"data-dojo-props="onClick:function(){openTextForm();toolbar.activate(esri.toolbars.Draw.POINT);map.hideZoomSlider();}">Add Text</button><br /> 
+	</span> 
+	-->
+	<div style="margin-left:auto; margin-right:auto; width:120px; style="padding-bottom:10px;"><br />
+		<button data-dojo-type="dijit.form.Button" id="clear_all" style="font-weight:bold;">Clear All</button>
+	</div>	
 </div>

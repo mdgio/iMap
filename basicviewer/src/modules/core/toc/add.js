@@ -5,9 +5,9 @@
  * connector (dojo/aspect) does not obtain the proper callback parameters.
  */
 define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "dojo/store/Memory", "dijit/tree/ObjectStoreModel", "dijit/Tree", "dijit/layout/ContentPane"
-    , "../utilities/maphandler", "dojo/_base/lang", "dijit/TooltipDialog", "dijit/popup", "dojo/on", "dijit/form/Button", "dojox/widget/Standby"
+    , "../utilities/maphandler", "dojo/_base/lang", "dijit/TooltipDialog", "dijit/registry", "dijit/popup", "dojo/on", "dijit/form/Button", "dojox/widget/Standby"
     , "dojo/dom-construct", "dojo/_base/connect", "../utilities/environment"],
-    function (declare, WidgetBase, dom, json, Memory, ObjectStoreModel, Tree, ContentPane, mapHandler, lang, TooltipDialog, popup, on, Button
+    function (declare, WidgetBase, dom, json, Memory, ObjectStoreModel, Tree, ContentPane, mapHandler, lang, TooltipDialog, registry, popup, on, Button
         , Standby, domConstruct, connect, environment) {
         return declare([WidgetBase, ContentPane], {
             //*** The ESRI map object
@@ -40,6 +40,11 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "doj
                 this.inherited(arguments);
                 this._paneStandby = new Standby({target: this.id});
                 document.body.appendChild(this._paneStandby.domNode);
+                registry.byId('leftPane').watch("selectedChildWidget", lang.hitch(this, function () {
+                    if (dijit.byId("addDataTooltipDialog")) {
+                        popup.close(dijit.byId("addDataTooltipDialog"));
+                    }
+                }));
             }
             //The ContentPane has been created, but the actual contents are not created until the tab pane is clicked on, which calls this function
             , CreateContents: function () {
@@ -126,6 +131,10 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "doj
                         });
                         // create the tree
                         newTree.tree = new Tree({
+                            showRoot: false,
+                            getIconClass: function (/*dojo.store.Item*/item, /*Boolean*/opened) {
+                                return (!item || this.model.mayHaveChildren(item)) ? (opened ? "mapFolderOpen" : "dijitFolderClosed") : "mapLeaf"
+                            },
                             model: newTree.model,
                             onOpenClick: true,
                             onClick: lang.hitch(this, function (item, node, evt){ // When a node is clicked, open the tooltip
@@ -133,6 +142,7 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "doj
                                 this._selectedNode = null;
                                 if (this._toolTipDialog) //clear the old contents of the description
                                     this._toolTipDialog.descriptionPane.set('content', '<p></p>');
+                                    popup.close(this._toolTipDialog);
                                 if (item.type) { //make sure its a service node and not a folder node
                                     this._selectedItem = item;
                                     this._selectedNode = node;
@@ -241,10 +251,11 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "doj
                     } else if (item.type === "ImageServer")
                         layer = esri.layers.ArcGISImageServiceLayer(item.url);
                     else if (item.type === "Feature Layer") {
-                        //Create a popup template for the feature layer - not implemented
-                        /*var strContent;
-                        if (node.serviceInfo) {
-                            var contArray = ['<table>'];
+                       //Create a popup template for the feature layer - not implemented
+                        var strContent;
+    			//Creates a table of attributes for popup
+			if (node.serviceInfo){
+			    var contArray = ['<table>'];
                             for (var s = 0; s < node.serviceInfo.fields.length; s++) {
                                 var name = node.serviceInfo.fields[s].name;
                                 if (name === 'objectid' || name === 'shape')
@@ -254,11 +265,17 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "doj
                             }
                             contArray.push('</table>');
                             strContent = contArray.join('');
-                        } else
-                            strContent = "${*}";
-                        var infoTemplate = new esri.InfoTemplate("Details", strContent);
-                        layer = esri.layers.FeatureLayer(item.url, { infoTemplate: infoTemplate });*/
-                        layer = esri.layers.FeatureLayer(item.url);
+							
+			    //Checks to see if a field named popup exists.  If so uses it instead of table created above
+			    for (var s = 0; s < node.serviceInfo.fields.length; s++) {
+				var name = node.serviceInfo.fields[s].name;
+				if (name === 'popup')
+			 	    strContent = "${popup}";
+			    }
+			}
+		     var infoTemplate = new esri.InfoTemplate("Attributes", strContent);
+                     layer = esri.layers.FeatureLayer(item.url, { infoTemplate: infoTemplate,  outFields: ["*"] });
+                        
                     } else if (item.type === "KML")
                         layer = esri.layers.KMLLayer(item.url);
                     else if (item.type === "WMS")

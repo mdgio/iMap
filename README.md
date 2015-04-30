@@ -1,11 +1,18 @@
-iMap
+iMAP
 ====
 
-Maryland iMap Applications
+Maryland iMAP Applications
 
-See Wiki for instructions.
+View the template:  http://geodata.md.gov/imaptemplate/
 
-## Draft License
+Sample projects using the template:  http://imap.maryland.gov/Pages/template-examples.aspx
+
+
+
+
+See the Wiki here for instructions.  Also, view further information from MD iMap: http://imap.maryland.gov/Pages/template.aspx
+
+## License
 
 This project utilizes code licensed under the terms of the GNU General Public License and therefore is licensed under GPL v2 or later.
 

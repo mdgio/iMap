@@ -1,0 +1,62 @@
+MD iMap Template Changes
+
+10/29/2014
+* Added means to show progress when using print tool.  "Spinning gif" added to map container--hides when print task is complete or found in error.
+* Current issue with MD iMap 2.0 print service.  Changed print service from MD Geodata to one of the default ESRI ones.
+* Updated map and image services from MD iMap 2.0 in Add Data tab (AddLayers.js file).
+* Fixed bug in ArcGISservicestoJSON.py script in AGStoJSON that prevented proper URL rendering of AGS image services.
+* Moved Measure tool styling from other CSS files to measure.css file.
+* Corrected bugs and made improvements to measure tool "results box" styling in measure.css.
+* Added revision date in lower left gutter of template to show when template was updated.
+
+8/7/2014	
+* Further refinement for the Query Tool (querying.js)
+
+8/6/2014
+* Changes to config.js to include the new themes (earth1, earth2, black) in configuration panel when configuring a web app in ArcGIS Online.
+* Added text back in to querying.html for user instruction for field entry.
+
+8/4/2014
+* Update to ArcGIS JS API 3.10  (Check out how the measure tool operates now in 3.10!)
+* Popup improvements
+	** Fixed for titlebar in themes; maximize, minimize, remove buttons
+	** With JS API 3.10, better display with selected feature
+	** removed previous pointers in template in favor of default ones via JS API 3.10 
+* Update to the AddLayers.js for Add Data tab providing more layers (map services) for user.
+* Addition of new themes:
+	** "earth1" --darker browns, like chocolates
+	** "earth2" --lighter browns, like mustards
+	** "black" --simililar to "imap" but darker
+* Query tool improvements:
+	** Better phrasing to instruct user on how to enter a value for a selected field
+	** Enforcing any user input to convert to upper case and then compare to an upper case value so to ensure non case sensitive attribute queries. 
+* More or improved in-code commentary
+* CSS improvements
+    ** Better consistent deployment of CSS theme in HTML framework
+    ** Addition of "red" color for hover event over slider bar between map and left pane to alert user of ability to move the slider between the left and map panes.
+
+7/3/2014
+* CSS corrections to allow for color changes to Home Button and recently added tools when themes are changed.  (Themes:  imap, gray, blue, green, purple, orange)
+* Placement adjustments to Search and Zoom to County tools to allow better map viewing on smaller form factor screens.
+* Adjustment in Table of Contents (_TOCNode.js) to correct anomalies between map symbology and Table of Contents symbology.  ("tempArray[j].url == rends[i].url" now using label, "tempArray[j].label == rends[i].label")
+* Changed zoom extents for the ZoomToCounty tool.  Some counties were zooming within their boundaries. 
+* Changed a parameter in Query to "like" instead of "=" to give more leeway for a choice in select by attribute query.
+* Adjusted a configuration setting that corrects a tab choice when configuring the template via ArcGIS Online.  If you wanted to use and select the Query tab but not the Add Data tab, you would have gotten both anyway.
+* Updated some REST service links to use now maps on Geodata.md.gov (ie., services provided to: printtask, zoomtocounty, geometryserviceurl)
+* Changed link on "Powered by MDiMap" icon from http://mdimap.townson.edu/portal/ to http://imap.maryland.gov/Pages/default.aspx 
+* Added some extra commentary in code.
+* Added missing semicolons in several locations in application. 
+
+4/22/2014
+* Code for a needed array in _TOCNode.js that handles duplicate symbology that was added in a November 20, 2013 update was missing from latter updates.  It is re-introduced here.
+
+2/28/2014
+* Added "Zoom to County" ability via zoom-to-feature tool.
+* Added "Home Button" for user to return to map's initial extent.
+* Added Query ability for a provided ArcGIS Online (AGOL) webmap via URL or "hard coded" within app.js.
+* Added Query Tool and floating pane for Query Results.
+* Added ability to download query results into comma separated value (.CSV) file from the Floating Pane.
+* Ability to sort query results in Floating Pane.
+* Added more comments in code.
+* Added Measure Tools.
+* Added Drawing Tools.

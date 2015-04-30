@@ -9,8 +9,10 @@
     "values": {
         "displaybasemaps": true,
             "tablecontents": true,
+            "adddata": true,
             "displayshare": false,
-            "displaymeasure": false,
+            "displaymeasure": true,
+			"displaydraw": true,
             "displaylocation": true,
             "displayelevation": false,
             "showelevationdifference": false,
@@ -19,11 +21,13 @@
             "startupwidget": "displaydetails",
             "displayeditor": false,
             "displayoverviewmap": true,
+			"displayquery": true,
             "displaytimeslider": false,
             "displayprint": true,
             "displaysearch": true,
-            "displaydraw": false,
-            "embed": false
+			"zoomtocounty": true,
+            "embed": false,
+            "displaypointtransp": false
     },
     "configurationSettings": [{
         "category": "<b>Layout</b>",
@@ -49,6 +53,15 @@
             }, {
                 "value": "purple",
                 "label": "Purple"
+            }, {
+                "value": "earth1",
+                "label": "Earth1 (Darker Browns)"
+                }, {
+                "value": "earth2",
+                "label": "Earth2 (Lighter Browns)"
+                }, {
+                "value": "black",
+                "label": "Black"
             }],
             "tooltip": "Theme to use"
         }, {
@@ -127,6 +140,11 @@
             "fieldName": "embed",
             "type": "boolean",
             "tooltip": ""
+        },{
+            "label": "Show Transparency Slider for Point/Line layers",
+            "fieldName": "displaypointtransp",
+            "type": "boolean",
+            "tooltip": ""
         }]
     }, {
         "category": "<b>Widgets</b>",
@@ -139,7 +157,17 @@
             "label": "Table of Contents",
             "fieldName": "tablecontents",
             "type": "boolean",
-            "tooltip": "Legend and Add Data"
+            "tooltip": "Legend"
+		}, {
+            "label": "Query",
+            "fieldName": "displayquery",
+            "type": "boolean",
+            "tooltip": "Query"
+        },{
+            "label": "Add Data",
+            "fieldName": "adddata",
+            "type": "boolean",
+            "tooltip": "Add Data"
         }, {
             "label": "Startup Widget:",
             "fieldName": "startupwidget",
@@ -150,6 +178,9 @@
             }, {
                 "label": "Table of Contents",
                 "value": "tablecontents"
+            }, {
+                "label": "Add Data",
+                "value": "adddata"
             }, {
                 "label": "None",
                 "value": "none"
@@ -162,7 +193,7 @@
             "label": "Print",
             "fieldName": "displayprint",
             "type": "boolean",
-            "tooltip": ""
+            "tooltip": "Print map; choose orientation"
         }, {
             "label": "Basemaps",
             "fieldName": "displaybasemaps",
@@ -178,6 +209,16 @@
             "fieldName": "displaysearch",
             "type": "boolean",
             "tooltip": ""
+		}, {
+            "label": "Draw",
+            "fieldName": "displaydraw",
+            "type": "boolean",
+            "tooltip": "Drawing Tools"
+		}, {
+			"label": "Measure",
+			"fieldName": "displaymeasure",
+			"type": "boolean",
+			"tooltip": "Measuring Tools"
         }, {
             "label": "Include Overview Map",
             "fieldName": "displayoverviewmap",
@@ -187,7 +228,12 @@
             "label": "Add File",
             "fieldName": "displayinterop",
             "type": "boolean",
-            "tooltip": ""
-        }]
-    }]
+            "tooltip": "Add your own data"
+		}, {
+            "label": "Zoom to County",
+            "fieldName": "zoomtocounty",
+            "type": "boolean",
+            "tooltip": "Zoom to a county"
+		}]
+    }];
 }
