@@ -7,10 +7,10 @@
 define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "dijit/layout/ContentPane", "dojo/data/ItemFileWriteStore", "dojox/grid/DataGrid"
     , "dojox/grid/EnhancedGrid", "dojo/data/ItemFileWriteStore", "dojox/grid/enhanced/plugins/exporter/CSVWriter", "dojox/grid/enhanced/plugins/NestedSorting", "../utilities/maphandler", "dojo/_base/lang", "dijit/registry", "dojo/html", "dojo/dom", "dojo/on", "dijit/form/Button", "esri/request", "dojo/dnd/move"
     , "esri/toolbars/draw", "esri/graphic", "esri/symbols/SimpleMarkerSymbol", "esri/symbols/SimpleLineSymbol", "esri/symbols/SimpleFillSymbol", "dojox/layout/FloatingPane"
-    , "jquery", "dojox/widget/Standby", "dojo/dom-construct", "esri/tasks/query", "dojo/_base/connect", "../utilities/environment", "dojo/text!./templates/querying.html"],
+    , "jquery", "dojox/widget/Standby", "dojo/dom-construct", "esri/tasks/query", "dojo/_base/connect", "dojo/query", "../utilities/environment", "dojo/text!./templates/querying.html"],
     function (declare, WidgetBase, dom, json, ContentPane, ItemFileWriteStore, DataGrid, EnhancedGrid, ItemFileWriteStore, CSVWriter, NestedSorting, mapHandler, lang, registry, html, dom, on, Button, esriRequest, move
         , Draw, Graphic, SimpleMarkerSymbol, SimpleLineSymbol, SimpleFillSymbol, FloatingPane
-        , $, Standby, domConstruct, Query, connect, environment, template) {
+        , $, Standby, domConstruct, Query, connect, dojoquery, environment, template) {
         return declare([WidgetBase, ContentPane], {
             // The template HTML fragment (as a string, created in dojo/text definition above)
             templateString: template
@@ -351,6 +351,12 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "dij
                         var layout = [];
                         var identifierVar = results.objectIdFieldName;
                         /*set up layout*/
+                        //set first column to magnifying glass icon
+                        layout.push({ 'name': "Zoom To", 'field': "", 'formatter': lang.hitch(this, "_renderCell")});
+
+
+
+
                         for (var j = 0; j < results.fields.length; j++) {
                             if (results.fields[j].type == "esriFieldTypeOID") {
                                identifierVar = results.fields[j].name;
@@ -371,16 +377,20 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "dij
                         /*create a new grid*/
 						
                        //var grid = new DataGrid({
-					    var grid = new dojox.grid.EnhancedGrid({ 
+					    var grid = new EnhancedGrid({
 							id: 'grid',
                             store: store,
                             structure: layout,
+                            autoHeight: true,
+                            autoWidth: true,
 							rowSelector: '20px',  //width of the row selector at the beginning of a row
+                            escapeHTMLinData: true,
 							plugins: {
 								exporter: true,
 								nestedSorting: true								
 								}
                         });
+
 						
 						grid.setStore(store);
 			
@@ -483,19 +493,13 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "dij
 																	//download.click();  // This will download the data file named "iMap_Results.csv".
 							});					
 						});
-						
-						
-						
-						grid.set('autoHeight', true);
-						grid.set('autoWidth', false);
+
 						grid.update();
 						/*Call startup() to render the grid*/
 						grid.startup();
 						/*append the new grid to the div*/
 						grid.placeAt("subContainer");
-						
-                        
-						
+
 						dijit.byId('grid').resize();
                         dijit.byId('grid').update();
 						
@@ -507,6 +511,12 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "dij
 						
                         /*Call startup() to render the grid*/
                         grid.startup();
+
+                        //use dojo/query to set a click event for all elements in the class "zoomImg",  this enables using dojo/on for all elements at once.
+                        //this must be done AFTER the grid is rendered with results and the zoom icons exist in the DOM.
+                        dojoquery(".zoomImg").on("click", lang.hitch(this, function(e){
+                            this._zoomToFeature(e);
+                        }));
 						
 						//document.getElementById("subContainer").style.height = (dojo.byId('floatingPane').offsetHeight - 80).toString() + "px";  
                        
@@ -606,6 +616,18 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "dij
                         value: cboObj[attVal]
                     }).appendTo(cboBox);
                 }
+            }
+            , _renderCell: function(item){
+                var img = "<img src = 'assets/zoom.png' class='zoomImg' style='cursor: pointer'/>";
+                return img;
+            }
+
+            , _zoomToFeature: function(item){
+                //get graphic results layer
+
+                //query layer for OID
+
+                //zoom to graphic
             }
 
         });
