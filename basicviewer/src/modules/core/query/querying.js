@@ -390,14 +390,14 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "dij
                         this._identifierVar = results.objectIdFieldName;
                         /*set up layout*/
                         //set first column to magnifying glass icon
-                        layout.push({'name': "Zoom To", 'field': "", 'formatter': lang.hitch(this, "_renderCell")});
+                        layout.push({'name': "Zoom To", 'field': "", 'formatter': lang.hitch(this, "_renderCell"), 'sort': false});
 
 
                         for (var j = 0; j < results.fields.length; j++) {
                             if (results.fields[j].type == "esriFieldTypeOID") {
                                 this._identifierVar = results.fields[j].name;
                             } else if (results.fields[j].name.indexOf("shape") == -1) {
-                                layout.push({'name': results.fields[j].alias, 'field': results.fields[j].name});
+                                layout.push({'name': results.fields[j].alias, 'field': results.fields[j].name, 'width': results.fields[j].alias.length*8 + "px"});
                             }
 
                         }
@@ -421,6 +421,9 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "dij
                             autoWidth: true,
                             rowSelector: '20px',  //width of the row selector at the beginning of a row
                             escapeHTMLinData: true,
+                            canSort: function(colIndex){
+                                return colIndex != 0;
+                            },
                             plugins: {
                                 exporter: true,
                                 nestedSorting: true,
@@ -432,35 +435,9 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "dij
                             }
                         });
 
-
                         this._resultsGrid.setStore(store);
-
-                        // sort on the city name; city is column; columns begin with 0
-                        //grid.setSortIndex(4,"true");
-                        //modify the grid so only the city field is sortable
-                        //grid.canSort = function(col){ if(Math.abs(col) == 5) { return true; } else { return false; } };
-                        //console.log(grid);
-
-                        /* 					  	for Zoom ID button https://developers.arcgis.com/en/javascript/jssamples/fl_zoomgrid.html
-                         function makeZoomButton(id){
-                         var zBtn = "<div data-dojo-type='dijit.form.Button'><img src='../../../../assets/zoom.png'";
-                         zBtn = zBtn + " width='18' height='18'";
-                         zBtn = zBtn + " onClick=\"zoomRow('"+id+"')\"></div>";
-                         return zBtn;
-                         }
-
-                         function zoomRow(id){
-                         resultsLayer.clearSelection();
-                         var query = new esri.tasks.Query();
-                         query.objectIds = [id];
-                         results.selectFeatures(query,esri.layers.FeatureLayer.SELECTION_NEW,function(features){
-                         //zoom to the selected feature
-                         var resultsExtent = features[0].geometry.getExtent().expand(5.0);
-                         map.setExtent(resultsExtent);
-                         });
-                         }
-                         */
-
+                        this._resultsGrid.startup();
+                        this._resultsGrid.update();
 
                         //for exporting all rows of query results
                         function exportAll() {
@@ -545,25 +522,14 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "dij
                             });
                         });
 
-                        this._resultsGrid.update();
-                        /*Call startup() to render the grid*/
-                        this._resultsGrid.startup();
                         /*append the new grid to the div*/
                         this._resultsGrid.placeAt("subContainer");
-
-                        dijit.byId('grid').resize();
-                        dijit.byId('grid').update();
-
-                        /* dojo.forEach(grid.layout.cells, function(cell,idx){
-                         grid.setCellWidth(idx, "70px");
-                         cell.view.update();
-                         });  */
+                        this._resultsGrid.resize();
+                        this._resultsGrid.update();
 
 
-                        /*Call startup() to render the grid*/
-                        this._resultsGrid.startup();
 
-                        //use dojo/query to set a click event for all elements in the class "zoomImg",  this enables using dojo/on for all elements at once.
+                        //Use dojo/query to set a click event for all elements in the class "zoomImg",  this enables using dojo/on for all elements at once.
                         //this must be done AFTER the grid is rendered with results and the zoom icons exist in the DOM.
                         dojoquery(".zoomImg").on("click", lang.hitch(this, function (e) {
                             this._zoomToFeature(e);
