@@ -8,11 +8,11 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "dij
     , "dojox/grid/EnhancedGrid", "dojo/data/ItemFileWriteStore", "dojox/grid/enhanced/plugins/exporter/CSVWriter", "dojox/grid/enhanced/plugins/NestedSorting", "dojox/grid/enhanced/plugins/Selector", "../utilities/maphandler", "dojo/_base/lang", "dijit/registry", "dojo/html", "dojo/dom", "dojo/on", "dijit/form/Button", "esri/request", "dojo/dnd/move"
     , "esri/toolbars/draw", "esri/graphic", "esri/geometry/Multipoint", "esri/geometry/Polygon", "esri/geometry/Polyline", "esri/SpatialReference"
     , "esri/symbols/SimpleMarkerSymbol", "esri/symbols/SimpleLineSymbol", "esri/symbols/SimpleFillSymbol", "dojox/layout/FloatingPane"
-    , "jquery", "dojox/widget/Standby", "dojo/dom-construct", "esri/tasks/query", "dojo/_base/connect", "dojo/query", "dojo/_base/array", "../utilities/environment", "dojo/text!./templates/querying.html"],
+    , "jquery", "dojox/widget/Standby", "dojo/dom-construct", "esri/tasks/query", "dojo/_base/connect", "dojo/query", "dojo/_base/array", "dojo/aspect", "../utilities/environment", "dojo/text!./templates/querying.html"],
     function (declare, WidgetBase, dom, json, ContentPane, ItemFileWriteStore, DataGrid, EnhancedGrid, ItemFileWriteStore, CSVWriter, NestedSorting, Selector, mapHandler, lang, registry, html, dom, on, Button, esriRequest, move
         , Draw, Graphic,  Multipoint, Polygon, Polyline, SpatialReference
         , SimpleMarkerSymbol, SimpleLineSymbol, SimpleFillSymbol, FloatingPane
-        , $, Standby, domConstruct, Query, connect, dojoquery, arrayUtil, environment, template) {
+        , $, Standby, domConstruct, Query, connect, dojoquery, arrayUtil, aspect, environment, template) {
         return declare([WidgetBase, ContentPane], {
             // The template HTML fragment (as a string, created in dojo/text definition above)
             templateString: template
@@ -420,7 +420,6 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "dij
                             autoHeight: true,
                             autoWidth: true,
                             rowSelector: '20px',  //width of the row selector at the beginning of a row
-                            escapeHTMLinData: true,
                             canSort: function(colIndex){
                                 return colIndex != 0;
                             },
@@ -434,10 +433,6 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "dij
                                 }
                             }
                         });
-
-                        this._resultsGrid.setStore(store);
-                        this._resultsGrid.startup();
-                        this._resultsGrid.update();
 
                         //for exporting all rows of query results
                         function exportAll() {
@@ -522,20 +517,6 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "dij
                             });
                         });
 
-                        /*append the new grid to the div*/
-                        this._resultsGrid.placeAt("subContainer");
-                        this._resultsGrid.resize();
-                        this._resultsGrid.update();
-
-
-
-                        //Use dojo/query to set a click event for all elements in the class "zoomImg",  this enables using dojo/on for all elements at once.
-                        //this must be done AFTER the grid is rendered with results and the zoom icons exist in the DOM.
-                        dojoquery(".zoomImg").on("click", lang.hitch(this, function (e) {
-                            this._zoomToFeature(e);
-                        }));
-
-                        //document.getElementById("subContainer").style.height = (dojo.byId('floatingPane').offsetHeight - 80).toString() + "px";
 
                         var ConstrainedFloatingPane = dojo.declare(dojox.layout.FloatingPane, {
                             postCreate: function () {
@@ -572,11 +553,25 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "dij
                             style: "position:absolute;top:25%;left:-25%;width:600px;height:300px;visibility:hidden;z-index:100",
                             id: "floatingPane"
                         }, dom.byId("floatingPane"));
+
+                        this._resultsGrid.placeAt("subContainer");
+                        this._resultsGrid.resize();
+                        this._resultsGrid.update();
+                        this._resultsGrid.startup();
+
                         fpI.startup();
-
-                        //domConstruct.place(dojo.byId('dgridDiv'), "newResultsGrid", "first");
-
                         fpI.show();
+
+                        //Grid does not draw correctly on first show of floating pane, call resize after pane is open to make sure grid fits its container correctly.
+                        //Must add click event to icon AFTER the resize event, or the handle to the click event is lost.
+                        var ti = setTimeout(lang.hitch(this, function(){
+                            this._resultsGrid.resize();
+                            //Use dojo/query to set a click event for all elements in the class "zoomImg",  this enables using dojo/on for all elements at once.
+                            //this must be done AFTER the grid is rendered with results and the zoom icons exist in the DOM.
+                            dojoquery(".zoomImg").on("click", lang.hitch(this, function(e) {
+                                this._zoomToFeature(e);
+                            }));
+                        }), 100);
 
                     }	// end if (symbol != null)
 
