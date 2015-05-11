@@ -390,7 +390,7 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "dij
                         this._identifierVar = results.objectIdFieldName;
                         /*set up layout*/
                         //set first column to magnifying glass icon
-                        layout.push({'name': "Zoom To", 'field': "", 'formatter': lang.hitch(this, "_renderCell"), 'sort': false});
+                        layout.push({'name': "", 'field': "", 'formatter': lang.hitch(this, "_renderCell"), 'width': '22px'});
 
 
                         for (var j = 0; j < results.fields.length; j++) {
@@ -419,9 +419,10 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "dij
                             structure: layout,
                             autoHeight: true,
                             autoWidth: true,
-                            rowSelector: '20px',  //width of the row selector at the beginning of a row
+                            selectionMode: 'single',
+                            rowSelector: '1px',  //width of the row selector at the beginning of a row
                             canSort: function(colIndex){
-                                return colIndex != 0;
+                                return colIndex != 0; //don't allow the first column (zoom to) to be sortable
                             },
                             plugins: {
                                 exporter: true,
@@ -433,6 +434,14 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "dij
                                 }
                             }
                         });
+
+                        //set a click event listener on the grid to catch elements within it with the css class "zoomImg"
+                        //the magnifying glass images added to the cell during row formatting are given the class "zoomImg"
+                        //setting this on the grid, and not individual image nodes prevents resizing the grid from removing
+                        //the click event.
+                        on(this._resultsGrid, on.selector(".zoomImg", "click"), lang.hitch(this, function(e){
+                            this._zoomToFeature(e);
+                        }));
 
                         //for exporting all rows of query results
                         function exportAll() {
@@ -563,14 +572,10 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "dij
                         fpI.show();
 
                         //Grid does not draw correctly on first show of floating pane, call resize after pane is open to make sure grid fits its container correctly.
+                        //(This probably is doubled edged by product of using the EnhancedGrid inside a Floating Pane.)
                         //Must add click event to icon AFTER the resize event, or the handle to the click event is lost.
                         var ti = setTimeout(lang.hitch(this, function(){
                             this._resultsGrid.resize();
-                            //Use dojo/query to set a click event for all elements in the class "zoomImg",  this enables using dojo/on for all elements at once.
-                            //this must be done AFTER the grid is rendered with results and the zoom icons exist in the DOM.
-                            dojoquery(".zoomImg").on("click", lang.hitch(this, function(e) {
-                                this._zoomToFeature(e);
-                            }));
                         }), 100);
 
                     }	// end if (symbol != null)
