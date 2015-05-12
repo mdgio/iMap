@@ -27,7 +27,8 @@ body {
 }
 
 .dojoxFloatingPaneTitle{
-  background:url(../../assets/imap/toolbar_bg.png) repeat-x;
+    background:url(../../assets/imap/toolbar_bg.png) repeat-x;
+    padding-left: 5px;
 }
 
 /* Background color for regular buttons*/

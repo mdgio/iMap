@@ -81,17 +81,15 @@
 	/* overflow: auto;
 	 background-color: red;   
 	 color: grey;  */
-	margin: 5px 5px 50px 5px;
+	/*margin: 5px 5px 50px 5px;*/
 }
 
-#infoContainer
-{	
-	/* for testing */
-	/* background-color: yellow;  
-	 color: black; 
-	 width: 100%;
-	 overflow: auto; 
-	  height:500px;  */	
+#exportInfoContainer {
+    padding: 5px 5px 5px 5px;
+}
+
+#rowCountContainer {
+    padding: 5px 5px 5px 5px;
 }
 
 #grid
@@ -101,7 +99,7 @@
 	height:500px; 	
 	width: 100%;
 	font-size:90%;*/
-	overflow: auto; 
+	overflow: auto;
 	/* width: 900px;	
 	height:300px; */
 	

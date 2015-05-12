@@ -15,7 +15,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     //The ID for a web map from ArcGIS Online (AGO)
                     //If not going to specify a Web Map in AGO, then use empty quotes ("") here
                  
-					webmap: "d1201eea7afb4ed49f08a310e9803f2f",      //"blank" default map; an OpenStreetMap basemap
+					webmap: "1d6cee2d8c7145b79f45d96fd454e07b",      //"blank" default map; an OpenStreetMap basemap
 					//Some sample web maps to try for testing:
                     //webmap: "252fb36ac7404043a0f3d2022958b5d0",    //veterans services
                     //webmap: "c545bf8fde0a46c2aa52a10e9118750a",  //growthprint
