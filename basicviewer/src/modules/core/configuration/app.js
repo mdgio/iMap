@@ -153,8 +153,6 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     displayscalebar: true,
                     //Drawing toolbar
                     displayinterop: !(environment.TouchEnabled),
-					
-					
 
                     //*** General Settings ***
                     //i18n.viewer.main.scaleBarUnits,
