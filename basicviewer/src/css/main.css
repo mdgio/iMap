@@ -822,3 +822,22 @@ div#editDiv.templatePicker .grid  .selectedItem {
 .claro .dijitSplitterV .dijitSplitterThumb {
     left: 4px;
 }
+
+/*For IE 10+, older versions of IE conditionally loads src/css/ie.css defined in index.html. Support for conditional css was deprecated at IE10*/
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    #gotoPlaces{
+        overflow: auto;
+        zoom: 1;
+        float: right;
+    }
+    #widget_selectZoom{
+        float: none;
+    }
+    #search{
+        float: none;
+    }
+    #tools{
+        display: block;
+        float: none;
+    }
+}

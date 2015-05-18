@@ -162,10 +162,13 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     //Modify this to point to your sharing service URL if you are using the portal
                     sharingurl: "http://www.arcgis.com/sharing/content/items",
                     //specify a group in ArcGIS.com that contains the basemaps to display in the basemap gallery
+                    //This parameter will populate the basemap gallery with the basemaps listed in this group ONLY.
+                    //Leave blank for AGO users to see all basemaps that are available to their username.
+                    //If left blank for a public application with no AGO sign-on, or a protected application with an ArcGIS Server account (not AGO), the standard ESRI gallery will be loaded.
                     //example: title:'ArcGIS Online Basemaps' , owner:esri
                     basemapgroup: {
-                        title: '',
-                        owner: ''
+                        title: 'MD iMAP Template Basemaps',
+                        owner: 'doit_gio'
                     },
                     //Enter the URL to a Geometry Service
                     //geometryserviceurl: "http://utility.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer",
@@ -326,10 +329,10 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                             if (response.values.displaypointtransp) {
                                 configOptions.displaypointtransp = response.values.displaypointtransp;
                             }
-                            /*if (response.values.basemapgrouptitle && response.values.basemapgroupowner) {
+                            if (response.values.basemapgrouptitle && response.values.basemapgroupowner) {
                                 configOptions.basemapgroup.title = response.values.basemapgrouptitle;
                                 configOptions.basemapgroup.owner = response.values.basemapgroupowner;
-                            }*/
+                            }
                             if (response.values.displayinterop != undefined)
                                 configOptions.displayinterop = response.values.displayinterop;
 
