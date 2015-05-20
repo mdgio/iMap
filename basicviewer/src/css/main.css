@@ -335,7 +335,7 @@ body {
     margin: 4px 0 4px 4px;
 }
 .esriLocationIcon{
-    background-image: url(../../assets/toolbar/Location.PNG);
+    background-image: url(../../assets/toolbar/location.PNG);
     background-repeat: no-repeat;
     display: inline-block;
     height: 48px;
@@ -515,7 +515,7 @@ td.dijitMenuItemIconCell,td.dijitMenuItemLabel{
     color: #fcfad3;
 }
 #nav ul{
-    padding:bottom:5px;
+    padding-bottom:5px;
 }
 #nav li {
     display:inline;
@@ -663,7 +663,7 @@ div#map_zoom_slider.esriSimpleSlider.esriSimpleSliderVertical.esriSimpleSliderTL
 }
 
 #search {
-    inline: block;
+    display: inline-block;
     float: right;
     position: relative;
     z-index: 70;
@@ -685,7 +685,7 @@ div#map_zoom_slider.esriSimpleSlider.esriSimpleSliderVertical.esriSimpleSliderTL
     padding-top:0px;
     padding-bottom: 2px;
     
-    margin-right: 10px;
+    margin-right: 8px;
     margin-left: 15px;
     margin-top: 2px;
     margin-bottom: 2px;
@@ -821,4 +821,23 @@ div#editDiv.templatePicker .grid  .selectedItem {
 }
 .claro .dijitSplitterV .dijitSplitterThumb {
     left: 4px;
+}
+
+/*For IE 10+, older versions of IE conditionally loads src/css/ie.css defined in index.html. Support for conditional css was deprecated at IE10*/
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    #gotoPlaces{
+        overflow: auto;
+        zoom: 1;
+        float: right;
+    }
+    #widget_selectZoom{
+        float: none;
+    }
+    #search{
+        float: none;
+    }
+    #tools{
+        display: block;
+        float: none;
+    }
 }
