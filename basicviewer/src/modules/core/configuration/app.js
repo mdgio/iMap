@@ -58,6 +58,9 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                         image: 'assets/mdimaplogo.png',
                         link: 'http://imap.maryland.gov/Pages/default.aspx'
                     },
+                    //option to completely hide left pane, including splitter and toggle button.  Left Pane will become obsolete at runtime and not be available for any interaction.
+                    //set to true will override any display of left pane widgets, the startupwidget config property (line 91) and the leftpanewidth property (line 65).
+                    disableLeftPane: true,
                     //specify the width of the panel that holds the editor, legend, details
                     leftpanewidth: '350',
                     //specify the width of the panel that holds the TOC
@@ -211,6 +214,9 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                             }
                             if (response.values.titleLogoLink) {
                                 configOptions.titleLogoLink = response.values.titleLogoLink;
+                            }
+                            if (response.values.disableLeftPane !== undefined){
+                                configOptions.disableLeftPane = response.values.disableLeftPane;
                             }
                             if (response.values.leftpanewidth !== undefined) {
                                 configOptions.leftpanewidth = response.values.leftpanewidth;

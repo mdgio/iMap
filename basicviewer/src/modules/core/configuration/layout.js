@@ -39,14 +39,22 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     }
 
                     // Determine if a left panel widget is set to show on startup, if so lay out the panel, but do not create widget yet
-                    if (this._AppConfig.startupwidget && this._AppConfig.startupwidget !== 'none') {
-                        // true means the panel will be shown on startup
-                        this._LayoutLeftPanel(true);
-                        changesMade = true;
-                    } else // false means the panel will be hidden, but available on startup
-                        this._LayoutLeftPanel(false);
-                    if (changesMade)
+                    if (!this._AppConfig.disableLeftPane) {
+                        if (this._AppConfig.startupwidget && this._AppConfig.startupwidget !== 'none') {
+                            // true means the panel will be shown on startup
+                            this._LayoutLeftPanel(true);
+                            changesMade = true;
+                        } else { // false means the panel will be hidden, but available on startup
+                            this._LayoutLeftPanel(false);
+                        }
+                    }   else {
+                        //must remove entire left pane widget from parent border container to omit the splitter.
+                        this._removeSplitter('leftPane');
+                    }
+
+                    if (changesMade) {
                         this._MainBordCont.resize();
+                    }
                 }
 
                 , FinalizeLayout: function(webMap, map) {
@@ -59,17 +67,6 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     //Overlay toolbar on map
                     var placeholder = dom.byId('toolbarDij');
                     dom.byId('map_root').appendChild(placeholder, { style: {height: '48px'}});
-
-                    //set left pane toggle button
-                    var lPaneToggleBtn = new Button({
-                        label: "Show/Hide",
-                        class: "PaneToggle",
-                        iconClass: "PaneToggleImage",
-                        showLabel: false
-                        , onClick: lang.hitch(this, function(){
-                            this._ShowHidePane('l');
-                        })
-                    }, 'btnLpaneToggle');
 
                     if (!this._AppConfig.embed) {
                         //add a title and logo, if applicable
@@ -107,6 +104,24 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                         }
                     }
 
+                    if (!this._AppConfig.disableLeftPane) {
+
+                        //set left pane toggle button
+                        var lPaneToggleBtn = new Button({
+                            label: "Show/Hide",
+                            class: "PaneToggle",
+                            iconClass: "PaneToggleImage",
+                            showLabel: false
+                            , onClick: lang.hitch(this, function () {
+                                this._ShowHidePane('l');
+                            })
+                        }, 'btnLpaneToggle');
+
+                        //Set the left pane tabs
+                        var tabManager = new TabManager({AppConfig: this._AppConfig, WebMap: this._WebMap});
+                        tabManager.CreateLeftPaneTabs();
+                    }
+
                     //add webmap's description to details panel
                     if (this._WebMap.item.description) {
                         this._AppConfig.description = this._WebMap.item.description;
@@ -137,7 +152,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     if (this._AppConfig.displaysearch === 'true' || this._AppConfig.displaysearch === true) {
                         //Create the search location tool
                         require(["../geolocator"],
-                            lang.hitch(this, function(geolocator) {
+                            lang.hitch(this, function (geolocator) {
                                 var geoloc = new geolocator({ //Set the required properties of the module
                                     geocoderUrl: this._AppConfig.placefinder.url
                                     , map: this._Map
@@ -146,11 +161,11 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                             })
                         );
                     }
-					
-					if (this._AppConfig.displayoverviewmap === 'true' || this._AppConfig.displayoverviewmap === true) {
+
+                    if (this._AppConfig.displayoverviewmap === 'true' || this._AppConfig.displayoverviewmap === true) {
                         //Create the overview map
                         require(["../ovmap"],
-                            lang.hitch(this, function(overviewmap) {
+                            lang.hitch(this, function (overviewmap) {
                                 var ovmap = new overviewmap({
                                     map: this._Map
                                 });
@@ -158,9 +173,6 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                         );
                     }
 
-                    //Set the left pane tabs
-                    var tabManager = new TabManager({ AppConfig: this._AppConfig, WebMap: this._WebMap });
-                    tabManager.CreateLeftPaneTabs();
                     //Set the toolbar
                     var toolManager = new ToolManager({ AppConfig: this._AppConfig, WebMap: this._WebMap });
                     toolManager.CreateTools();
@@ -174,6 +186,13 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     if (show){
                         esri.show(dom.byId('leftPane'));
                     }
+                }
+
+                , _removeSplitter: function(paneID){
+                    var pane = registry.byId(paneID);
+                    this._MainBordCont.removeChild(pane);
+
+
                 }
 
                 , _ShowHidePane: function (side) {
