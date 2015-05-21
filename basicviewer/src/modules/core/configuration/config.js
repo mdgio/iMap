@@ -130,6 +130,12 @@
             "type": "string",
             "tooltip": "URL to go to"
         },{
+            "placeHolder": "Disable Left Pane",
+            "label": "Disable Left Pane",
+            "fieldName": "disableLeftPane",
+            "type": "boolean",
+            "tooltip": "Disables left pane, overrides Left Panel Width, and any widget settings targeting the left pane."
+        },{
             "placeHolder": "Left panel width",
             "label": "Left panel width (px):",
             "fieldName": "leftpanewidth",
