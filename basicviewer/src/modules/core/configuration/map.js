@@ -232,6 +232,18 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/on", "dojo/Evented", "../
                         );  
                     }
 
+                    if (this._AppConfig.displaylocation === "true" || this._AppConfig.displaylocation === true) {
+                        //add Home Button
+                        require(["esri/dijit/LocateButton"],
+                            lang.hitch(this, function (LocateButton) {
+                                var locateB = new LocateButton({
+                                    map: this._Map
+                                }, "LocateButton");
+                                locateB.startup();
+                            })
+                        );
+                    }
+
 					this._RaiseMapLoaded();
 	            }
 

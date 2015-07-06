@@ -13,7 +13,7 @@ KML can be added, however it has not been fully implemented in the Legend tree.
 			"children" : [{
 					"name" : "MD_AgriculturalDesignations",
 					"id" : "MD_AgriculturalDesignations",
-					"url" : "http://geodata.md.gov/imap/rest/services/Agriculture/MD_AgriculturalDesignations/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Agriculture/MD_AgriculturalDesignations/MapServer",
 					"type" : "MapServer"
 				}
 			]
@@ -24,47 +24,47 @@ KML can be added, however it has not been fully implemented in the Legend tree.
 			"children" : [{
 					"name" : "MD_Biomass (Image Service)",
 					"id" : "MD_Biomass",
-					"url" : "http://geodata.md.gov/imap/rest/services/Biota/MD_Biomass/ImageServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Biota/MD_Biomass/ImageServer",
 					"type" : "ImageServer"
 				}, {
 					"name" : "MD_Biomass",
 					"id" : "MD_Biomass",
-					"url" : "http://geodata.md.gov/imap/rest/services/Biota/MD_Biomass/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Biota/MD_Biomass/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_CanopyCover (Image Service)",
 					"id" : "MD_CanopyCover",
-					"url" : "http://geodata.md.gov/imap/rest/services/Biota/MD_CanopyCover/ImageServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Biota/MD_CanopyCover/ImageServer",
 					"type" : "ImageServer"
 				}, {
 					"name" : "MD_CanopyCover",
 					"id" : "MD_CanopyCover",
-					"url" : "http://geodata.md.gov/imap/rest/services/Biota/MD_CanopyCover/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Biota/MD_CanopyCover/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_Finfish",
 					"id" : "MD_Finfish",
-					"url" : "http://geodata.md.gov/imap/rest/services/Biota/MD_Finfish/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Biota/MD_Finfish/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_GreenInfrastructure",
 					"id" : "MD_GreenInfrastructure",
-					"url" : "http://geodata.md.gov/imap/rest/services/Biota/MD_GreenInfrastructure/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Biota/MD_GreenInfrastructure/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_LivingResources",
 					"id" : "MD_LivingResources",
-					"url" : "http://geodata.md.gov/imap/rest/services/Biota/MD_LivingResources/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Biota/MD_LivingResources/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_Shellfish",
 					"id" : "MD_Shellfish",
-					"url" : "http://geodata.md.gov/imap/rest/services/Biota/MD_Shellfish/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Biota/MD_Shellfish/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_SubmergedAquaticVegetation",
 					"id" : "MD_SubmergedAquaticVegetation",
-					"url" : "http://geodata.md.gov/imap/rest/services/Biota/MD_SubmergedAquaticVegetation/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Biota/MD_SubmergedAquaticVegetation/MapServer",
 					"type" : "MapServer"
 				}
 			]
@@ -75,27 +75,27 @@ KML can be added, however it has not been fully implemented in the Legend tree.
 			"children" : [{
 					"name" : "MD_ElectionBoundaries",
 					"id" : "MD_ElectionBoundaries",
-					"url" : "http://geodata.md.gov/imap/rest/services/Boundaries/MD_ElectionBoundaries/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Boundaries/MD_ElectionBoundaries/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_MarineBoundaries",
 					"id" : "MD_MarineBoundaries",
-					"url" : "http://geodata.md.gov/imap/rest/services/Boundaries/MD_MarineBoundaries/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Boundaries/MD_MarineBoundaries/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_PhysicalBoundaries",
 					"id" : "MD_PhysicalBoundaries",
-					"url" : "http://geodata.md.gov/imap/rest/services/Boundaries/MD_PhysicalBoundaries/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Boundaries/MD_PhysicalBoundaries/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_PoliticalBoundaries",
 					"id" : "MD_PoliticalBoundaries",
-					"url" : "http://geodata.md.gov/imap/rest/services/Boundaries/MD_PoliticalBoundaries/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Boundaries/MD_PoliticalBoundaries/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_StateMask",
 					"id" : "MD_StateMask",
-					"url" : "http://geodata.md.gov/imap/rest/services/Boundaries/MD_StateMask/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Boundaries/MD_StateMask/MapServer",
 					"type" : "MapServer"
 				}
 			]
@@ -106,12 +106,12 @@ KML can be added, however it has not been fully implemented in the Legend tree.
 			"children" : [{
 					"name" : "MD_EARNPartners2014",
 					"id" : "MD_EARNPartners2014",
-					"url" : "http://geodata.md.gov/imap/rest/services/BusinessEconomy/MD_EARNPartners2014/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/BusinessEconomy/MD_EARNPartners2014/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_IncentiveZones",
 					"id" : "MD_IncentiveZones",
-					"url" : "http://geodata.md.gov/imap/rest/services/BusinessEconomy/MD_IncentiveZones/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/BusinessEconomy/MD_IncentiveZones/MapServer",
 					"type" : "MapServer"
 				}
 			]
@@ -122,22 +122,22 @@ KML can be added, however it has not been fully implemented in the Legend tree.
 			"children" : [{
 					"name" : "MD_AmericanCommunitySurvey",
 					"id" : "MD_AmericanCommunitySurvey",
-					"url" : "http://geodata.md.gov/imap/rest/services/Demographics/MD_AmericanCommunitySurvey/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Demographics/MD_AmericanCommunitySurvey/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_CensusBoundaries",
 					"id" : "MD_CensusBoundaries",
-					"url" : "http://geodata.md.gov/imap/rest/services/Demographics/MD_CensusBoundaries/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Demographics/MD_CensusBoundaries/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_CensusData",
 					"id" : "MD_CensusData",
-					"url" : "http://geodata.md.gov/imap/rest/services/Demographics/MD_CensusData/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Demographics/MD_CensusData/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_CensusDesignatedAreas",
 					"id" : "MD_CensusDesignatedAreas",
-					"url" : "http://geodata.md.gov/imap/rest/services/Demographics/MD_CensusDesignatedAreas/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Demographics/MD_CensusDesignatedAreas/MapServer",
 					"type" : "MapServer"
 				}
 			]
@@ -148,7 +148,7 @@ KML can be added, however it has not been fully implemented in the Legend tree.
 			"children" : [{
 					"name" : "MD_Bathymetry",
 					"id" : "MD_Bathymetry",
-					"url" : "http://geodata.md.gov/imap/rest/services/Elevation/MD_Bathymetry/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Elevation/MD_Bathymetry/MapServer",
 					"type" : "MapServer"
 				}
 			]
@@ -159,42 +159,42 @@ KML can be added, however it has not been fully implemented in the Legend tree.
 			"children" : [{
 					"name" : "MD_ChesapeakeBayDeadZones",
 					"id" : "MD_ChesapeakeBayDeadZones",
-					"url" : "http://geodata.md.gov/imap/rest/services/Environment/MD_ChesapeakeBayDeadZones/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Environment/MD_ChesapeakeBayDeadZones/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_CriticalAreas",
 					"id" : "MD_CriticalAreas",
-					"url" : "http://geodata.md.gov/imap/rest/services/Environment/MD_CriticalAreas/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Environment/MD_CriticalAreas/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_FocalAreas",
 					"id" : "MD_FocalAreas",
-					"url" : "http://geodata.md.gov/imap/rest/services/Environment/MD_FocalAreas/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Environment/MD_FocalAreas/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_ForestedBuffers",
 					"id" : "MD_ForestedBuffers",
-					"url" : "http://geodata.md.gov/imap/rest/services/Environment/MD_ForestedBuffers/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Environment/MD_ForestedBuffers/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_PointSourceDischarges",
 					"id" : "MD_PointSourceDischarges",
-					"url" : "http://geodata.md.gov/imap/rest/services/Environment/MD_PointSourceDischarges/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Environment/MD_PointSourceDischarges/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_ProtectedLands",
 					"id" : "MD_ProtectedLands",
-					"url" : "http://geodata.md.gov/imap/rest/services/Environment/MD_ProtectedLands/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Environment/MD_ProtectedLands/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_ResearchReserves",
 					"id" : "MD_ResearchReserves",
-					"url" : "http://geodata.md.gov/imap/rest/services/Environment/MD_ResearchReserves/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Environment/MD_ResearchReserves/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_SaltMarsh",
 					"id" : "MD_SaltMarsh",
-					"url" : "http://geodata.md.gov/imap/rest/services/Environment/MD_SaltMarsh/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Environment/MD_SaltMarsh/MapServer",
 					"type" : "MapServer"
 				}
 			]
@@ -205,27 +205,27 @@ KML can be added, however it has not been fully implemented in the Legend tree.
 			"children" : [{
 					"name" : "MD_BaySoils",
 					"id" : "MD_BaySoils",
-					"url" : "http://geodata.md.gov/imap/rest/services/Geoscientific/MD_BaySoils/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Geoscientific/MD_BaySoils/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_Geology",
 					"id" : "MD_Geology",
-					"url" : "http://geodata.md.gov/imap/rest/services/Geoscientific/MD_Geology/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Geoscientific/MD_Geology/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_LittloralDriftMaps",
 					"id" : "MD_LittloralDriftMaps",
-					"url" : "http://geodata.md.gov/imap/rest/services/Geoscientific/MD_LittloralDriftMaps/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Geoscientific/MD_LittloralDriftMaps/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_OceanEcology",
 					"id" : "MD_OceanEcology",
-					"url" : "http://geodata.md.gov/imap/rest/services/Geoscientific/MD_OceanEcology/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Geoscientific/MD_OceanEcology/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_OceanShoal",
 					"id" : "MD_OceanShoal",
-					"url" : "http://geodata.md.gov/imap/rest/services/Geoscientific/MD_OceanShoal/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Geoscientific/MD_OceanShoal/MapServer",
 					"type" : "MapServer"
 				}
 			]
@@ -236,17 +236,17 @@ KML can be added, however it has not been fully implemented in the Legend tree.
 			"children" : [{
 					"name" : "MD_Hospitals",
 					"id" : "MD_Hospitals",
-					"url" : "http://geodata.md.gov/imap/rest/services/Health/MD_Hospitals/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Health/MD_Hospitals/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_LongTermCareAssistedLiving",
 					"id" : "MD_LongTermCareAssistedLiving",
-					"url" : "http://geodata.md.gov/imap/rest/services/Health/MD_LongTermCareAssistedLiving/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Health/MD_LongTermCareAssistedLiving/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_VitalStatistics",
 					"id" : "MD_VitalStatistics",
-					"url" : "http://geodata.md.gov/imap/rest/services/Health/MD_VitalStatistics/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Health/MD_VitalStatistics/MapServer",
 					"type" : "MapServer"
 				}
 			]
@@ -257,17 +257,17 @@ KML can be added, however it has not been fully implemented in the Legend tree.
 			"children" : [{
 					"name" : "MD_InventoryHistoricProperties",
 					"id" : "MD_InventoryHistoricProperties",
-					"url" : "http://geodata.md.gov/imap/rest/services/Historic/MD_InventoryHistoricProperties/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Historic/MD_InventoryHistoricProperties/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_MHTPreservationEasements",
 					"id" : "MD_MHTPreservationEasements",
-					"url" : "http://geodata.md.gov/imap/rest/services/Historic/MD_MHTPreservationEasements/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Historic/MD_MHTPreservationEasements/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_NationalRegisterHistoricPlaces",
 					"id" : "MD_NationalRegisterHistoricPlaces",
-					"url" : "http://geodata.md.gov/imap/rest/services/Historic/MD_NationalRegisterHistoricPlaces/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Historic/MD_NationalRegisterHistoricPlaces/MapServer",
 					"type" : "MapServer"
 				}
 			]
@@ -278,47 +278,47 @@ KML can be added, however it has not been fully implemented in the Legend tree.
 			"children" : [{
 					"name" : "MD_Floodplain",
 					"id" : "MD_Floodplain",
-					"url" : "http://geodata.md.gov/imap/rest/services/Hydrology/MD_Floodplain/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Hydrology/MD_Floodplain/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_Gauges",
 					"id" : "MD_Gauges",
-					"url" : "http://geodata.md.gov/imap/rest/services/Hydrology/MD_Gauges/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Hydrology/MD_Gauges/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_ShorelineChanges",
 					"id" : "MD_ShorelineChanges",
-					"url" : "http://geodata.md.gov/imap/rest/services/Hydrology/MD_ShorelineChanges/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Hydrology/MD_ShorelineChanges/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_ShorelineInventory",
 					"id" : "MD_ShorelineInventory",
-					"url" : "http://geodata.md.gov/imap/rest/services/Hydrology/MD_ShorelineInventory/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Hydrology/MD_ShorelineInventory/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_Waterbodies",
 					"id" : "MD_Waterbodies",
-					"url" : "http://geodata.md.gov/imap/rest/services/Hydrology/MD_Waterbodies/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Hydrology/MD_Waterbodies/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_WaterQuality",
 					"id" : "MD_WaterQuality",
-					"url" : "http://geodata.md.gov/imap/rest/services/Hydrology/MD_WaterQuality/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Hydrology/MD_WaterQuality/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_Watersheds",
 					"id" : "MD_Watersheds",
-					"url" : "http://geodata.md.gov/imap/rest/services/Hydrology/MD_Watersheds/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Hydrology/MD_Watersheds/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_WetlandMaps1972",
 					"id" : "MD_WetlandMaps1972",
-					"url" : "http://geodata.md.gov/imap/rest/services/Hydrology/MD_WetlandMaps1972/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Hydrology/MD_WetlandMaps1972/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_Wetlands",
 					"id" : "MD_Wetlands",
-					"url" : "http://geodata.md.gov/imap/rest/services/Hydrology/MD_Wetlands/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Hydrology/MD_Wetlands/MapServer",
 					"type" : "MapServer"
 				}
 			]
@@ -329,27 +329,27 @@ KML can be added, however it has not been fully implemented in the Legend tree.
 			"children" : [{
 					"name" : "MD_ImageryAcquisitionFlightInformation",
 					"id" : "MD_ImageryAcquisitionFlightInformation",
-					"url" : "http://geodata.md.gov/imap/rest/services/Imagery/MD_ImageryAcquisitionFlightInformation/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Imagery/MD_ImageryAcquisitionFlightInformation/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_NAIPImagery",
 					"id" : "MD_NAIPImagery",
-					"url" : "http://geodata.md.gov/imap/rest/services/Imagery/MD_NAIPImagery/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Imagery/MD_NAIPImagery/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_NAIPImageryGrid",
 					"id" : "MD_NAIPImageryGrid",
-					"url" : "http://geodata.md.gov/imap/rest/services/Imagery/MD_NAIPImageryGrid/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Imagery/MD_NAIPImageryGrid/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_SixInchCIRImagery",
 					"id" : "MD_SixInchCIRImagery",
-					"url" : "http://geodata.md.gov/imap/rest/services/Imagery/MD_SixInchCIRImagery/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Imagery/MD_SixInchCIRImagery/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_SixInchImagery",
 					"id" : "MD_SixInchImagery",
-					"url" : "http://geodata.md.gov/imap/rest/services/Imagery/MD_SixInchImagery/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Imagery/MD_SixInchImagery/MapServer",
 					"type" : "MapServer"
 				}
 			]
@@ -360,7 +360,7 @@ KML can be added, however it has not been fully implemented in the Legend tree.
 			"children" : [{
 					"name" : "MD_USGSTopoGrids",
 					"id" : "MD_USGSTopoGrids",
-					"url" : "http://geodata.md.gov/imap/rest/services/Location/MD_USGSTopoGrids/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Location/MD_USGSTopoGrids/MapServer",
 					"type" : "MapServer"
 				}
 			]
@@ -376,22 +376,22 @@ KML can be added, however it has not been fully implemented in the Legend tree.
 			"children" : [{
 					"name" : "MD_FederalLands",
 					"id" : "MD_FederalLands",
-					"url" : "http://geodata.md.gov/imap/rest/services/PlanningCadastre/MD_FederalLands/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/PlanningCadastre/MD_FederalLands/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_LandUseLandCover",
 					"id" : "MD_LandUseLandCover",
-					"url" : "http://geodata.md.gov/imap/rest/services/PlanningCadastre/MD_LandUseLandCover/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/PlanningCadastre/MD_LandUseLandCover/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_ParcelBoundaries",
 					"id" : "MD_ParcelBoundaries",
-					"url" : "http://geodata.md.gov/imap/rest/services/PlanningCadastre/MD_ParcelBoundaries/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/PlanningCadastre/MD_ParcelBoundaries/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_PropertyData",
 					"id" : "MD_PropertyData",
-					"url" : "http://geodata.md.gov/imap/rest/services/PlanningCadastre/MD_PropertyData/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/PlanningCadastre/MD_PropertyData/MapServer",
 					"type" : "MapServer"
 				}
 			]
@@ -402,22 +402,22 @@ KML can be added, however it has not been fully implemented in the Legend tree.
 			"children" : [{
 					"name" : "MD_CorrectionalFacilities",
 					"id" : "MD_CorrectionalFacilities",
-					"url" : "http://geodata.md.gov/imap/rest/services/PublicSafety/MD_CorrectionalFacilities/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/PublicSafety/MD_CorrectionalFacilities/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_Fire",
 					"id" : "MD_Fire",
-					"url" : "http://geodata.md.gov/imap/rest/services/PublicSafety/MD_Fire/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/PublicSafety/MD_Fire/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_Police",
 					"id" : "MD_Police",
-					"url" : "http://geodata.md.gov/imap/rest/services/PublicSafety/MD_Police/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/PublicSafety/MD_Police/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_VeryHighRiskCensusTracts",
 					"id" : "MD_VeryHighRiskCensusTracts",
-					"url" : "http://geodata.md.gov/imap/rest/services/PublicSafety/MD_VeryHighRiskCensusTracts/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/PublicSafety/MD_VeryHighRiskCensusTracts/MapServer",
 					"type" : "MapServer"
 				}
 			]
@@ -428,17 +428,17 @@ KML can be added, however it has not been fully implemented in the Legend tree.
 			"children" : [{
 					"name" : "MD_EducationFacilities",
 					"id" : "MD_EducationFacilities",
-					"url" : "http://geodata.md.gov/imap/rest/services/Society/MD_EducationFacilities/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Society/MD_EducationFacilities/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_Libraries",
 					"id" : "MD_Libraries",
-					"url" : "http://geodata.md.gov/imap/rest/services/Society/MD_Libraries/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Society/MD_Libraries/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_SportVenues",
 					"id" : "MD_SportVenues",
-					"url" : "http://geodata.md.gov/imap/rest/services/Society/MD_SportVenues/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Society/MD_SportVenues/MapServer",
 					"type" : "MapServer"
 				}
 			]
@@ -449,12 +449,12 @@ KML can be added, however it has not been fully implemented in the Legend tree.
 			"children" : [{
 					"name" : "MD_CommunitySupport",
 					"id" : "MD_CommunitySupport",
-					"url" : "http://geodata.md.gov/imap/rest/services/Structure/MD_CommunitySupport/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Structure/MD_CommunitySupport/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_FederalFacilities",
 					"id" : "MD_FederalFacilities",
-					"url" : "http://geodata.md.gov/imap/rest/services/Structure/MD_FederalFacilities/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Structure/MD_FederalFacilities/MapServer",
 					"type" : "MapServer"
 				}
 			]
@@ -465,32 +465,32 @@ KML can be added, however it has not been fully implemented in the Legend tree.
 			"children" : [{
 					"name" : "MD_AlternativeFuel",
 					"id" : "MD_AlternativeFuel",
-					"url" : "http://geodata.md.gov/imap/rest/services/Transportation/MD_AlternativeFuel/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Transportation/MD_AlternativeFuel/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_MVAFacilities",
 					"id" : "MD_MVAFacilities",
-					"url" : "http://geodata.md.gov/imap/rest/services/Transportation/MD_MVAFacilities/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Transportation/MD_MVAFacilities/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_RoadCenterlines",
 					"id" : "MD_RoadCenterlines",
-					"url" : "http://geodata.md.gov/imap/rest/services/Transportation/MD_RoadCenterlines/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Transportation/MD_RoadCenterlines/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_TollPlazas",
 					"id" : "MD_TollPlazas",
-					"url" : "http://geodata.md.gov/imap/rest/services/Transportation/MD_TollPlazas/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Transportation/MD_TollPlazas/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_Transit",
 					"id" : "MD_Transit",
-					"url" : "http://geodata.md.gov/imap/rest/services/Transportation/MD_Transit/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Transportation/MD_Transit/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_WelcomeandVisitorCenters",
 					"id" : "MD_WelcomeandVisitorCenters",
-					"url" : "http://geodata.md.gov/imap/rest/services/Transportation/MD_WelcomeandVisitorCenters/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Transportation/MD_WelcomeandVisitorCenters/MapServer",
 					"type" : "MapServer"
 				}
 			]
@@ -501,27 +501,27 @@ KML can be added, however it has not been fully implemented in the Legend tree.
 			"children" : [{
 					"name" : "MD_BroadbandProviderPerCensusBlock",
 					"id" : "MD_BroadbandProviderPerCensusBlock",
-					"url" : "http://geodata.md.gov/imap/rest/services/UtilityTelecom/MD_BroadbandProviderPerCensusBlock/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/UtilityTelecom/MD_BroadbandProviderPerCensusBlock/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_BroadbandServiceAreas",
 					"id" : "MD_BroadbandServiceAreas",
-					"url" : "http://geodata.md.gov/imap/rest/services/UtilityTelecom/MD_BroadbandServiceAreas/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/UtilityTelecom/MD_BroadbandServiceAreas/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_BroadbandSpeedTest",
 					"id" : "MD_BroadbandSpeedTest",
-					"url" : "http://geodata.md.gov/imap/rest/services/UtilityTelecom/MD_BroadbandSpeedTest/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/UtilityTelecom/MD_BroadbandSpeedTest/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_CommunityAnchorInstitutions",
 					"id" : "MD_CommunityAnchorInstitutions",
-					"url" : "http://geodata.md.gov/imap/rest/services/UtilityTelecom/MD_CommunityAnchorInstitutions/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/UtilityTelecom/MD_CommunityAnchorInstitutions/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_OffshoreWindEnergyPlanning",
 					"id" : "MD_OffshoreWindEnergyPlanning",
-					"url" : "http://geodata.md.gov/imap/rest/services/UtilityTelecom/MD_OffshoreWindEnergyPlanning/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/UtilityTelecom/MD_OffshoreWindEnergyPlanning/MapServer",
 					"type" : "MapServer"
 				}
 			]
@@ -532,22 +532,22 @@ KML can be added, however it has not been fully implemented in the Legend tree.
 			"children" : [{
 					"name" : "MD_SeaLevelAffectingMarshesModel",
 					"id" : "MD_SeaLevelAffectingMarshesModel",
-					"url" : "http://geodata.md.gov/imap/rest/services/Weather/MD_SeaLevelAffectingMarshesModel/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Weather/MD_SeaLevelAffectingMarshesModel/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_SeaLevelRiseVulnerability",
 					"id" : "MD_SeaLevelRiseVulnerability",
-					"url" : "http://geodata.md.gov/imap/rest/services/Weather/MD_SeaLevelRiseVulnerability/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Weather/MD_SeaLevelRiseVulnerability/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_SeaLevelRiseWetlandAdaptationAreas",
 					"id" : "MD_SeaLevelRiseWetlandAdaptationAreas",
-					"url" : "http://geodata.md.gov/imap/rest/services/Weather/MD_SeaLevelRiseWetlandAdaptationAreas/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Weather/MD_SeaLevelRiseWetlandAdaptationAreas/MapServer",
 					"type" : "MapServer"
 				}, {
 					"name" : "MD_StormSurge",
 					"id" : "MD_StormSurge",
-					"url" : "http://geodata.md.gov/imap/rest/services/Weather/MD_StormSurge/MapServer/",
+					"url" : "http://geodata.md.gov/imap/rest/services/Weather/MD_StormSurge/MapServer",
 					"type" : "MapServer"
 				}
 			]

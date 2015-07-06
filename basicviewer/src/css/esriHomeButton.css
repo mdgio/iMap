@@ -1,4 +1,6 @@
-.HomeButton span {display:none;
+.HomeButton span 
+{
+    display:none;
 }
 
 .HomeButton .home {

@@ -15,18 +15,14 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     //The ID for a web map from ArcGIS Online (AGO)
                     //If not going to specify a Web Map in AGO, then use empty quotes ("") here
                  
-					webmap: "1d6cee2d8c7145b79f45d96fd454e07b",      //"blank" default map; an OpenStreetMap basemap
-					//Some sample web maps to try for testing:
-                    //webmap: "252fb36ac7404043a0f3d2022958b5d0",    //veterans services
-                    //webmap: "c545bf8fde0a46c2aa52a10e9118750a",  //growthprint
-                    //webmap: "9ed1f1fefd9e4cf89379af66ad33c768",  //DFIRM
+					webmap: "d1201eea7afb4ed49f08a310e9803f2f",      //"blank" default map; an OpenStreetMap basemap
                     // The URL to an ArcGIS Web Map- if not using ArcGIS.com.
                     // Can be relative to index.html. For example, if in basicviewer root- "webmap.js"
                     // If both webmap and webmapurl are empty, then a map must be programmatically defined in map.js
                     webmapurl: "webmap.js",
                     //Enter a description for the application. This description will appear in the left pane
                     //if no description is entered, the webmap description (if populated) will be used.
-                    description: "The Maryland iMap Template.  Updated 8/4/2014.  <br>Change this description in app.js or add one via your map on ArcGIS Online.<br><br><a href='http://imap.maryland.gov/Pages/template-server.aspx' target='_blank'>Help Documents</a><br><br><a href='Changes.txt' target='_blank'>Change Log<a> (text)",
+                    description: "The Maryland iMap Template.  Updated 7/6/2015.  <br>Change this description in app.js or add one via your map on ArcGIS Online.<br><br><a href='http://imap.maryland.gov/Pages/template-server.aspx' target='_blank'>Help Documents</a><br><br><a href='Changes.txt' target='_blank'>Change Log<a> (text)",
                     //specify an owner for the app - used by the print option. The default value will be the web map's owner
                     owner: '',
 
@@ -39,8 +35,8 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     	"black" (similar to but darker than"imap"),
                     	"green",
                     	"orange",
-                        "earth1" (darker browns, like chocolates),
-                        "earth2" (lighter browns, like mustards)             
+                        "earth1",
+                        "earth2"         
                      */
                     theme: "imap",
                     //set to true to display the title
@@ -58,6 +54,9 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                         image: 'assets/mdimaplogo.png',
                         link: 'http://imap.maryland.gov/Pages/default.aspx'
                     },
+                    //option to completely hide left pane, including splitter and toggle button.  Left Pane will become obsolete at runtime and not be available for any interaction.
+                    //set to true will override any display of left pane widgets, the startupwidget config property (line 91) and the leftpanewidth property (line 65).
+                    disableLeftPane: false,
                     //specify the width of the panel that holds the editor, legend, details
                     leftpanewidth: '350',
                     //specify the width of the panel that holds the TOC
@@ -69,8 +68,8 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     //ArcGIS.com. Enter link values for the link1 and link2 and text to add links. For example
                     //url:'http://www.esri.com',text:'Esri'
                     link1: {
-                        url: '',
-                        text: ''
+                        url: 'http://imap.maryland.gov/Pages/template.aspx',
+                        text: 'Help'
                     },
                     link2: {
                         url: '',
@@ -90,7 +89,11 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
 					//Tab for map details either provided by map on ArcGIS Online or via the "description" variable above.                   
 					displaydetails: true,
 					//Tab for Table of Contents/Legend 
-                    tablecontents: true,  
+					tablecontents: true,
+                    //show just a simple legend in the control, with no ability to change order, transparency, or on/off
+					simpleLegend: false,
+					//show legend with ability to change order, transparency, or on/off (both simple legend and this can be turned on, then this will be called layer list. This is on by default if both are false and tablecontents = true
+                    layerList: true,
                     //Tab for the Query Tools                  
                     displayquery: true,
                     //Tab for Add Data - the ability to add provided REST services via AddLayers.js
@@ -107,11 +110,8 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     displaytimeslider: true,
                     //Print options - Default is to not display on mobile devices, but can be overriden manually or in AGO
                     displayprint: !(environment.TouchEnabled),
-                    
                     //Use either the Maryland print service or the ESRI print service for the printtask
                     printtask: "http://geodata.md.gov/imap/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task",
-                    //printtask: "http://sampleserver6.arcgisonline.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task",  //printtask: "http://utility.arcgisonline.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task",
-					
                     //Set the label in the nls file for your browsers language
                     printlayouts: [{
                         layout: 'Letter ANSI A Landscape',
@@ -132,10 +132,9 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     }],
                     displaybasemaps: true,
                     displaybookmarks: false,
-					zoomtocounty: true,
-					displaydraw: true,
+                    displaydraw: true,
+                    displayinterop: !(environment.TouchEnabled),
                     displaymeasure: true,
-                    displaylocation: true,
                     displayshare: false,//if enabled enter bitly key and login below.
                     //The application allows users to share the map with social networking sites like twitter
                     //and facebook. The url for the application can be quite long so shorten it using bit.ly.
@@ -144,17 +143,20 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                         key: '',
                         login: ''
                     },
+
+                    /*Controls on the map */
+                    //controls on upper right corner
+                    displaysearch: true,
+                    showFeatureSearch: false,
+                    zoomtocounty: true,
+                    //controls in map
+                    displaylocation: true,
+                    displayscalebar: true,
+                    displayoverviewmap: true,
                     //set to false to hide the zoom slider on the map
                     displayslider: true,
-					//set to false to hide the home button on the map
-					displayhome: true,
-                    displayoverviewmap: true,
-                    displaysearch: true,
-                    displayscalebar: true,
-                    //Drawing toolbar
-                    displayinterop: !(environment.TouchEnabled),
-					
-					
+                    //set to false to hide the home button on the map
+                    displayhome: true,
 
                     //*** General Settings ***
                     //i18n.viewer.main.scaleBarUnits,
@@ -164,10 +166,13 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     //Modify this to point to your sharing service URL if you are using the portal
                     sharingurl: "http://www.arcgis.com/sharing/content/items",
                     //specify a group in ArcGIS.com that contains the basemaps to display in the basemap gallery
+                    //This parameter will populate the basemap gallery with the basemaps listed in this group ONLY.
+                    //Leave blank for AGO users to see all basemaps that are available to their username.
+                    //If left blank for a public application with no AGO sign-on, or a protected application with an ArcGIS Server account (not AGO), the standard ESRI gallery will be loaded.
                     //example: title:'ArcGIS Online Basemaps' , owner:esri
                     basemapgroup: {
-                        title: '',
-                        owner: ''
+                        title: 'MD iMAP Template Basemaps',
+                        owner: 'doit_gio'
                     },
                     //Enter the URL to a Geometry Service
                     //geometryserviceurl: "http://utility.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer",
@@ -182,8 +187,9 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     placefinder: {
 					    "url": "http://geodata.md.gov/imap/rest/services/GeocodeServices/MD_CompositeLocatorWithEsri/GeocodeServer",
                         "countryCode":""
-						
+
                     },
+                    //shows/hides the transparency slider for point features
                     displaypointtransp: false
                 };
 
@@ -211,6 +217,9 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                             if (response.values.titleLogoLink) {
                                 configOptions.titleLogoLink = response.values.titleLogoLink;
                             }
+                            if (response.values.disableLeftPane !== undefined) {
+                                configOptions.disableLeftPane = response.values.disableLeftPane;
+                            }
                             if (response.values.leftpanewidth !== undefined) {
                                 configOptions.leftpanewidth = response.values.leftpanewidth;
                             }
@@ -234,6 +243,12 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                             }
                             if (response.values.tablecontents != undefined) {
                                 configOptions.tablecontents = response.values.tablecontents;
+                            }
+                            if (response.values.simplelegend !== undefined) {
+                                configOptions.simplelegend = response.values.simplelegend;
+                            }
+                            if (response.values.layerList !== undefined) {
+                                configOptions.layerList = response.values.layerList;
                             }
 							if (response.values.adddata != undefined) {
                                 configOptions.adddata = response.values.adddata;
@@ -269,15 +284,6 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                             if (response.values.displaylocation != undefined) {
                                 configOptions.displaylocation = response.values.displaylocation;
                             }
-                            /*
-							if (response.values.displaylegend !== undefined) {
-                                configOptions.displaylegend = response.values.displaylegend;
-                            }
-							*/
-                            /*
-							if (response.values.displaylayerlist !== undefined) {
-                                configOptions.displaylayerlist = response.values.displaylayerlist;
-                            }*/
                             if (response.values.displaybasemaps != undefined) {
                                 configOptions.displaybasemaps = response.values.displaybasemaps;
                             }
@@ -287,6 +293,9 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                             } */
                             if (response.values.displaysearch != undefined) {
                                 configOptions.displaysearch = response.values.displaysearch;
+                            }
+                            if (response.values.showFeatureSearch != undefined) {
+                                configOptions.showFeatureSearch = response.values.showFeatureSearch;
                             }
 							/*
 							if (response.values.displayslider) {
