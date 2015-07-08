@@ -72,6 +72,11 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     var placeholder = dom.byId('toolbarDij');
                     dom.byId('map_root').appendChild(placeholder, { style: { height: '48px'} });
 
+					//add webmap's description to details panel
+					if (this._WebMap.item.description) {
+						this._AppConfig.description = this._WebMap.item.description;
+					}					
+					
                     if (!this._AppConfig.disableLeftPane) {
                         //set left pane toggle button
                         var lPaneToggleBtn = new Button({
@@ -83,7 +88,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                                 this._ShowHidePane('l');
                             })
                         }, 'btnLpaneToggle');
-
+						
                         //Set the left pane tabs
                         var tabManager = new TabManager({ AppConfig: this._AppConfig, WebMap: this._WebMap });
                         tabManager.CreateLeftPaneTabs();
@@ -139,11 +144,6 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                                 dojo.style(dom.byId('linkSeparator'), 'display', 'none');
                             }
                         }
-                    }
-
-                    //add webmap's description to details panel
-                    if (this._WebMap.item.description) {
-                        this._AppConfig.description = this._WebMap.item.description;
                     }
 
                     //add a custom logo to the map if provided
