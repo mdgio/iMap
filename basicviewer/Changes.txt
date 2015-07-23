@@ -1,5 +1,35 @@
 MD iMap Template Changes
 
+7/1/2015
+*Update to ArcGIS JS API 3.13.
+*Many updates to the styling of the template.
+	** Button bar now vertical between map and left pane (if no buttons on map, this bar will not be shown).
+	** Removed gradient.
+	** Style changes to tabs in left pane.
+	** Some font changes.
+	** Styles of drop downs simplified.
+	** Query results now in bottom pane.
+	** Basemap gallery in pane at bottom of map.
+	** Location is no longer a tool on the button bar, rather it's a button on the map below the home button.
+*Addition of Search Features tool in upper right.  If layers in the map on load, will be able to search for features by their default name (only searches this field).
+*Updates to print tool to popup with more choices and not just ESRI's out of the box print tool.
+*Update to Query Result grid and tool.   
+	** Removed extra columns at far right of data table.  
+	** Added support for Zoom to Feature functionality.
+	** When layers are added through Add Data, they are now available to query off of.
+	** Reset button available during more steps of refining query for ability to start over.
+*Updates to Contents tab
+	**By default, Layer List pane is turned on and called Legend (to match old configuration).
+	**Ability to turn on only Simplified Legend pane (only shows legend for layers in the map, no on/off or transparency settings).
+	**Ability to turn on both Simplified and Layer List (in this case simplified will be called Legend and Layer List will be titled just that).
+*Removed trailing \ in AddLayers.js service URLs for better coordination with query tool.
+*Updated draw tool with color options and more asthetic inferface.
+*Updated MD iMap Basemap group to include MD-GIO specific basemaps in web Mercator projection allowing all public users access to MD GIO basemaps.  Facilitated in the AGO and hosted template by including the “basemap group name” and “owner” in the app.js parameter basemapGroup{}
+*Added a configuration option to disable the Left Pane at application load.  Available in AGO configuration mode and also in hosted template (look for the disableLeftPane parameter in app.js)
+*Fixed the display and position of the Zoom to County and Address Search widgets in Internet Explorer.
+*D3 and C3 libraries added into main file for development uses
+
+
 10/29/2014
 * Added means to show progress when using print tool.  "Spinning gif" added to map container--hides when print task is complete or found in error.
 * Current issue with MD iMap 2.0 print service.  Changed print service from MD Geodata to one of the default ESRI ones.

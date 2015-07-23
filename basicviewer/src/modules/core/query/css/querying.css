@@ -1,11 +1,7 @@
 ﻿#queryBtn, .resetBtns
 {
     height: 18px;
-    background-color: #363636;
-    border: 1px solid #181818;
-    border-left: none;
     border-radius: 5px;
-    box-shadow: 3px 3px 1px darkgray, #282828 -2px 0px 3px inset;
     text-align: center;
     color: #fff;
     font-weight: bolder;
@@ -15,15 +11,28 @@
     cursor: pointer;
 }
 
-#queryBtn:hover, .resetBtns:hover
-{
-    box-shadow: #282300 2px 2px 3px inset;    
-}
-
 #queryBtn.btnSelected
 {
     background-color: #878787;
-    box-shadow: #282828 2px 2px 3px inset;   
+}
+
+#queryingDiv select
+{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    height: 24px;
+    border-radius: 5px;
+    border: 1px solid;
+    margin: 5px;
+    max-width: 95%;
+    width: 95%;
+    background: white url("../../../../../assets/arrow.png") no-repeat 98% center;
+}
+
+select::-ms-expand 	
+{
+    display: none; 
 }
 
 #btnDiv
@@ -38,6 +47,7 @@
     margin-top:20px;
 	width: 99%;
     margin: 0 auto;
+    font-size: .9em;
 }
 
 /* Spatial select buttons to mimic toggle buttons*/
@@ -50,9 +60,17 @@
     border: solid thin #000;
     cursor: pointer;
 }
+.disabled .drawBtn
+{
+    background-color:#ececec;
+    color: #dcdcdc;
+    cursore: pointer;
+    border: solid thin #dcdcdc;
+}
 .btnStart
 {
     border-radius: 5px 0px 0px 5px;
+    margin-left: 30px;
 }
 .btnEnd
 {
@@ -61,7 +79,7 @@
 #spatialQueryDiv
 {
     margin-top: 20px;
-	
+    margin-bottom: 30px;
 }
 
 #spatialBtnDiv
@@ -81,30 +99,42 @@
 	/* overflow: auto;
 	 background-color: red;   
 	 color: grey;  */
-	/*margin: 5px 5px 50px 5px;*/
+	margin: 5px 5px 50px 5px;
 }
 
-#exportInfoContainer {
-    padding: 5px 5px 5px 5px;
+#infoContainer
+{	
+	/* for testing */
+	/* background-color: yellow;  
+	 color: black; 
+	 width: 100%;
+	 overflow: auto; 
+	  height:500px;  */	
 }
 
-#rowCountContainer {
-    padding: 5px 5px 5px 5px;
-}
-
-#grid
+#attributeGridDiv
 {
 	/* background-color: yellow;
 	color: black;
 	height:500px; 	
-	width: 100%;
+
 	font-size:90%;*/
-	overflow: auto;
-	/* width: 900px;	
-	height:300px; */
-	
-	
+	overflow: auto; 
+	width: 100%;
 	
 }
+#attributeGrid
+{
+    height: 100%;
+}
 
+#queryChoice input
+{
+    margin-left: 25%;
+}
 
+#fieldValue
+{
+    margin: 0 auto;
+    width: 95%;
+}

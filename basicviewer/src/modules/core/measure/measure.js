@@ -67,7 +67,7 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dijit/_TemplatedMixin", "dij
                     resizable: false,
                     dockable: false,
                     closable: false,
-                    style: "position:absolute;top:20px;left:20px;width:275px;height:265px;z-index:100;visibility:hidden;overflow:hidden;",
+                    style: "position:absolute;top:20px;left:20px;width:295px;height:265px;z-index:100;visibility:hidden;overflow:hidden;",
                     id: this.floaterDivId
                     , parseOnLoad: false
                 }, dom.byId(this.floaterDivId));

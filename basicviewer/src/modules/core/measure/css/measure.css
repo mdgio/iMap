@@ -1,10 +1,9 @@
-.dojoxFloatingPaneTitle {
-    padding-left: 10px;
+.esriMeasurement
+{
+    padding: 10px;
+    width: inherit;
 }
 
-.dojoxFloatingPaneCanvas {
-    padding-right: 10px;
-}
 #floaterMeas{
     padding: 0px !important;
     background-color:#fff;
@@ -15,18 +14,20 @@
 }
 
 /* Used in Measure Tool text results ".dijitContentPane results"  */
-.claro #dijit_layout_ContentPane_1, #dijit_layout_ContentPane_2 {
-    background-color:#E6E6E6;
-    border: solid;
-    margin-left:0px;
-    margin-right:auto;
-    text-align: center;
-    padding-left: 0px;
+.resultTable, .esriMeasurementResultValue  {
+  color: #3c763d;
+  background-color: #dff0d8;
+  border: 1px solid #d6e9c6;
+  padding: 5px;
+  border-radius: 5px;
+}
+.esriMeasurement .esriMeasurementTableContainer 
+{
+    padding: 5px;
 }
 
-
 /* table.esriMeasurementResultTable */
-."dijitContentPane resultTable esriMeasurementTableContainer"
+.dijitContentPane resultTable esriMeasurementTableContainer
 {
     width: 180px;
     margin-left: auto;
@@ -48,3 +49,25 @@ padding-left: 0px;
 
 }
 */
+/*updating the measurement widget */
+.esriMeasurement .dijitArrowButtonInner 
+{
+    height: 24px;   
+}
+.esriMeasurement .dijitArrowButtonChar
+{
+    display: inline !important;
+    margin-left: -20px;
+}
+.esriMeasurement .esriToggleButton .dijitButtonText
+{
+  display: inline-block !important;
+  font-size: 14px !important;
+  border: 1px solid #181818;
+  height: 24px;
+  border-radius: 5px 0px 0px 5px;
+  line-height: 22px;
+  border-right: none;
+  width: 95px;
+  text-align: left;
+}

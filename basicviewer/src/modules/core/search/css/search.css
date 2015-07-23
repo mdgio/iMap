@@ -1,0 +1,76 @@
+
+#floaterDraw .dijitButtonText
+{
+    display: inline !important;
+}
+#floaterDraw .dijitDropDownButton .dijitButtonNode
+{
+    height: 20px;
+    background: #ffffff;
+    border: 1px solid #000000;
+    color: inherit;
+}
+#floaterDraw .dijitArrowButtonChar
+{
+    display: inline !important;
+    padding-left: 20px;
+}
+#floaterDraw .dijitArrowButtonInner
+{
+    display:none;
+}
+#draw_multipoint
+{
+    background: url("../../../../../assets/draw/i_draw_point.png") no-repeat #fff;
+}
+#draw_polyline
+{
+    background: url("../../../../../assets/draw/i_draw_line.png") no-repeat #fff;
+}
+#draw_freehand_polyline
+{
+    background: url("../../../../../assets/draw/i_draw_freeline.png") no-repeat #fff;
+}
+#draw_polygon
+{
+    background: url("../../../../../assets/draw/i_draw_poly.png") no-repeat #fff;
+}
+#draw_freehand_polygon
+{
+    background: url("../../../../../assets/draw/i_draw_freepoly.png") no-repeat #fff;
+}
+#draw_arrow
+{
+    background: url("../../../../../assets/draw/i_draw_point.png") no-repeat #fff;
+}
+#draw_triangle
+{
+    background: url("../../../../../assets/draw/i_draw_point.png") no-repeat #fff;
+}
+#draw_circle
+{
+    background: url("../../../../../assets/draw/i_draw_circle.png") no-repeat #fff;
+}
+#draw_ellipse
+{
+    background: url("../../../../../assets/draw/i_draw_ellipse.png") no-repeat #fff;
+}
+#drawingBtns button{
+  height: 35px;
+  width: 38px;
+  border: none;
+  cursor: pointer;
+}
+#drawingBtns
+{
+    padding-top: 10px;
+}
+#clear_all
+{
+    padding: 5px;
+    width: 100px;
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+    border-radius: 5px;
+}

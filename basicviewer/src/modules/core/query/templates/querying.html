@@ -6,11 +6,12 @@
     <div id="layerDiv" style="display:none">
         <p style="margin-bottom: 0">Layers:</p>
         <select id="layerCbo"> </select>
+        <p style="font-size: 0.7em; margin-top: 2px; text-align: right; padding-right: 15px">*Raster and group layers are omitted</p>
      </div>
      <div id="querySection">
-         <div id="queryChoice" style="display:none"><br>
-			<input id="stringQ" type="radio" name="queryType" value="stringQuery"> Query by Attributes &nbsp; - or - &nbsp; 
-			<input id="spatialQ" type="radio" name="queryType" value="spatialQuery"> Spatial Select<br>
+         <div id="queryChoice" style="display:none;"><br>
+			<input id="stringQ" type="radio" name="queryType" value="stringQuery"> Query by Attributes<p style="text-align:center"> - Or - </p>
+			<input id="spatialQ" type="radio" name="queryType" value="spatialQuery">Query by Spatial Select<br>
 		</div>
 		<div id="stringQueryDiv" style="display:none">
 			<div id="fieldDiv" style="display:none">
@@ -19,24 +20,19 @@
 				<div id="fieldMath">
 				    <!--Same text as in querying.js -->
 					<p>Type in a value to match possible values in the field that you selected above.  For example, if the field is &quot;City&quot;, you might type in &quot;Annapolis&quot; or even &quot;anna&quot;. </p>
-					<input id="fieldValue">
-				</div>
-				<div id="btnDiv">
-					<div id="queryBtn" class="">Query</div>
-					<div id="clearBtn" class="resetBtns">Reset</div>
+					<div style="width:100%"><input id="fieldValue" type="text" /></div>
 				</div>
 			</div>    
         </div>
-         
          <div id="spatialQueryDiv" style="display:none">
              <div id="Circle" class="drawBtn btnStart">Circle</div>
              <div id="Extent" class="drawBtn">Rectangle</div>
              <div id="Polygon" class="drawBtn">Polygon</div>
              <div id="FreehandPolygon" class="drawBtn btnEnd">Freehand</div> <br>
-             <div id="spatialBtnDiv"> 
-                <div id="spatialReset" class="resetBtns">Reset</div>
-             </div>
          </div>
-
+        <div id="btnDiv">
+            <div id="queryBtn" class="generalButtonStyle" style="display:none">Query</div>
+            <div id="clearBtn" class="resetBtns generalButtonStyle">Reset</div>
+        </div>
      </div>
 </div>

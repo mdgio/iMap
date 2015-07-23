@@ -4,19 +4,20 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=7,IE=9" />
         <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
-        <title>MD iMap</title>
+        <title>MD iMAP</title>
         <link rel="shortcut icon" href="assets/favicon.ico">
         <!--<link rel="stylesheet" href="src/libs/jquery/css/ui-lightness/jquery-ui-1.9.2.custom.css" /> -->	   
 	    	   
         
-        <link rel="stylesheet" type="text/css" href="http://js.arcgis.com/3.10/js/dojo/dijit/themes/claro/claro.css">
+<!--        <link rel="stylesheet" type="text/css" href="http://js.arcgis.com/3.10/js/dojo/dijit/themes/claro/claro.css">
         <link rel="stylesheet" type="text/css" href="http://js.arcgis.com/3.10/js/dojo/dijit/themes/claro/document.css">
         <link rel="stylesheet" type="text/css" href="http://js.arcgis.com/3.10/js/dojo/dojox/layout/resources/FloatingPane.css">
         <link rel="stylesheet" type="text/css" href="http://js.arcgis.com/3.10/js/dojo/dojox/layout/resources/ResizeHandle.css">
 		<link rel="stylesheet" type="text/css" href="http://js.arcgis.com/3.10/js/dojo/dojox/widget/TitleGroup/TitleGroup.css">
 		<link rel="stylesheet" type="text/css" href="http://js.arcgis.com/3.10/js/dojo/dojox/grid/enhanced/resources/EnhancedGrid_rtl.css">
-		<link rel="stylesheet" type="text/css" href="http://js.arcgis.com/3.10/js/dojo/dojox/grid/enhanced/resources/EnhancedGrid.css">
-        <link rel="stylesheet" type="text/css" href="http://js.arcgis.com/3.10/js/esri/css/esri.css">
+		<link rel="stylesheet" type="text/css" href="http://js.arcgis.com/3.10/js/dojo/dojox/grid/enhanced/resources/EnhancedGrid.css">-->
+        <link rel="stylesheet" href="http://js.arcgis.com/3.13/dijit/themes/claro/claro.css">
+        <link rel="stylesheet" href="http://js.arcgis.com/3.13/esri/css/esri.css">
         <link rel="stylesheet" type="text/css" href="src/css/main.css">
         <!--
         <link rel="stylesheet" type="text/css" href="http://js.arcgis.com/3.11/dijit/themes/claro/claro.css">
@@ -36,7 +37,7 @@
           <link rel="stylesheet" type="text/css" href="src/css/ie.css" />
         <![endif]-->
        
-        <script src="http://js.arcgis.com/3.10/"></script>
+        <script type="text/javascript" src="http://js.arcgis.com/3.13/"></script> 
         <script type="text/javascript" src="src/main.js"></script>
     </head>
     <body class="claro">
@@ -57,25 +58,27 @@
             </div>
           <!--End Header-->
           <!-- Main Content Section (map, toolbars, left panel)-->
-            <div data-dojo-type="dijit/layout/TabContainer" id="leftPane" data-dojo-props="region:'left', splitter:true">
+            <div data-dojo-type="dijit/layout/TabContainer" id="leftPane" data-dojo-props="region:'left', splitter:'true'">
             </div>
             <!--End Left Panel-->
+            <div data-dojo-type="dijit/layout/ContentPane" id="tools" data-dojo-props="region:'left'">
+            </div>
             <!-- Map Section -->
 
             <div id="map" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"center", gutters:"false"'>
 				<!-- The zoom to Home or initial extent button -->
 				<div id="HomeButton" > </div>
-
+                <div id="LocateButton" > </div>
               <!-- Toolbar (Search and Tool Buttons)-->
               <!--<div id="toolbarContainer" data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"top", gutters:"false", region:"left"'>-->
                   <div id="toolbarDij" data-dojo-type="dijit/Toolbar">
                       <div id="webmap-toolbar-right">
                           <!--create the search tool-->
                           
-						  
-						  <div id="tools"> </div>
+	
 						  <div id="gotoPlaces">    
-						  	<div id="search" > </div><br/>
+						  	<div id="search" > </div>
+                            <div id="layerSearch" > </div><br/>
 						  	
 						  </div>
 	                   </div>
@@ -91,8 +94,21 @@
               </div>
               <!--Floating window contains the time slider-->
               <div id="timeFloater" style='display:none;'> </div>
-              <div id="btnLpaneToggle" class="PaneToggle"> </div>
-			
+              <div id="btnLpaneToggle" class="PaneToggle" style='display:none;'> </div>
+              <div id="attributeDiv">
+                <div id="btnBpaneToggle"></div>
+                <div id="attributeFooter">
+                    <div id="attributeHeader">
+                        <div id="attributeTitle" class="attributeTitle">Query Results:</div>
+                        <div id="attributeClose" class="headerButtons"></div>
+                        <div id="attributeMaximize" class="headerButtons"></div>
+                        <div id="attributeMinimize" class="headerButtons"></div>
+                        <div id="exportResults" class="generalButtonStyle">Export To Excel</div>
+                    </div>
+                    <div id="attributeGridContainer"><div id="attributeGrid"></div></div>
+                </div>
+             </div>
+
             </div>
             <!--end Map section-->
 
@@ -101,7 +117,7 @@
                 </div>-->
             <!--End Right Panel-->
 
-            <div id="bottomPane" dojotype="dijit/layout/ContentPane" region="bottom" gutters="false" style="color:white;font-size:75%;">Template 10/29/2014
+            <div id="bottomPane" dojotype="dijit/layout/ContentPane" region="bottom" gutters="false" style="color:white;font-size:75%;">Template 7/6/2015
             </div>
             <!-- End Main Content section-->
         </div>

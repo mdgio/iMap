@@ -28,7 +28,7 @@ def main(argv=None):
 
     # Get the location and the name of the file to be created
     #resultFile = raw_input("Output File: ")
-    resultFile = "C:\Temp\ArcGISservicesJSONtest.txt"
+    resultFile = "C:\Temp\ArcGISservicesJSON.txt"
 
     # Specify JSON output format, set pretty = TRUE for pretty Format. Otherwise output will be one long string.
     pretty = True
@@ -246,7 +246,7 @@ def main(argv=None):
             # Close the children array [] and the JSON object for the folder.
             if folder != "" and folder != "/":
                 ln = "] } "
-            if f != (len(folders) - 1):
+            if f < (len(folders) - 2):
                 ln = ln + ","
             print ln
             serviceResultFile.write(ln)

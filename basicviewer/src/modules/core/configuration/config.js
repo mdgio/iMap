@@ -8,26 +8,30 @@
 {
     "values": {
         "displaybasemaps": true,
-            "tablecontents": true,
-            "adddata": true,
-            "displayshare": false,
-            "displaymeasure": true,
-			"displaydraw": true,
-            "displaylocation": true,
-            "displayelevation": false,
-            "showelevationdifference": false,
-            "theme": "imap",
-            "displaydetails": true,
-            "startupwidget": "displaydetails",
-            "displayeditor": false,
-            "displayoverviewmap": true,
-			"displayquery": true,
-            "displaytimeslider": false,
-            "displayprint": true,
-            "displaysearch": true,
-			"zoomtocounty": true,
-            "embed": false,
-            "displaypointtransp": false
+        "tablecontents": true,
+        "simpleLegend" : false,
+        "layerList" : true,
+        "adddata": true,
+        "displayshare": false,
+        "displaymeasure": true,
+		"displaydraw": true,
+        "displaylocation": true,
+        "displayelevation": false,
+        "showelevationdifference": false,
+        "theme": "imap",
+        "displaydetails": true,
+        "startupwidget": "displaydetails",
+        "displayeditor": false,
+        "displayoverviewmap": true,
+		"displayquery": true,
+        "displaytimeslider": false,
+        "displayprint": true,
+        "displaysearch": true,
+        "showFeatureSearch": false,
+		"zoomtocounty": true,
+        "embed": false,
+        "disableLeftPane": false,
+        "displaypointtransp": false
     },
     "configurationSettings": [{
         "category": "<b>Layout</b>",
@@ -56,10 +60,10 @@
             }, {
                 "value": "earth1",
                 "label": "Earth1 (Darker Browns)"
-                }, {
+            }, {
                 "value": "earth2",
                 "label": "Earth2 (Lighter Browns)"
-                }, {
+            }, {
                 "value": "black",
                 "label": "Black"
             }],
@@ -165,6 +169,16 @@
             "type": "boolean",
             "tooltip": "Legend"
 		}, {
+            "label": "Simple Legend",
+            "fieldName": "simpleLegend",
+            "type": "boolean",
+            "tooltip": "Simple Legend Control"
+		},{
+            "label": "Layer List (old legend)",
+            "fieldName": "layerList",
+            "type": "boolean",
+            "tooltip": "Layer List Control in Legend"
+		},{
             "label": "Query",
             "fieldName": "displayquery",
             "type": "boolean",
@@ -184,6 +198,9 @@
             }, {
                 "label": "Table of Contents",
                 "value": "tablecontents"
+            }, {
+                "label": "Query",
+                "value": "query"
             }, {
                 "label": "Add Data",
                 "value": "adddata"
@@ -215,6 +232,11 @@
             "fieldName": "displaysearch",
             "type": "boolean",
             "tooltip": ""
+		},{
+            "label": "Find Features",
+            "fieldName": "showFeatureSearch",
+            "type": "boolean",
+            "tooltip": "Shows ESRI's new search widget"
 		}, {
             "label": "Draw",
             "fieldName": "displaydraw",
@@ -241,5 +263,5 @@
             "type": "boolean",
             "tooltip": "Zoom to a county"
 		}]
-    }];
+    }]
 }

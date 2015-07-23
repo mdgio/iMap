@@ -1,10 +1,10 @@
 // The parent container for the Table of Contents and Add Data accordion
 define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/on", "dijit/registry", "dojo/ready", "dojo/_base/lang"
 	, "dijit/layout/AccordionContainer", "dijit/layout/ContentPane", "dojo/dom-class", "dojo/_base/fx", "dojo/_base/lang", "./legend/TOC"
-    , "./btnbar", "dojo/query", "dojo/dom-style", "../utilities/maphandler", "dojo/topic", "./add", "xstyle/css!./css/toc.css"],
-    function(declare, domConstruct, WidgetBase, dojoOn, registry, ready, lang
-             , AccordionContainer, ContentPane, domClass, fxer, language, legendToc, btnBar, query, domStyle, mapHandler, topic
-             , addData){
+    , "./btnbar", "dojo/query", "dojo/dom-style", "../utilities/maphandler", "esri/dijit/Legend", "dojo/topic", "./add", "xstyle/css!./css/toc.css"],
+    function (declare, domConstruct, WidgetBase, dojoOn, registry, ready, lang
+             , AccordionContainer, ContentPane, domClass, fxer, language, legendToc, btnBar, query, domStyle, mapHandler, Legend, topic
+             , addData) {
         //The module needs to be explicitly declared when it will be declared in markup.  Otherwise, do not put one in.
         return declare([WidgetBase, AccordionContainer], {
             //*** The ESRI map object to bind to the TOC
@@ -23,7 +23,7 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/o
             _btnBar: null,
 
             //The event handlers below are not needed, unless for custom code.  They are here for reference.
-            constructor: function(args) {
+            constructor: function (args) {
                 //Automatically sets the starred properties above.
                 declare.safeMixin(this, args);
             },
@@ -32,20 +32,54 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/o
             postCreate: function () {
                 this.inherited(arguments);
                 //Create the content pane for the legend
+                //show simple legend component if checked on
+                if (this.appConfig.simpleLegend) {
+                    var legendPane = new ContentPane({
+                        title: "Legend",
+                        style: "padding: 0px",
+                        content: "<div id='simpleLegend' style='margin:5px;'></div>"
+                    });
+                    legendPane.title.innerHTML = "<p class='myAcordClass'>Legend</p>"
+                    this.addChild(legendPane);
 
-                var legendPane = new ContentPane({
-                    title: "Legend",
-                    style: "padding: 0px"
-                });
-                legendPane.title.innerHTML = "<p class='myAcordClass'>Legend</p>",
-                domClass.add(legendPane.domNode, 'tocLegendPane');
+                };
+                //show layerList if turned on or if neither is turned on (old configuration)
+                if (this.appConfig.layerList || (this.appConfig.simpleLegend == false && this.appConfig.layerList == false)) {
+                    var titleString = "Layer List";
+                    if (!this.appConfig.simpleLegend){
+                        titleString = "Legend";
+                    };
+                    var layerPane = new ContentPane({
+                        title: titleString,
+                        style: "padding: 0px; position:absolute"
+                    });
+                    layerPane.title.innerHTML = "<p class='myAcordClass'>Layers</p>",
+                    domClass.add(layerPane.domNode, 'tocLegendPane');
 
-                //Add the panes to the accordion
-                this.addChild(legendPane);
+                    //Add the panes to the accordion
+                    this.addChild(layerPane);
 
-                //Create the actual legend "tree" and add to the first pane
-                this.initializeDijitToc(this.esriMap);
-                legendPane.addChild(this._dijitToc);
+                    //Create the actual legend "tree" and add to the first pane
+                    this.initializeDijitToc(this.esriMap);
+                    layerPane.addChild(this._dijitToc);
+
+                    this._btnBar = new btnBar();
+                    var closeDiv = domConstruct.place(this._btnBar.domNode, layerPane.domNode, "first");
+
+                    this._btnBar.startup();
+                    //Click events for button bar
+                    this._btnBar.on('lyrbtnclick', lang.hitch(this, function (e) {
+                        if (e.btn === 'u') { //Move the selected map layer up
+                            this.moveSelectedUp();
+                        } else if (e.btn === 'd') { //Move the selected map layer down
+                            this.moveSelectedDown();
+                        } else { //Remove the map layer
+                            this.removeSelected();
+                        }
+                    }));
+                }
+
+
                 //When a parent layer TOC node is clicked, record it as selected here, so buttons act on it.
                 topic.subscribe('rootlyrclick', lang.hitch(this, this.selectedLayerChanged));
             }
@@ -60,37 +94,24 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/o
                         if (!selectedPane.ContentsCreated)
                             selectedPane.CreateContents();
                         this.clearSelectedLayer();
-                    } else //If switching off the Add Data, then make sure the tooltip is closed
-                        this._addDataPane.ClosePopup();
-                }));
-
-                this._btnBar = new btnBar();
-                //Find the title pane dom nodes within the table of contents module by querying on the specific styles using dojo/query
-                var titlePanes = query('#tocPanel .dijitAccordionTitle');
-                if (titlePanes.length > 0) {
-                    //Set the height of the first title pane (Legend) and insert the buttons there
-                    var firstPane = titlePanes[0];
-                    domStyle.set(firstPane, "height", "30px");
-                    var closeDiv = domConstruct.place(this._btnBar.domNode, firstPane);
-                }
-                this._btnBar.startup();
-                //Click events for button bar
-                this._btnBar.on('lyrbtnclick', lang.hitch(this, function (e) {
-                    if (e.btn === 'u') { //Move the selected map layer up
-                        this.moveSelectedUp();
-                    } else if (e.btn === 'd') { //Move the selected map layer down
-                        this.moveSelectedDown();
-                    } else { //Remove the map layer
-                        this.removeSelected();
                     }
                 }));
+
+                if (this.appConfig.simpleLegend) {
+                    //create the simple legend with only symbols
+                    this.simpleLegend = new Legend({
+                        map: this.esriMap
+                    }, "simpleLegend");
+                    this.simpleLegend.startup();
+                }
+
             }
 
             /*** Use these fxns to re-order a layer in the map, if the table of contents has already been instantiated.
-             *      Need to do here, instead of directly on the map because it is too difficult and inefficient
-             *      for TOC to track all layer re-orders using the map's onLayerReorder event. Pass in layer to re-order and new index.
-             *      If this module has not been instantiated yet then you do not need to use these fxns to re-order layers,
-             *      because when being instantiated this module will pick up the current state of the map. */
+            *      Need to do here, instead of directly on the map because it is too difficult and inefficient
+            *      for TOC to track all layer re-orders using the map's onLayerReorder event. Pass in layer to re-order and new index.
+            *      If this module has not been instantiated yet then you do not need to use these fxns to re-order layers,
+            *      because when being instantiated this module will pick up the current state of the map. */
             , MoveMapLayerDown: function (layer) {
                 //If the layer to move down is a graphics layer then it can't go below service layers, as the graphics layers always seem to sit on top
                 var isGraphicsLyr = false;
@@ -161,7 +182,7 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/o
             }
 
             // Create the toc dijit, if needed, otherwise do nothing.  If esriMap has already been set, do not need to pass in again.
-            , initializeDijitToc: function(esriMap) {
+            , initializeDijitToc: function (esriMap) {
                 var tocIsCreated = false;
                 if (esriMap != null && (this.esriMap == null || this.esriMap != esriMap)) {
                     this.esriMap = esriMap;
@@ -175,13 +196,14 @@ define(["dojo/_base/declare", "dojo/dom-construct", "dijit/_WidgetBase", "dojo/o
             },
 
             //Create the Table of Contents/Legend Dijit. Destroy an existing one if present.
-            _createDijitToc: function() {
+            _createDijitToc: function () {
                 if (this._dijitToc != null)
-                    this._dijitToc.destroyRecursive();this._dijitToc = new legendToc({
+                    this._dijitToc.destroyRecursive(); this._dijitToc = new legendToc({
+                        id: "layerListDiv",
                         map: this.esriMap
                         , webMap: this.webMap
                         , displayPointT: this.appConfig.displaypointtransp
-                });
+                    });
             }
         });
-});
+    });

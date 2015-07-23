@@ -81,7 +81,7 @@ define(["dojo/_base/declare", "dojo/aspect", "dojo/dom-construct", "dijit/_Widge
 	 				resizable: false,
 	 				dockable: false,
 	 				closable: false,
-	 				style: "position:absolute;top:20px;left:20px;width:245px;height:265px;z-index:100;visibility:hidden;",
+	 				style: "position:absolute;top:20px;left:20px;width:300px;height:265px;z-index:100;visibility:hidden;overflow: hidden;",
 	 				id: this.floaterDivId
 
 			    }, dom.byId(this.floaterDivId));

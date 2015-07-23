@@ -32,20 +32,13 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
              * and defer loading of the actual module until if/when the user actually clicks the button.
              * This is the place to create new buttons for new widgets. See existing displayinterop below for the best sample.*/
             , CreateTools: function () {
-                if (this._AppConfig.displayprint === "true" || this._AppConfig.displayprint == true) {
-                    require(["esri/dijit/Print"],
-                        lang.hitch(this, function(PrintDijit) {
-                            this._addPrint(PrintDijit);
-                        })
-                    );
-                }
 
                 //This is the draw tool with options in a floating pane - 
                 if (this._AppConfig.displaydraw === 'true' || this._AppConfig.displaydraw == true) {
                     //*** Give button a unique btnId, set title, iconClass as appropriate
                     var btnId = 'tglbtnDraw';
                     var btnTitle = 'Draw';
-                    var btnIconClass = 'esriDrawIcon';
+                    var btnIconClass = 'esriDrawIcon toolButton';
                     //*** Constructor parameters object you want passed into your module
                     //*** Provide a unique ID for the parent div of the floating panel (if applicable)
                     var widgetParams = { floaterDivId: 'floaterDraw' };
@@ -60,7 +53,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     //*** Give button a unique btnId, set title, iconClass as appropriate
                     var btnId = 'tglbtnMeasure';
                     var btnTitle = 'Measure';
-                    var btnIconClass = 'esriMeasureIcon';
+                    var btnIconClass = 'esriMeasureIcon toolButton';
                     //*** Constructor parameters object you want passed into your module
                     //*** Provide a unique ID for the parent div of the floating panel (if applicable)
                     var widgetParams = { floaterDivId: 'floaterMeas' };
@@ -72,58 +65,70 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
 
                 //*** The basemap tool. An example of loading a DropDownButton, which needs it contents loading before startup.
                 if (this._AppConfig.displaybasemaps === "true" || this._AppConfig.displaybasemaps == true) {
-                    //Get the basemap dijit- a dropdown button with the dropdown content
-                    require(["../basemaps"],
-                        lang.hitch(this, function(basemapDijit) {
-                            var baseMapBtn = new basemapDijit({
-                                id: "basemapBtn",
-                                iconClass: "esriBasemapIcon",
-                                title: "Basemaps",
-                                AppConfig: this._AppConfig
-                            });
-                            //Button gets added to toolbar
-                            this._ToolsDiv.appendChild(baseMapBtn.domNode);
-                        })
-                    );
+                    //*** Give button a unique btnId, set title, iconClass as appropriate
+                    var btnId = 'tglbtnBasemaps';
+                    var btnTitle = 'Basemaps';
+                    var btnIconClass = 'esriBasemapIcon toolButton';
+                    //*** Constructor parameters object you want passed into your module
+                    //*** Provide a unique ID for the parent div of the floating panel (if applicable)
+                    var widgetParams = { floaterDivId: 'tglbtnBasemaps', AppConfig: this._AppConfig };
+                    //*** The relative path to your module
+                    var modulePath = "../basemaps";
+
+                    this._CreateToolButton(widgetParams, btnId, btnTitle, btnIconClass, modulePath, true);
+
                 }
 				//*** The display send link tool. An example of loading a DropDownButton, which needs it contents loading before startup.
-                    if (this._AppConfig.displaySend === "true" || this._AppConfig.displaySend == true) {
-                        //Get the basemap dijit- a dropdown button with the dropdown content
-                        require(["../generateLink"],
-                        lang.hitch(this, function (webmapDijit) {
-                            var webMapBtn = new webmapDijit({
-                                id: "genLinkBtn",
-                                iconClass: "esriLinkIcon",
-                                title: "Generate Link",
-                                AppConfig: this._AppConfig
-                            });
-                            //Button gets added to toolbar
-                            this._ToolsDiv.appendChild(webMapBtn.domNode);
-                        })
-						);
-                    }
+                if (this._AppConfig.displaySend === "true" || this._AppConfig.displaySend == true) {
+                    //Get the basemap dijit- a dropdown button with the dropdown content
+                    require(["../generateLink"],
+                    lang.hitch(this, function (webmapDijit) {
+                        var webMapBtn = new webmapDijit({
+                            id: "genLinkBtn",
+                            iconClass: "esriLinkIcon",
+                            title: "Generate Link",
+                            AppConfig: this._AppConfig
+                        });
+                        //Button gets added to toolbar
+                        this._ToolsDiv.appendChild(webMapBtn.domNode);
+                    })
+					);
+                }
 					
-					if (this._AppConfig.zoomtocounty === "true" || this._AppConfig.zoomtocounty === true) {
-						//a dropdown button with the dropdown content
-						require(["../zoomtofeature"],
-                        lang.hitch(this, function (zoomDijit) {
-                            var zoomToBtn = new zoomDijit({
-                                id: "selectZoom",
-                                title: "County",
-                                value: "Zoom to County",
-                                service: "http://geodata.md.gov/imap/rest/services/Boundaries/MD_PhysicalBoundaries/MapServer/",  
-                                // alternative:  http://www.mdimap.us/ArcGIS/rest/services/Boundaries/MD.State.PoliticalBoundaries/MapServer/  layer: 5,  field: "COUNTY"
-								zoomFeature: "county",
-                                layer: 1,
-                                field: "county",
-                                AppConfig: this._AppConfig
-                            });
-							
-							//Button gets added to toolbar
-                            this._PlacesDiv.appendChild(zoomToBtn.domNode);
-                        })
-						);
-					};
+				if (this._AppConfig.zoomtocounty === "true" || this._AppConfig.zoomtocounty === true) {
+					//a dropdown button with the dropdown content
+					require(["../zoomtofeature"],
+                    lang.hitch(this, function (zoomDijit) {
+                        var zoomToBtn = new zoomDijit({
+                            id: "selectZoom",
+                            title: "County",
+                            value: "Zoom to County",
+                            service: "http://geodata.md.gov/imap/rest/services/Boundaries/MD_PhysicalBoundaries/MapServer/",  
+                            // alternative:  http://www.mdimap.us/ArcGIS/rest/services/Boundaries/MD.State.PoliticalBoundaries/MapServer/  layer: 5,  field: "COUNTY"
+							zoomFeature: "county",
+                            layer: 1,
+                            field: "county",
+                            AppConfig: this._AppConfig
+                        });
+
+						//Button gets added to toolbar
+                        this._RightToolDiv.appendChild(zoomToBtn.domNode);
+                    })
+					);
+                };
+                if (this._AppConfig.showFeatureSearch === "true" || this._AppConfig.showFeatureSearch === true) {
+                    //a dropdown button with the dropdown content
+                    require(["../search/search"],
+                    lang.hitch(this, function (searchDij) {
+                        var searchBtn = new searchDij({
+                            id: "searchDD",
+                            title: "Search",
+                            AppConfig: this._AppConfig
+                        });
+                    })
+					);
+                };
+
 					
 				
 
@@ -133,7 +138,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     //*** Give button a unique btnId, set title, iconClass as appropriate
                     var btnId = 'tglbtnInterop';
                     var btnTitle = 'Data';
-                    var btnIconClass = 'esriDataIcon';
+                    var btnIconClass = 'esriDataIcon toolButton';
                     //*** Constructor parameters object you want passed into your module
                     //*** Provide a unique ID for the parent div of the floating panel (if applicable)
                     var widgetParams = { floaterDivId: 'floaterIO' };
@@ -143,21 +148,21 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     this._CreateToolButton(widgetParams, btnId, btnTitle, btnIconClass, modulePath, true);
                 }
 
-                //*** This is the location tool (GPS), created as a module. Use this as a pattern for new tools, if no floating pane needed.
-                if (this._AppConfig.displaylocation === "true" || this._AppConfig.displaylocation == true) {
+                //This is the draw tool with options in a floating pane - 
+                if (this._AppConfig.displayprint === 'true' || this._AppConfig.displayprint == true) {
                     //*** Give button a unique btnId, set title, iconClass as appropriate
-                    var btnId = 'tglbtnLocation';
-                    var btnTitle = 'Location';
-                    var btnIconClass = 'esriLocationIcon';
+                    var btnId = 'tglBtnPrint';
+                    var btnTitle = 'Print';
+                    var btnIconClass = 'esriPrintIcon toolButton';
                     //*** Constructor parameters object you want passed into your module
                     //*** Provide a unique ID for the parent div of the floating panel (if applicable)
-                    var widgetParams = { map: mapHandler.map };
-                    //var parentDivId = 'floaterIO';//floaterDivId
+                    var widgetParams = { floaterDivId: 'floaterPrint', config: this._AppConfig };
                     //*** The relative path to your module
-                    var modulePath = "../location";
+                    var modulePath = "../print/print";
 
-                    this._CreateToolButton(widgetParams, btnId, btnTitle, btnIconClass, modulePath, false);
+                    this._CreateToolButton(widgetParams, btnId, btnTitle, btnIconClass, modulePath, true);
                 }
+
             }
 
             // Creates a toolbar button, and wires up a click handler to request your module and load it on first click only.

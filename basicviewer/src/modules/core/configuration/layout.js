@@ -3,7 +3,7 @@
  */
 define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "dojo/Evented", "dijit/registry", "require", "dojo/dom", "dijit/layout/ContentPane"
     , "dojox/widget/Standby", "../utilities/tabmanager", "../utilities/toolmanager", "dijit/form/Button", "dojo/dom-style", "dijit/layout/BorderContainer"],
-    function(declare, environment, lang, Evented, registry, require, dom, contentPane, Standby, TabManager, ToolManager, Button, domStyle){
+    function (declare, environment, lang, Evented, registry, require, dom, contentPane, Standby, TabManager, ToolManager, Button, domStyle) {
         return declare([Evented],
             {
                 _AppConfig: null
@@ -11,7 +11,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                 , _Map: null
                 , _MainBordCont: null
                 , _leftPaneToggler: null
-			
+
 
                 //Layout the regions of the Dojo container based on app configs.
                 //This way the map can be sized properly when first created.
@@ -47,17 +47,25 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                         } else { // false means the panel will be hidden, but available on startup
                             this._LayoutLeftPanel(false);
                         }
-                    }   else {
+
+                    } else {
+
                         //must remove entire left pane widget from parent border container to omit the splitter.
                         this._removeSplitter('leftPane');
                     }
+
+
+                    if (!this._AppConfig.displayinterop && !this._AppConfig.displaymeasure && !this._AppConfig.displaydraw && !this._AppConfig.displayprint && !this._AppConfig.displaybasemaps) {
+                        dojo.style(dom.byId("tools"), "display", "none");
+                    }
+
 
                     if (changesMade) {
                         this._MainBordCont.resize();
                     }
                 }
 
-                , FinalizeLayout: function(webMap, map) {
+                , FinalizeLayout: function (webMap, map) {
                     this._WebMap = webMap;
                     this._Map = map;
                     this._AppConfig.title = this._AppConfig.title || this._WebMap.item.title;
@@ -66,7 +74,43 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
 
                     //Overlay toolbar on map
                     var placeholder = dom.byId('toolbarDij');
-                    dom.byId('map_root').appendChild(placeholder, { style: {height: '48px'}});
+                    dom.byId('map_root').appendChild(placeholder, { style: { height: '48px'} });
+
+					//add webmap's description to details panel
+					if (this._WebMap.item.description) {
+						this._AppConfig.description = this._WebMap.item.description;
+					}					
+					
+                    if (!this._AppConfig.disableLeftPane) {
+                        //set left pane toggle button
+                        var lPaneToggleBtn = new Button({
+                            label: "Show/Hide",
+                            class: "PaneToggle",
+                            iconClass: "PaneToggleImage",
+                            showLabel: false
+                            , onClick: lang.hitch(this, function () {
+                                this._ShowHidePane('l');
+                            })
+                        }, 'btnLpaneToggle');
+						
+                        //Set the left pane tabs
+                        var tabManager = new TabManager({ AppConfig: this._AppConfig, WebMap: this._WebMap });
+                        tabManager.CreateLeftPaneTabs();
+                    }
+
+                    //set left pane toggle button
+                    var bPaneToggleBtn = new Button({
+                        label: "Hide/Show",
+                        class: "BottomPaneToggle",
+                        iconClass: "BottomPaneToggleImage",
+                        showLabel: false,
+                        onClick: lang.hitch(this, function () {
+                            this._ShowHidePane('B');
+                        })
+                    }, 'btnBpaneToggle');
+
+                    domStyle.set(dijit.byId('btnBpaneToggle').domNode, "display", "none");
+
 
                     if (!this._AppConfig.embed) {
                         //add a title and logo, if applicable
@@ -75,9 +119,9 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                             if (this._AppConfig.titleLogoUrl) {
                                 if (this._AppConfig.titleLogoLink) {
                                     titleHtml = '<a target="_blank" href="' + this._AppConfig.titleLogoLink + '">'
-                                        + '<img border="0" alt="MD Logo" src="' +  this._AppConfig.titleLogoUrl + '"></a>';
+                                        + '<img border="0" alt="MD Logo" src="' + this._AppConfig.titleLogoUrl + '"></a>';
                                 } else
-                                    titleHtml = '<img border="0" alt="MD Logo" src="' +  this._AppConfig.titleLogoUrl + '">';
+                                    titleHtml = '<img border="0" alt="MD Logo" src="' + this._AppConfig.titleLogoUrl + '">';
                             }
                             titleHtml += "<div class='titleDiv'>" + this._AppConfig.title + "</div>";
                             dojo.create("div", {
@@ -101,31 +145,12 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                                     innerHTML: this._AppConfig.link2.text
                                 }, 'link2List');
                             }
+                            if (!this._AppConfig.link2.url) {
+                                dojo.style(dom.byId('linkSeparator'), 'display', 'none');
+                            }
                         }
                     }
 
-                    if (!this._AppConfig.disableLeftPane) {
-
-                        //set left pane toggle button
-                        var lPaneToggleBtn = new Button({
-                            label: "Show/Hide",
-                            class: "PaneToggle",
-                            iconClass: "PaneToggleImage",
-                            showLabel: false
-                            , onClick: lang.hitch(this, function () {
-                                this._ShowHidePane('l');
-                            })
-                        }, 'btnLpaneToggle');
-
-                        //Set the left pane tabs
-                        var tabManager = new TabManager({AppConfig: this._AppConfig, WebMap: this._WebMap});
-                        tabManager.CreateLeftPaneTabs();
-                    }
-
-                    //add webmap's description to details panel
-                    if (this._WebMap.item.description) {
-                        this._AppConfig.description = this._WebMap.item.description;
-                    }
 
                     //add a custom logo to the map if provided
                     if (this._AppConfig.customlogo.image) {
@@ -180,32 +205,42 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
 
                 , _LayoutLeftPanel: function (show) {
                     var leftBC = registry.byId('leftPane');
-                    if (this._AppConfig.leftpanewidth && this._AppConfig.leftpanewidth !== ""){
+                    if (this._AppConfig.leftpanewidth && this._AppConfig.leftpanewidth !== "") {
                         dojo.style(dom.byId('leftPane'), "width", this._AppConfig.leftpanewidth + "px");
                     }
-                    if (show){
+                    if (show) {
                         esri.show(dom.byId('leftPane'));
                     }
                 }
 
-                , _removeSplitter: function(paneID){
+
+                , _removeSplitter: function (paneID) {
                     var pane = registry.byId(paneID);
                     this._MainBordCont.removeChild(pane);
-
 
                 }
 
                 , _ShowHidePane: function (side) {
                     var thePane;
                     var dijitPane;
-                    if (side.toLowerCase() === "l")
+                    if (side.toLowerCase() === "l") {
                         thePane = dom.byId('leftPane');
-                    else
+                    } else if (side.toLowerCase() === "b") {
+                        thePane = dom.byId('attributeFooter');
+                    } else {
                         thePane = dom.byId('rightPane');
-                    if (domStyle.get(thePane, 'display') === 'none')
+                    }
+                    if (domStyle.get(thePane, 'display') === 'none') {
                         esri.show(thePane);
-                     else
+                        if (side == "l") {
+                            esri.show(dom.byId('leftPane_splitter'));
+                        }
+                    } else {
                         esri.hide(thePane);
+                        if (side == "l") {
+                            esri.hide(dom.byId('leftPane_splitter'));
+                        }
+                    }
                     this._MainBordCont.resize();
                 }
             }

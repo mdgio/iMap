@@ -22,6 +22,15 @@
                 name: 'xstyle',
                 location: location.pathname.replace(/\/[^/]+$/, '') + '/src/libs/xstyle',
                 main: 'xstyle'
+            },{
+                name: 'd3',
+                location: location.pathname.replace(/\/[^/]+$/, '') + '/src/libs/d3',
+                main: 'd3'
+            },
+            {
+                name: 'c3',
+                location: location.pathname.replace(/\/[^/]+$/, '') + '/src/libs/c3',
+                main: 'c3'
             }, {
                 name: "esriTemplate",
                 location: location.pathname.replace(/\/[^/]+$/, '')

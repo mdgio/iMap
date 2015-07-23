@@ -2,9 +2,9 @@
 Creates a combobox of features and zooms to the user selected one
 */
 define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/_base/lang", "dojo/topic", "./utilities/maphandler", "dijit/layout/ContentPane"
-    , "dijit/Menu", "esri/dijit/BasemapGallery", "dijit/registry", "dojo/aspect" /*, "./custommenu"*/
+    , "dijit/Menu", "esri/dijit/BasemapGallery", "dijit/registry", "dojo/aspect", "esri/tasks/FindTask", "esri/tasks/FindParameters" /*, "./custommenu"*/
     , "dijit/form/ComboBox", "dojo/store/Memory", "dojo/on", "dojo/dom", "dojo/dom-construct"],
-    function (declare, WidgetBase, lang, topic, mapHandler, ContentPane, Menu, BasemapGallery, registry, aspect /*, custommenu*/
+    function (declare, WidgetBase, lang, topic, mapHandler, ContentPane, Menu, BasemapGallery, registry, aspect, FindTask, FindParameters /*, custommenu*/
         , ComboBox, Memory, on, dom, domConstruct) {
         return declare([WidgetBase, ComboBox], {
 
@@ -67,9 +67,9 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/_base/lang", "dojo/topi
                 var map, findTask, findParams, featureExtent;
                 map = mapHandler.map;
                 //create find task with url to map service
-                findTask = new esri.tasks.FindTask(this.params.service);
+                findTask = new FindTask(this.params.service);
                 //create find parameters and define known values
-                findParams = new esri.tasks.FindParameters();
+                findParams = new FindParameters();
                 findParams.returnGeometry = true;
                 findParams.outSpatialReference = map.spatialReference;
                 findParams.layerIds = [this.params.layer];

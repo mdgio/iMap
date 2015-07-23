@@ -12,7 +12,7 @@ html,body {
 }
 /*The image specified for the body is used to apply the gradient background to the entire page*/
 body {
-    font-family:Verdana,Arial,Helvetica,sans-serif;
+    font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
     color:#333;
 }
 /* Set the Dojo BorderContainers required attributes */
@@ -35,7 +35,15 @@ body {
 #HomeButton {
 	  /*background-image:url("../../assets/home.png"); */
 	  position: absolute;
-      top: 116px;
+      top: 126px;
+      left: 19px;
+      z-index: 50;
+}
+
+#LocateButton {
+	  /*background-image:url("../../assets/home.png"); */
+	  position: absolute;
+      top: 166px;
       left: 19px;
       z-index: 50;
 }
@@ -80,6 +88,11 @@ body {
     background-color:#fff;
 }
 
+.map .container 
+{
+    position: absolute;
+}
+
 #siteFooter {
     background: black;
     height: 80px;
@@ -91,6 +104,10 @@ body {
     padding:0px;
     margin:0px;
     border-right:solid 1px #999;
+    display:none;
+}
+#leftPane .dijitTabCloseButton
+{
     display:none;
 }
 #leftPane #rightPane a{
@@ -179,15 +196,15 @@ body {
 
 #webmap-toolbar-right {
     float: right;
-    width: 100%;
+    width: 250px;
     display: block;
     overflow: visible;
     margin-right: 15px;
 }	
 
 #tools{
-    display: inline;
-    float: right;
+    width: 60px;
+    padding: 0px;
 }
 
 
@@ -253,9 +270,14 @@ body {
     padding: 0;
 }
 
+.claro .dijitAccordionInnerContainerSelected {
+  background: none;
+  border: none;
+}
+
 .PaneToggle{
     top:47.5%;
-    left:-2px;
+    left:-3px;
     height:35px;
     width:15px;
     cursor:pointer;
@@ -269,89 +291,59 @@ body {
     height:35px;
     width:15px;
 }
+.BottomPaneToggle{
+    left:47.5%;
+    top:-18px;
+    height:15px;
+    width:35px;
+    cursor:pointer;
+    position:absolute;
+    z-index:-1;
+}
+.BottomPaneToggleImage{
+    background: none;
+    display:inline-block;
+    height:15px;
+    width:35px;
+}
+
 /*Styles for the toolbar buttons*/
-.esriBasemapIcon {
-    background-image: url(../../assets/toolbar/Basemaps.PNG);
+.esriBasemapIcon, .esriLegendIcon, .esriDetailsIcon, .esriBookmarkIcon, .esriLayerIcon, .esriMeasureIcon, .esriDataIcon, .esriDrawIcon, .esriLocationIcon, .esriLinkIcon, .esriPrintIcon
+{
     background-repeat: no-repeat;
     display: inline-block;
-    height: 48px;
-    width: 48px;
-    margin: 4px 0 4px 4px;
+    height: 43px;
+    width: 43px;
+    background-size: 40px 40px;
+}
+.esriBasemapIcon {
+    background-image: url(../../assets/toolbar/Basemaps.PNG);
 }
 .esriLegendIcon{
     background-image: url(../../assets/Legend16.png);
-    background-repeat:no-repeat;
-    display:inline-block;
-    height:16px;
-    width:16px;
-    margin: 4px 0 4px 4px;
 }
 .esriDetailsIcon{
     background-image:url(../../assets/details.png);
-    background-repeat:no-repeat;
-    display:inline-block;
-    height:16px;
-    width:16px;
-    margin:4px 0 4px 4px;
 }
 .esriBookmarkIcon{
     background-image:url(../../assets/bookmarks.png);
-    background-repeat:no-repeat;
-    display:inline-block;
-    height:16px;
-    width:16px;
-    margin: 4px 0 4px 4px;
 }
 .esriLayerIcon{
     background-image:url(../../assets/toolbar/TableOfContents.PNG);
-    background-repeat:no-repeat;
-    display:inline-block;
-    height:48px;
-    width:48px;
-    margin:4px 0 4px 4px;
 }
 .esriMeasureIcon {
     background-image: url(../../assets/toolbar/Measure.PNG);
-    background-repeat: no-repeat;
-    display: inline-block;
-    height: 48px;
-    width: 48px;
-    margin: 4px 0 4px 4px;
 }
 .esriDataIcon{
     background-image: url(../../assets/toolbar/Data.PNG);
-    background-repeat: no-repeat;
-    display: inline-block;
-    height: 48px;
-    width: 48px;
-    margin: 4px 0 4px 4px;
 }
 .esriDrawIcon{
     background-image: url(../../assets/toolbar/Draw.PNG);
-    background-repeat: no-repeat;
-    display: inline-block;
-    height: 48px;
-    width: 48px;
-    margin: 4px 0 4px 4px;
 }
 .esriLocationIcon{
-    background-image: url(../../assets/toolbar/location.PNG);
-    background-repeat: no-repeat;
-    display: inline-block;
-    height: 48px;
-    width: 48px;
-    margin: 4px 0 4px 4px;
+    background-image: url(../../assets/toolbar/Location.PNG);
 }
-/*
-.esriLinkIcon{
-    background-image: url(../../assets/toolbar/Link.PNG);
-    background-repeat: no-repeat;
-    display: inline-block;
-    height: 48px;
-    width: 48px;
-    margin: 4px 0 4px 4px;
-}
-*/
+
 .esriLinkIcon {
     background-image: url(../../assets/toolbar/link.png);
     background-repeat: no-repeat;
@@ -380,19 +372,9 @@ body {
 
 .esriPrint .dijitComboButton .dijitIcon{
     background-image:url(../../assets/toolbar/Print.PNG);
-    background-repeat:no-repeat;
-    display:inline-block;
-    height:48px;
-    width:48px;
-    margin:4px -7px 4px 4px;
 }
 .esriPrintIcon{
     background-image:url(../../assets/toolbar/Print.PNG);
-    background-repeat:no-repeat;
-    display:inline-block;
-    height:48px;
-    width:48px;
-    margin:4px -7px 4px 4px;
 }
 
 .esriPrint .dijitArrowButtonInner{
@@ -524,11 +506,13 @@ td.dijitMenuItemIconCell,td.dijitMenuItemLabel{
 }
 
 #basemapGallery{
-    z-index: 1;
-    position:relative;
+    z-index: 100;
+    position: absolute;
     overflow: auto !important;
     background-color: #FFF;
     border: 1px solid #ccc;
+    height: 120px;
+    bottom: 0;
 }
 #layerMenu{
     background-color: #FFF !important;
@@ -552,17 +536,35 @@ td.dijitMenuItemIconCell,td.dijitMenuItemLabel{
     font-weight:bold;
     padding-bottom:4px;
 	padding-left:4px;
+	
 }
-
+.dojoxFloatingPane
+{  
+    padding: 0px !important;
+    background-color: #fff;
+    border: solid thin #808080;
+    -webkit-box-shadow: 3px 3px 2px #808080;
+    -moz-box-shadow: 3px 3px 2px #808080;
+    box-shadow: 3px 3px 2px #808080;
+    border-radius: 5px 5px 0px 0px;
+}
 .dojoxFloatingPaneTitle{
     color:#fff;
     font-family:Verdana,Arial,Helvetica,sans-serif;
     font-size:12pt;
-    font-weight:bold;
     width:100%;
     padding-left:0px;
+    padding-left: 10px;    
 }
 
+.dojoxFloatingPaneContent:focus, .tabLabel:focus, .dijitTooltipDialog:focus, .dijitButtonContents:focus
+{
+    outline: none;
+}
+
+.dojoxFloatingPaneCanvas {
+    padding-right: 10px;
+}
 /*Styles for the time slider floating window*/
 #timeFloater {
     position:absolute;
@@ -580,6 +582,138 @@ td.dijitMenuItemIconCell,td.dijitMenuItemLabel{
 .timeLabel{
     text-align:center;
     padding:20px;
+}
+
+#attributeDiv
+{
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    z-Index: 100;
+}
+#attributeFooter
+{
+     bottom:0px; 
+     width:100%; 
+     z-Index:100; 
+     background-color:#fff;
+     display:none;
+     position: absolute;     
+}
+#attributeHeader
+{
+    width: 100%;
+    height: 20px;
+    background-color: #005599;
+    color: #fff;
+    border-top: 1px solid #575757;
+    border-bottom: 1px solid #575757;
+
+}
+.headerButtons
+{
+    float:right;    
+    cursor: pointer;
+    background: url("../../assets/popup-sprite.png") no-repeat;    
+}
+#exportResults
+{
+    float: right;
+    height: 14px;
+    border-radius: 3px;
+    margin: 3px 15px 2px 0px;
+    font-size: 10px;
+    padding: 0px 3px;
+    cursor: pointer;
+}
+#attributeMaximize
+{
+    width: 11px;
+    height: 11px;
+    background-position: -28px -42px;
+    margin: 5px 2px 4px 2px;
+}
+#attributeMinimize
+{
+    background-position: -43px -42px;
+    width: 11px;
+    height: 11px;  
+    margin: 5px 2px 4px 2px;
+    display: none;
+}
+#attributeClose
+{
+    width: 12px;
+    height: 17px;
+    background-position: -34px 0;    
+    margin: 2px 2px 1px 2px;
+}
+.attributeTitle
+{
+    float: left;
+    line-height:20px;
+    margin-left: 10px;
+    color: #fff;
+}
+.dgrid
+{
+    position: absolute !important;
+    top: 24px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: auto !important;
+    width:100%;
+    font-size: 12px;
+}
+.dgrid-cell {
+    width: 100px;
+}
+.dgrid-column-0
+{
+    width: 30px;
+}
+
+#attributeGridContainer
+{
+    height: 100%;
+    width: 100%;
+    position: relative;
+}
+#attributeGridContainer .dijitTabContainerTop-tabs .dijitTab
+{
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: #fcfcfc;
+    border: 1px solid #ccc;
+    border-radius: 5px 5px 0px 0px;
+}
+#attributeGridContainer .dijitTab.dijitTabChecked
+{
+    background-color: #eee;
+}
+#attributeGridContainer .dijitTabContainer
+{
+    height:100%;
+}
+#attributeGridContainer .dijitTabPaneWrapper
+{
+    border: 1px solid #ccc; 
+}
+#attributeGridContainer .dijitTabContainerTop-tabs {
+    border-bottom: none;
+}
+#attributeGridContainer .dijitTabInnerDiv
+{
+    display:none;
+}
+.tabGridContainer
+{
+    height:100%;
+}
+#attributeGridContainer .dgrid
+{
+    top: 0px;
 }
 
 #measureDiv{
@@ -673,23 +807,63 @@ div#map_zoom_slider.esriSimpleSlider.esriSimpleSliderVertical.esriSimpleSliderTL
     margin-top: 2px;
     margin-bottom: 2px;
 }
+#layerSearch
+{
+    display: block;
+    float: right;
+    position: relative;
+    z-index: 70;
+    /* padding-top: 2px; */
+    margin-left: 15px;
+    margin-right: 10px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    width: 225px;
+}
 
+.arcgisSearch .searchBtn
+{
+    padding: 5px 4px;
+}
+.arcgisSearch .searchGroup .searchInput 
+{
+    height: 18px;
+    width: 129px;
+    padding: 6px 23px 6px 12px;
+}
+.arcgisSearch .searchClear
+{
+    height: 28px;
+}
+    
 #widget_selectZoom {
-    width: 220px;
-	height: 18px;
+    width: 223px;
+	height: 24px;
+	line-height: 22px;
     z-index: 20;
     float: right;
     padding-left:2px;
     padding-top:0px;
     padding-bottom: 2px;
+
     margin-right: 8px;
     margin-left: 15px;
     margin-top: 2px;
     margin-bottom: 2px;
     position: relative;
     font-size: small;
-    border-radius: 4px;
+    border-radius: 5px;
+      
+    border: 1px solid #57585A;   
 }	
+#widget_selectZoom .dijitInputField {
+  padding: 3px 2px;
+}
+
+#widget_selectZoom .dijitArrowButtonInner 
+{
+    background: white url("../../assets/arrow.png") no-repeat 95% center;
+}
 
 
 /*Specify font for the popup window*/
@@ -815,21 +989,43 @@ div#editDiv.templatePicker .grid  .selectedItem {
     left: 4px;
 }
 
-/*For IE 10+, older versions of IE conditionally loads src/css/ie.css defined in index.html. Support for conditional css was deprecated at IE10*/
-@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-    #gotoPlaces{
-        overflow: auto;
-        zoom: 1;
-        float: right;
-    }
-    #widget_selectZoom{
-        float: none;
-    }
-    #search{
-        float: none;
-    }
-    #tools{
-        display: block;
-        float: none;
-    }
+
+/*updating the basemap widget */
+#basemapGallery{
+	overflow-y:hidden !important;
+	overflow-x:auto !important;
+	height:150px;
+	width:100%;
 }
+
+.esriBasemapGalleryLabelContainer{
+	height:100%;
+}
+
+.esriBasemapGalleryLabelContainer {
+  overflow-wrap: break-word;
+}
+
+/*updating the measurement widget */
+.esriMeasurement .dijitArrowButtonInner 
+{
+    height: 24px;   
+}
+.esriMeasurement .dijitArrowButtonChar
+{
+    display: inline !important;
+    margin-left: -20px;
+}
+.esriMeasurement .esriToggleButton .dijitButtonText
+{
+  display: inline-block !important;
+  font-size: 14px !important;
+  border: 1px solid #181818;
+  height: 24px;
+  border-radius: 5px 0px 0px 5px;
+  line-height: 22px;
+  border-right: none;
+  width: 95px;
+  text-align: left;
+}
+>>>>>>> pr/3

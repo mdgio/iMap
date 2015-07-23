@@ -1,10 +1,16 @@
 /** A map drawing toolbar - not integrated yet */
-define(["dojo/_base/declare", "dojo/_base/Color", "dojo/_base/lang", "dojo/dom-construct", "dijit/_WidgetBase", "dijit/_TemplatedMixin", "dijit/_WidgetsInTemplateMixin", "dojo/on", "dijit/registry", "dojo/aspect", "dojo/ready", "dojo/parser",
-    "dojo/text!./templates/draw.html", "dojo/dnd/move", "dojo/dom-style", "dojo/_base/fx", "dojo/dom", "dojox/layout/FloatingPane", "dojo/query", "../utilities/maphandler", "dojo/has", "dojo/json",
-	"esri/toolbars/draw", "esri/graphic", "esri/symbols/SimpleMarkerSymbol", "esri/symbols/SimpleLineSymbol", "esri/symbols/SimpleFillSymbol", "xstyle/css!./css/draw.css"],
-    function (declare, Color, lang, domConstruct, WidgetBase, TemplatedMixin, WidgetsInTemplateMixin, on, registry, aspect, ready, parser,
-    template, move, domstyle, fxer, dom, floatingPane, query, mapHandler, has, JSON,
-	Draw, Graphic, SimpleMarkerSymbol, SimpleLineSymbol, SimpleFillSymbol) {
+define(["dojo/_base/declare", "dojo/_base/Color", "dojo/_base/lang", "dojo/dom-construct", "dijit/_WidgetBase", "dijit/_TemplatedMixin",
+    "dijit/_WidgetsInTemplateMixin", "dojo/on", "dijit/registry", "dojo/aspect", "dojo/ready", "dojo/parser",
+    "dojo/text!./templates/draw.html", "dojo/dnd/move", "dojo/dom-style", "dojo/_base/fx", "dojo/dom",
+    "dojox/layout/FloatingPane", "dojo/query", "../utilities/maphandler", "dojo/has", "dojo/json", "dijit/TooltipDialog", "dijit/form/DropDownButton",
+	"esri/toolbars/draw", "esri/graphic", "esri/symbols/SimpleMarkerSymbol", "esri/symbols/SimpleLineSymbol",
+    "esri/symbols/SimpleFillSymbol", "esri/dijit/ColorPicker", "xstyle/css!./css/draw.css"],
+    function (declare, Color, lang, domConstruct, WidgetBase, TemplatedMixin,
+    WidgetsInTemplateMixin, on, registry, aspect, ready, parser,
+    template, move, domstyle, fxer, dom,
+    floatingPane, query, mapHandler, has, JSON, TooltipDialog, DropDownButton,
+	Draw, Graphic, SimpleMarkerSymbol,
+    SimpleLineSymbol, SimpleFillSymbol, ColorPicker) {
         return declare([WidgetBase], {
             // The template HTML fragment (as a string, created in dojo/text definition above)
             templateString: template,
@@ -20,8 +26,10 @@ define(["dojo/_base/declare", "dojo/_base/Color", "dojo/_base/lang", "dojo/dom-c
             map: null,
             // The table of contents dijit
             drawingToolbar: null,
-			
+
             symbol: null,
+            fillColor: new Color([255, 255, 255, 0.25]),
+            outlineColor: new Color([0, 0, 0, 1]),
 
             geomTask: null,
 
@@ -35,12 +43,12 @@ define(["dojo/_base/declare", "dojo/_base/Color", "dojo/_base/lang", "dojo/dom-c
 
             _drawDij: null,
             infoHolder: null,
-			
-			//*** Creates the floating pane. Should be included in your module and be re-usable without modification (if using floating pane)
+
+            //*** Creates the floating pane. Should be included in your module and be re-usable without modification (if using floating pane)
             constructor: function (args) {
                 // safeMixin automatically sets the properties above that are passed in from the toolmanager.js
                 declare.safeMixin(this, args);
-                this.innerDivId = this.floaterDivID + 'inner';
+                this.innerDivId = this.floaterDivId + 'inner';
                 // mapHandler is a singleton object that you can require above and use to get a reference to the map.
                 this.map = mapHandler.map;
                 //Create the div containers for the floating pane as a child of the map's div
@@ -49,7 +57,7 @@ define(["dojo/_base/declare", "dojo/_base/Color", "dojo/_base/lang", "dojo/dom-c
 
                 var ConstrainedFloatingPane = declare([WidgetBase, TemplatedMixin, WidgetsInTemplateMixin, floatingPane], {
 
-					postCreate: function () {
+                    postCreate: function () {
                         this.inherited(arguments);
                         this.moveable = new move.constrainedMoveable(
 										this.domNode, {
@@ -79,14 +87,14 @@ define(["dojo/_base/declare", "dojo/_base/Color", "dojo/_base/lang", "dojo/dom-c
                     resizable: false,
                     dockable: false,
                     closable: false,
-                    style: "position:absolute;top:20px;left:20px;width:380px;height:200px;z-index:100;visibility:hidden;overflow:hidden;",
+                    style: "position:absolute;top:20px;left:20px;width:250px;height:250px;z-index:100;visibility:hidden;overflow:hidden;",
                     id: this.floaterDivId,
                     parseOnLoad: false
                 }, dom.byId(this.floaterDivId));
-				
-			    //Create a title bar for Floating Pane
+
+                //Create a title bar for Floating Pane
                 var titlePane = query('#floaterDraw .dojoxFloatingPaneTitle')[0];
-				
+
                 //Add close button to title pane
                 var closeDiv = domConstruct.create('div', {
                     id: "closeBtn",
@@ -97,66 +105,104 @@ define(["dojo/_base/declare", "dojo/_base/Color", "dojo/_base/lang", "dojo/dom-c
                 }, titlePane);
                 //Set the content of the Floating Pane to the template HTML.
                 dom.byId(this.innerDivId).innerHTML = template;
-                
-				// On tool button click = toggle the floating pane
-				fpI.startup();
-				
-			    this.drawingToolbar = new Draw(mapHandler.map, {});
-                this.drawingToolbar.on("draw-end", this.addGraphic);
+
+                // On tool button click = toggle the floating pane
+                fpI.startup();
+
+                this.drawingToolbar = new Draw(mapHandler.map, {});
+                this.drawingToolbar.on("draw-end", lang.hitch(this, this.addGraphic));
 
                 //			fpI.addChild(draw);
                 //			fpI.startup();
                 //	
-				
-                    
-				on(dojo.byId("draw_point"), "click", lang.hitch(this, function () {
-                    this.drawingToolbar.activate("point");
-				}));
-				
-				on(dojo.byId("draw_multipoint"), "click", lang.hitch(this, function () {
+                var fillDialog = new TooltipDialog({
+                    content:
+                    '<div id="fillPicker"></div>'
+                });
+                var outlineDialog = new TooltipDialog({
+                    content:
+                    '<div id="outlinePicker"></div>'
+                });
+
+                var fillPickerDD = new DropDownButton({
+                    label: "Fill Color",
+                    id: "fillBtn",
+                    class: "outlineClass",
+                    dropDown: fillDialog
+                });
+                dom.byId("clrPicker").appendChild(fillPickerDD.domNode);
+                fillPickerDD.startup();
+                var outlinePickerDD = new DropDownButton({
+                    label: "Outline Color",
+                    class: "outlineClass",
+                    id: "outlineBtn",
+                    dropDown: outlineDialog
+                });
+                dom.byId("clrPicker").appendChild(outlinePickerDD.domNode);
+                outlinePickerDD.startup();
+
+                this.fillPicker = new ColorPicker({
+                    showRecentColors: false,
+                    color: new Color([255, 255, 255, 0.25]) 
+                }, "fillPicker");
+                this.fillPicker.startup();
+                this.outlinePicker = new ColorPicker({ 
+                    showRecentColors: false,
+                    color: new Color([0, 0, 0, 1])
+                }, "outlinePicker");
+                this.outlinePicker.startup();
+
+                on(this.fillPicker, "color-change", lang.hitch(this, function () {
+                    this.fillColor = this.fillPicker.color;
+                    domstyle.set(dijit.byId("fillBtn").domNode, "color", "rgba(" + this.fillPicker.color.r + ", " + this.fillPicker.color.g + ", " + this.fillPicker.color.b + ", " + this.fillPicker.color.a + ")");
+                }));
+
+                on(this.outlinePicker, "color-change", lang.hitch(this, function () {
+                    this.outlineColor = this.outlinePicker.color;
+                    domstyle.set(dijit.byId("outlineBtn").domNode, "color", "rgba(" + this.outlinePicker.color.r + ", " + this.outlinePicker.color.g + ", " + this.outlinePicker.color.b + ", " + this.outlinePicker.color.a + ")");
+                }));
+
+                on(dojo.byId("draw_multipoint"), "click", lang.hitch(this, function () {
                     this.drawingToolbar.activate("multipoint");
                 }));
-       
-				on(dojo.byId("draw_line"), "click", lang.hitch(this, function () {
-                    this.drawingToolbar.activate("line");
-                }));
-				on(dojo.byId("draw_polyline"), "click", lang.hitch(this, function () {
+
+                on(dojo.byId("draw_polyline"), "click", lang.hitch(this, function () {
                     this.drawingToolbar.activate("polyline");
                 }));
-				on(dojo.byId("draw_freehand_polyline"), "click", lang.hitch(this, function () {
+                on(dojo.byId("draw_freehand_polyline"), "click", lang.hitch(this, function () {
                     this.drawingToolbar.activate("freehandpolyline");
                 }));
-				on(dojo.byId("draw_polygon"), "click", lang.hitch(this, function () {
+                on(dojo.byId("draw_polygon"), "click", lang.hitch(this, function () {
                     this.drawingToolbar.activate("polygon");
                 }));
-				on(dojo.byId("draw_freehand_polygon"), "click", lang.hitch(this, function () {
+                on(dojo.byId("draw_freehand_polygon"), "click", lang.hitch(this, function () {
                     this.drawingToolbar.activate("freehandpolygon");
                 }));
-				on(dojo.byId("draw_arrow"), "click", lang.hitch(this, function () {
+                on(dojo.byId("draw_arrow"), "click", lang.hitch(this, function () {
                     this.drawingToolbar.activate("arrow");
                 }));
-				on(dojo.byId("draw_triangle"), "click", lang.hitch(this, function () {
+                on(dojo.byId("draw_triangle"), "click", lang.hitch(this, function () {
                     this.drawingToolbar.activate("triangle");
                 }));
-				on(dojo.byId("draw_circle"), "click", lang.hitch(this, function () {
+                on(dojo.byId("draw_circle"), "click", lang.hitch(this, function () {
                     this.drawingToolbar.activate("circle");
                 }));
-				on(dojo.byId("draw_ellipse"), "click", lang.hitch(this, function () {
+                on(dojo.byId("draw_ellipse"), "click", lang.hitch(this, function () {
                     this.drawingToolbar.activate("ellipse");
                 }));
-				/* on(dojo.byId("edit"), "click", lang.hitch(this, function () {
-                    this.createEdit(); 
+                /* on(dojo.byId("edit"), "click", lang.hitch(this, function () {
+                this.createEdit(); 
                 })); */
-				on(dojo.byId("clear_all"), "click", lang.hitch(this, function () {
+                on(dojo.byId("clear_all"), "click", lang.hitch(this, function () {
                     this.map.graphics.clear();
-					
+
                 }));
-				/*  on(dojo.byId("add_text"), "click", lang.hitch(this, function () {
-                    this.openTextForm();
-					this.drawingToolbar.activate("point");
+                /*  on(dojo.byId("add_text"), "click", lang.hitch(this, function () {
+                this.openTextForm();
+                this.drawingToolbar.activate("point");
                 })); */
-				
-				on(registry.byId(this.buttonDivId), "click", lang.hitch(this, function () {
+
+                on(registry.byId(this.buttonDivId), "click", lang.hitch(this, function () {
                     this.ToggleTool();
                 }));
                 //Open it
@@ -165,28 +211,28 @@ define(["dojo/_base/declare", "dojo/_base/Color", "dojo/_base/lang", "dojo/dom-c
 
         , addGraphic: function (evt) {
             //create a random color for the symbols
-              var r = Math.floor(Math.random() * 255);
-              var g = Math.floor(Math.random() * 255);
-              var b = Math.floor(Math.random() * 255);
+            var r = Math.floor(Math.random() * 255);
+            var g = Math.floor(Math.random() * 255);
+            var b = Math.floor(Math.random() * 255);
 
-              var type = evt.geometry.type;
-              var symbol; 
-          
-              if (type === "point" || type === "multipoint") {
+            var type = evt.geometry.type;
+            var symbol;
+
+            if (type === "point" || type === "multipoint") {
                 symbol = new SimpleMarkerSymbol(
-                  SimpleMarkerSymbol.STYLE_CIRCLE, 
+                  SimpleMarkerSymbol.STYLE_CIRCLE,
                   20, new SimpleLineSymbol(
-                    SimpleLineSymbol.STYLE_SOLID, 
-                    new Color([r, g, b, 0.5]), 10), 
-                    new Color([r, g, b, 0.9])
+                    SimpleLineSymbol.STYLE_SOLID,
+                    this.outlineColor, 10),
+                    this.fillColor
 					);
-              } else
-			  if (type === "line" || type === "polyline") {
-				symbol = new SimpleLineSymbol(
-					SimpleLineSymbol.STYLE_DASH, 
-					new Color([255, 0, 0]),	2
+            } else
+                if (type === "line" || type === "polyline") {
+                    symbol = new SimpleLineSymbol(
+					SimpleLineSymbol.STYLE_DASH,
+					this.outlineColor, 2
 				);
-			  }	/* else
+                } /* else
 			  if (type === "freehand_polyline") {
 				symbol = new SimpleLineSymbol(
 					SimpleLineSymbol.STYLE_DASH, 
@@ -194,18 +240,18 @@ define(["dojo/_base/declare", "dojo/_base/Color", "dojo/_base/lang", "dojo/dom-c
 					2
 				);
 			  }	 */
-			  if (type === "polygon") {
-				symbol = new SimpleFillSymbol(
-					SimpleFillSymbol.STYLE_SOLID, 
+            if (type === "polygon") {
+                symbol = new SimpleFillSymbol(
+					SimpleFillSymbol.STYLE_SOLID,
 					new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
-					new dojo.Color([0, 0, 0]), 2), 
-					new dojo.Color([255, 255, 0, 0.25])
+					this.outlineColor, 2),
+					this.fillColor
 				);
-              }	
-			  
-			  var graphic = new Graphic(evt.geometry, symbol);
-              mapHandler.map.graphics.add(graphic);
             }
+
+            var graphic = new Graphic(evt.geometry, symbol);
+            mapHandler.map.graphics.add(graphic);
+        }
 
             //*** This gets called by the Close (x) button in the floating pane created above. Re-use in your widget.
            , ToggleTool: function () {
@@ -216,20 +262,19 @@ define(["dojo/_base/declare", "dojo/_base/Color", "dojo/_base/lang", "dojo/dom-c
                    domstyle.set(this.floaterDivId, "left", "0px");
                    registry.byId(this.floaterDivId).show();
                    //this._drawDij.setTool("location", true);
-					this.drawingToolbar.activate();
                    mapHandler.DisableMapPopups();
                } else {
                    registry.byId(this.floaterDivId).hide();
                    registry.byId(this.buttonDivId).set('checked', false); //uncheck the toggle button
-					//enable map popup windows
-					this.drawingToolbar.deactivate();
-				   //this._drawDij.setTool("location", false);
+                   //enable map popup windows
+                   this.drawingToolbar.deactivate();
+                   //this._drawDij.setTool("location", false);
                    //                    mapHandler._clickHandler = mapHandler.map.on("click", mapHandler._clickListener);
                    //                    console.log("Popups should be enabled");
                    //enable map popup windows
-				 //  this.drawingToolbar.deactivate();
+                   //  this.drawingToolbar.deactivate();
                    mapHandler.EnableMapPopups();
-         
+
                }
            }
 
@@ -267,7 +312,7 @@ define(["dojo/_base/declare", "dojo/_base/Color", "dojo/_base/lang", "dojo/dom-c
                this.map.showZoomSlider();
                switch (geometry.type) {
                    case "point":
-                       var symbol = new esri.symbol.SimpleMarkerSymbol(esri.symbol.SimpleMarkerSymbol.STYLE_SQUARE, 10, new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color([255, 0, 0]), 1), new dojo.Color([0, 255, 0, 0.25]));
+                       var symbol = new esri.symbol.SimpleMarkerSymbol(esri.symbol.SimpleMarkerSymbol.STYLE_SQUARE, 10, new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, this.outlineColor, 1), this.fillColor);
                        break;
                    case "polyline":
                        var symbol = new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_DASH, new dojo.Color([255, 0, 0]), 1);
@@ -345,6 +390,6 @@ define(["dojo/_base/declare", "dojo/_base/Color", "dojo/_base/lang", "dojo/dom-c
                }
            }  //end setColor
 
-           
+
         });
     });
