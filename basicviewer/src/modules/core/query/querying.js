@@ -749,8 +749,18 @@ define(["dojo/_base/declare", "dijit/_WidgetBase", "dojo/dom", "dojo/json", "dij
                 if (compressedGraphics.length > 0) {
                     var graphic = compressedGraphics[0];
                     if (graphic) {
-                        this.map.centerAt(graphic.getExtent().getCenter());
-                        this.map.setExtent(graphic.getExtent());
+                        //get extent of graphic
+                        var extent = graphic.getExtent();
+                        //get y axis range of extent
+                        var  yRange = extent.ymax - extent.ymin;
+                        // expand y range by 1.25
+                        yRange *= 1.25;
+                        // change the ymin value to move the graphic north in the extent window
+                        extent.ymin = extent.ymax - yRange;
+                        this.map.centerAt(extent.getCenter());
+                        this.map.setExtent(extent, true);
+                        //change extent by factor of queryResultsGrid height divided by map container height.
+
                         //this._getTopSectionCenter(graphic);
                     }
                 }
