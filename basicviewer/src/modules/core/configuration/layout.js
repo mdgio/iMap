@@ -47,14 +47,18 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                         } else { // false means the panel will be hidden, but available on startup
                             this._LayoutLeftPanel(false);
                         }
+
                     } else {
+
                         //must remove entire left pane widget from parent border container to omit the splitter.
                         this._removeSplitter('leftPane');
                     }
 
+
                     if (!this._AppConfig.displayinterop && !this._AppConfig.displaymeasure && !this._AppConfig.displaydraw && !this._AppConfig.displayprint && !this._AppConfig.displaybasemaps) {
                         dojo.style(dom.byId("tools"), "display", "none");
                     }
+
 
                     if (changesMade) {
                         this._MainBordCont.resize();
@@ -107,6 +111,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
 
                     domStyle.set(dijit.byId('btnBpaneToggle').domNode, "display", "none");
 
+
                     if (!this._AppConfig.embed) {
                         //add a title and logo, if applicable
                         if (this._AppConfig.displaytitle === "true" || this._AppConfig.displaytitle === true) {
@@ -145,6 +150,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                             }
                         }
                     }
+
 
                     //add a custom logo to the map if provided
                     if (this._AppConfig.customlogo.image) {
@@ -207,9 +213,11 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     }
                 }
 
+
                 , _removeSplitter: function (paneID) {
                     var pane = registry.byId(paneID);
                     this._MainBordCont.removeChild(pane);
+
                 }
 
                 , _ShowHidePane: function (side) {

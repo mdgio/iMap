@@ -25,6 +25,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                 this._LeftToolDiv = dom.byId("webmap-toolbar-left");
 				this._RightToolDiv = dom.byId("webmap-toolbar-right");
                 this._ToolsDiv = dom.byId("tools");
+                this._PlacesDiv= dom.byId("gotoPlaces");
               }
 
             /*** Function to handle loading the toolbar at the top of the map.  Many of the tools only create a button at startup
@@ -109,7 +110,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                             field: "county",
                             AppConfig: this._AppConfig
                         });
-							
+
 						//Button gets added to toolbar
                         this._RightToolDiv.appendChild(zoomToBtn.domNode);
                     })
@@ -127,6 +128,7 @@ define(["dojo/_base/declare", "../utilities/environment", "dojo/_base/lang", "do
                     })
 					);
                 };
+
 					
 				
 

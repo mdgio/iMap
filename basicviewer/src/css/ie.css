@@ -44,3 +44,20 @@ text-align:center;
    margin-top:4px;
    float:left;
 }
+#gotoPlaces{
+    overflow: auto;
+    zoom: 1;
+}
+#widget_selectZoom{
+    float: none;
+}
+#search{
+    float: none;
+}
+#tools{
+    display: block;
+    float: none;
+}
+#gotoPlaces{
+    float: right;
+}

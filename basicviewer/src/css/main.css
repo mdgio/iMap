@@ -497,7 +497,7 @@ td.dijitMenuItemIconCell,td.dijitMenuItemLabel{
     color: #fcfad3;
 }
 #nav ul{
-    padding:bottom:5px;
+    padding-bottom:5px;
 }
 #nav li {
     display:inline;
@@ -797,7 +797,7 @@ div#map_zoom_slider.esriSimpleSlider.esriSimpleSliderVertical.esriSimpleSliderTL
 }
 
 #search {
-    inline: block;
+    display: inline-block;
     float: right;
     position: relative;
     z-index: 70;
@@ -806,7 +806,6 @@ div#map_zoom_slider.esriSimpleSlider.esriSimpleSliderVertical.esriSimpleSliderTL
     margin-right: 10px;
     margin-top: 2px;
     margin-bottom: 2px;
-    
 }
 #layerSearch
 {
@@ -843,17 +842,15 @@ div#map_zoom_slider.esriSimpleSlider.esriSimpleSliderVertical.esriSimpleSliderTL
 	line-height: 22px;
     z-index: 20;
     float: right;
-   
     padding-left:2px;
     padding-top:0px;
     padding-bottom: 2px;
-    
+
     margin-right: 8px;
     margin-left: 15px;
     margin-top: 2px;
     margin-bottom: 2px;
     position: relative;
-    
     font-size: small;
     border-radius: 5px;
       
@@ -960,8 +957,6 @@ div#editDiv.templatePicker .grid  .selectedItem {
     padding: 10px 2px 2px 0px;
 }
 
-
-
 .claro .dijitButtonText{
     display: none !important;
 }
@@ -993,6 +988,7 @@ div#editDiv.templatePicker .grid  .selectedItem {
 .claro .dijitSplitterV .dijitSplitterThumb {
     left: 4px;
 }
+
 
 /*updating the basemap widget */
 #basemapGallery{
@@ -1032,3 +1028,4 @@ div#editDiv.templatePicker .grid  .selectedItem {
   width: 95px;
   text-align: left;
 }
+>>>>>>> pr/3

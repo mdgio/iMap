@@ -56,7 +56,9 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     },
                     //option to completely hide left pane, including splitter and toggle button.  Left Pane will become obsolete at runtime and not be available for any interaction.
                     //set to true will override any display of left pane widgets, the startupwidget config property (line 91) and the leftpanewidth property (line 65).
+
                     disableLeftPane: false,
+
                     //specify the width of the panel that holds the editor, legend, details
                     leftpanewidth: '350',
                     //specify the width of the panel that holds the TOC
@@ -158,6 +160,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                     //set to false to hide the home button on the map
                     displayhome: true,
 
+
                     //*** General Settings ***
                     //i18n.viewer.main.scaleBarUnits,
 
@@ -217,6 +220,7 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                             if (response.values.titleLogoLink) {
                                 configOptions.titleLogoLink = response.values.titleLogoLink;
                             }
+
                             if (response.values.disableLeftPane !== undefined) {
                                 configOptions.disableLeftPane = response.values.disableLeftPane;
                             }
@@ -337,10 +341,10 @@ define(["dojo/_base/declare", "dojox/html/entities", "dojo/_base/lang", "dojo/Ev
                             if (response.values.displaypointtransp) {
                                 configOptions.displaypointtransp = response.values.displaypointtransp;
                             }
-                            /*if (response.values.basemapgrouptitle && response.values.basemapgroupowner) {
+                            if (response.values.basemapgrouptitle && response.values.basemapgroupowner) {
                                 configOptions.basemapgroup.title = response.values.basemapgrouptitle;
                                 configOptions.basemapgroup.owner = response.values.basemapgroupowner;
-                            }*/
+                            }
                             if (response.values.displayinterop != undefined)
                                 configOptions.displayinterop = response.values.displayinterop;
 
