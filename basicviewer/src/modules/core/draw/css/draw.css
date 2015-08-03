@@ -1,7 +1,12 @@
-
 #floaterDraw .dijitButtonText
 {
     display: inline !important;
+}
+
+#drawingBtns
+{
+    width: 100%;
+    margin: 0 auto;
 }
 #floaterDraw .dijitDropDownButton .dijitButtonNode
 {
@@ -55,6 +60,10 @@
 {
     background: url("../../../../../assets/draw/i_draw_ellipse.png") no-repeat #fff;
 }
+#draw_anno
+{
+    background: url("../../../../../assets/draw/i_draw_anno.png") no-repeat #fff;
+}
 #drawingBtns button{
   height: 35px;
   width: 38px;
@@ -65,6 +74,18 @@
 {
     padding-top: 10px;
 }
+#btnText 
+{
+    padding: 5px;
+    width: 50px;
+    border-radius: 5px;
+    float:right;
+    height: 55px;
+    cursor: pointer;
+    text-align: center;
+    color: #fff;
+    font-weight: bolder;
+}
 #clear_all
 {
     padding: 5px;
@@ -74,4 +95,70 @@
     text-align: center;
     color: #fff;
     font-weight: bolder;
+}
+#txtStr
+{
+    width: 50%;
+}
+.txtDD
+{
+    height: 20px;
+    background: #ffffff;
+    border: 1px solid #000000;
+    border-radius: 4px;
+}
+.ddl p
+{
+    width: 50%;
+    margin: 0px;
+    float: left;
+}
+.undoButtons{
+    height: 35px;
+    padding-left:20px;
+}
+.undoIcon, .redoIcon 
+{
+    width: 60px;
+    height: 30px;
+    background-repeat: no-repeat;
+    float: left;
+    margin: 10px;
+    text-align: center;
+    line-height: 30px;
+    background-position: 8px 5px;
+    padding-left: 15px;
+    border-radius: 5px;
+    
+}
+.undoIcon.disabled
+{
+    background-image:url(../../../../../assets/undo_gray.png); 
+}
+.redoIcon.disabled  
+{
+    background-image:url(../../../../../assets/redo_gray.png);
+}
+.undoIcon  
+{
+    background-image:url(../../../../../assets/undo.png); 
+    cursor:pointer;    
+}
+.redoIcon  
+{
+    background-image:url(../../../../../assets/redo.png);
+    cursor:pointer;    
+}
+.disabled
+{
+    background-color:#efefef;
+    border-color:#d3d3d3;
+    color: #d3d3d3;
+    cursor: auto;     
+}
+.disabled:hover
+{
+    background-color:#efefef;
+    border-color:#d3d3d3;
+    color: #d3d3d3;    
 }

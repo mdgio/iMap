@@ -10,9 +10,35 @@
 		<button data-dojo-type="dijit.form.ToggleButton" id="draw_triangle" title='Triangle'></button>
 		<button data-dojo-type="dijit.form.ToggleButton" id="draw_circle" title='Circle'></button>
 		<button data-dojo-type="dijit.form.ToggleButton" id="draw_ellipse" title='Ellipse'></button>
+        <button data-dojo-type="dijit.form.ToggleButton" id="draw_anno" title='Add Text'></button>
     </div><br />
+
+    <div id="textInput" style="display:none">
+        <textarea id="textStr" rows="4"></textarea>
+        <div id="btnText" class="generalButtonStyle" title="Click to add the text to the map">Add to map</div>
+        <div id="fontDDL">
+            <div class="ddl">
+                <p>Text angle:</p>
+                <select id="textAngle" class="txtDD">
+                    <option value="0" selected>0&deg;</option>
+                    <option value="15">15&deg;</option>
+                    <option value="45">45&deg;</option>
+                    <option value="90">90&deg;</option>
+                </select>
+            </div>
+            <div class="ddl">
+                <p>Font size:</p>
+                <select id="textSize" class="txtDD">
+                    <option value="10">10pt</option>
+                    <option value="12" selected>12pt</option>
+                    <option value="14">14pt</option>
+                    <option value="16">16pt</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <br />
     <div id="clrPicker"></div>
-    
 	<!-- 
 	Edit (both in development):
 	<span  style="padding-left:10px;">
@@ -20,6 +46,11 @@
 		<button data-dojo-type="dijit.form.Button" id="add_text"data-dojo-props="onClick:function(){openTextForm();toolbar.activate(esri.toolbars.Draw.POINT);map.hideZoomSlider();}">Add Text</button><br /> 
 	</span> 
 	-->
+    <div class="undoButtons">
+        <div id="undoBtn" class="generalButtonStyle undoIcon disabled">Undo</div>
+        <div id="redoBtn" class="generalButtonStyle redoIcon disabled">Redo</div>
+        <br>
+    </div>
 	<div style="margin-left:auto; margin-right:auto; width:120px; style="padding-bottom:10px;"><br />
 		<div id="clear_all" class="generalButtonStyle">Clear All</div>
 	</div>	

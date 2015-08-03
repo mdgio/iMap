@@ -1,16 +1,16 @@
 /** A map drawing toolbar - not integrated yet */
-define(["dojo/_base/declare", "dojo/_base/Color", "dojo/_base/lang", "dojo/dom-construct", "dijit/_WidgetBase", "dijit/_TemplatedMixin",
-    "dijit/_WidgetsInTemplateMixin", "dojo/on", "dijit/registry", "dojo/aspect", "dojo/ready", "dojo/parser",
-    "dojo/text!./templates/draw.html", "dojo/dnd/move", "dojo/dom-style", "dojo/_base/fx", "dojo/dom",
+define(["dojo/_base/declare", "dojo/_base/Color", "dojo/_base/lang", "dojo/dom-construct", "dojo/_base/connect", "dijit/_WidgetBase", "dijit/_TemplatedMixin",
+    "dijit/_WidgetsInTemplateMixin", "dojo/on", "dijit/registry", "dojo/aspect", "dojo/ready", "dojo/parser", "dojo/dom-class",
+    "dojo/text!./templates/draw.html", "dojo/dnd/move", "dojo/dom-style", "dojo/_base/fx", "dojo/dom", "./customoperation",
     "dojox/layout/FloatingPane", "dojo/query", "../utilities/maphandler", "dojo/has", "dojo/json", "dijit/TooltipDialog", "dijit/form/DropDownButton",
-	"esri/toolbars/draw", "esri/graphic", "esri/symbols/SimpleMarkerSymbol", "esri/symbols/SimpleLineSymbol",
-    "esri/symbols/SimpleFillSymbol", "esri/dijit/ColorPicker", "xstyle/css!./css/draw.css"],
-    function (declare, Color, lang, domConstruct, WidgetBase, TemplatedMixin,
-    WidgetsInTemplateMixin, on, registry, aspect, ready, parser,
-    template, move, domstyle, fxer, dom,
-    floatingPane, query, mapHandler, has, JSON, TooltipDialog, DropDownButton,
-	Draw, Graphic, SimpleMarkerSymbol,
-    SimpleLineSymbol, SimpleFillSymbol, ColorPicker) {
+	"esri/toolbars/draw", "esri/graphic", "esri/symbols/SimpleMarkerSymbol", "esri/symbols/SimpleLineSymbol", "esri/undoManager",
+    "esri/symbols/SimpleFillSymbol", "esri/symbols/TextSymbol", "esri/symbols/Font", "esri/dijit/ColorPicker", "xstyle/css!./css/draw.css", "dijit/form/Button"],
+    function (declare, Color, lang, domConstruct, connect, WidgetBase, TemplatedMixin,
+        WidgetsInTemplateMixin, on, registry, aspect, ready, parser, domClass,
+        template, move, domstyle, fxer, dom, CustomOperation,
+        floatingPane, query, mapHandler, has, JSON, TooltipDialog, DropDownButton,
+	    Draw, Graphic, SimpleMarkerSymbol, SimpleLineSymbol, UndoManager,
+        SimpleFillSymbol, TextSymbol, Font, ColorPicker) {
         return declare([WidgetBase], {
             // The template HTML fragment (as a string, created in dojo/text definition above)
             templateString: template,
@@ -30,6 +30,8 @@ define(["dojo/_base/declare", "dojo/_base/Color", "dojo/_base/lang", "dojo/dom-c
             symbol: null,
             fillColor: new Color([255, 255, 255, 0.25]),
             outlineColor: new Color([0, 0, 0, 1]),
+
+            undoManager: null,
 
             geomTask: null,
 
@@ -112,6 +114,37 @@ define(["dojo/_base/declare", "dojo/_base/Color", "dojo/_base/lang", "dojo/dom-c
                 this.drawingToolbar = new Draw(mapHandler.map, {});
                 this.drawingToolbar.on("draw-end", lang.hitch(this, this.addGraphic));
 
+                //specify the number of undo operations allowed using the maxOperations parameter
+                undoManager = new UndoManager();
+                this.undoManager = undoManager;
+
+                // hook up undo/redo buttons
+                on(dojo.byId("undoBtn"), "click", lang.hitch(this, function () {
+                    if (!domClass.contains(dojo.byId("undoBtn"), "disabled")) {
+                        undoManager.undo();
+                    }
+                }));
+                on(dojo.byId("redoBtn"), "click", lang.hitch(this, function () {
+                    if (!domClass.contains(dojo.byId("redoBtn"), "disabled")) {
+                        undoManager.redo();
+                    }
+                }));
+
+                connect.connect(undoManager, "onChange", function () {
+                    //enable or disable buttons depending on current state of application
+                    if (undoManager.canUndo) {
+                        domClass.remove(dojo.byId("undoBtn"), "disabled");
+                    } else {
+                        domClass.add(dojo.byId("undoBtn"), "disabled");
+                    }
+
+                    if (undoManager.canRedo) {
+                        domClass.remove(dojo.byId("redoBtn"), "disabled");
+                    } else {
+                        domClass.add(dojo.byId("redoBtn"), "disabled");
+                    }
+                });
+
                 //			fpI.addChild(draw);
                 //			fpI.startup();
                 //	
@@ -143,10 +176,10 @@ define(["dojo/_base/declare", "dojo/_base/Color", "dojo/_base/lang", "dojo/dom-c
 
                 this.fillPicker = new ColorPicker({
                     showRecentColors: false,
-                    color: new Color([255, 255, 255, 0.25]) 
+                    color: new Color([255, 255, 255, 0.25])
                 }, "fillPicker");
                 this.fillPicker.startup();
-                this.outlinePicker = new ColorPicker({ 
+                this.outlinePicker = new ColorPicker({
                     showRecentColors: false,
                     color: new Color([0, 0, 0, 1])
                 }, "outlinePicker");
@@ -163,39 +196,71 @@ define(["dojo/_base/declare", "dojo/_base/Color", "dojo/_base/lang", "dojo/dom-c
                 }));
 
                 on(dojo.byId("draw_multipoint"), "click", lang.hitch(this, function () {
+                    notText();
                     this.drawingToolbar.activate("multipoint");
                 }));
 
                 on(dojo.byId("draw_polyline"), "click", lang.hitch(this, function () {
+                    notText();
                     this.drawingToolbar.activate("polyline");
                 }));
                 on(dojo.byId("draw_freehand_polyline"), "click", lang.hitch(this, function () {
+                    notText();
                     this.drawingToolbar.activate("freehandpolyline");
                 }));
                 on(dojo.byId("draw_polygon"), "click", lang.hitch(this, function () {
+                    notText();
                     this.drawingToolbar.activate("polygon");
                 }));
                 on(dojo.byId("draw_freehand_polygon"), "click", lang.hitch(this, function () {
+                    notText();
                     this.drawingToolbar.activate("freehandpolygon");
                 }));
                 on(dojo.byId("draw_arrow"), "click", lang.hitch(this, function () {
+                    notText();
                     this.drawingToolbar.activate("arrow");
                 }));
                 on(dojo.byId("draw_triangle"), "click", lang.hitch(this, function () {
+                    notText();
                     this.drawingToolbar.activate("triangle");
                 }));
                 on(dojo.byId("draw_circle"), "click", lang.hitch(this, function () {
+                    lang.hitch(this, notText());
                     this.drawingToolbar.activate("circle");
                 }));
                 on(dojo.byId("draw_ellipse"), "click", lang.hitch(this, function () {
+                    notText();
                     this.drawingToolbar.activate("ellipse");
                 }));
+                on(dojo.byId("draw_anno"), "click", lang.hitch(this, function () {
+                    domstyle.set("textInput", "display", "block");
+                    domstyle.set("floaterDraw", "height", "350px");
+                }));
+                on(dojo.byId("btnText"), "click", lang.hitch(this, function () {
+                    if (dojo.byId("textStr").value != "") {
+                        this.drawingToolbar.activate("point");
+                    } else {
+                        alert("Must type in text to add to map first!");
+                    }
+                }));
+                function notText() {
+                    domstyle.set("floaterDraw", "height", "250px");
+                    domstyle.set("textInput", "display", "none")
+                };
+
                 /* on(dojo.byId("edit"), "click", lang.hitch(this, function () {
                 this.createEdit(); 
                 })); */
                 on(dojo.byId("clear_all"), "click", lang.hitch(this, function () {
                     this.map.graphics.clear();
-
+                    undoManager.clearRedo();
+                    undoManager.clearUndo();
+                    if (!domClass.contains(dojo.byId("redoBtn"), "disabled")) {
+                        domClass.add(dojo.byId("redoBtn"), "disabled");
+                    }
+                    if (!domClass.contains(dojo.byId("undoBtn"), "disabled")) {
+                        domClass.add(dojo.byId("undoBtn"), "disabled");
+                    }
                 }));
                 /*  on(dojo.byId("add_text"), "click", lang.hitch(this, function () {
                 this.openTextForm();
@@ -210,6 +275,7 @@ define(["dojo/_base/declare", "dojo/_base/Color", "dojo/_base/lang", "dojo/dom-c
             }
 
         , addGraphic: function (evt) {
+            this.drawingToolbar.deactivate();
             //create a random color for the symbols
             var r = Math.floor(Math.random() * 255);
             var g = Math.floor(Math.random() * 255);
@@ -218,7 +284,7 @@ define(["dojo/_base/declare", "dojo/_base/Color", "dojo/_base/lang", "dojo/dom-c
             var type = evt.geometry.type;
             var symbol;
 
-            if (type === "point" || type === "multipoint") {
+            if (type === "multipoint") {
                 symbol = new SimpleMarkerSymbol(
                   SimpleMarkerSymbol.STYLE_CIRCLE,
                   20, new SimpleLineSymbol(
@@ -249,7 +315,18 @@ define(["dojo/_base/declare", "dojo/_base/Color", "dojo/_base/lang", "dojo/dom-c
 				);
             }
 
+            if (type === "point") {
+                symbol = new TextSymbol(dojo.byId('textStr').value).setColor(
+                    this.outlineColor).setAlign(Font.ALIGN_START).setAngle(parseInt(dojo.byId('textAngle').value)).setFont(
+                    new Font(dojo.byId('textSize').value + "pt").setWeight(Font.WEIGHT_BOLD));
+            }
+
             var graphic = new Graphic(evt.geometry, symbol);
+            var operation = new CustomOperation.Add({
+                graphicsLayer: mapHandler.map.graphics,
+                addedGraphic: graphic
+            });
+            this.undoManager.add(operation);
             mapHandler.map.graphics.add(graphic);
         }
 
