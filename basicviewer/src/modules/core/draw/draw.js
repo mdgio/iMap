@@ -89,7 +89,7 @@ define(["dojo/_base/declare", "dojo/_base/Color", "dojo/_base/lang", "dojo/dom-c
                     resizable: false,
                     dockable: false,
                     closable: false,
-                    style: "position:absolute;top:20px;left:20px;width:250px;height:250px;z-index:100;visibility:hidden;overflow:hidden;",
+                    style: "position:absolute;top:20px;left:20px;width:265px;height:275px;z-index:100;visibility:hidden;overflow:hidden;",
                     id: this.floaterDivId,
                     parseOnLoad: false
                 }, dom.byId(this.floaterDivId));
@@ -234,7 +234,7 @@ define(["dojo/_base/declare", "dojo/_base/Color", "dojo/_base/lang", "dojo/dom-c
                 }));
                 on(dojo.byId("draw_anno"), "click", lang.hitch(this, function () {
                     domstyle.set("textInput", "display", "block");
-                    domstyle.set("floaterDraw", "height", "350px");
+                    domstyle.set("floaterDraw", "height", "375px");
                 }));
                 on(dojo.byId("btnText"), "click", lang.hitch(this, function () {
                     if (dojo.byId("textStr").value != "") {
@@ -244,7 +244,7 @@ define(["dojo/_base/declare", "dojo/_base/Color", "dojo/_base/lang", "dojo/dom-c
                     }
                 }));
                 function notText() {
-                    domstyle.set("floaterDraw", "height", "250px");
+                    domstyle.set("floaterDraw", "height", "275px");
                     domstyle.set("textInput", "display", "none")
                 };
 

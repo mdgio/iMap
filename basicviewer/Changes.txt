@@ -1,5 +1,12 @@
 MD iMap Template Changes
 
+11/2/2015
+*Addition of links to legend items that are available in the data portal (http://data.imap.maryland.gov/)
+	** Clicking on the link takes you to the metadata page for that layer and ability to download
+*Updates to style of draw tool
+*Addition of bin references for query export results script to run
+	** The application must be made an application in IIS for these to work
+
 7/1/2015
 *Update to ArcGIS JS API 3.13.
 *Many updates to the styling of the template.

@@ -5,6 +5,8 @@
 
 .agsjsTOCContent {
     white-space: nowrap;
+    display: inline-block;
+    width: 100%;
 }
 
 .agsjsTOCOutOfScale {
@@ -35,6 +37,9 @@
 .agsjsTOCLayerLabel {
     font-size: .8em;
     padding-left: 2px;
+    white-space: initial;
+    display: inline-block;
+    width: 220px;    
 }
 
 .agsjsTOCLegendIcon {
@@ -42,10 +47,23 @@
 }
 
 .agsjsTOCLegendLabel {
-    font-size: 11pt;
+    font-size: .8em;
     padding-left: 2px;
 }
 
 .agsjsTOCSlider {
     padding: 5px 20px 5px 30px;
+}
+.imapDataLink
+{
+    padding-right: 35px;
+    background-image: url("../../css/info.png");
+    background-size: 32px 18px;
+    background-repeat: no-repeat;
+    width: 40px;
+    margin-top: 5px;
+}
+.agsjsTOCRootLayerLabel.agsjsTOCLayerLabel
+{
+    font-size: .9em;
 }

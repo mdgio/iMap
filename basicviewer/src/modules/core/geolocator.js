@@ -29,6 +29,7 @@ define(["dojo/_base/declare", "dojo/on", "dojo/_base/lang", "esri/dijit/Geocoder
                     autoNavigate: true, // do not zoom to best result
                     maxLocations: 20, // increase number of results returned
                     map: this.map,
+					autoComplete: true,
                     arcgisGeocoder: {
                         url: this.geocoderUrl || "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer",
                         name: "World Geocoder",
